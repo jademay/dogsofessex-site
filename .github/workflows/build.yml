@@ -1,0 +1,46 @@
+name: Build walk pages
+
+# Regenerates the static walk pages whenever the data (or the builder)
+# changes, then commits the result back so GitHub Pages redeploys.
+# Lets you edit data/*.json straight on GitHub and have pages rebuild
+# automatically — no local tooling needed.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - 'build.js'
+      - '.github/workflows/build.yml'
+
+concurrency:
+  group: build-walk-pages
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build pages from data
+        run: node build.js
+
+      - name: Commit regenerated pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "Rebuild walk pages from data [skip ci]"
+            git push
+          else
+            echo "No page changes to commit."
+          fi
