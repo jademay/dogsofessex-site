@@ -885,10 +885,37 @@ h1, h2, h3 {
     grid-auto-rows: 150px;
     gap: 1rem;
 }
-.gallery-grid .photo-ph { border-radius: 8px; height: 100%; }
+.gallery-grid .photo-ph { border-radius: 8px; height: 100%; margin: 0; }
 .gallery-grid .g-big {
     grid-column: span 2;
     grid-row: span 2;
+}
+.g-item { position: relative; }
+.g-item img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.g-item figcaption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 0.55rem 0.7rem;
+    font-size: 0.78rem;
+    color: #fff;
+    background: linear-gradient(transparent, rgba(20, 24, 18, 0.65));
+}
+.g-item.noimg { display: flex; align-items: center; justify-content: center; }
+.g-item.noimg figcaption {
+    position: static;
+    background: none;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    padding: 1rem;
 }
 
 /* The route */

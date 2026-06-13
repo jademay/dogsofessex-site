@@ -6,11 +6,19 @@
     "scenery": "woodland",
     "lat": 51.808,
     "lng": 0.738,
+    "town": "Tiptree",
+    "emoji": "🌿",
     "time": "30 minutes",
+    "timeShort": "30 mins",
     "distance": "1.3 miles",
+    "routeType": "Circular",
+    "terrain": "Sandy trails & open heath",
     "mud": "Moderate",
     "summary": "Woodland • Circular • 30 mins • Mud: Moderate",
     "tags": ["Woodland", "Circular", "Quiet", "Reactive-friendly"],
+    "rating": { "value": 4.8, "count": 32 },
+    "badges": ["📍 Tiptree", "🐕 Mostly off lead", "🚗 Free parking"],
+    "intro": "Tiptree Heath is one of Essex's best hidden woodland walks. Expect sandy trails, open heathland and plenty of sniffing opportunities.",
     "glance": [
       { "label": "Reactive dogs", "score": 4 },
       { "label": "Puppies", "score": 3 },
@@ -20,6 +28,29 @@
       { "label": "Swimming", "score": 1 },
       { "label": "Off lead", "score": 4 }
     ],
+    "gallery": [
+      { "image": "", "caption": "Poppy walking through woodland" },
+      { "image": "", "caption": "The car park" },
+      { "image": "", "caption": "Main sandy trail" },
+      { "image": "", "caption": "Seasonal bluebells (April)" },
+      { "image": "", "caption": "A muddier section" }
+    ],
+    "route": {
+      "parking": "Free car park off Maldon Road (B1022) between Tiptree and Maldon — search \"Tiptree Heath car park\". The reserve is signposted from the road and the trail begins at the car park gate.",
+      "localTip": "The car park fills quickly after 10am on sunny Sundays — go early for a quiet walk and an easy space.",
+      "mapEmbed": "https://www.google.com/maps?q=Tiptree+Heath+Nature+Reserve+Essex&output=embed"
+    },
+    "whatToExpect": [
+      "Tiptree Heath is the largest remaining area of lowland heath in Essex, and it has a gentle, unhurried feel that suits dogs who like to take their time. Soft, meandering trails wind through silver birch, gorse and heather, with plenty of shade in the warmer months and dappled light filtering through the canopy.",
+      "The paths are well-defined and mostly level, making it an easy, low-stress loop. Because the reserve rarely gets busy, it's a reassuring choice for reactive dogs or those still building confidence around other walkers. You'll often have whole stretches of the trail to yourselves — just birdsong, the crunch of the path, and a very happy nose.",
+      "After rain a few sections can get moderately muddy, so wellies are wise in winter. There's very little shade right out on the open heath, so take water in summer."
+    ],
+    "bestFor": ["reactive-dogs", "shade", "mud-lovers", "woodland"],
+    "seo": {
+      "title": "Tiptree Heath Dog Walk | Dogs of Essex",
+      "description": "A quiet woodland dog walk near Tiptree with free parking, shade and circular trails. Honest ratings, photos, parking tips and nearby dog-friendly places.",
+      "image": ""
+    },
     "hasPage": true
   },
   {
