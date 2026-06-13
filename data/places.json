@@ -1,0 +1,90 @@
+[
+  {
+    "id": "wilkin-sons-tea-room",
+    "name": "Wilkin & Sons Tea Room",
+    "type": "cafe",
+    "area": "Central Essex",
+    "lat": 51.815,
+    "lng": 0.747,
+    "dogFriendly": true,
+    "notes": "Famous Tiptree jam tea room with dog-friendly outdoor seating.",
+    "website": "#"
+  },
+  {
+    "id": "perrywood-garden-centre",
+    "name": "Perrywood Garden Centre",
+    "type": "garden-centre",
+    "area": "Central Essex",
+    "lat": 51.802,
+    "lng": 0.760,
+    "dogFriendly": true,
+    "notes": "Sprawling garden centre; dogs welcome on leads, water bowls out front.",
+    "website": "#"
+  },
+  {
+    "id": "the-fox-and-hounds",
+    "name": "The Fox & Hounds",
+    "type": "pub",
+    "area": "Central Essex",
+    "lat": 51.760,
+    "lng": 0.810,
+    "dogFriendly": true,
+    "notes": "Country pub with dogs welcome in the bar and garden.",
+    "website": "#"
+  },
+  {
+    "id": "maldon-promenade-park",
+    "name": "Maldon Promenade Park",
+    "type": "seaside",
+    "area": "Central Essex",
+    "lat": 51.728,
+    "lng": 0.687,
+    "dogFriendly": true,
+    "notes": "Riverside promenade and park beside the Blackwater — lovely for a post-walk stroll.",
+    "website": "#"
+  },
+  {
+    "id": "the-blue-strawberry",
+    "name": "The Blue Strawberry",
+    "type": "cafe",
+    "area": "Central Essex",
+    "lat": 51.781,
+    "lng": 0.628,
+    "dogFriendly": true,
+    "notes": "Relaxed café with a dog-friendly courtyard.",
+    "website": "#"
+  },
+  {
+    "id": "the-cricketers-danbury",
+    "name": "The Cricketers, Danbury",
+    "type": "pub",
+    "area": "Central Essex",
+    "lat": 51.714,
+    "lng": 0.601,
+    "dogFriendly": true,
+    "notes": "Traditional village pub; dogs welcome by the fire.",
+    "website": "#"
+  },
+  {
+    "id": "west-mersea-beach",
+    "name": "West Mersea Beach",
+    "type": "beach",
+    "area": "Mersea & the Coast",
+    "lat": 51.778,
+    "lng": 0.913,
+    "dogFriendly": true,
+    "notes": "Sandy and shingle beach; off-season dogs run free along the shore.",
+    "website": "#"
+  },
+  {
+    "id": "notley-park-cafe",
+    "name": "Notley Park Café",
+    "type": "cafe",
+    "area": "Central Essex",
+    "lat": 51.853,
+    "lng": 0.516,
+    "dogFriendly": true,
+    "notes": "Park café with outdoor tables and water bowls.",
+    "website": "#"
+  }
+]

@@ -15,6 +15,7 @@
     --color-muted: #6E6A60;
     --color-border: #DDD3C2;
     --color-card: #FFFDF8;
+    --color-gold: #C9972B;        /* rating stars */
 
     --font-serif: 'Fraunces', Georgia, serif;
     --font-sans: 'Inter', system-ui, sans-serif;
@@ -794,4 +795,221 @@ h1, h2, h3 {
     .route-photos { grid-template-columns: 1fr 1fr; }
     .signup-form { flex-direction: column; border-radius: 16px; }
     .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ===========================================================
+   Rich walk page — rating, chips, at-a-glance, gallery,
+   route, data-driven nearby sections, community tips, actions
+   =========================================================== */
+
+/* Hero rating + chips */
+.walk-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+}
+.rating-score { font-weight: 500; font-size: 1.05rem; }
+.rating-count { color: rgba(255, 255, 255, 0.75); font-size: 0.9rem; }
+
+/* Reusable fractional star track */
+.star-track {
+    position: relative;
+    display: inline-block;
+    font-size: 1.1rem;
+    line-height: 1;
+    letter-spacing: 0.06em;
+}
+.star-track::before {
+    content: "★★★★★";
+    color: rgba(255, 255, 255, 0.35);
+}
+.star-track .fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--color-gold);
+}
+.star-track .fill::before { content: "★★★★★"; }
+
+.walk-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+}
+.chip {
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+/* Section rhythm on walk pages */
+.walk-section { padding: 2.75rem 0; }
+.walk-section > .container > h2,
+.walk-section > h2,
+.walk-main h2 { scroll-margin-top: 90px; }
+.walk-section h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); margin-bottom: 0.4rem; }
+.section-lead { color: var(--color-muted); margin-bottom: 1.6rem; }
+.walk-section.section-alt { padding: 3.5rem 0; }
+
+/* At a glance */
+.glance {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: var(--color-card);
+}
+.glance-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+}
+.glance-row:last-child { border-bottom: none; }
+.glance-feature { font-size: 1rem; }
+.glance-stars { font-size: 1.05rem; letter-spacing: 0.05em; }
+.glance-stars .on { color: var(--color-gold); }
+.glance-stars .off { color: #D8CDB9; }
+
+/* Photo gallery */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 150px;
+    gap: 1rem;
+}
+.gallery-grid .photo-ph { border-radius: 8px; height: 100%; }
+.gallery-grid .g-big {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+/* The route */
+.route-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+.route-pill {
+    background-color: var(--color-bg-alt);
+    border-radius: 8px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.92rem;
+}
+.route-pill strong {
+    display: block;
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 0.15rem;
+}
+.local-tip {
+    background-color: #F3EEDF;
+    border-left: 3px solid var(--color-terracotta);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+}
+
+/* Make a Day of It — place cards */
+.day-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+.day-card {
+    display: flex;
+    gap: 1rem;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.day-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+.day-icon { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
+.day-body { display: flex; flex-direction: column; gap: 0.2rem; }
+.day-type {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-terracotta);
+}
+.day-name { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 500; }
+.day-dist { font-size: 0.85rem; color: var(--color-muted); }
+.day-note { font-size: 0.9rem; color: var(--color-text); margin-top: 0.3rem; }
+
+/* Explore Nearby — walk list */
+.explore-list {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: var(--color-card);
+}
+.explore-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.15s ease;
+}
+.explore-row:last-child { border-bottom: none; }
+.explore-row:hover { background-color: var(--color-bg-alt); }
+.explore-icon { font-size: 1.2rem; }
+.explore-name { flex: 1; font-weight: 400; }
+.explore-dist { font-size: 0.85rem; color: var(--color-muted); }
+
+/* Community tips */
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+.tip-card {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-moss);
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-style: italic;
+    color: var(--color-text);
+    margin: 0;
+}
+.tip-cta { margin-top: 1.5rem; color: var(--color-muted); }
+.tip-cta a { color: var(--color-terracotta); text-decoration: none; font-weight: 500; }
+
+/* Save / share actions */
+.walk-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1rem 0 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+#save-walk.is-saved {
+    background-color: var(--color-terracotta);
+    color: #fff;
+    border-color: var(--color-terracotta);
+}
+
+@media (max-width: 760px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 130px; }
+    .day-grid { grid-template-columns: 1fr; }
+    .tips-grid { grid-template-columns: 1fr; }
 }
