@@ -11,6 +11,15 @@
     "mud": "Moderate",
     "summary": "Woodland • Circular • 30 mins • Mud: Moderate",
     "tags": ["Woodland", "Circular", "Quiet", "Reactive-friendly"],
+    "glance": [
+      { "label": "Reactive dogs", "score": 4 },
+      { "label": "Puppies", "score": 3 },
+      { "label": "Mud factor", "score": 4 },
+      { "label": "Shade", "score": 5 },
+      { "label": "Pushchairs", "score": 2 },
+      { "label": "Swimming", "score": 1 },
+      { "label": "Off lead", "score": 4 }
+    ],
     "hasPage": true
   },
   {

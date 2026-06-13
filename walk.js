@@ -90,6 +90,9 @@
         if (!walk) return;
         const origin = { lat: walk.lat, lng: walk.lng };
 
+        // ----- At a glance ratings -----
+        renderGlance(walk.glance);
+
         // ----- Make a Day of It -----
         const nearbyPlaces = places
             .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }) }))
@@ -110,6 +113,22 @@
 
     function walkHref(w) {
         return w.hasPage ? `${w.id}.html` : '../index.html#walks';
+    }
+
+    function starsHTML(score) {
+        const s = Math.max(0, Math.min(5, Math.round(score) || 0));
+        return `<span class="on">${'★'.repeat(s)}</span>` +
+            `<span class="off">${'☆'.repeat(5 - s)}</span>`;
+    }
+
+    function renderGlance(items) {
+        const host = document.getElementById('glance');
+        if (!host || !items || !items.length) return;
+        host.innerHTML = items.map((row) => `
+            <div class="glance-row">
+                <span class="glance-feature">${esc(row.label)}</span>
+                <span class="glance-stars">${starsHTML(row.score)}</span>
+            </div>`).join('');
     }
 
     function renderDay(items, walk) {
@@ -182,16 +201,6 @@
         window.addEventListener('resize', update);
         update();
     }
-
-    // --- At-a-glance star ratings (★ filled / ☆ empty from data-score) ---
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.glance-stars').forEach((el) => {
-            const score = Math.max(0, Math.min(5, parseInt(el.dataset.score, 10) || 0));
-            el.innerHTML =
-                `<span class="on">${'★'.repeat(score)}</span>` +
-                `<span class="off">${'☆'.repeat(5 - score)}</span>`;
-        });
-    });
 
     // --- Save / Email / Share actions ---
     document.addEventListener('DOMContentLoaded', () => {
