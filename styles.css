@@ -951,28 +951,71 @@ h1, h2, h3 {
 .day-dist { font-size: 0.85rem; color: var(--color-muted); }
 .day-note { font-size: 0.9rem; color: var(--color-text); margin-top: 0.3rem; }
 
-/* Explore Nearby — walk list */
-.explore-list {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background-color: var(--color-card);
+/* Explore Nearby — card carousel */
+.carousel { position: relative; }
+.carousel-track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem 0.25rem 1.25rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
 }
-.explore-row {
+.carousel-track::-webkit-scrollbar { height: 8px; }
+.carousel-track::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+}
+.carousel-track > .walk-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+}
+
+.nearby-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+}
+.meta-badge {
+    font-size: 0.82rem;
+    background-color: var(--color-bg-alt);
+    color: var(--color-moss);
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 33%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background-color: #fff;
+    color: var(--color-forest-dark);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    z-index: 3;
     display: flex;
     align-items: center;
-    gap: 0.9rem;
-    padding: 0.9rem 1.25rem;
-    border-bottom: 1px solid var(--color-border);
-    text-decoration: none;
-    color: inherit;
-    transition: background-color 0.15s ease;
+    justify-content: center;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
 }
-.explore-row:last-child { border-bottom: none; }
-.explore-row:hover { background-color: var(--color-bg-alt); }
-.explore-icon { font-size: 1.2rem; }
-.explore-name { flex: 1; font-weight: 400; }
-.explore-dist { font-size: 0.85rem; color: var(--color-muted); }
+.carousel-btn:hover { background-color: var(--color-bg-alt); }
+.carousel-btn.prev { left: -10px; }
+.carousel-btn.next { right: -10px; }
+.carousel-btn.hidden { opacity: 0; pointer-events: none; }
+
+@media (max-width: 560px) {
+    .carousel-track > .walk-card { flex-basis: 82%; }
+    .carousel-btn { display: none; }
+}
 
 /* Community tips */
 .tips-grid {

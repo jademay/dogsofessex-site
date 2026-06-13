@@ -104,13 +104,6 @@
             .filter((w) => w._mi <= NEARBY_WALK_RADIUS_MI)
             .sort((a, b) => a._mi - b._mi);
         renderExplore(nearbyWalks.slice(0, NEARBY_WALK_MAX), walk);
-
-        // ----- More Walks in [Area] -----
-        const sameArea = walks
-            .filter((w) => w.id !== WALK_ID && w.area === walk.area)
-            .map((w) => ({ ...w, _mi: miles(origin, { lat: w.lat, lng: w.lng }) }))
-            .sort((a, b) => a._mi - b._mi);
-        renderMore(sameArea.slice(0, 4), walk.area);
     }).catch(() => {
         // Fail quietly — the hand-authored content above still stands.
     });
@@ -146,44 +139,48 @@
     function renderExplore(items, walk) {
         const host = document.getElementById('explore-nearby');
         if (!host || !items.length) return;
-        const rows = items.map((w) => {
-            const icon = SCENERY_ICON[w.scenery] || '🐾';
-            return `
-                <a class="explore-row" href="${walkHref(w)}">
-                    <span class="explore-icon">${icon}</span>
-                    <span class="explore-name">${esc(w.name)}</span>
-                    <span class="explore-dist">${distLabel(w._mi)}</span>
-                </a>`;
-        }).join('');
-        host.innerHTML = `
-            <h2>🧭 Explore Nearby</h2>
-            <p class="section-lead">Other dog-friendly walks within easy reach of ${esc(walk.name)}.</p>
-            <div class="explore-list">${rows}</div>`;
-    }
-
-    function renderMore(items, area) {
-        const host = document.getElementById('more-walks');
-        if (!host || !items.length) return;
         const cards = items.map((w) => {
             const icon = SCENERY_ICON[w.scenery] || '🐾';
-            const tags = (w.tags || []).slice(0, 3)
-                .map((t) => `<span class="tag">${esc(t)}</span>`).join('');
             return `
-                <a href="${walkHref(w)}" class="walk-card">
+                <a href="${walkHref(w)}" class="walk-card nearby-card">
                     <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
                     <div class="walk-card-body">
                         <h3>${esc(w.name)}</h3>
-                        <div class="tag-row">${tags}</div>
+                        <div class="nearby-meta">
+                            <span class="meta-badge">📍 ${w._mi.toFixed(1)} mi</span>
+                            <span class="meta-badge">🚗 ~${driveMins(w._mi)} min</span>
+                        </div>
                         <span class="link-arrow">${w.hasPage ? 'Explore Walk →' : 'Coming soon'}</span>
                     </div>
                 </a>`;
         }).join('');
         host.innerHTML = `
-            <div class="section-head" style="text-align:left;margin-bottom:2rem;">
-                <p class="eyebrow">More walks</p>
-                <h2>More walks in ${esc(area)}</h2>
-            </div>
-            <div class="walk-grid">${cards}</div>`;
+            <h2>🧭 Explore Nearby</h2>
+            <p class="section-lead">Other dog-friendly walks within easy reach of ${esc(walk.name)}.</p>
+            <div class="carousel">
+                <button class="carousel-btn prev" type="button" aria-label="Scroll left">‹</button>
+                <div class="carousel-track">${cards}</div>
+                <button class="carousel-btn next" type="button" aria-label="Scroll right">›</button>
+            </div>`;
+        wireCarousel(host.querySelector('.carousel'));
+    }
+
+    function wireCarousel(root) {
+        if (!root) return;
+        const track = root.querySelector('.carousel-track');
+        const prev = root.querySelector('.prev');
+        const next = root.querySelector('.next');
+        const step = () => Math.min(track.clientWidth * 0.85, 340);
+        prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+        next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+        const update = () => {
+            const max = track.scrollWidth - track.clientWidth - 2;
+            prev.classList.toggle('hidden', track.scrollLeft <= 2);
+            next.classList.toggle('hidden', track.scrollLeft >= max);
+        };
+        track.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
     }
 
     // --- At-a-glance star ratings (★ filled / ☆ empty from data-score) ---
