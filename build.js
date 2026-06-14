@@ -19,7 +19,7 @@ const OUT = path.join(ROOT, 'walks');
 
 // Tuning (keep in sync with the values documented on the site)
 const DAY_RADIUS_MI = 10;
-const DAY_MAX = 4;
+const DAY_MAX = 6;
 const NEARBY_WALK_RADIUS_MI = 25;
 const NEARBY_WALK_MAX = 6;
 const AVG_MPH = 26;
