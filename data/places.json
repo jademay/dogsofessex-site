@@ -142,5 +142,33 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-green-man-little-braxted",
+    "name": "The Green Man",
+    "type": "pub",
+    "lat": 51.78735969,
+    "lng": 0.6800548041,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "",
+    "lastChecked": "2026-06-14",
+    "checkedBy": "Dogs of Essex",
+    "verified": false,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Nestled within the picturesque Essex village of Little Braxted, just a couple of miles from Witham, The Green Man is a delightful local pub and restaurant.",
+    "website": "http://greenmanlittlebraxted.co.uk/",
+    "phone": "01621 737 299",
+    "email": "info@thegreenmanbraxted.co.uk",
+    "socials": {
+      "instagram": null,
+      "facebook": null,
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
