@@ -27,6 +27,7 @@ const ROAD_FACTOR = 1.25;
 const TYPE_META = {
     cafe: { icon: '☕', label: 'Café' },
     pub: { icon: '🍺', label: 'Pub' },
+    restaurant: { icon: '🍽️', label: 'Restaurant' },
     'garden-centre': { icon: '🪴', label: 'Garden Centre' },
     beach: { icon: '🌊', label: 'Beach' },
     seaside: { icon: '🌊', label: 'Seaside' },
@@ -45,6 +46,7 @@ const TYPE_META = {
 const CATEGORIES = [
     { icon: '☕', label: 'Cafés nearby', types: ['cafe'] },
     { icon: '🍺', label: 'Pubs nearby', types: ['pub'] },
+    { icon: '🍽️', label: 'Restaurants nearby', types: ['restaurant'] },
     { icon: '🌊', label: 'Swim spots nearby', types: ['beach', 'seaside', 'swim-spot'] },
     { icon: '🛍️', label: 'Shops nearby', types: ['shop', 'garden-centre'] },
     { icon: '🐶', label: 'Dog services nearby', types: ['dog-service', 'groomer', 'vet', 'daycare', 'dog-walker'] }

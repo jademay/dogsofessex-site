@@ -227,5 +227,34 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-red-dog-inworth",
+    "name": "The Red Dog",
+    "type": "restaurant",
+    "lat": 51.82892493,
+    "lng": 0.7270028933,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "They are a dog-friendly restaurant. That ask you to keep your dog on a lead at all times.",
+    "dogAccess": ["inside"],
+    "lastChecked": "2026-06-14",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "partner",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "The Red Dog is a quality burger and breakfast restaurant based in the small village of Inworth, close to Tiptree, Feering and Kelvedon.",
+    "website": "https://thereddog.co.uk/",
+    "phone": "07535 181744",
+    "email": "hello@thereddog.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/reddogessex/",
+      "facebook": "https://www.facebook.com/thereddoginworth/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
