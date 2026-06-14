@@ -7,6 +7,7 @@
     "lng": 0.760,
     "dogFriendly": true,
     "dogFriendlyNotes": "Dogs welcome indoors and outside.",
+    "dogAccess": ["inside", "outside"],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,

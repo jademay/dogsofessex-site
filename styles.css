@@ -1024,50 +1024,96 @@ h1, h2, h3 {
 }
 .day-card.basic:hover { transform: none; box-shadow: none; }
 
+/* Premium "Featured Partner" — editorial card */
 .day-card.premium {
     grid-column: 1 / -1;
+    flex-direction: column;
     padding: 0;
     gap: 0;
     overflow: hidden;
     align-items: stretch;
 }
-.day-card.premium .day-photo {
+.day-card.premium:hover { transform: none; box-shadow: var(--shadow-soft); }
+
+.premium-badge-bar {
+    background-color: var(--color-terracotta);
+    color: #fff;
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.5rem;
+}
+
+.premium-main {
+    display: flex;
+    align-items: stretch;
+}
+.premium-photo {
     position: relative;
     flex: 0 0 42%;
-    min-height: 200px;
+    min-height: 260px;
 }
-.day-card.premium .day-photo img {
+.premium-photo img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.day-card.premium .day-photo .partner-badge {
-    position: absolute;
-    top: 0.7rem;
-    left: 0.7rem;
-    z-index: 1;
-    background-color: var(--color-terracotta);
-    color: #fff;
-    font-size: 0.7rem;
-    letter-spacing: 0.04em;
+
+.premium-content {
+    flex: 1 1 auto;
+    min-width: 0;                 /* lets long text truncate instead of overflowing */
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.6rem 1.75rem;
+}
+.premium-type {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-terracotta);
+}
+.premium-name {
+    font-family: var(--font-serif);
+    font-size: 1.55rem;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.premium-dist { font-size: 0.92rem; color: var(--color-text); margin: 0; }
+.premium-desc {
+    color: var(--color-muted);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.premium-access { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.access-chip {
+    background-color: var(--color-bg-alt);
+    color: var(--color-moss);
     padding: 0.3rem 0.7rem;
     border-radius: 999px;
+    font-size: 0.8rem;
+    white-space: nowrap;
 }
-.day-card.premium .day-body {
-    padding: 1.6rem;
-    justify-content: center;
-    gap: 0.35rem;
-}
-.day-card.premium .day-name { font-size: 1.4rem; }
+.premium-cta { align-self: flex-start; margin-top: 0.25rem; }
+.premium-content .place-contact { margin-top: 0.4rem; }
 
 @media (max-width: 640px) {
-    .day-card.premium { flex-direction: column; }
-    .day-card.premium .day-photo {
+    .premium-main { flex-direction: column; }
+    .premium-photo {
         flex-basis: auto;
         width: 100%;
-        height: 180px;
+        height: 200px;
         min-height: 0;
     }
 }

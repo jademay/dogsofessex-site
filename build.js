@@ -68,6 +68,16 @@ const TIER_CONTACT = {
 };
 const SOCIAL_LABELS = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube' };
 
+// Dog-access chips (premium card). Add keys as needed.
+const ACCESS_META = {
+    inside: { icon: '🐶', label: 'Dogs inside' },
+    outside: { icon: '🪑', label: 'Dogs outside' },
+    garden: { icon: '🌳', label: 'Garden' },
+    'water-bowls': { icon: '💧', label: 'Water bowls' },
+    'dog-menu': { icon: '🦴', label: 'Dog menu' },
+    'off-lead': { icon: '🐾', label: 'Off-lead area' }
+};
+
 // A featured/premium listing falls back to "none" once featuredUntil has passed.
 function effectiveTier(p) {
     let tier = p.partnerTier || 'none';
@@ -92,6 +102,17 @@ function formatDate(iso) {
 function dogNoteHTML(p) {
     return p.dogFriendlyNotes
         ? `\n                                <span class="dog-note">🐕 ${esc(p.dogFriendlyNotes)}</span>` : '';
+}
+
+// Dog-access chips from a structured dogAccess array (premium card)
+function accessHTML(p) {
+    const items = p.dogAccess || [];
+    if (!items.length) return '';
+    const chips = items.map((k) => {
+        const m = ACCESS_META[k] || { icon: '🐾', label: k };
+        return `<span class="access-chip">${m.icon} ${esc(m.label)}</span>`;
+    }).join('');
+    return `\n                                    <div class="premium-access">${chips}</div>`;
 }
 
 // Verification / freshness line (who checked it and when)
@@ -209,17 +230,21 @@ function placeCardHTML(p) {
         const photo = p.image
             ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
             : '';
+        const distFull = `📍 ${p._mi.toFixed(1)} mi • 🚗 ~${driveMins(p._mi)} min`;
         return `
-                        <a class="day-card premium" href="${esc(href || '#')}"${ext}>
-                            <div class="day-photo photo-ph">${photo}<span class="partner-badge">★ Featured Partner</span></div>
-                            <div class="day-body">
-                                <span class="day-type">${meta.icon} ${esc(meta.label)}</span>
-                                <span class="day-name">${esc(p.name)}</span>
-                                <span class="day-dist">${dist}</span>
-                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}${dogNoteHTML(p)}
-                                ${href ? `<span class="day-cta">Visit website →</span>` : ''}${contactHTML(p)}${verifyHTML(p)}
+                        <article class="day-card premium">
+                            <div class="premium-badge-bar">★ Featured Partner</div>
+                            <div class="premium-main">
+                                <div class="premium-photo photo-ph">${photo}</div>
+                                <div class="premium-content">
+                                    <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
+                                    <h3 class="premium-name">${esc(p.name)}</h3>
+                                    <p class="premium-dist">${distFull}</p>
+                                    ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
+                                    ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p)}${verifyHTML(p)}
+                                </div>
                             </div>
-                        </a>`;
+                        </article>`;
     }
 
     if (tier === 'featured') {
