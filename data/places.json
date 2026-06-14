@@ -170,5 +170,33 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-angel-kelvedon",
+    "name": "The Angel",
+    "type": "pub",
+    "lat": 51.83333273,
+    "lng": 0.6974243348,
+    "dogFriendly": false,
+    "dogFriendlyNotes": "",
+    "lastChecked": "2026-06-14",
+    "checkedBy": "Dogs of Essex",
+    "verified": false,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "The Angel is a traditional British pub and restaurant located in St Mary's Square, Kelvedon, Colchester, Essex.",
+    "website": "https://www.angelkelvedon.com/",
+    "phone": "01376 310697",
+    "email": null,
+    "socials": {
+      "instagram": "https://www.instagram.com/theangelkelvedon",
+      "facebook": "https://www.facebook.com/TheAngelKelvedon/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
