@@ -60,6 +60,14 @@ const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 const TIER_RANK = { premium: 0, featured: 1, none: 2 };
 const EXAMPLE_PLACEHOLDER = 'https://example.com';
 
+// Which contact details each tier is allowed to show. Tune freely.
+const TIER_CONTACT = {
+    premium: { phone: true, email: true, socials: true },
+    featured: { phone: false, email: false, socials: true },
+    none: { phone: false, email: false, socials: false }
+};
+const SOCIAL_LABELS = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube' };
+
 // A featured/premium listing falls back to "none" once featuredUntil has passed.
 function effectiveTier(p) {
     let tier = p.partnerTier || 'none';
@@ -71,6 +79,49 @@ function effectiveTier(p) {
 }
 function placeUrl(p) {
     return (p.website && p.website !== '#' && p.website !== EXAMPLE_PLACEHOLDER) ? p.website : '';
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function formatDate(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    if (!m) return esc(iso || '');
+    return `${parseInt(m[3], 10)} ${MONTHS[parseInt(m[2], 10) - 1]} ${m[1]}`;
+}
+
+// Dog-friendly note (e.g. "Dogs welcome indoors and outside.")
+function dogNoteHTML(p) {
+    return p.dogFriendlyNotes
+        ? `\n                                <span class="dog-note">🐕 ${esc(p.dogFriendlyNotes)}</span>` : '';
+}
+
+// Verification / freshness line (who checked it and when)
+function verifyHTML(p) {
+    if (!p.verified) return '';
+    const by = p.checkedBy ? ` by ${esc(p.checkedBy)}` : '';
+    const when = p.lastChecked ? ` · Checked ${formatDate(p.lastChecked)}` : '';
+    return `\n                                <span class="place-verify">✓ Verified${by}${when}</span>`;
+}
+
+// Contact block — only the details this place's tier is allowed to show.
+function contactHTML(p) {
+    const tier = p._tier || effectiveTier(p);
+    const show = TIER_CONTACT[tier] || TIER_CONTACT.none;
+    const bits = [];
+    if (show.phone && p.phone) {
+        bits.push(`<a class="contact-link" href="tel:${esc(p.phone.replace(/\s+/g, ''))}">📞 ${esc(p.phone)}</a>`);
+    }
+    if (show.email && p.email) {
+        bits.push(`<a class="contact-link" href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`);
+    }
+    if (show.socials && p.socials) {
+        for (const key of Object.keys(SOCIAL_LABELS)) {
+            const url = p.socials[key];
+            if (url) {
+                bits.push(`<a class="contact-link social" href="${esc(url)}" target="_blank" rel="noopener">${SOCIAL_LABELS[key]}</a>`);
+            }
+        }
+    }
+    return bits.length ? `\n                                <div class="place-contact">${bits.join('')}</div>` : '';
 }
 function starsHTML(score) {
     const s = Math.max(0, Math.min(5, Math.round(score) || 0));
@@ -165,8 +216,8 @@ function placeCardHTML(p) {
                                 <span class="day-type">${meta.icon} ${esc(meta.label)}</span>
                                 <span class="day-name">${esc(p.name)}</span>
                                 <span class="day-dist">${dist}</span>
-                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}
-                                ${href ? `<span class="day-cta">Visit website →</span>` : ''}
+                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}${dogNoteHTML(p)}
+                                ${href ? `<span class="day-cta">Visit website →</span>` : ''}${contactHTML(p)}${verifyHTML(p)}
                             </div>
                         </a>`;
     }
@@ -179,7 +230,7 @@ function placeCardHTML(p) {
                                 <span class="day-type">${esc(meta.label)} <span class="partner-badge inline">Partner</span></span>
                                 <span class="day-name">${esc(p.name)}</span>
                                 <span class="day-dist">${dist}</span>
-                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}
+                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}${dogNoteHTML(p)}${contactHTML(p)}${verifyHTML(p)}
                             </span>
                         </a>`;
     }

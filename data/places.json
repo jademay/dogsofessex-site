@@ -6,6 +6,10 @@
     "lat": 51.811,
     "lng": 0.760,
     "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs welcome indoors and outside.",
+    "lastChecked": "2026-06-14",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
     "partnerTier": "premium",
     "featuredUntil": null,
     "showOnWalkPages": true,
@@ -13,7 +17,15 @@
     "showOnHomepage": false,
     "image": "",
     "notes": "Famous Tiptree jam tea room with dog-friendly outdoor seating.",
-    "website": "https://www.tiptree.com"
+    "website": "https://www.tiptree.com",
+    "phone": "01621 123456",
+    "email": "hello@example.com",
+    "socials": {
+      "instagram": "https://instagram.com/example",
+      "facebook": "https://facebook.com/example",
+      "tiktok": null,
+      "youtube": null
+    }
   },
   {
     "id": "fox-and-hounds",
@@ -22,12 +34,24 @@
     "lat": 51.830,
     "lng": 0.755,
     "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs welcome in the bar and garden.",
+    "lastChecked": "2026-06-14",
+    "checkedBy": "the community",
+    "verified": true,
     "partnerTier": "none",
     "featuredUntil": null,
     "showOnWalkPages": true,
     "showOnAreaPages": true,
     "showOnHomepage": false,
     "notes": "Country pub with dogs welcome in the bar and garden.",
-    "website": "https://example.com"
+    "website": "https://example.com",
+    "phone": "01621 123456",
+    "email": "hello@example.com",
+    "socials": {
+      "instagram": "https://instagram.com/example",
+      "facebook": "https://facebook.com/example",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]

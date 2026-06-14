@@ -979,6 +979,30 @@ h1, h2, h3 {
 .day-note { font-size: 0.9rem; color: var(--color-text); margin-top: 0.3rem; }
 .day-cta { margin-top: 0.6rem; font-weight: 500; color: var(--color-terracotta); }
 
+.dog-note { font-size: 0.85rem; color: var(--color-moss); margin-top: 0.25rem; }
+.place-verify {
+    margin-top: 0.7rem;
+    font-size: 0.76rem;
+    color: var(--color-muted);
+}
+.place-verify::first-letter { color: var(--color-moss); }
+
+.place-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.9rem;
+    margin-top: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--color-border);
+}
+.contact-link {
+    font-size: 0.82rem;
+    color: var(--color-moss);
+    text-decoration: none;
+}
+.contact-link:hover { color: var(--color-terracotta); }
+.contact-link.social { font-weight: 500; }
+
 /* Partner tiers */
 .partner-badge.inline {
     display: inline-block;
