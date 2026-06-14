@@ -84,5 +84,34 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-tavern-kelvedon",
+    "name": "The Tavern Kelvedon",
+    "type": "pub",
+    "lat": 51.84016329,
+    "lng": 0.7060277983,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome both outside and inside in their bar & snug areas",
+    "dogAccess": ["inside", "outside"],
+    "lastChecked": "2026-06-14",
+    "checkedBy": "the venue",
+    "verified": true,
+    "partnerTier": "premium",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Award winning family run pub for over 35 years nestled in the small village of Kelvedon, perfectly located on the river blackwater, serving traditional homemade pub food using local suppliers.",
+    "website": "https://www.thetavernkelvedon.co.uk/",
+    "phone": "01376 570293",
+    "email": "contact@thetavernkelvedon.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/railwaytavernkelvedon/?hl=en",
+      "facebook": "https://www.facebook.com/TheRailwayTavern/?locale=en_GB",
+      "tiktok": "https://www.tiktok.com/@railwaytavernkelvedon",
+      "youtube": null
+    }
   }
 ]
