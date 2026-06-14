@@ -55,5 +55,34 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "claires-cabin-cafe-and-smokehouse",
+    "name": "Claire's Cabin, Cafe & Smokehouse",
+    "type": "cafe",
+    "lat": 51.79406522,
+    "lng": 0.7152051423,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "",
+    "dogAccess": ["inside"],
+    "lastChecked": "2026-06-14",
+    "checkedBy": "Venue Website",
+    "verified": true,
+    "partnerTier": "premium",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Traditional breakfasts - Lunches - Homemade cakes - Specialist smoked menu - Alcohol licences - Group bookings - Nut Free Premises - Dogs welcome",
+    "website": "https://claires-cabin.co.uk/",
+    "phone": "01621 892455",
+    "email": "info@claires-cabin.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/ClairesCabin",
+      "facebook": "https://www.facebook.com/clairescabintiptree",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
