@@ -198,5 +198,34 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-sun-inn-feering",
+    "name": "The Sun Inn",
+    "type": "pub",
+    "lat": 51.84111559,
+    "lng": 0.7076113571,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome outside in the tranquil walled beer garden, nestled beneath ancient trees and alive with birdsong.",
+    "dogAccess": ["outside"],
+    "lastChecked": "2026-06-14",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "partner",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Nestled in the charming Essex village of Feering, The Sun Inn has welcomed travellers, locals and wandering souls for centuries.",
+    "website": "https://www.suninnfeering.co.uk/",
+    "phone": "01376 570442",
+    "email": "sunninnfeering@outlook.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/sunninnfeering/",
+      "facebook": "https://www.facebook.com/suninnfeering/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
