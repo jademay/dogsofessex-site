@@ -28,33 +28,6 @@
     }
   },
   {
-    "id": "fox-and-hounds",
-    "name": "The Fox & Hounds",
-    "type": "pub",
-    "lat": 51.830,
-    "lng": 0.755,
-    "dogFriendly": true,
-    "dogFriendlyNotes": "Dogs welcome in the bar and garden.",
-    "lastChecked": "2026-06-14",
-    "checkedBy": "the community",
-    "verified": true,
-    "partnerTier": "none",
-    "featuredUntil": null,
-    "showOnWalkPages": true,
-    "showOnAreaPages": true,
-    "showOnHomepage": false,
-    "notes": "Country pub with dogs welcome in the bar and garden.",
-    "website": "https://example.com",
-    "phone": "01621 123456",
-    "email": "hello@example.com",
-    "socials": {
-      "instagram": "https://instagram.com/example",
-      "facebook": "https://facebook.com/example",
-      "tiktok": null,
-      "youtube": null
-    }
-  },
-  {
     "id": "the-coffee-crate-tiptree",
     "name": "The Coffee Crate",
     "type": "cafe",
