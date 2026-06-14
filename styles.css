@@ -1010,7 +1010,15 @@ h1, h2, h3 {
     text-decoration: none;
 }
 .contact-link:hover { color: var(--color-terracotta); }
-.contact-link.social { font-weight: 500; }
+
+.social-icons { display: inline-flex; align-items: center; gap: 0.55rem; }
+.social-icon {
+    display: inline-flex;
+    color: var(--color-moss);
+    transition: color 0.2s ease;
+}
+.social-icon:hover { color: var(--color-terracotta); }
+.social-icon svg { width: 20px; height: 20px; display: block; }
 
 /* Partner tiers */
 .partner-badge.inline {
@@ -1047,11 +1055,20 @@ h1, h2, h3 {
 .premium-badge-bar {
     background-color: var(--color-terracotta);
     color: #fff;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+.badge-main {
     font-size: 0.74rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 0.55rem 1.5rem;
+}
+.badge-sub {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .premium-main {
@@ -1060,8 +1077,9 @@ h1, h2, h3 {
 }
 .premium-photo {
     position: relative;
-    flex: 0 0 42%;
-    min-height: 260px;
+    flex: 0 0 40%;
+    min-height: 220px;
+    max-height: 400px;
 }
 .premium-photo img {
     position: absolute;
@@ -1076,8 +1094,8 @@ h1, h2, h3 {
     min-width: 0;                 /* lets long text truncate instead of overflowing */
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    padding: 1.6rem 1.75rem;
+    gap: 0.5rem;
+    padding: 1.4rem 1.6rem;
 }
 .premium-type {
     font-size: 0.72rem;
@@ -1087,7 +1105,7 @@ h1, h2, h3 {
 }
 .premium-name {
     font-family: var(--font-serif);
-    font-size: 1.55rem;
+    font-size: 1.5rem;
     font-weight: 500;
     line-height: 1.15;
     margin: 0;
@@ -1096,15 +1114,15 @@ h1, h2, h3 {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.premium-dist { font-size: 0.92rem; color: var(--color-text); margin: 0; }
 .premium-desc {
     color: var(--color-muted);
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+.info-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .premium-access { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .access-chip {
     background-color: var(--color-bg-alt);

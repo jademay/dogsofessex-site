@@ -67,6 +67,12 @@ const TIER_CONTACT = {
     none: { phone: false, email: false, socials: false }
 };
 const SOCIAL_LABELS = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube' };
+const SOCIAL_ICONS = {
+    instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>',
+    facebook: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.47-4.05 4.16v2.29H7.5V13h2.75v8h3.25z"/></svg>',
+    tiktok: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.5 5.6a4.3 4.3 0 01-1-2.6h-2.9v11.4a2.1 2.1 0 11-2.1-2.1c.2 0 .4 0 .6.1V9.5a5 5 0 00-.6 0 5 5 0 105 5V8.7a7.1 7.1 0 004 1.2V7a4.3 4.3 0 01-3-1.4z"/></svg>',
+    youtube: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12c0-1.7-.2-3.3-.4-4a2.5 2.5 0 00-1.7-1.7C18.3 6 12 6 12 6s-6.3 0-7.9.3A2.5 2.5 0 002.4 8c-.2.7-.4 2.3-.4 4s.2 3.3.4 4a2.5 2.5 0 001.7 1.7c1.6.3 7.9.3 7.9.3s6.3 0 7.9-.3a2.5 2.5 0 001.7-1.7c.2-.7.4-2.3.4-4zM10 15V9l5 3-5 3z"/></svg>'
+};
 
 // Dog-access chips (premium card). Add keys as needed.
 const ACCESS_META = {
@@ -119,8 +125,16 @@ function accessHTML(p) {
 function verifyHTML(p) {
     if (!p.verified) return '';
     const by = p.checkedBy ? ` by ${esc(p.checkedBy)}` : '';
-    const when = p.lastChecked ? ` · Checked ${formatDate(p.lastChecked)}` : '';
-    return `\n                                <span class="place-verify">✓ Verified${by}${when}</span>`;
+    const when = p.lastChecked ? `: ${formatDate(p.lastChecked)}` : '';
+    return `\n                                <span class="place-verify">✓ Last checked${by}${when}</span>`;
+}
+
+// Distance + drive time as chips (premium card)
+function distChipsHTML(p) {
+    return `<div class="info-chips">
+                                        <span class="access-chip">📍 ${p._mi.toFixed(1)} miles</span>
+                                        <span class="access-chip">🚗 ${driveMins(p._mi)} mins</span>
+                                    </div>`;
 }
 
 // Contact block — only the details this place's tier is allowed to show.
@@ -134,15 +148,18 @@ function contactHTML(p) {
     if (show.email && p.email) {
         bits.push(`<a class="contact-link" href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`);
     }
+    let icons = '';
     if (show.socials && p.socials) {
-        for (const key of Object.keys(SOCIAL_LABELS)) {
+        const links = Object.keys(SOCIAL_ICONS).map((key) => {
             const url = p.socials[key];
-            if (url) {
-                bits.push(`<a class="contact-link social" href="${esc(url)}" target="_blank" rel="noopener">${SOCIAL_LABELS[key]}</a>`);
-            }
-        }
+            return url
+                ? `<a class="social-icon" href="${esc(url)}" target="_blank" rel="noopener" aria-label="${SOCIAL_LABELS[key]}">${SOCIAL_ICONS[key]}</a>`
+                : '';
+        }).join('');
+        if (links) icons = `<span class="social-icons">${links}</span>`;
     }
-    return bits.length ? `\n                                <div class="place-contact">${bits.join('')}</div>` : '';
+    if (!bits.length && !icons) return '';
+    return `\n                                <div class="place-contact">${bits.join('')}${icons}</div>`;
 }
 function starsHTML(score) {
     const s = Math.max(0, Math.min(5, Math.round(score) || 0));
@@ -229,16 +246,18 @@ function placeCardHTML(p) {
         const photo = p.image
             ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
             : '';
-        const distFull = `📍 ${p._mi.toFixed(1)} mi • 🚗 ~${driveMins(p._mi)} min`;
         return `
                         <article class="day-card premium">
-                            <div class="premium-badge-bar">★ Featured Partner</div>
+                            <div class="premium-badge-bar">
+                                <span class="badge-main">★ Featured Partner</span>
+                                <span class="badge-sub">Sponsored local recommendation</span>
+                            </div>
                             <div class="premium-main">
                                 <div class="premium-photo photo-ph">${photo}</div>
                                 <div class="premium-content">
                                     <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
                                     <h3 class="premium-name">${esc(p.name)}</h3>
-                                    <p class="premium-dist">${distFull}</p>
+                                    ${distChipsHTML(p)}
                                     ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
                                     ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p)}${verifyHTML(p)}
                                 </div>
