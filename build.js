@@ -356,10 +356,11 @@ function dayHTML(walk, places) {
         const toggle = items.length > INITIAL
             ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} ↓</button>`
             : '';
+        const single = items.length === 1 ? ' single' : '';
         return `
                     <div class="day-category">
                         <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>
-                        <div class="day-grid">${cards}</div>${toggle}
+                        <div class="day-grid${single}">${cards}</div>${toggle}
                     </div>`;
     };
 

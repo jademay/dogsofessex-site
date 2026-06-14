@@ -955,6 +955,13 @@ h1, h2, h3 {
     gap: 1.25rem;
 }
 
+/* A lone venue in a category sits at half width, centred */
+.day-grid.single {
+    display: flex;
+    justify-content: center;
+}
+.day-grid.single > .day-card { width: calc(50% - 0.625rem); }
+
 .day-category { margin-top: 2.25rem; }
 .day-cat-head {
     font-family: var(--font-sans);
@@ -1249,6 +1256,7 @@ h1, h2, h3 {
 .premium-content .place-contact { margin-top: 0.4rem; }
 
 @media (max-width: 640px) {
+    .day-grid.single > .day-card { width: 100%; }
     .premium-main { flex-direction: column; }
     .premium-photo {
         flex-basis: auto;
