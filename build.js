@@ -18,8 +18,7 @@ const DATA = path.join(ROOT, 'data');
 const OUT = path.join(ROOT, 'walks');
 
 // Tuning (keep in sync with the values documented on the site)
-const DAY_RADIUS_MI = 10;
-const DAY_MAX = 6;
+const DAY_RADIUS_MI = 10;          // partners/free shown within this radius (no count cap)
 const NEARBY_WALK_RADIUS_MI = 25;
 const NEARBY_WALK_MAX = 6;
 const AVG_MPH = 26;
@@ -56,15 +55,16 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => (
 ));
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 
-// Partner tiers — paid placement. Lower rank = higher up the list.
-const TIER_RANK = { premium: 0, featured: 1, none: 2 };
+// Place tiers: `partner` (paid, richer tile) or `free` (basic). The big
+// editorial card is the walk's `dogsOfEssexPick`, not a place tier.
 const EXAMPLE_PLACEHOLDER = 'https://example.com';
 
 // Which contact details each tier is allowed to show. Tune freely.
+// `pick` is used for the walk's Dogs of Essex Pick card.
 const TIER_CONTACT = {
-    premium: { phone: true, email: true, socials: true },
-    featured: { phone: false, email: false, socials: true },
-    none: { phone: false, email: false, socials: false }
+    pick: { phone: true, email: true, socials: true },
+    partner: { phone: false, email: false, socials: true },
+    free: { phone: false, email: false, socials: false }
 };
 const SOCIAL_LABELS = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube' };
 const SOCIAL_ICONS = {
@@ -84,12 +84,15 @@ const ACCESS_META = {
     'off-lead': { icon: '🐾', label: 'Off-lead area' }
 };
 
-// A featured/premium listing falls back to "none" once featuredUntil has passed.
+// Resolve a place's tier to `partner` or `free`. Legacy values are mapped,
+// and a partner whose featuredUntil has passed drops back to free.
 function effectiveTier(p) {
-    let tier = p.partnerTier || 'none';
-    if (tier !== 'none' && p.featuredUntil) {
+    let tier = p.partnerTier || 'free';
+    if (tier === 'premium' || tier === 'featured') tier = 'partner';
+    if (tier === 'none') tier = 'free';
+    if (tier === 'partner' && p.featuredUntil) {
         const until = Date.parse(p.featuredUntil);
-        if (!isNaN(until) && until < Date.now()) tier = 'none';
+        if (!isNaN(until) && until < Date.now()) tier = 'free';
     }
     return tier;
 }
@@ -146,9 +149,9 @@ function distChipsHTML(p) {
 }
 
 // Contact block — only the details this place's tier is allowed to show.
-function contactHTML(p) {
-    const tier = p._tier || effectiveTier(p);
-    const show = TIER_CONTACT[tier] || TIER_CONTACT.none;
+function contactHTML(p, tier) {
+    tier = tier || p._tier || effectiveTier(p);
+    const show = TIER_CONTACT[tier] || TIER_CONTACT.free;
     const bits = [];
     if (show.phone && p.phone) {
         bits.push(`<a class="contact-link" href="tel:${esc(p.phone.replace(/\s+/g, ''))}">📞 ${esc(p.phone)}</a>`);
@@ -244,21 +247,18 @@ function whatToExpectHTML(paras) {
                     <p>${esc(p)}</p>`).join('');
 }
 
-function placeCardHTML(p) {
-    const tier = p._tier || effectiveTier(p);
+// The walk's single editorial "Dogs of Essex Pick" — the big card.
+function pickCardHTML(p) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
     const href = placeUrl(p);
-    const dist = distLabel(p._mi);
-
-    if (tier === 'premium') {
-        const photo = p.image
-            ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
-            : '';
-        return `
+    const photo = p.image
+        ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
+        : '';
+    return `
                         <article class="day-card premium">
                             <div class="premium-badge-bar">
-                                <span class="badge-main">★ Featured Partner</span>
-                                <span class="badge-sub">Sponsored local recommendation</span>
+                                <span class="badge-main">★ Dogs of Essex Pick</span>
+                                <span class="badge-sub">Our recommended stop for this walk</span>
                             </div>
                             <div class="premium-main">
                                 <div class="premium-photo photo-ph">${photo}</div>
@@ -267,54 +267,71 @@ function placeCardHTML(p) {
                                     <h3 class="premium-name">${esc(p.name)}</h3>
                                     ${distChipsHTML(p)}
                                     ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
-                                    ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p)}${verifyHTML(p)}
+                                    ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p, 'pick')}${verifyHTML(p)}
                                 </div>
                             </div>
                         </article>`;
-    }
+}
 
-    if (tier === 'featured') {
-        return `
+// A paid partner — slightly richer than a free listing.
+function partnerCardHTML(p) {
+    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const href = placeUrl(p);
+    return `
                         <article class="day-card featured">
                             <span class="day-icon">${meta.icon}</span>
                             <div class="day-body">
                                 <span class="day-type">${esc(meta.label)} <span class="partner-badge inline">Partner</span></span>
                                 <span class="day-name">${esc(p.name)}</span>
-                                <span class="day-dist">${dist}</span>
+                                <span class="day-dist">${distLabel(p._mi)}</span>
                                 ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}${dogNoteHTML(p)}
-                                ${href ? `<a class="day-cta-link" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p)}${verifyHTML(p)}
+                                ${href ? `<a class="day-cta-link" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p, 'partner')}${verifyHTML(p)}
                             </div>
                         </article>`;
-    }
+}
 
-    // free / basic listing — minimal: type, name, distance only
+// A free listing — minimal: type, name, distance only.
+function freeCardHTML(p) {
+    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
     return `
                         <div class="day-card basic">
                             <span class="day-icon">${meta.icon}</span>
                             <span class="day-body">
                                 <span class="day-type">${esc(meta.label)}</span>
                                 <span class="day-name">${esc(p.name)}</span>
-                                <span class="day-dist">${dist}</span>
+                                <span class="day-dist">${distLabel(p._mi)}</span>
                             </span>
                         </div>`;
 }
 
 function dayHTML(walk, places) {
     const origin = { lat: walk.lat, lng: walk.lng };
-    const nearby = places
-        .filter((p) => p.dogFriendly !== false)
-        .filter((p) => p.showOnWalkPages !== false)
-        .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }), _tier: effectiveTier(p) }))
-        .filter((p) => p._mi <= DAY_RADIUS_MI)
-        .sort((a, b) => (TIER_RANK[a._tier] - TIER_RANK[b._tier]) || (a._mi - b._mi))
-        .slice(0, DAY_MAX);
-    if (!nearby.length) return '';
-    const cards = nearby.map(placeCardHTML).join('');
+    const pickId = walk.dogsOfEssexPick;
+
+    const withDist = places
+        .filter((p) => p.dogFriendly !== false && p.showOnWalkPages !== false)
+        .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }), _tier: effectiveTier(p) }));
+
+    // The pick is shown regardless of distance (it's chosen for this walk).
+    const pick = pickId ? withDist.find((p) => p.id === pickId) : null;
+
+    const inRange = withDist
+        .filter((p) => p.id !== pickId && p._mi <= DAY_RADIUS_MI)
+        .sort((a, b) => a._mi - b._mi);
+    const partners = inRange.filter((p) => p._tier === 'partner');
+    const free = inRange.filter((p) => p._tier === 'free');
+
+    const cards = [];
+    if (pick) cards.push(pickCardHTML(pick));
+    partners.forEach((p) => cards.push(partnerCardHTML(p)));
+    free.forEach((p) => cards.push(freeCardHTML(p)));
+    if (!cards.length) return '';
+
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
                     <h2>🐾 Make a Day of It</h2>
                     <p class="section-lead">Already heading to ${who}? Here's what other local dog owners pair with this walk.</p>
-                    <div class="day-grid">${cards}</div>`;
+                    <div class="day-grid">${cards.join('')}</div>`;
 }
 
 function exploreHTML(walk, walks) {
