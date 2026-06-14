@@ -148,6 +148,7 @@ function whatToExpectHTML(paras) {
 function dayHTML(walk, places) {
     const origin = { lat: walk.lat, lng: walk.lng };
     const nearby = pickVariety(places
+        .filter((p) => p.dogFriendly !== false)
         .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }) }))
         .filter((p) => p._mi <= DAY_RADIUS_MI)
         .sort((a, b) => a._mi - b._mi), DAY_MAX);
