@@ -11,8 +11,21 @@
 (function () {
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.carousel').forEach(wireCarousel);
+        wireDayToggles();
         wireActions();
     });
+
+    function wireDayToggles() {
+        document.querySelectorAll('.day-more-toggle').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const cat = btn.closest('.day-category');
+                if (!cat) return;
+                const open = cat.classList.toggle('expanded');
+                const noun = btn.dataset.noun || 'places';
+                btn.textContent = open ? `Show fewer ${noun}` : `View all nearby ${noun} →`;
+            });
+        });
+    }
 
     function wireCarousel(root) {
         const track = root.querySelector('.carousel-track');

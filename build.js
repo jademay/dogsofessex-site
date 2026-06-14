@@ -66,6 +66,7 @@ function miles(a, b) {
 }
 const driveMins = (mi) => Math.max(3, Math.round((mi * ROAD_FACTOR) / AVG_MPH * 60));
 const distLabel = (mi) => `${mi.toFixed(1)} mi · ~${driveMins(mi)} min`;
+const distLine = (p) => `${p._mi.toFixed(1)} mi • ${driveMins(p._mi)} mins`;
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]
 ));
@@ -137,7 +138,7 @@ function dogNoteHTML(p) {
         ? `\n                                <span class="dog-note">🐕 ${esc(p.dogFriendlyNotes)}</span>` : '';
 }
 
-// Dog-access chips from a structured dogAccess array (premium card)
+// Dog-access chips from a structured dogAccess array (pick card)
 function accessHTML(p) {
     const items = p.dogAccess || [];
     if (!items.length) return '';
@@ -146,6 +147,17 @@ function accessHTML(p) {
         return `<span class="access-chip">${m.icon} ${esc(m.label)}</span>`;
     }).join('');
     return `\n                                    <div class="premium-access">${chips}</div>`;
+}
+
+// A few compact dog tags for partner cards (up to `max`)
+function dogTagsHTML(p, max) {
+    const items = (p.dogAccess || []).slice(0, max || 4);
+    if (!items.length) return '';
+    const chips = items.map((k) => {
+        const m = ACCESS_META[k] || { icon: '🐾', label: k };
+        return `<span class="access-chip">${m.icon} ${esc(m.label)}</span>`;
+    }).join('');
+    return `\n                                <div class="pc-tags">${chips}</div>`;
 }
 
 // Verification / freshness line (who checked it and when)
@@ -289,35 +301,31 @@ function pickCardHTML(p) {
                         </article>`;
 }
 
-// A paid partner — slightly richer than a free listing.
-function partnerCardHTML(p) {
+// A paid partner — compact card: name, distance, one-liner, dog tags, CTA.
+function partnerCardHTML(p, extra) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
     const href = placeUrl(p);
     return `
-                        <article class="day-card featured">
-                            <span class="day-icon">${meta.icon}</span>
-                            <div class="day-body">
-                                <span class="day-type">${esc(meta.label)} <span class="partner-badge inline">Partner</span></span>
-                                <span class="day-name">${esc(p.name)}</span>
-                                <span class="day-dist">${distLabel(p._mi)}</span>
-                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}${dogNoteHTML(p)}
-                                ${href ? `<a class="day-cta-link" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p, 'partner')}${verifyHTML(p)}
-                            </div>
-                        </article>`;
+                                <article class="day-card partner-card${extra ? ' day-extra' : ''}">
+                                    <span class="partner-badge corner">Partner</span>
+                                    <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
+                                    <span class="pc-dist">${distLine(p)}</span>
+                                    ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
+                                    ${href ? `<a class="pc-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
+                                </article>`;
 }
 
-// A free listing — minimal: type, name, distance only.
-function freeCardHTML(p) {
+// A free listing — clean text: name, distance, one-liner, small link.
+function freeCardHTML(p, extra) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const href = placeUrl(p);
     return `
-                        <div class="day-card basic">
-                            <span class="day-icon">${meta.icon}</span>
-                            <span class="day-body">
-                                <span class="day-type">${esc(meta.label)}</span>
-                                <span class="day-name">${esc(p.name)}</span>
-                                <span class="day-dist">${distLabel(p._mi)}</span>
-                            </span>
-                        </div>`;
+                                <div class="day-card free-card${extra ? ' day-extra' : ''}">
+                                    <span class="free-name">${meta.icon} ${esc(p.name)}</span>
+                                    <span class="free-dist">${distLine(p)}</span>
+                                    ${p.notes ? `<span class="free-desc">${esc(p.notes)}</span>` : ''}
+                                    ${href ? `<a class="free-link" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
+                                </div>`;
 }
 
 function dayHTML(walk, places) {
@@ -337,12 +345,21 @@ function dayHTML(walk, places) {
         .filter((p) => p.id !== pickId && p._mi <= DAY_RADIUS_MI)
         .sort((a, b) => (RANK[a._tier] - RANK[b._tier]) || (a._mi - b._mi));
 
-    const renderCard = (p) => (p._tier === 'partner' ? partnerCardHTML(p) : freeCardHTML(p));
-    const categoryBlock = (icon, label, items) => `
+    const INITIAL = 2; // cards shown before "View all" is needed
+    const renderCard = (p, extra) => (p._tier === 'partner' ? partnerCardHTML(p, extra) : freeCardHTML(p, extra));
+    const categoryBlock = (icon, label, items) => {
+        let noun = label.replace(/\s*nearby$/i, '').toLowerCase();
+        if (!noun || noun === 'more') noun = 'places';
+        const cards = items.map((p, i) => renderCard(p, i >= INITIAL)).join('');
+        const toggle = items.length > INITIAL
+            ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} →</button>`
+            : '';
+        return `
                     <div class="day-category">
-                        <h3 class="day-cat-head">${icon} ${esc(label)}</h3>
-                        <div class="day-grid">${items.map(renderCard).join('')}</div>
+                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>
+                        <div class="day-grid">${cards}</div>${toggle}
                     </div>`;
+    };
 
     // Group into the configured categories, plus a fallback for anything unmatched.
     const used = new Set();
