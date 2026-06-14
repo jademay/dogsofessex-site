@@ -954,6 +954,14 @@ h1, h2, h3 {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
 }
+
+.day-category { margin-top: 2.25rem; }
+.day-cat-head {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0 0 1rem;
+}
 .day-card {
     display: flex;
     gap: 1rem;

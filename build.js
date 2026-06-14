@@ -30,9 +30,25 @@ const TYPE_META = {
     'garden-centre': { icon: '🪴', label: 'Garden Centre' },
     beach: { icon: '🌊', label: 'Beach' },
     seaside: { icon: '🌊', label: 'Seaside' },
+    'swim-spot': { icon: '🌊', label: 'Swim Spot' },
     attraction: { icon: '🎡', label: 'Attraction' },
-    shop: { icon: '🛍️', label: 'Shop' }
+    shop: { icon: '🛍️', label: 'Shop' },
+    'dog-service': { icon: '🐶', label: 'Dog Service' },
+    groomer: { icon: '✂️', label: 'Dog Groomer' },
+    vet: { icon: '🩺', label: 'Vet' },
+    daycare: { icon: '🏡', label: 'Dog Daycare' },
+    'dog-walker': { icon: '🦮', label: 'Dog Walker' }
 };
+
+// "Make a Day of It" categories, in display order. Each place type maps
+// into one of these; anything unmatched falls into "More nearby".
+const CATEGORIES = [
+    { icon: '☕', label: 'Cafés nearby', types: ['cafe'] },
+    { icon: '🍺', label: 'Pubs nearby', types: ['pub'] },
+    { icon: '🌊', label: 'Swim spots nearby', types: ['beach', 'seaside', 'swim-spot'] },
+    { icon: '🛍️', label: 'Shops nearby', types: ['shop', 'garden-centre'] },
+    { icon: '🐶', label: 'Dog services nearby', types: ['dog-service', 'groomer', 'vet', 'daycare', 'dog-walker'] }
+];
 const SCENERY_ICON = {
     woodland: '🌳', heathland: '🌿', parkland: '🌳',
     coastal: '🌊', seaside: '🌊', park: '🌳'
@@ -315,23 +331,39 @@ function dayHTML(walk, places) {
     // The pick is shown regardless of distance (it's chosen for this walk).
     const pick = pickId ? withDist.find((p) => p.id === pickId) : null;
 
+    // Everything else in range, ordered partner-before-free, then nearest first.
+    const RANK = { partner: 0, free: 1 };
     const inRange = withDist
         .filter((p) => p.id !== pickId && p._mi <= DAY_RADIUS_MI)
-        .sort((a, b) => a._mi - b._mi);
-    const partners = inRange.filter((p) => p._tier === 'partner');
-    const free = inRange.filter((p) => p._tier === 'free');
+        .sort((a, b) => (RANK[a._tier] - RANK[b._tier]) || (a._mi - b._mi));
 
-    const cards = [];
-    if (pick) cards.push(pickCardHTML(pick));
-    partners.forEach((p) => cards.push(partnerCardHTML(p)));
-    free.forEach((p) => cards.push(freeCardHTML(p)));
-    if (!cards.length) return '';
+    const renderCard = (p) => (p._tier === 'partner' ? partnerCardHTML(p) : freeCardHTML(p));
+    const categoryBlock = (icon, label, items) => `
+                    <div class="day-category">
+                        <h3 class="day-cat-head">${icon} ${esc(label)}</h3>
+                        <div class="day-grid">${items.map(renderCard).join('')}</div>
+                    </div>`;
+
+    // Group into the configured categories, plus a fallback for anything unmatched.
+    const used = new Set();
+    let sections = '';
+    for (const cat of CATEGORIES) {
+        const inCat = inRange.filter((p) => cat.types.includes(p.type));
+        if (!inCat.length) continue;
+        inCat.forEach((p) => used.add(p.id));
+        sections += categoryBlock(cat.icon, cat.label, inCat);
+    }
+    const leftover = inRange.filter((p) => !used.has(p.id));
+    if (leftover.length) sections += categoryBlock('📍', 'More nearby', leftover);
+
+    if (!pick && !sections) return '';
 
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
                     <h2>🐾 Make a Day of It</h2>
                     <p class="section-lead">Already heading to ${who}? Here's what other local dog owners pair with this walk.</p>
-                    <div class="day-grid">${cards.join('')}</div>`;
+                    ${pick ? pickCardHTML(pick) : ''}
+                    ${sections}`;
 }
 
 function exploreHTML(walk, walks) {
