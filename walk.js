@@ -22,7 +22,7 @@
                 if (!cat) return;
                 const open = cat.classList.toggle('expanded');
                 const noun = btn.dataset.noun || 'places';
-                btn.textContent = open ? `Show fewer ${noun}` : `View all nearby ${noun} →`;
+                btn.textContent = open ? `Show fewer ${noun} ↑` : `View all nearby ${noun} ↓`;
             });
         });
     }

@@ -1049,17 +1049,24 @@ h1, h2, h3 {
 .day-grid .day-card.day-extra { display: none; }
 .day-category.expanded .day-card.day-extra { display: flex; }
 .day-more-toggle {
-    margin-top: 1rem;
-    padding: 0;
-    background: none;
-    border: none;
+    display: block;
+    width: fit-content;
+    margin: 1.5rem auto 0;
+    padding: 0.5rem 1.3rem;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
     font-family: var(--font-sans);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
-    color: var(--color-terracotta);
+    color: var(--color-forest-dark);
     cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
-.day-more-toggle:hover { text-decoration: underline; }
+.day-more-toggle:hover {
+    border-color: var(--color-terracotta);
+    color: var(--color-terracotta);
+}
 .day-card {
     display: flex;
     gap: 1rem;

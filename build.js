@@ -354,7 +354,7 @@ function dayHTML(walk, places) {
         if (!noun || noun === 'more') noun = 'places';
         const cards = items.map((p, i) => renderCard(p, i >= INITIAL)).join('');
         const toggle = items.length > INITIAL
-            ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} →</button>`
+            ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} ↓</button>`
             : '';
         return `
                     <div class="day-category">
