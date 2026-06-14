@@ -53,5 +53,33 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-coffee-crate-tiptree",
+    "name": "The Coffee Crate",
+    "type": "cafe",
+    "lat": 51.82089003,
+    "lng": 0.7351308822,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "",
+    "lastChecked": "",
+    "checkedBy": "",
+    "verified": false,
+    "partnerTier": "none",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Coffee | Cakes | Food | Milkshakes | Dog menu",
+    "website": "https://goodeats.io/TheCoffeeCrate",
+    "phone": "07757 739847",
+    "email": "thecoffeecratetiptree@gmail.com",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/thecoffeecratetiptree/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
