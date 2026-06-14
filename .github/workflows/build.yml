@@ -12,6 +12,11 @@ on:
       - 'data/**'
       - 'build.js'
       - '.github/workflows/build.yml'
+  schedule:
+    # Daily rebuild at 03:15 UTC — lets time-based fields like
+    # `featuredUntil` take effect even when no data has changed.
+    - cron: '15 3 * * *'
+  workflow_dispatch:
 
 concurrency:
   group: build-walk-pages

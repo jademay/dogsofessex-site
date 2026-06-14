@@ -5,7 +5,15 @@
     "type": "cafe",
     "lat": 51.811,
     "lng": 0.760,
-    "dogFriendly": true
+    "dogFriendly": true,
+    "partnerTier": "premium",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": false,
+    "image": "",
+    "notes": "Famous Tiptree jam tea room with dog-friendly outdoor seating.",
+    "website": "https://www.tiptree.com"
   },
   {
     "id": "fox-and-hounds",
@@ -13,6 +21,13 @@
     "type": "pub",
     "lat": 51.830,
     "lng": 0.755,
-    "dogFriendly": true
+    "dogFriendly": true,
+    "partnerTier": "none",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": false,
+    "notes": "Country pub with dogs welcome in the bar and garden.",
+    "website": "https://example.com"
   }
 ]

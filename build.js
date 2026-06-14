@@ -56,19 +56,21 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => (
 ));
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 
-function pickVariety(sorted, max) {
-    const out = [];
-    const counts = {};
-    for (const p of sorted) {
-        const c = counts[p.type] || 0;
-        if (c < 2) { out.push(p); counts[p.type] = c + 1; }
-        if (out.length >= max) return out;
+// Partner tiers — paid placement. Lower rank = higher up the list.
+const TIER_RANK = { premium: 0, featured: 1, none: 2 };
+const EXAMPLE_PLACEHOLDER = 'https://example.com';
+
+// A featured/premium listing falls back to "none" once featuredUntil has passed.
+function effectiveTier(p) {
+    let tier = p.partnerTier || 'none';
+    if (tier !== 'none' && p.featuredUntil) {
+        const until = Date.parse(p.featuredUntil);
+        if (!isNaN(until) && until < Date.now()) tier = 'none';
     }
-    for (const p of sorted) {
-        if (out.length >= max) break;
-        if (!out.includes(p)) out.push(p);
-    }
-    return out;
+    return tier;
+}
+function placeUrl(p) {
+    return (p.website && p.website !== '#' && p.website !== EXAMPLE_PLACEHOLDER) ? p.website : '';
 }
 function starsHTML(score) {
     const s = Math.max(0, Math.min(5, Math.round(score) || 0));
@@ -145,29 +147,66 @@ function whatToExpectHTML(paras) {
                     <p>${esc(p)}</p>`).join('');
 }
 
-function dayHTML(walk, places) {
-    const origin = { lat: walk.lat, lng: walk.lng };
-    const nearby = pickVariety(places
-        .filter((p) => p.dogFriendly !== false)
-        .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }) }))
-        .filter((p) => p._mi <= DAY_RADIUS_MI)
-        .sort((a, b) => a._mi - b._mi), DAY_MAX);
-    if (!nearby.length) return '';
-    const cards = nearby.map((p) => {
-        const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
-        const href = p.website && p.website !== '#' ? p.website : '#';
-        const ext = href !== '#' ? ' target="_blank" rel="noopener"' : '';
+function placeCardHTML(p) {
+    const tier = p._tier || effectiveTier(p);
+    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const href = placeUrl(p);
+    const ext = href ? ' target="_blank" rel="noopener"' : '';
+    const dist = distLabel(p._mi);
+
+    if (tier === 'premium') {
+        const photo = p.image
+            ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
+            : '';
         return `
-                        <a class="day-card" href="${esc(href)}"${ext}>
+                        <a class="day-card premium" href="${esc(href || '#')}"${ext}>
+                            <div class="day-photo photo-ph">${photo}<span class="partner-badge">★ Featured Partner</span></div>
+                            <div class="day-body">
+                                <span class="day-type">${meta.icon} ${esc(meta.label)}</span>
+                                <span class="day-name">${esc(p.name)}</span>
+                                <span class="day-dist">${dist}</span>
+                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}
+                                ${href ? `<span class="day-cta">Visit website →</span>` : ''}
+                            </div>
+                        </a>`;
+    }
+
+    if (tier === 'featured') {
+        return `
+                        <a class="day-card featured" href="${esc(href || '#')}"${ext}>
+                            <span class="day-icon">${meta.icon}</span>
+                            <span class="day-body">
+                                <span class="day-type">${esc(meta.label)} <span class="partner-badge inline">Partner</span></span>
+                                <span class="day-name">${esc(p.name)}</span>
+                                <span class="day-dist">${dist}</span>
+                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}
+                            </span>
+                        </a>`;
+    }
+
+    // free / basic listing — minimal: type, name, distance only
+    return `
+                        <div class="day-card basic">
                             <span class="day-icon">${meta.icon}</span>
                             <span class="day-body">
                                 <span class="day-type">${esc(meta.label)}</span>
                                 <span class="day-name">${esc(p.name)}</span>
-                                <span class="day-dist">${distLabel(p._mi)}</span>
-                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}
+                                <span class="day-dist">${dist}</span>
                             </span>
-                        </a>`;
-    }).join('');
+                        </div>`;
+}
+
+function dayHTML(walk, places) {
+    const origin = { lat: walk.lat, lng: walk.lng };
+    const nearby = places
+        .filter((p) => p.dogFriendly !== false)
+        .filter((p) => p.showOnWalkPages !== false)
+        .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }), _tier: effectiveTier(p) }))
+        .filter((p) => p._mi <= DAY_RADIUS_MI)
+        .sort((a, b) => (TIER_RANK[a._tier] - TIER_RANK[b._tier]) || (a._mi - b._mi))
+        .slice(0, DAY_MAX);
+    if (!nearby.length) return '';
+    const cards = nearby.map(placeCardHTML).join('');
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
                     <h2>🐾 Make a Day of It</h2>
