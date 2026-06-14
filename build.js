@@ -104,6 +104,14 @@ function formatDate(iso) {
     return `${parseInt(m[3], 10)} ${MONTHS[parseInt(m[2], 10) - 1]} ${m[1]}`;
 }
 
+const MONTHS_FULL = ['January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'];
+function formatMonthYear(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+    if (!m) return esc(iso || '');
+    return `${MONTHS_FULL[parseInt(m[2], 10) - 1]} ${m[1]}`;
+}
+
 // Dog-friendly note (e.g. "Dogs welcome indoors and outside.")
 function dogNoteHTML(p) {
     return p.dogFriendlyNotes
@@ -125,7 +133,7 @@ function accessHTML(p) {
 function verifyHTML(p) {
     if (!p.verified) return '';
     const by = p.checkedBy ? ` by ${esc(p.checkedBy)}` : '';
-    const when = p.lastChecked ? `: ${formatDate(p.lastChecked)}` : '';
+    const when = p.lastChecked ? ` • ${formatMonthYear(p.lastChecked)}` : '';
     return `\n                                <span class="place-verify">✓ Last checked${by}${when}</span>`;
 }
 
