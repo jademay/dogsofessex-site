@@ -113,5 +113,34 @@
       "tiktok": "https://www.tiktok.com/@railwaytavernkelvedon",
       "youtube": null
     }
+  },
+  {
+    "id": "the-hare-and-hounds-layer-breton",
+    "name": "The Hare & Hounds Pub & Restaurant",
+    "type": "pub",
+    "lat": 51.83416266,
+    "lng": 0.8200812854,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Family & dog friendly serving locally sourced food and ales",
+    "dogAccess": ["inside", "outside"],
+    "lastChecked": "2026-06-14",
+    "checkedBy": "Venue Website",
+    "verified": true,
+    "partnerTier": "featured",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Eat | Drink | Stay",
+    "website": "https://www.thehareandhound.co.uk/",
+    "phone": "01206 330459",
+    "email": "info@thehareandhound.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/the_hare_and_hounds_layerb/",
+      "facebook": "https://www.facebook.com/p/The-Hare-Hounds-in-Layer-Breton-100094258270318/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]

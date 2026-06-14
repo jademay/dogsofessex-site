@@ -223,7 +223,6 @@ function placeCardHTML(p) {
     const tier = p._tier || effectiveTier(p);
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
     const href = placeUrl(p);
-    const ext = href ? ' target="_blank" rel="noopener"' : '';
     const dist = distLabel(p._mi);
 
     if (tier === 'premium') {
@@ -249,15 +248,16 @@ function placeCardHTML(p) {
 
     if (tier === 'featured') {
         return `
-                        <a class="day-card featured" href="${esc(href || '#')}"${ext}>
+                        <article class="day-card featured">
                             <span class="day-icon">${meta.icon}</span>
-                            <span class="day-body">
+                            <div class="day-body">
                                 <span class="day-type">${esc(meta.label)} <span class="partner-badge inline">Partner</span></span>
                                 <span class="day-name">${esc(p.name)}</span>
                                 <span class="day-dist">${dist}</span>
-                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}${dogNoteHTML(p)}${contactHTML(p)}${verifyHTML(p)}
-                            </span>
-                        </a>`;
+                                ${p.notes ? `<span class="day-note">${esc(p.notes)}</span>` : ''}${dogNoteHTML(p)}
+                                ${href ? `<a class="day-cta-link" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p)}${verifyHTML(p)}
+                            </div>
+                        </article>`;
     }
 
     // free / basic listing — minimal: type, name, distance only
