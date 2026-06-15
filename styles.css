@@ -1024,33 +1024,31 @@ h1, h2, h3 {
     padding: 0.12rem 0.5rem;
 }
 
-/* Free listing — a very subtle dashed box, no shadow, text link */
-.day-card.free-card {
+/* Free listing — a compact pill linking to Google Maps */
+.free-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1rem;
+}
+.free-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    padding: 0.5rem 0.95rem;
     background-color: var(--color-card);
-    border: 1px dashed var(--color-border);
-    box-shadow: none;
-    flex-direction: column;
-    gap: 0.3rem;
-    padding: 1rem 1.1rem;
-}
-.day-card.free-card:hover { transform: none; box-shadow: none; }
-.free-name { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 500; }
-.free-dist { font-size: 0.82rem; color: var(--color-muted); }
-.free-desc {
-    font-size: 0.88rem;
-    color: var(--color-muted);
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-.free-link {
-    align-self: flex-start;
-    font-size: 0.82rem;
-    color: var(--color-terracotta);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
     text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
-.free-link:hover { text-decoration: underline; }
+.free-pill:hover {
+    border-color: var(--color-terracotta);
+    background-color: var(--color-bg-alt);
+}
+.fp-name { font-weight: 500; font-size: 0.9rem; }
+.fp-dist { font-size: 0.8rem; color: var(--color-muted); }
 
 /* "View all" expander */
 .day-grid .day-card.day-extra { display: none; }

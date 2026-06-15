@@ -317,17 +317,15 @@ function partnerCardHTML(p, extra) {
                                 </article>`;
 }
 
-// A free listing — clean text: name, distance, one-liner, small link.
-function freeCardHTML(p, extra) {
+// A free listing — a compact pill (name + distance) linking to Google Maps.
+function freePillHTML(p) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
-    const href = placeUrl(p);
+    const maps = `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`;
     return `
-                                <div class="day-card free-card${extra ? ' day-extra' : ''}">
-                                    <span class="free-name">${meta.icon} ${esc(p.name)}</span>
-                                    <span class="free-dist">${distLine(p)}</span>
-                                    ${p.notes ? `<span class="free-desc">${esc(p.notes)}</span>` : ''}
-                                    ${href ? `<a class="free-link" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
-                                </div>`;
+                                <a class="free-pill" href="${esc(maps)}" target="_blank" rel="noopener">
+                                    <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
+                                    <span class="fp-dist">${distLine(p)}</span>
+                                </a>`;
 }
 
 function dayHTML(walk, places) {
@@ -347,20 +345,30 @@ function dayHTML(walk, places) {
         .filter((p) => p.id !== pickId && p._mi <= DAY_RADIUS_MI)
         .sort((a, b) => (RANK[a._tier] - RANK[b._tier]) || (a._mi - b._mi));
 
-    const INITIAL = 2; // cards shown before "View all" is needed
-    const renderCard = (p, extra) => (p._tier === 'partner' ? partnerCardHTML(p, extra) : freeCardHTML(p, extra));
+    const INITIAL = 2; // partner cards shown before "View all" is needed
     const categoryBlock = (icon, label, items) => {
         let noun = label.replace(/\s*nearby$/i, '').toLowerCase();
         if (!noun || noun === 'more') noun = 'places';
-        const cards = items.map((p, i) => renderCard(p, i >= INITIAL)).join('');
-        const toggle = items.length > INITIAL
-            ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} ↓</button>`
+
+        const partners = items.filter((p) => p._tier === 'partner');
+        const frees = items.filter((p) => p._tier === 'free');
+
+        let gridBlock = '';
+        if (partners.length) {
+            const cards = partners.map((p, i) => partnerCardHTML(p, i >= INITIAL)).join('');
+            const single = partners.length === 1 ? ' single' : '';
+            const toggle = partners.length > INITIAL
+                ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} ↓</button>`
+                : '';
+            gridBlock = `\n                        <div class="day-grid${single}">${cards}</div>${toggle}`;
+        }
+        const pillsBlock = frees.length
+            ? `\n                        <div class="free-pills">${frees.map(freePillHTML).join('')}</div>`
             : '';
-        const single = items.length === 1 ? ' single' : '';
+
         return `
                     <div class="day-category">
-                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>
-                        <div class="day-grid${single}">${cards}</div>${toggle}
+                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>${gridBlock}${pillsBlock}
                     </div>`;
     };
 
