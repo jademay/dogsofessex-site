@@ -685,6 +685,62 @@ h1, h2, h3 {
 .walk-card-soon:hover { transform: none; box-shadow: none; }
 .walk-card-soon .link-arrow { color: var(--color-muted); }
 
+.walk-card-area {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-terracotta);
+    margin-bottom: 0.3rem;
+}
+
+/* Filter pills */
+.walk-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+}
+.filter-pill {
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-card);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.filter-pill:hover { border-color: var(--color-moss); }
+.filter-pill.is-active {
+    background-color: var(--color-forest);
+    border-color: var(--color-forest);
+    color: #fff;
+}
+
+/* Per-card "at a glance" stars (shown when filtering) */
+.walk-card-stars:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 0.25rem 0 0.85rem;
+}
+.wc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.82rem;
+}
+.wc-label { color: var(--color-muted); }
+.wc-stars { letter-spacing: 0.04em; white-space: nowrap; }
+.wc-on { color: var(--color-gold); }
+.wc-off { color: #D8CDB9; }
+.no-results { text-align: center; color: var(--color-muted); margin-top: 1.5rem; }
+
 /* Sidebar / quick facts */
 .walk-aside {
     position: sticky;

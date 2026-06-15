@@ -51,6 +51,18 @@ const CATEGORIES = [
     { icon: '🛍️', label: 'Shops nearby', types: ['shop', 'garden-centre'] },
     { icon: '🐶', label: 'Dog services nearby', types: ['dog-service', 'groomer', 'vet', 'daycare', 'dog-walker'] }
 ];
+// "At a glance" filter categories for the walks index (key -> data attribute)
+const GLANCE_FILTERS = [
+    { key: 'reactive', label: 'Reactive dogs' },
+    { key: 'puppies', label: 'Puppies' },
+    { key: 'mud', label: 'Mud factor' },
+    { key: 'shade', label: 'Shade' },
+    { key: 'pushchairs', label: 'Pushchairs' },
+    { key: 'swimming', label: 'Swimming' },
+    { key: 'offlead', label: 'Off lead' }
+];
+const GLANCE_KEYS = Object.fromEntries(GLANCE_FILTERS.map((f) => [f.label, f.key]));
+
 const SCENERY_ICON = {
     woodland: '🌳', heathland: '🌿', parkland: '🌳',
     coastal: '🌊', seaside: '🌊', park: '🌳'
@@ -651,31 +663,34 @@ function indexWalkCard(w) {
     const icon = SCENERY_ICON[w.scenery] || '🐾';
     const meta = [w.distance, w.time, w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
+    // glance scores as data attributes so the filter can read them
+    const data = (w.glance || []).map((g) => {
+        const k = GLANCE_KEYS[g.label];
+        return k ? ` data-${k}="${g.score}"` : '';
+    }).join('');
     const inner = `
                             <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
                             <div class="walk-card-body">
+                                <span class="walk-card-area">${esc(w.area || 'Essex')}</span>
                                 <h3>${esc(w.name)}</h3>
                                 ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
                                 <div class="tag-row">${tags}</div>
+                                <div class="walk-card-stars" hidden></div>
                                 <span class="link-arrow">${w.hasPage ? 'Explore Walk →' : 'Basic details available now. Full review coming soon.'}</span>
                             </div>`;
     return w.hasPage
-        ? `\n                        <a href="${esc(w.id)}.html" class="walk-card">${inner}
+        ? `\n                        <a href="${esc(w.id)}.html" class="walk-card"${data}>${inner}
                         </a>`
-        : `\n                        <div class="walk-card walk-card-soon">${inner}
+        : `\n                        <div class="walk-card walk-card-soon"${data}>${inner}
                         </div>`;
 }
 
 function walksIndexPage(walks) {
-    const areas = [];
-    const byArea = {};
-    for (const w of walks) {
-        const a = w.area || 'Essex';
-        if (!byArea[a]) { byArea[a] = []; areas.push(a); }
-        byArea[a].push(w);
-    }
+    const pills = GLANCE_FILTERS
+        .map((f) => `<button type="button" class="filter-pill" data-key="${f.key}" aria-pressed="false">${f.label}</button>`)
+        .join('\n                        ');
 
-    let body = `
+    const body = `
             <section class="walk-section">
                 <div class="container">
                     <div class="section-head">
@@ -683,19 +698,19 @@ function walksIndexPage(walks) {
                         <h1 class="index-title">Dog walks in Essex</h1>
                         <p>Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex — with more added every month.</p>
                     </div>
-                </div>
-            </section>`;
-    areas.forEach((area, i) => {
-        const alt = (i % 2 === 0) ? ' section-alt' : '';
-        body += `
-            <section class="walk-section${alt}">
-                <div class="container">
-                    <h2>${esc(area)}</h2>
-                    <div class="walk-grid">${byArea[area].map(indexWalkCard).join('')}
+                    <div class="walk-filters" aria-label="Filter walks by what they're best for">
+                        ${pills}
                     </div>
                 </div>
+            </section>
+
+            <section class="walk-section section-alt">
+                <div class="container">
+                    <div class="walk-grid walks-index-grid">${walks.map(indexWalkCard).join('')}
+                    </div>
+                    <p class="no-results" hidden>No walks match those filters yet — try fewer.</p>
+                </div>
             </section>`;
-    });
 
     return `<!DOCTYPE html>
 <html lang="en">
