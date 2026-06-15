@@ -324,14 +324,15 @@ function partnerCardHTML(p, extra) {
                                 </article>`;
 }
 
-// A free listing — a compact pill (name + distance) linking to Google Maps.
+// A free listing — a compact pill (name + distance + arrow) that opens Google Maps.
 function freePillHTML(p) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
     return `
-                                <a class="free-pill" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">
-                                    <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
-                                    <span class="fp-dist">${distLine(p)}</span>
-                                </a>`;
+                            <a class="free-pill" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">
+                                <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
+                                <span class="fp-dist">${distLine(p)}</span>
+                                <span class="fp-arrow" aria-hidden="true">↗</span>
+                            </a>`;
 }
 
 function dayHTML(walk, places) {
@@ -345,61 +346,59 @@ function dayHTML(walk, places) {
     // The pick is shown regardless of distance (it's chosen for this walk).
     const pick = pickId ? withDist.find((p) => p.id === pickId) : null;
 
-    // Everything else in range, ordered partner-before-free, then nearest first.
-    const RANK = { partner: 0, free: 1 };
     const inRange = withDist
         .filter((p) => p.id !== pickId && p._mi <= DAY_RADIUS_MI)
-        .sort((a, b) => (RANK[a._tier] - RANK[b._tier]) || (a._mi - b._mi));
+        .sort((a, b) => a._mi - b._mi);
+    const partners = inRange.filter((p) => p._tier === 'partner');
+    const frees = inRange.filter((p) => p._tier === 'free');
 
+    // Partner categories (cards only). Free listings go in their own list below.
     const INITIAL = 2; // partner cards shown before "View all" is needed
-    const categoryBlock = (icon, label, items) => {
+    const partnerCategory = (icon, label, items) => {
         let noun = label.replace(/\s*nearby$/i, '').toLowerCase();
         if (!noun || noun === 'more') noun = 'places';
-
-        const partners = items.filter((p) => p._tier === 'partner');
-        const frees = items.filter((p) => p._tier === 'free');
-        const hasToggle = partners.length > INITIAL;
-
-        let gridBlock = '';
-        if (partners.length) {
-            const cards = partners.map((p, i) => partnerCardHTML(p, i >= INITIAL)).join('');
-            const single = partners.length === 1 ? ' single' : '';
-            gridBlock = `\n                        <div class="day-grid${single}">${cards}</div>`;
-        }
-        // Pills sit before the toggle; when a toggle exists they tuck inside it.
-        const pillsBlock = frees.length
-            ? `\n                        <div class="free-pills${hasToggle ? ' collapsible' : ''}">${frees.map(freePillHTML).join('')}</div>`
-            : '';
-        const toggle = hasToggle
+        const single = items.length === 1 ? ' single' : '';
+        const cards = items.map((p, i) => partnerCardHTML(p, i >= INITIAL)).join('');
+        const toggle = items.length > INITIAL
             ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} ↓</button>`
             : '';
-
         return `
                     <div class="day-category">
-                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>${gridBlock}${pillsBlock}${toggle}
+                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>
+                        <div class="day-grid${single}">${cards}</div>${toggle}
                     </div>`;
     };
 
-    // Group into the configured categories, plus a fallback for anything unmatched.
     const used = new Set();
     let sections = '';
     for (const cat of CATEGORIES) {
-        const inCat = inRange.filter((p) => cat.types.includes(p.type));
+        const inCat = partners.filter((p) => cat.types.includes(p.type));
         if (!inCat.length) continue;
         inCat.forEach((p) => used.add(p.id));
-        sections += categoryBlock(cat.icon, cat.label, inCat);
+        sections += partnerCategory(cat.icon, cat.label, inCat);
     }
-    const leftover = inRange.filter((p) => !used.has(p.id));
-    if (leftover.length) sections += categoryBlock('📍', 'More nearby', leftover);
+    const leftover = partners.filter((p) => !used.has(p.id));
+    if (leftover.length) sections += partnerCategory('📍', 'More nearby', leftover);
 
-    if (!pick && !sections) return '';
+    // Free listings — one "More options nearby" bonus list of map pills.
+    let moreOptions = '';
+    if (frees.length) {
+        moreOptions = `
+                    <div class="more-options">
+                        <h3 class="day-cat-head">More options nearby (${frees.length})</h3>
+                        <div class="free-pills">${frees.map(freePillHTML).join('')}</div>
+                    </div>`;
+    }
+
+    if (!pick && !sections && !moreOptions) return '';
 
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
                     <h2>🐾 Make a Day of It</h2>
                     <p class="section-lead">Already heading to ${who}? Here's what other local dog owners pair with this walk.</p>
                     ${pick ? pickCardHTML(pick) : ''}
-                    ${sections}`;
+                    ${sections}
+                    ${moreOptions}`;
 }
 
 function exploreHTML(walk, walks) {
