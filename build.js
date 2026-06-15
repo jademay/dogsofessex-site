@@ -694,18 +694,16 @@ function walksIndexPage(walks) {
         .join('\n                        ');
 
     const body = `
-            <section class="walk-section">
+            <section class="walk-section walk-index-head">
                 <div class="container">
-                    <div class="section-head">
-                        <p class="eyebrow">Walks</p>
-                        <h1 class="index-title">Dog walks in Essex</h1>
-                        <p>Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex — with more added every month.</p>
-                    </div>
+                    <h1 class="index-title">Dog walks in Essex</h1>
+                    <p class="index-sub">Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex — with more added every month.</p>
                     <div class="walk-filters" aria-label="Filter walks by what they're best for">
+                        <span class="controls-label">Filters:</span>
                         ${pills}
                     </div>
                     <div class="walk-sort-row">
-                        <label class="sort-control">Sort by:
+                        <label class="sort-control">Sort:
                             <select class="walk-sort">
                                 <option value="featured">Recommended</option>
                                 <option value="nearest">Nearest</option>
@@ -719,7 +717,7 @@ function walksIndexPage(walks) {
                 </div>
             </section>
 
-            <section class="walk-section section-alt">
+            <section class="walk-section section-alt walk-index-grid">
                 <div class="container">
                     <div class="walk-grid walks-index-grid">${walks.map((w, i) => indexWalkCard(w, i)).join('')}
                     </div>

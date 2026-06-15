@@ -679,7 +679,22 @@ h1, h2, h3 {
 }
 
 /* Walks index page */
-.index-title { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: 0.4rem 0; }
+.walk-section.walk-index-head { padding: 1.75rem 0 1.4rem; }
+.walk-section.section-alt.walk-index-grid { padding-top: 1.75rem; }
+.index-title { font-size: clamp(2rem, 4.5vw, 2.8rem); margin: 0 0 0.35rem; }
+.index-sub {
+    color: var(--color-muted);
+    font-size: 1.02rem;
+    line-height: 1.5;
+    margin: 0 0 1.25rem;
+    max-width: 640px;
+}
+.controls-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin-right: 0.2rem;
+}
 .walk-card-meta { font-size: 0.88rem; color: var(--color-muted); margin: 0 0 0.85rem; }
 .walk-card-soon { cursor: default; }
 .walk-card-soon:hover { transform: none; box-shadow: none; }
@@ -698,9 +713,9 @@ h1, h2, h3 {
 .walk-filters {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    align-items: center;
     gap: 0.6rem;
-    margin-top: 1.75rem;
+    margin-top: 0.5rem;
 }
 .filter-pill {
     padding: 0.5rem 1.1rem;
@@ -722,7 +737,7 @@ h1, h2, h3 {
 }
 
 /* Sort dropdown */
-.walk-sort-row { display: flex; justify-content: center; margin-top: 1rem; }
+.walk-sort-row { display: flex; margin-top: 0.85rem; }
 .sort-control {
     display: inline-flex;
     align-items: center;
