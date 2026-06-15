@@ -87,6 +87,9 @@
       { "label": "Swimming", "score": 4 },
       { "label": "Off lead", "score": 4 }
     ],
+    "route": {
+      "mapEmbed": "https://www.google.com/maps?q=Chigborough+Lakes+Nature+Reserve+Essex&output=embed"
+    },
     "official": {
       "managedBy": "Essex Wildlife Trust",
       "website": "https://www.essexwt.org.uk/nature-reserves/chigborough-lakes"
