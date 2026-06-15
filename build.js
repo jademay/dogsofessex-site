@@ -119,8 +119,10 @@ function placeUrl(p) {
     return (p.website && p.website !== '#' && p.website !== EXAMPLE_PLACEHOLDER) ? p.website : '';
 }
 
-// Google Maps link that opens the business listing (search by name + address).
+// Google Maps link that opens the business listing. Prefer an exact share
+// link (mapsLink); otherwise search by name + address.
 function mapsUrl(p) {
+    if (p.mapsLink) return p.mapsLink;
     const q = p.address ? `${p.name}, ${p.address}` : `${p.name}, Essex, UK`;
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 }
