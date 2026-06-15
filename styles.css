@@ -1000,6 +1000,7 @@ h1, h2, h3 {
 .pc-actions {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.5rem;
     margin-top: 0.3rem;
 }
@@ -1265,7 +1266,7 @@ h1, h2, h3 {
     font-size: 0.8rem;
     white-space: nowrap;
 }
-.premium-cta { align-self: flex-start; margin-top: 0.25rem; }
+.premium-cta { margin: 0; }
 .premium-content .place-contact { margin-top: 0.4rem; }
 
 @media (max-width: 640px) {

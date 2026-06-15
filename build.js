@@ -305,7 +305,10 @@ function pickCardHTML(p) {
                                     <h3 class="premium-name">${esc(p.name)}</h3>
                                     ${distChipsHTML(p)}
                                     ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
-                                    ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}${contactHTML(p, 'pick')}${verifyHTML(p)}
+                                    <div class="pc-actions">
+                                        ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
+                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
+                                    </div>${contactHTML(p, 'pick')}${verifyHTML(p)}
                                 </div>
                             </div>
                         </article>`;
