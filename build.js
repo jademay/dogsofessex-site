@@ -698,21 +698,19 @@ function walksIndexPage(walks) {
                 <div class="container">
                     <h1 class="index-title">Dog walks in Essex</h1>
                     <p class="index-sub">Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex — with more added every month.</p>
-                    <div class="walk-filters" aria-label="Filter walks by what they're best for">
-                        <span class="controls-label">Filters:</span>
-                        ${pills}
-                    </div>
-                    <div class="walk-sort-row">
-                        <label class="sort-control">Sort:
-                            <select class="walk-sort">
-                                <option value="featured">Recommended</option>
-                                <option value="nearest">Nearest</option>
-                                <option value="shortest">Shortest walk</option>
-                                <option value="longest">Longest walk</option>
-                                <option value="newest">Newest added</option>
-                                <option value="popular">Most popular</option>
-                            </select>
-                        </label>
+                    <h2 class="controls-title">Find the perfect walk</h2>
+                    <div class="controls-row">
+                        <div class="walk-filters" aria-label="Filter walks by what they're best for">
+                            ${pills}
+                        </div>
+                        <select class="walk-sort" aria-label="Sort walks">
+                            <option value="featured">Recommended</option>
+                            <option value="nearest">Nearest</option>
+                            <option value="shortest">Shortest walk</option>
+                            <option value="longest">Longest walk</option>
+                            <option value="newest">Newest added</option>
+                            <option value="popular">Most popular</option>
+                        </select>
                     </div>
                 </div>
             </section>
