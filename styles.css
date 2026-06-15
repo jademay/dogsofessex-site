@@ -997,9 +997,13 @@ h1, h2, h3 {
     overflow: hidden;
 }
 .pc-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.pc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+}
 .pc-cta {
-    align-self: flex-start;
-    margin-top: 0.2rem;
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
     font-weight: 500;
@@ -1010,6 +1014,21 @@ h1, h2, h3 {
     transition: background-color 0.2s ease;
 }
 .pc-cta:hover { background-color: var(--color-forest-dark); }
+.pc-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem 0.95rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 999px;
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    color: var(--color-forest-dark);
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.pc-map:hover { border-color: var(--color-terracotta); color: var(--color-terracotta); }
 /* "More options nearby" — a bonus list of free venues as map pills */
 .more-options {
     margin-top: 2.75rem;

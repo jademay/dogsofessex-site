@@ -320,7 +320,10 @@ function partnerCardHTML(p, extra) {
                                     <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
                                     <span class="pc-dist">${distLine(p)}</span>
                                     ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
-                                    ${href ? `<a class="pc-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
+                                    <div class="pc-actions">
+                                        ${href ? `<a class="pc-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
+                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
+                                    </div>
                                 </article>`;
 }
 
