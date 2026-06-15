@@ -1086,6 +1086,8 @@ h1, h2, h3 {
 /* "View all" expander */
 .day-grid .day-card.day-extra { display: none; }
 .day-category.expanded .day-card.day-extra { display: flex; }
+.day-category .more-free.day-extra-panel { display: none; }
+.day-category.expanded .more-free.day-extra-panel { display: block; }
 .day-more-toggle {
     display: block;
     width: fit-content;

@@ -365,6 +365,10 @@ function dayHTML(walk, places) {
         let body = '';
 
         const INITIAL = 2; // partner cards shown before "Show more"
+        // Free panel tucks into the expander whenever there are partner cards above it.
+        const tuckFree = frees.length > 0 && partners.length > 0;
+        const showToggle = partners.length > INITIAL || tuckFree;
+
         if (partners.length === 1) {
             body += `\n                        <div class="day-grid single">${partnerCardHTML(partners[0])}</div>`;
         } else if (partners.length >= 2) {
@@ -376,17 +380,18 @@ function dayHTML(walk, places) {
                 return partnerCardHTML(p, cls);
             }).join('');
             body += `\n                        <div class="day-grid">${cards}</div>`;
-            if (partners.length > INITIAL) {
-                body += `\n                        <button class="day-more-toggle" type="button">Show more ↓</button>`;
-            }
         }
 
         if (frees.length) {
             body += `
-                        <div class="more-free">
-                            <h4 class="more-free-title">More nearby ${esc(noun)}</h4>
+                        <div class="more-free${tuckFree ? ' day-extra-panel' : ''}">
+                            <h4 class="more-free-title">Other nearby ${esc(noun)}</h4>
                             <div class="free-pills">${frees.map(freePillHTML).join('')}</div>
                         </div>`;
+        }
+
+        if (showToggle) {
+            body += `\n                        <button class="day-more-toggle" type="button">Show more ↓</button>`;
         }
 
         return `
