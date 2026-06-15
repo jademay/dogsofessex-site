@@ -8,3 +8,6 @@ node_modules/
 
 # Local reference docs — not part of the published site
 *.xlsx
+
+# Source design files — not part of the published site
+logos*.png
