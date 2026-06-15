@@ -285,45 +285,34 @@ function whatToExpectHTML(paras) {
                     <p>${esc(p)}</p>`).join('');
 }
 
-// Official information — who manages the site + the official website.
-function officialHTML(walk) {
+// Section inner content (no <section> wrapper — the band wrapper adds it).
+// Optional sections return '' when they have no content.
+function officialInner(walk) {
     const o = walk.official;
     if (!o || !o.managedBy) return '';
     const site = o.website
         ? `\n                        <li>🌐 <a href="${esc(o.website)}" target="_blank" rel="noopener">${esc(o.managedBy)} website →</a></li>`
         : '';
-    return `
-                <section class="walk-section">
-                    <h2>Official Information</h2>
+    return `<h2>Official Information</h2>
                     <p>Managed by ${esc(o.managedBy)}.</p>
                     <ul class="official-list">${site}
                         <li>⚠️ Check for seasonal updates, conservation notices and temporary closures.</li>
-                    </ul>
-                </section>`;
+                    </ul>`;
 }
 
-// Optional sections — only rendered when they have content.
-function gallerySection(walk) {
+function galleryInner(walk) {
     if (!walk.gallery || !walk.gallery.length) return '';
-    return `
-            <section class="walk-section">
-                <div class="container">
-                    <h2>📸 Photo gallery</h2>
+    return `<h2>📸 Photo gallery</h2>
                     <p class="section-lead">See what it actually looks like before you go.</p>
                     <div id="gallery" class="gallery-grid">${galleryHTML(walk.gallery)}
-                    </div>
-                </div>
-            </section>`;
+                    </div>`;
 }
 
-function whatToExpectSection(walk) {
+function whatToExpectInner(walk) {
     if (!walk.whatToExpect || !walk.whatToExpect.length) return '';
-    return `
-                <section class="walk-section">
-                    <h2>What to expect</h2>
+    return `<h2>What to expect</h2>
                     <div id="what-to-expect">${whatToExpectHTML(walk.whatToExpect)}
-                    </div>
-                </section>`;
+                    </div>`;
 }
 
 // The walk's single editorial "Dogs of Essex Pick" — the big card.
@@ -519,6 +508,44 @@ function page(walk, walks, places, tips) {
         seo.image ? `<meta property="og:image" content="${esc(seo.image)}">` : ''
     ].filter(Boolean).join('\n    ');
 
+    // Content bands — rendered in order, alternating background like the homepage.
+    // Optional bands (gallery, what-to-expect, official) drop out when empty, and
+    // the alternation re-computes so the stripes stay consistent.
+    const bands = [
+        { narrow: true, html: `<p class="lead-intro" id="walk-intro">${esc(walk.intro || '')}</p>
+                    <h2>At a glance</h2>
+                    <p class="section-lead">Honest ratings, so you can decide in seconds whether it suits your dog.</p>
+                    <div id="glance" class="glance">${glanceHTML(walk.glance)}
+                    </div>` },
+        (walk.gallery && walk.gallery.length) && { narrow: false, html: galleryInner(walk) },
+        { narrow: true, html: `<h2>🗺️ The route</h2>
+                    <div id="route">${routeHTML(walk)}
+                    </div>` },
+        (walk.whatToExpect && walk.whatToExpect.length) && { narrow: true, html: whatToExpectInner(walk) },
+        (walk.official && walk.official.managedBy) && { narrow: true, html: officialInner(walk) },
+        { narrow: false, html: `<div id="make-a-day">${dayHTML(walk, places)}
+                    </div>` },
+        { narrow: false, html: `<div id="explore-nearby">${exploreHTML(walk, walks)}
+                    </div>` },
+        { narrow: true, html: `<h2>💬 Community tips</h2>
+                    <p class="section-lead">From local dog owners who've walked it.</p>
+                    <div id="community-tips" class="tips-grid">${tipsHTML(walk.id, tips)}
+                    </div>
+                    <p class="tip-cta">Visited recently? <a href="mailto:hello@dogsofessex.co.uk?subject=${tipSubject}">Leave a tip →</a></p>
+                    <div class="walk-actions">
+                        <a href="#" id="save-walk" class="btn btn-secondary">♡ Save this walk</a>
+                        <a href="#" id="email-walk" class="btn btn-secondary">📧 Email this walk</a>
+                        <a href="#" id="share-walk" class="btn btn-secondary">🔗 Share</a>
+                    </div>` }
+    ].filter(Boolean);
+
+    const walkBody = bands.map((b, i) => `
+            <section class="walk-section${i % 2 === 1 ? ' section-alt' : ''}">
+                <div class="container${b.narrow ? ' narrow' : ''}">
+                    ${b.html}
+                </div>
+            </section>`).join('');
+
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -570,59 +597,7 @@ function page(walk, walks, places, tips) {
             </div>
         </section>
 
-        <div class="walk-body">
-            <div class="container narrow">
-                <p class="lead-intro" id="walk-intro">${esc(walk.intro || '')}</p>
-
-                <section class="walk-section">
-                    <h2>At a glance</h2>
-                    <p class="section-lead">Honest ratings, so you can decide in seconds whether it suits your dog.</p>
-                    <div id="glance" class="glance">${glanceHTML(walk.glance)}
-                    </div>
-                </section>
-            </div>
-
-            ${gallerySection(walk)}
-
-            <div class="container narrow">
-                <section class="walk-section">
-                    <h2>🗺️ The route</h2>
-                    <div id="route">${routeHTML(walk)}
-                    </div>
-                </section>
-                ${whatToExpectSection(walk)}
-                ${officialHTML(walk)}
-            </div>
-
-            <section class="walk-section section-alt">
-                <div class="container">
-                    <div id="make-a-day">${dayHTML(walk, places)}
-                    </div>
-                </div>
-            </section>
-
-            <section class="walk-section">
-                <div class="container">
-                    <div id="explore-nearby">${exploreHTML(walk, walks)}
-                    </div>
-                </div>
-            </section>
-
-            <div class="container narrow">
-                <section class="walk-section">
-                    <h2>💬 Community tips</h2>
-                    <p class="section-lead">From local dog owners who've walked it.</p>
-                    <div id="community-tips" class="tips-grid">${tipsHTML(walk.id, tips)}
-                    </div>
-                    <p class="tip-cta">Visited recently? <a href="mailto:hello@dogsofessex.co.uk?subject=${tipSubject}">Leave a tip →</a></p>
-                </section>
-
-                <div class="walk-actions">
-                    <a href="#" id="save-walk" class="btn btn-secondary">♡ Save this walk</a>
-                    <a href="#" id="email-walk" class="btn btn-secondary">📧 Email this walk</a>
-                    <a href="#" id="share-walk" class="btn btn-secondary">🔗 Share</a>
-                </div>
-            </div>
+        <div class="walk-body">${walkBody}
         </div>
     </main>
 

@@ -653,7 +653,7 @@ h1, h2, h3 {
     font-size: 1.05rem;
 }
 
-.walk-body { padding: 4rem 0; }
+.walk-body { padding: 0; }
 
 .walk-layout {
     display: grid;
