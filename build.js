@@ -302,6 +302,30 @@ function officialHTML(walk) {
                 </section>`;
 }
 
+// Optional sections — only rendered when they have content.
+function gallerySection(walk) {
+    if (!walk.gallery || !walk.gallery.length) return '';
+    return `
+            <section class="walk-section">
+                <div class="container">
+                    <h2>📸 Photo gallery</h2>
+                    <p class="section-lead">See what it actually looks like before you go.</p>
+                    <div id="gallery" class="gallery-grid">${galleryHTML(walk.gallery)}
+                    </div>
+                </div>
+            </section>`;
+}
+
+function whatToExpectSection(walk) {
+    if (!walk.whatToExpect || !walk.whatToExpect.length) return '';
+    return `
+                <section class="walk-section">
+                    <h2>What to expect</h2>
+                    <div id="what-to-expect">${whatToExpectHTML(walk.whatToExpect)}
+                    </div>
+                </section>`;
+}
+
 // The walk's single editorial "Dogs of Essex Pick" — the big card.
 function pickCardHTML(p) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
@@ -558,14 +582,7 @@ function page(walk, walks, places, tips) {
                 </section>
             </div>
 
-            <section class="walk-section">
-                <div class="container">
-                    <h2>📸 Photo gallery</h2>
-                    <p class="section-lead">See what it actually looks like before you go.</p>
-                    <div id="gallery" class="gallery-grid">${galleryHTML(walk.gallery)}
-                    </div>
-                </div>
-            </section>
+            ${gallerySection(walk)}
 
             <div class="container narrow">
                 <section class="walk-section">
@@ -573,12 +590,7 @@ function page(walk, walks, places, tips) {
                     <div id="route">${routeHTML(walk)}
                     </div>
                 </section>
-
-                <section class="walk-section">
-                    <h2>What to expect</h2>
-                    <div id="what-to-expect">${whatToExpectHTML(walk.whatToExpect)}
-                    </div>
-                </section>
+                ${whatToExpectSection(walk)}
                 ${officialHTML(walk)}
             </div>
 
