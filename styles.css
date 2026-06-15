@@ -1030,14 +1030,6 @@ h1, h2, h3 {
     transition: border-color 0.2s ease, color 0.2s ease;
 }
 .pc-map:hover { border-color: var(--color-terracotta); color: var(--color-terracotta); }
-/* 1 partner + 1 free: card on the left, pill on the right (stacks on mobile) */
-.day-pair {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-}
-.day-pair > .partner-card { flex: 0 0 calc(50% - 0.625rem); }
-
 /* Odd final partner card centred on its own row at half width */
 .day-grid > .partner-card.span-center {
     grid-column: 1 / -1;
@@ -1045,37 +1037,47 @@ h1, h2, h3 {
     width: calc(50% - 0.625rem);
 }
 
-/* Free venues — a centred wrap of map pills beneath the partner cards */
+/* Free venues — grouped in a lighter "More nearby …" panel below the cards.
+   Same rounded-rectangle language as partner cards, but softer + no shadow. */
+.more-free {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.4rem;
+    background-color: var(--color-bg-alt);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius);
+}
+.more-free-title {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin: 0 0 0.85rem;
+}
 .free-pills {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-top: 1.25rem;
+    gap: 0.6rem;
 }
 .free-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.65rem 1.05rem;
-    background-color: #fff;
+    gap: 0.55rem;
+    padding: 0.5rem 0.95rem;
+    background-color: var(--color-card);
     border: 1px solid var(--color-border);
     border-radius: 999px;
-    box-shadow: 0 1px 2px rgba(42, 40, 35, 0.05),
-                0 8px 18px -10px rgba(42, 40, 35, 0.2);
+    box-shadow: none;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .free-pill:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px rgba(42, 40, 35, 0.06),
-                0 14px 26px -10px rgba(42, 40, 35, 0.28);
     border-color: var(--color-terracotta);
+    background-color: #fff;
 }
-.fp-name { font-weight: 500; font-size: 0.9rem; }
+.fp-name { font-weight: 500; font-size: 0.88rem; }
 .fp-dist { font-size: 0.8rem; color: var(--color-muted); }
-.fp-arrow { color: var(--color-terracotta); font-size: 0.9rem; }
+.fp-arrow { color: var(--color-terracotta); font-size: 0.88rem; }
 
 /* "View all" expander */
 .day-grid .day-card.day-extra { display: none; }
@@ -1396,7 +1398,5 @@ h1, h2, h3 {
     .day-grid { grid-template-columns: 1fr; }
     .day-grid.single > .day-card,
     .day-grid > .partner-card.span-center { width: 100%; }
-    .day-pair { flex-direction: column; }
-    .day-pair > .partner-card { flex-basis: auto; width: 100%; }
     .tips-grid { grid-template-columns: 1fr; }
 }

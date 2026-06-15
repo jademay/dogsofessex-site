@@ -356,29 +356,30 @@ function dayHTML(walk, places) {
         .filter((p) => p.id !== pickId && p._mi <= DAY_RADIUS_MI)
         .sort((a, b) => a._mi - b._mi);
 
-    // Each category balances its partner cards and free pills (see layout rules).
+    // Each category: partner cards, then a lighter "More nearby …" panel of free pills.
     const categoryBlock = (icon, label, items) => {
         const partners = items.filter((p) => p._tier === 'partner');
         const frees = items.filter((p) => p._tier === 'free');
-        const freePills = frees.map(freePillHTML).join('');
+        let noun = label.replace(/\s*nearby$/i, '').toLowerCase();
+        if (!noun || noun === 'more') noun = 'places';
         let body = '';
 
-        if (partners.length === 1 && frees.length === 1) {
-            // 1 partner + 1 free: card left, pill right (stacks on mobile)
-            body = `\n                        <div class="day-pair">${partnerCardHTML(partners[0])}${freePillHTML(frees[0])}</div>`;
-        } else {
-            if (partners.length === 1) {
-                body += `\n                        <div class="day-grid single">${partnerCardHTML(partners[0])}</div>`;
-            } else if (partners.length >= 2) {
-                const odd = partners.length % 2 === 1;
-                const cards = partners.map((p, i) =>
-                    partnerCardHTML(p, (odd && i === partners.length - 1) ? ' span-center' : '')
-                ).join('');
-                body += `\n                        <div class="day-grid">${cards}</div>`;
-            }
-            if (frees.length) {
-                body += `\n                        <div class="free-pills">${freePills}</div>`;
-            }
+        if (partners.length === 1) {
+            body += `\n                        <div class="day-grid single">${partnerCardHTML(partners[0])}</div>`;
+        } else if (partners.length >= 2) {
+            const odd = partners.length % 2 === 1;
+            const cards = partners.map((p, i) =>
+                partnerCardHTML(p, (odd && i === partners.length - 1) ? ' span-center' : '')
+            ).join('');
+            body += `\n                        <div class="day-grid">${cards}</div>`;
+        }
+
+        if (frees.length) {
+            body += `
+                        <div class="more-free">
+                            <h4 class="more-free-title">More nearby ${esc(noun)}</h4>
+                            <div class="free-pills">${frees.map(freePillHTML).join('')}</div>
+                        </div>`;
         }
 
         return `
