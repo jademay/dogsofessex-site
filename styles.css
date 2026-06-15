@@ -678,6 +678,13 @@ h1, h2, h3 {
     margin-bottom: 2.25rem;
 }
 
+/* Walks index page */
+.index-title { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: 0.4rem 0; }
+.walk-card-meta { font-size: 0.88rem; color: var(--color-muted); margin: 0 0 0.85rem; }
+.walk-card-soon { cursor: default; }
+.walk-card-soon:hover { transform: none; box-shadow: none; }
+.walk-card-soon .link-arrow { color: var(--color-muted); }
+
 /* Sidebar / quick facts */
 .walk-aside {
     position: sticky;
