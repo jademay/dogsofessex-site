@@ -23,7 +23,7 @@
     "glance": [
       { "label": "Reactive dogs", "score": 4 },
       { "label": "Puppies", "score": 3 },
-      { "label": "Mud factor", "score": 4 },
+      { "label": "Low mud", "score": 4 },
       { "label": "Shade", "score": 5 },
       { "label": "Pushchairs", "score": 2 },
       { "label": "Swimming", "score": 1 },
@@ -82,7 +82,7 @@
     "glance": [
       { "label": "Reactive dogs", "score": 3 },
       { "label": "Puppies", "score": 4 },
-      { "label": "Mud factor", "score": 3 },
+      { "label": "Low mud", "score": 3 },
       { "label": "Shade", "score": 4 },
       { "label": "Pushchairs", "score": 2 },
       { "label": "Swimming", "score": 4 },

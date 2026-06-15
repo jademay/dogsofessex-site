@@ -55,7 +55,7 @@ const CATEGORIES = [
 const GLANCE_FILTERS = [
     { key: 'reactive', label: 'Reactive dogs' },
     { key: 'puppies', label: 'Puppies' },
-    { key: 'mud', label: 'Mud factor' },
+    { key: 'mud', label: 'Low mud' },
     { key: 'shade', label: 'Shade' },
     { key: 'pushchairs', label: 'Pushchairs' },
     { key: 'swimming', label: 'Swimming' },
