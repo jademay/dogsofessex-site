@@ -962,6 +962,22 @@ h1, h2, h3 {
 }
 .day-grid.single > .day-card { width: calc(50% - 0.625rem); }
 
+/* Official Information */
+.official-list {
+    list-style: none;
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.official-list li { color: var(--color-text); }
+.official-list a {
+    color: var(--color-terracotta);
+    text-decoration: none;
+    font-weight: 500;
+}
+.official-list a:hover { text-decoration: underline; }
+
 .day-category { margin-top: 2.25rem; }
 .day-cat-head {
     font-family: var(--font-sans);

@@ -285,6 +285,23 @@ function whatToExpectHTML(paras) {
                     <p>${esc(p)}</p>`).join('');
 }
 
+// Official information — who manages the site + the official website.
+function officialHTML(walk) {
+    const o = walk.official;
+    if (!o || !o.managedBy) return '';
+    const site = o.website
+        ? `\n                        <li>🌐 <a href="${esc(o.website)}" target="_blank" rel="noopener">${esc(o.managedBy)} website →</a></li>`
+        : '';
+    return `
+                <section class="walk-section">
+                    <h2>Official Information</h2>
+                    <p>Managed by ${esc(o.managedBy)}.</p>
+                    <ul class="official-list">${site}
+                        <li>⚠️ Check for seasonal updates, conservation notices and temporary closures.</li>
+                    </ul>
+                </section>`;
+}
+
 // The walk's single editorial "Dogs of Essex Pick" — the big card.
 function pickCardHTML(p) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
@@ -549,6 +566,7 @@ function page(walk, walks, places, tips) {
                     <div id="what-to-expect">${whatToExpectHTML(walk.whatToExpect)}
                     </div>
                 </section>
+                ${officialHTML(walk)}
             </div>
 
             <section class="walk-section section-alt">
