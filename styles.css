@@ -675,6 +675,7 @@ h1, h2, h3 {
     color: var(--color-muted);
     font-weight: 300;
     line-height: 1.6;
+    margin-bottom: 2.25rem;
 }
 
 /* Sidebar / quick facts */
