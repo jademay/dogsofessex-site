@@ -657,7 +657,7 @@ function indexWalkCard(w) {
                                 <h3>${esc(w.name)}</h3>
                                 ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
                                 <div class="tag-row">${tags}</div>
-                                <span class="link-arrow">${w.hasPage ? 'Explore Walk →' : 'Coming soon'}</span>
+                                <span class="link-arrow">${w.hasPage ? 'Explore Walk →' : 'Basic details available now. Full review coming soon.'}</span>
                             </div>`;
     return w.hasPage
         ? `\n                        <a href="${esc(w.id)}.html" class="walk-card">${inner}
