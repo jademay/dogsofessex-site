@@ -1040,10 +1040,13 @@ h1, h2, h3 {
 /* Free venues — grouped in a lighter "More nearby …" panel below the cards.
    Same rounded-rectangle language as partner cards, but softer + no shadow. */
 .more-free {
-    margin-top: 1.5rem;
+    width: fit-content;
+    min-width: min(460px, 100%);
+    max-width: 900px;
+    margin: 1.5rem auto 0;
     padding: 1.25rem 1.4rem;
-    background-color: var(--color-bg-alt);
-    border: 1px dashed var(--color-border);
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(166, 145, 117, 0.15);
     border-radius: var(--radius);
 }
 .more-free-title {
@@ -1056,6 +1059,7 @@ h1, h2, h3 {
 .free-pills {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.6rem;
 }
 .free-pill {
