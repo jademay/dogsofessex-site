@@ -36,57 +36,76 @@ if (form) {
     });
 }
 
-// Walks index — filter by "at a glance" categories (multi-select, 3+ stars)
+// Walks index — filter by "at a glance" categories (multi-select, 3+ stars) + sort
 (function () {
     const bar = document.querySelector('.walk-filters');
     const grid = document.querySelector('.walks-index-grid');
     if (!bar || !grid) return;
 
     const noResults = document.querySelector('.no-results');
+    const sortSelect = document.querySelector('.walk-sort');
     const cards = Array.from(grid.querySelectorAll('.walk-card'));
     const pills = Array.from(bar.querySelectorAll('.filter-pill'));
     const LABELS = {};
     pills.forEach((p) => { LABELS[p.dataset.key] = p.textContent.trim(); });
     const selected = new Set();
+    let userPos = null;
 
     const score = (card, key) => {
         const v = card.dataset[key];
         return v == null ? null : parseInt(v, 10);
     };
+    const num = (card, attr) => parseFloat(card.dataset[attr]) || 0;
     const starHTML = (n) => `<span class="wc-on">${'★'.repeat(n)}</span><span class="wc-off">${'☆'.repeat(5 - n)}</span>`;
     const sumScores = (card, keys) => keys.reduce((s, k) => s + score(card, k), 0);
 
+    function haversine(a, b) {
+        const R = 3958.8, toRad = (d) => d * Math.PI / 180;
+        const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
+        const h = Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+        return 2 * R * Math.asin(Math.sqrt(h));
+    }
+    const distTo = (c) => userPos ? haversine(userPos, { lat: num(c, 'lat'), lng: num(c, 'lng') }) : 0;
+
+    function sortCards(list, keys) {
+        const sort = sortSelect ? sortSelect.value : 'featured';
+        if (sort === 'shortest') return list.sort((a, b) => num(a, 'miles') - num(b, 'miles'));
+        if (sort === 'longest') return list.sort((a, b) => num(b, 'miles') - num(a, 'miles'));
+        if (sort === 'popular') return list.sort((a, b) => num(b, 'pop') - num(a, 'pop'));
+        if (sort === 'newest') {
+            const t = (c) => c.dataset.added ? Date.parse(c.dataset.added) : 0;
+            return list.sort((a, b) => t(b) - t(a));
+        }
+        if (sort === 'nearest' && userPos) return list.sort((a, b) => distTo(a) - distTo(b));
+        if (keys.length) return list.sort((a, b) => sumScores(b, keys) - sumScores(a, keys));
+        return list.sort((a, b) => num(a, 'order') - num(b, 'order'));
+    }
+
     function apply() {
         const keys = [...selected];
-        if (!keys.length) {
-            cards.forEach((c) => {
-                c.style.display = '';
-                const s = c.querySelector('.walk-card-stars');
-                s.hidden = true; s.innerHTML = '';
-                grid.appendChild(c);                 // restore original order
-            });
-            if (noResults) noResults.hidden = true;
-            return;
-        }
-        const matched = [];
+        const visible = [];
         cards.forEach((c) => {
-            const ok = keys.every((k) => { const s = score(c, k); return s != null && s >= 3; });
+            const ok = !keys.length || keys.every((k) => { const s = score(c, k); return s != null && s >= 3; });
             const starsEl = c.querySelector('.walk-card-stars');
             if (ok) {
-                matched.push(c);
+                visible.push(c);
                 c.style.display = '';
-                starsEl.hidden = false;
-                starsEl.innerHTML = keys.map((k) =>
-                    `<span class="wc-row"><span class="wc-label">${LABELS[k]}</span><span class="wc-stars">${starHTML(score(c, k))}</span></span>`
-                ).join('');
+                if (keys.length) {
+                    starsEl.hidden = false;
+                    starsEl.innerHTML = keys.map((k) =>
+                        `<span class="wc-row"><span class="wc-label">${LABELS[k]}</span><span class="wc-stars">${starHTML(score(c, k))}</span></span>`
+                    ).join('');
+                } else {
+                    starsEl.hidden = true; starsEl.innerHTML = '';
+                }
             } else {
                 c.style.display = 'none';
                 starsEl.hidden = true; starsEl.innerHTML = '';
             }
         });
-        matched.sort((a, b) => sumScores(b, keys) - sumScores(a, keys));
-        matched.forEach((c) => grid.appendChild(c)); // highest stars first
-        if (noResults) noResults.hidden = matched.length > 0;
+        sortCards(visible, keys).forEach((c) => grid.appendChild(c));
+        if (noResults) noResults.hidden = visible.length > 0;
     }
 
     pills.forEach((btn) => {
@@ -99,4 +118,16 @@ if (form) {
             apply();
         });
     });
+
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            if (sortSelect.value === 'nearest' && !userPos && navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => { userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude }; apply(); },
+                    () => { /* denied — keeps current order */ }
+                );
+            }
+            apply();
+        });
+    }
 })();

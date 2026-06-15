@@ -659,15 +659,18 @@ function page(walk, walks, places, tips) {
 
 // --- walks index page (/walks/) ---
 
-function indexWalkCard(w) {
+function indexWalkCard(w, i) {
     const icon = SCENERY_ICON[w.scenery] || '🐾';
     const meta = [w.distance, w.time, w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
-    // glance scores as data attributes so the filter can read them
-    const data = (w.glance || []).map((g) => {
+    // glance scores (for filtering) + sort metadata as data attributes
+    const glance = (w.glance || []).map((g) => {
         const k = GLANCE_KEYS[g.label];
         return k ? ` data-${k}="${g.score}"` : '';
     }).join('');
+    const data = `${glance} data-lat="${w.lat}" data-lng="${w.lng}"`
+        + ` data-miles="${parseFloat(w.distance) || 0}" data-order="${i}"`
+        + ` data-pop="${(w.rating && w.rating.count) || 0}" data-added="${esc(w.added || '')}"`;
     const inner = `
                             <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
                             <div class="walk-card-body">
@@ -701,12 +704,24 @@ function walksIndexPage(walks) {
                     <div class="walk-filters" aria-label="Filter walks by what they're best for">
                         ${pills}
                     </div>
+                    <div class="walk-sort-row">
+                        <label class="sort-control">Sort by:
+                            <select class="walk-sort">
+                                <option value="featured">Recommended</option>
+                                <option value="nearest">Nearest</option>
+                                <option value="shortest">Shortest walk</option>
+                                <option value="longest">Longest walk</option>
+                                <option value="newest">Newest added</option>
+                                <option value="popular">Most popular</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
             </section>
 
             <section class="walk-section section-alt">
                 <div class="container">
-                    <div class="walk-grid walks-index-grid">${walks.map(indexWalkCard).join('')}
+                    <div class="walk-grid walks-index-grid">${walks.map((w, i) => indexWalkCard(w, i)).join('')}
                     </div>
                     <p class="no-results" hidden>No walks match those filters yet — try fewer.</p>
                 </div>

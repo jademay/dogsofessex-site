@@ -721,6 +721,27 @@ h1, h2, h3 {
     color: #fff;
 }
 
+/* Sort dropdown */
+.walk-sort-row { display: flex; justify-content: center; margin-top: 1rem; }
+.sort-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+}
+.walk-sort {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    padding: 0.45rem 2rem 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-card);
+    color: var(--color-text);
+    cursor: pointer;
+}
+.walk-sort:hover { border-color: var(--color-moss); }
+
 /* Per-card "at a glance" stars (shown when filtering) */
 .walk-card-stars:not([hidden]) {
     display: flex;
