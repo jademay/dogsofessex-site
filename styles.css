@@ -1028,9 +1028,13 @@ h1, h2, h3 {
 .free-pills {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 0.6rem;
     margin-top: 1rem;
 }
+/* When a category has a "View all" toggle, free pills tuck inside it */
+.day-category .free-pills.collapsible { display: none; }
+.day-category.expanded .free-pills.collapsible { display: flex; }
 .free-pill {
     display: inline-flex;
     align-items: baseline;

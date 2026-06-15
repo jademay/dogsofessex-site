@@ -119,6 +119,12 @@ function placeUrl(p) {
     return (p.website && p.website !== '#' && p.website !== EXAMPLE_PLACEHOLDER) ? p.website : '';
 }
 
+// Google Maps link that opens the business listing (search by name + address).
+function mapsUrl(p) {
+    const q = p.address ? `${p.name}, ${p.address}` : `${p.name}, Essex, UK`;
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+}
+
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function formatDate(iso) {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
@@ -320,9 +326,8 @@ function partnerCardHTML(p, extra) {
 // A free listing — a compact pill (name + distance) linking to Google Maps.
 function freePillHTML(p) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
-    const maps = `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}`;
     return `
-                                <a class="free-pill" href="${esc(maps)}" target="_blank" rel="noopener">
+                                <a class="free-pill" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">
                                     <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
                                     <span class="fp-dist">${distLine(p)}</span>
                                 </a>`;
@@ -352,23 +357,25 @@ function dayHTML(walk, places) {
 
         const partners = items.filter((p) => p._tier === 'partner');
         const frees = items.filter((p) => p._tier === 'free');
+        const hasToggle = partners.length > INITIAL;
 
         let gridBlock = '';
         if (partners.length) {
             const cards = partners.map((p, i) => partnerCardHTML(p, i >= INITIAL)).join('');
             const single = partners.length === 1 ? ' single' : '';
-            const toggle = partners.length > INITIAL
-                ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} ↓</button>`
-                : '';
-            gridBlock = `\n                        <div class="day-grid${single}">${cards}</div>${toggle}`;
+            gridBlock = `\n                        <div class="day-grid${single}">${cards}</div>`;
         }
+        // Pills sit before the toggle; when a toggle exists they tuck inside it.
         const pillsBlock = frees.length
-            ? `\n                        <div class="free-pills">${frees.map(freePillHTML).join('')}</div>`
+            ? `\n                        <div class="free-pills${hasToggle ? ' collapsible' : ''}">${frees.map(freePillHTML).join('')}</div>`
+            : '';
+        const toggle = hasToggle
+            ? `\n                        <button class="day-more-toggle" data-noun="${esc(noun)}">View all nearby ${esc(noun)} ↓</button>`
             : '';
 
         return `
                     <div class="day-category">
-                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>${gridBlock}${pillsBlock}
+                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>${gridBlock}${pillsBlock}${toggle}
                     </div>`;
     };
 
