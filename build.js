@@ -317,7 +317,6 @@ function partnerCardHTML(p, extra) {
     const href = placeUrl(p);
     return `
                                 <article class="day-card partner-card${extra ? ' day-extra' : ''}">
-                                    <span class="partner-badge corner">Partner</span>
                                     <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
                                     <span class="pc-dist">${distLine(p)}</span>
                                     ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}

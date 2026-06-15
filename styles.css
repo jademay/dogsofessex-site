@@ -985,7 +985,6 @@ h1, h2, h3 {
     font-weight: 500;
     line-height: 1.2;
     margin: 0;
-    padding-right: 4.5rem;
 }
 .pc-dist { font-size: 0.85rem; color: var(--color-muted); }
 .pc-desc {
@@ -1011,19 +1010,6 @@ h1, h2, h3 {
     transition: background-color 0.2s ease;
 }
 .pc-cta:hover { background-color: var(--color-forest-dark); }
-.partner-badge.corner {
-    position: absolute;
-    top: 0.95rem;
-    right: 0.95rem;
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-terracotta);
-    border: 1px solid var(--color-terracotta);
-    border-radius: 999px;
-    padding: 0.12rem 0.5rem;
-}
-
 /* Free listing — a compact pill linking to Google Maps */
 .free-pills {
     display: flex;
