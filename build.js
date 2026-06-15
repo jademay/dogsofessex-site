@@ -364,14 +364,21 @@ function dayHTML(walk, places) {
         if (!noun || noun === 'more') noun = 'places';
         let body = '';
 
+        const INITIAL = 2; // partner cards shown before "Show more"
         if (partners.length === 1) {
             body += `\n                        <div class="day-grid single">${partnerCardHTML(partners[0])}</div>`;
         } else if (partners.length >= 2) {
             const odd = partners.length % 2 === 1;
-            const cards = partners.map((p, i) =>
-                partnerCardHTML(p, (odd && i === partners.length - 1) ? ' span-center' : '')
-            ).join('');
+            const cards = partners.map((p, i) => {
+                let cls = '';
+                if (odd && i === partners.length - 1) cls += ' span-center';
+                if (i >= INITIAL) cls += ' day-extra';
+                return partnerCardHTML(p, cls);
+            }).join('');
             body += `\n                        <div class="day-grid">${cards}</div>`;
+            if (partners.length > INITIAL) {
+                body += `\n                        <button class="day-more-toggle" type="button">Show more ↓</button>`;
+            }
         }
 
         if (frees.length) {
