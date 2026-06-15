@@ -681,7 +681,7 @@ function walksIndexPage(walks) {
                     <div class="section-head">
                         <p class="eyebrow">Walks</p>
                         <h1 class="index-title">Dog walks in Essex</h1>
-                        <p>Honest, dog-tested walks across the county — pick one and plan your day around it.</p>
+                        <p>Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex — with more added every month.</p>
                     </div>
                 </div>
             </section>`;
