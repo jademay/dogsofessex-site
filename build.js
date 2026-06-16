@@ -674,7 +674,6 @@ function indexWalkCard(w, i) {
     const inner = `
                             <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
                             <div class="walk-card-body">
-                                <span class="walk-card-area">${esc(w.area || 'Essex')}</span>
                                 <h3>${esc(w.name)}</h3>
                                 ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
                                 <div class="tag-row">${tags}</div>
