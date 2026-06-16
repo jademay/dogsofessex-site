@@ -53,15 +53,59 @@ const CATEGORIES = [
 ];
 // "At a glance" filter categories for the walks index (key -> data attribute)
 const GLANCE_FILTERS = [
-    { key: 'reactive', label: 'Reactive dogs' },
+    { key: 'reactive', label: 'Reactive Dogs' },
     { key: 'puppies', label: 'Puppies' },
-    { key: 'mud', label: 'Low mud' },
-    { key: 'shade', label: 'Shade' },
+    { key: 'senior', label: 'Senior Dogs' },
     { key: 'pushchairs', label: 'Pushchairs' },
     { key: 'swimming', label: 'Swimming' },
-    { key: 'offlead', label: 'Off lead' }
+    { key: 'offlead', label: 'Off Lead' },
+    { key: 'shade', label: 'Shade' },
+    { key: 'mud', label: 'Low Mud' }
 ];
 const GLANCE_KEYS = Object.fromEntries(GLANCE_FILTERS.map((f) => [f.label, f.key]));
+
+// "Best For" categories. Each ranks reviewed walks by `key` (a glance key)
+// or, when `rank` is set, by a custom measure. Add new objects here and the
+// /best-for grid + a curated /best-for/<slug>/ page appear automatically —
+// no layout changes needed.
+const BEST_FOR = [
+    { slug: 'reactive-dogs', emoji: '🐕', title: 'Reactive Dogs', key: 'reactive',
+        blurb: 'Quiet Essex walks with fewer surprises and more space.',
+        intro: 'Looking for calmer walks? These routes tend to be quieter, with good visibility and room to create distance — so reactive dogs can relax and enjoy the sniffs.' },
+    { slug: 'puppies', emoji: '🐶', title: 'Puppies', key: 'puppies',
+        blurb: 'Shorter routes ideal for little legs and training.',
+        intro: 'Short, manageable walks that suit little legs and growing bodies — with plenty of gentle new sights, sounds and smells for early socialisation and training.' },
+    { slug: 'senior-dogs', emoji: '🦴', title: 'Senior Dogs', key: 'senior',
+        blurb: 'Gentle walks suited to older dogs.',
+        intro: 'Looking for gentler walks for older dogs? These routes offer shorter distances, easier terrain and plenty of opportunities for breaks.' },
+    { slug: 'pushchairs', emoji: '👶', title: 'Pushchairs', key: 'pushchairs',
+        blurb: 'Buggy-friendly routes for families with little ones.',
+        intro: 'Firm, even paths and gentle gradients make these walks easy to enjoy with a pushchair alongside the dog.' },
+    { slug: 'swimming', emoji: '🌊', title: 'Swimming Dogs', key: 'swimming',
+        blurb: 'Walks with opportunities for paddling or swimming.',
+        intro: 'For dogs who love the water — these walks offer safe spots to paddle, splash and swim. Always check conditions and seasonal restrictions before letting your dog in.' },
+    { slug: 'low-mud', emoji: '🥾', title: 'Low Mud', key: 'mud',
+        blurb: 'The driest routes for wet-weather walks.',
+        intro: 'Best during wet weather — these are the firmer, better-drained routes that stay walkable when everywhere else turns to mud.' },
+    { slug: 'hot-weather', emoji: '☀️', title: 'Hot Weather', key: 'shade',
+        blurb: 'Shaded routes and water to keep dogs cool.',
+        intro: 'Shaded, sheltered walks — often with water access — to help keep dogs cool and comfortable on warmer days. Always walk early or late and carry water in the heat.' },
+    { slug: 'off-lead', emoji: '🐾', title: 'Off Lead', key: 'offlead',
+        blurb: 'Safe spaces for dogs with reliable recall.',
+        intro: 'Open, enclosed or quiet spaces suited to dogs with reliable recall. Always check local signage for livestock, ground-nesting birds and seasonal lead rules.' },
+    { slug: 'high-energy', emoji: '⚡', title: 'High-Energy Dogs', rank: 'distance',
+        blurb: 'Longer walks to burn off energy.',
+        intro: 'Longer, more varied routes that give high-energy dogs the distance and stimulation they need to come home happily tired.' }
+];
+
+// The Senior Dogs rating scale, shown on the senior-dogs category page.
+const SENIOR_SCALE = [
+    { stars: 5, label: 'Excellent', note: 'Short, flat routes with resting opportunities.' },
+    { stars: 4, label: 'Good', note: 'Suitable for most older dogs.' },
+    { stars: 3, label: 'Moderate', note: 'Longer distances or uneven terrain.' },
+    { stars: 2, label: 'Limited', note: 'May be tiring for some senior dogs.' },
+    { stars: 1, label: 'Not recommended', note: 'Demanding routes unsuitable for most senior dogs.' }
+];
 
 const SCENERY_ICON = {
     woodland: '🌳', heathland: '🌿', parkland: '🌳',
@@ -506,6 +550,96 @@ function tipsHTML(walkId, tips) {
                         <blockquote class="tip-card">${esc(t.tip)}</blockquote>`).join('');
 }
 
+// --- shared chrome (parameterized by `prefix` = relative path to site root) ---
+
+function headHTML(prefix, title, description, extra) {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHQMLEF7QJ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-NHQMLEF7QJ');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${esc(title)}</title>
+    <meta name="description" content="${esc(description)}">${extra ? '\n    ' + extra : ''}
+    <!-- This page is generated by build.js — do not edit by hand. -->
+    <link rel="icon" href="${prefix}favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="${prefix}favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="${prefix}favicon-16x16.png">
+    <link rel="apple-touch-icon" href="${prefix}apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="${prefix}styles.css">`;
+}
+
+function navHTML(prefix) {
+    return `
+    <header class="site-header">
+        <div class="container">
+            <nav class="nav">
+                <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
+                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+                <ul class="nav-links">
+                    <li><a href="${prefix}walks/index.html">Walks</a></li>
+                    <li><a href="${prefix}best-for/index.html">Best For</a></li>
+                    <li><a href="${prefix}index.html#places">Places</a></li>
+                    <li><a href="${prefix}index.html#meetups">Meetups</a></li>
+                    <li><a href="${prefix}index.html#newsletter" class="nav-cta">Join the Pack</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>`;
+}
+
+function footerHTML(prefix) {
+    return `
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
+                    <p>The local guide for dog owners in Essex — walks, places and adventures worth sharing.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="${prefix}walks/index.html">Walks</a></li>
+                        <li><a href="${prefix}best-for/index.html">Best For</a></li>
+                        <li><a href="${prefix}index.html#places">Places</a></li>
+                        <li><a href="${prefix}index.html#meetups">Meetups</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow</h4>
+                    <ul>
+                        <li><a href="https://instagram.com/thedogsofessex" target="_blank" rel="noopener">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; <span id="year"></span> Dogs of Essex</span>
+                <span>Made with muddy paws in Essex 🐾</span>
+            </div>
+        </div>
+    </footer>`;
+}
+
 // --- page assembly ---
 
 function page(walk, walks, places, tips) {
@@ -586,22 +720,7 @@ function page(walk, walks, places, tips) {
     <link rel="stylesheet" href="../styles.css">
     <script>window.WALK_ID = "${walk.id}";</script>
 </head>
-<body>
-    <header class="site-header">
-        <div class="container">
-            <nav class="nav">
-                <a href="../index.html" class="logo">Dogs of Essex</a>
-                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-                <ul class="nav-links">
-                    <li><a href="index.html">Walks</a></li>
-                    <li><a href="../index.html#categories">Explore</a></li>
-                    <li><a href="../index.html#bestfor">Best For</a></li>
-                    <li><a href="../index.html#meetups">Meetups</a></li>
-                    <li><a href="../index.html#newsletter" class="nav-cta">Join the Pack</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body>${navHTML('../')}
 
     <main>
         <section class="walk-hero">
@@ -612,43 +731,7 @@ function page(walk, walks, places, tips) {
         <div class="walk-body">${walkBody}
         </div>
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="logo">Dogs of Essex</a>
-                    <p>The local guide for dog owners in Essex — walks, places and adventures worth sharing.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="../index.html#walks">Walks</a></li>
-                        <li><a href="../index.html#places">Places</a></li>
-                        <li><a href="../index.html#meetups">Meetups</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Information</h4>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Follow</h4>
-                    <ul>
-                        <li><a href="https://instagram.com/thedogsofessex" target="_blank" rel="noopener">Instagram</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>&copy; <span id="year"></span> Dogs of Essex</span>
-                <span>Made with muddy paws in Essex 🐾</span>
-            </div>
-        </div>
-    </footer>
+${footerHTML('../')}
 
     <script src="../script.js"></script>
     <script src="../walk.js"></script>
@@ -748,66 +831,208 @@ function walksIndexPage(walks) {
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
 </head>
-<body>
-    <header class="site-header">
-        <div class="container">
-            <nav class="nav">
-                <a href="../index.html" class="logo">Dogs of Essex</a>
-                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
-                <ul class="nav-links">
-                    <li><a href="index.html">Walks</a></li>
-                    <li><a href="../index.html#categories">Explore</a></li>
-                    <li><a href="../index.html#bestfor">Best For</a></li>
-                    <li><a href="../index.html#meetups">Meetups</a></li>
-                    <li><a href="../index.html#newsletter" class="nav-cta">Join the Pack</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body>${navHTML('../')}
 
     <main>
         <div class="walk-body">${body}
         </div>
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="logo">Dogs of Essex</a>
-                    <p>The local guide for dog owners in Essex — walks, places and adventures worth sharing.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
-                        <li><a href="index.html">Walks</a></li>
-                        <li><a href="../index.html#places">Places</a></li>
-                        <li><a href="../index.html#meetups">Meetups</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Information</h4>
-                    <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Follow</h4>
-                    <ul>
-                        <li><a href="https://instagram.com/thedogsofessex" target="_blank" rel="noopener">Instagram</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>&copy; <span id="year"></span> Dogs of Essex</span>
-                <span>Made with muddy paws in Essex 🐾</span>
-            </div>
-        </div>
-    </footer>
+${footerHTML('../')}
 
     <script src="../script.js"></script>
+</body>
+</html>
+`;
+}
+
+// --- Best For pages (/best-for/ and /best-for/<slug>/) ---
+
+// A walk's star score for a glance key (null if not rated for it).
+function walkGlanceScore(walk, key) {
+    const row = (walk.glance || []).find((g) => GLANCE_KEYS[g.label] === key);
+    return row ? row.score : null;
+}
+
+// Reviewed walks ranked for a category: by glance key (then rating), or by distance.
+function rankWalksForCategory(cat, walks) {
+    const reviewed = walks.filter((w) => w.hasPage);
+    if (cat.rank === 'distance') {
+        return reviewed
+            .filter((w) => parseFloat(w.distance))
+            .sort((a, b) => (parseFloat(b.distance) || 0) - (parseFloat(a.distance) || 0))
+            .map((w) => ({ walk: w }));
+    }
+    return reviewed
+        .map((w) => ({ walk: w, score: walkGlanceScore(w, cat.key) }))
+        .filter((x) => x.score != null)
+        .sort((a, b) => b.score - a.score
+            || ((b.walk.rating && b.walk.rating.value) || 0) - ((a.walk.rating && a.walk.rating.value) || 0));
+}
+
+function walkPhotoHTML(w) {
+    const icon = SCENERY_ICON[w.scenery] || '🐾';
+    const img = (w.gallery && w.gallery[0] && w.gallery[0].image) ? w.gallery[0].image : '';
+    return img
+        ? `<img src="${esc(img)}" alt="${esc(w.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
+        : `<span>${icon} ${esc(w.name)}</span>`;
+}
+
+// The category's strongest walk — reuses the "Dogs of Essex Pick" premium styling.
+function walkPickCardHTML(w, cat, prefix) {
+    const href = `${prefix}walks/${esc(w.id)}.html`;
+    const chips = [w.distance ? `📏 ${esc(w.distance)}` : '', w.time ? `⏱️ ${esc(w.time)}` : '']
+        .filter(Boolean).map((c) => `<span class="access-chip">${c}</span>`).join('');
+    return `
+                    <article class="day-card premium walk-pick">
+                        <div class="premium-badge-bar">
+                            <span class="badge-main">★ Dogs of Essex Pick</span>
+                            <span class="badge-sub">Our top walk for ${esc(cat.title.toLowerCase())}</span>
+                        </div>
+                        <div class="premium-main">
+                            <div class="premium-photo photo-ph">${walkPhotoHTML(w)}</div>
+                            <div class="premium-content">
+                                <span class="premium-type">${SCENERY_ICON[w.scenery] || '🐾'} ${esc(cap(w.scenery))}</span>
+                                <h3 class="premium-name">${esc(w.name)}</h3>
+                                <div class="info-chips">${chips}</div>
+                                ${w.intro ? `<p class="premium-desc">${esc(w.intro)}</p>` : ''}
+                                <div class="glance walk-pick-glance">${glanceHTML(w.glance)}
+                                </div>
+                                <div class="pc-actions">
+                                    <a class="btn btn-primary premium-cta" href="${href}">Explore Walk →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>`;
+}
+
+// A standard walk card for the "more walks" list.
+function bestForWalkCardHTML(w, prefix) {
+    const icon = SCENERY_ICON[w.scenery] || '🐾';
+    const meta = [w.distance, w.time, w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
+    const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
+    return `
+                        <a href="${prefix}walks/${esc(w.id)}.html" class="walk-card">
+                            <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
+                            <div class="walk-card-body">
+                                <h3>${esc(w.name)}</h3>
+                                ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
+                                <div class="tag-row">${tags}</div>
+                                <span class="link-arrow">Explore Walk →</span>
+                            </div>
+                        </a>`;
+}
+
+function bestForCardHTML(cat) {
+    return `
+                        <a href="${esc(cat.slug)}/index.html" class="bestfor-card">
+                            <span class="bf-emoji" aria-hidden="true">${cat.emoji}</span>
+                            <h3 class="bf-title">${esc(cat.title)}</h3>
+                            <p class="bf-desc">${esc(cat.blurb)}</p>
+                            <span class="link-arrow">View walks →</span>
+                        </a>`;
+}
+
+function bestForIndexPage() {
+    const cards = BEST_FOR.map(bestForCardHTML).join('');
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container">
+                    <h1 class="index-title">Best walks for every dog</h1>
+                    <p class="index-sub">Find the perfect Essex walk based on your dog's needs, age and personality.</p>
+                </div>
+            </section>
+
+            <section class="walk-section section-alt">
+                <div class="container">
+                    <div class="best-for-grid">${cards}
+                    </div>
+                </div>
+            </section>`;
+    return `${headHTML('../', 'Best For — Find the right walk for your dog | Dogs of Essex',
+        'Find the perfect Essex walk for your dog — reactive dogs, puppies, senior dogs, swimming, low mud, hot weather, off lead and high-energy dogs.')}
+</head>
+<body>${navHTML('../')}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML('../')}
+
+    <script src="../script.js"></script>
+</body>
+</html>
+`;
+}
+
+function seniorScaleHTML() {
+    const rows = SENIOR_SCALE.map((s) => `
+                        <div class="glance-row">
+                            <span class="glance-stars">${starsHTML(s.stars)}</span>
+                            <span class="glance-feature"><strong>${esc(s.label)}</strong> — ${esc(s.note)}</span>
+                        </div>`).join('');
+    return `<h2>How we rate walks for senior dogs</h2>
+                    <p class="section-lead">Our Senior Dogs rating weighs distance, terrain difficulty, steep gradients, rest stops and surface quality.</p>
+                    <div class="glance senior-scale">${rows}
+                    </div>`;
+}
+
+function bestForCategoryPage(cat, walks) {
+    const prefix = '../../';
+    const ranked = rankWalksForCategory(cat, walks);
+    const pick = ranked[0] ? ranked[0].walk : null;
+    const others = ranked.slice(1).map((x) => x.walk);
+    const lower = cat.title.toLowerCase();
+
+    const pickBlock = pick
+        ? walkPickCardHTML(pick, cat, prefix)
+        : `<p class="section-lead">We're still reviewing walks for this category — check back soon.</p>`;
+
+    const othersBlock = others.length ? `
+
+            <section class="walk-section section-alt">
+                <div class="container">
+                    <h2>More walks for ${esc(lower)}</h2>
+                    <div class="walk-grid">${others.map((w) => bestForWalkCardHTML(w, prefix)).join('')}
+                    </div>
+                </div>
+            </section>` : '';
+
+    const scaleBlock = cat.key === 'senior' ? `
+
+            <section class="walk-section${others.length ? '' : ' section-alt'}">
+                <div class="container narrow">
+                    ${seniorScaleHTML()}
+                </div>
+            </section>` : '';
+
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container">
+                    <p class="breadcrumb"><a href="${prefix}index.html">Home</a> · <a href="../index.html">Best For</a> · ${esc(cat.title)}</p>
+                    <h1 class="index-title">${cat.emoji} Best Essex walks for ${esc(lower)}</h1>
+                    <p class="index-sub">${esc(cat.intro)}</p>
+                </div>
+            </section>
+
+            <section class="walk-section">
+                <div class="container">
+                    ${pickBlock}
+                </div>
+            </section>${othersBlock}${scaleBlock}`;
+
+    const title = `Best Essex walks for ${lower} | Dogs of Essex`;
+    return `${headHTML(prefix, title, cat.intro)}
+</head>
+<body>${navHTML(prefix)}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML(prefix)}
+
+    <script src="${prefix}script.js"></script>
 </body>
 </html>
 `;
@@ -838,7 +1063,19 @@ function build() {
     fs.writeFileSync(path.join(OUT, 'index.html'), walksIndexPage(walks));
     console.log('  ✓ walks/index.html');
 
-    console.log(`\nBuilt ${pages.length} walk page(s) + index from ${walks.length} walks, ${places.length} places, ${tips.length} tips.`);
+    // Best For hub + one curated page per category.
+    const BF_OUT = path.join(ROOT, 'best-for');
+    if (!fs.existsSync(BF_OUT)) fs.mkdirSync(BF_OUT, { recursive: true });
+    fs.writeFileSync(path.join(BF_OUT, 'index.html'), bestForIndexPage());
+    console.log('  ✓ best-for/index.html');
+    BEST_FOR.forEach((cat) => {
+        const dir = path.join(BF_OUT, cat.slug);
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(path.join(dir, 'index.html'), bestForCategoryPage(cat, walks));
+        console.log(`  ✓ best-for/${cat.slug}/index.html`);
+    });
+
+    console.log(`\nBuilt ${pages.length} walk page(s) + walks index + ${BEST_FOR.length} Best For pages from ${walks.length} walks, ${places.length} places, ${tips.length} tips.`);
 }
 
 build();

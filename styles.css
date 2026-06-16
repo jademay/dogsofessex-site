@@ -420,6 +420,63 @@ h1, h2, h3 {
     flex-shrink: 0;
 }
 
+/* ---------- Best For page (/best-for/) ---------- */
+
+.best-for-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.bestfor-card {
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 2rem 2rem 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.bestfor-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--color-moss);
+}
+
+.bestfor-card .bf-emoji {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.bestfor-card .bf-title {
+    font-size: 1.4rem;
+    margin: 0 0 0.5rem;
+}
+
+.bestfor-card .bf-desc {
+    color: var(--color-muted);
+    margin: 0 0 1.25rem;
+}
+
+.bestfor-card .link-arrow {
+    margin-top: auto;
+    font-weight: 500;
+    color: var(--color-terracotta);
+    font-size: 0.95rem;
+}
+
+/* Walk-flavoured "Dogs of Essex Pick" on Best For category pages */
+.walk-pick .premium-photo span { font-size: 1rem; }
+.walk-pick .walk-pick-glance { margin: 0.5rem 0 1.25rem; }
+.walk-pick .pc-actions { margin-top: 0.25rem; }
+.senior-scale .glance-row { gap: 1rem; }
+.senior-scale .glance-stars { white-space: nowrap; }
+
 /* ---------- Meetups ---------- */
 
 .meetup {
@@ -898,6 +955,7 @@ h1, h2, h3 {
     .section { padding: 4rem 0; }
     .category-grid,
     .bestfor-grid,
+    .best-for-grid,
     .places-grid { grid-template-columns: 1fr; }
     .route-photos { grid-template-columns: 1fr 1fr; }
     .signup-form { flex-direction: column; border-radius: 16px; }

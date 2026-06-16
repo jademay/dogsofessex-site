@@ -16,25 +16,77 @@
     "terrain": "Sandy trails & open heath",
     "mud": "Moderate",
     "summary": "Woodland • Circular • 30 mins • Mud: Moderate",
-    "tags": ["Woodland", "Circular", "Quiet", "Reactive-friendly"],
-    "rating": { "value": 4.8, "count": 32 },
-    "badges": ["📍 Tiptree", "🐕 Mostly off lead", "🚗 Free parking"],
+    "tags": [
+      "Woodland",
+      "Circular",
+      "Quiet",
+      "Reactive-friendly"
+    ],
+    "rating": {
+      "value": 4.8,
+      "count": 32
+    },
+    "badges": [
+      "📍 Tiptree",
+      "🐕 Mostly off lead",
+      "🚗 Free parking"
+    ],
     "intro": "Tiptree Heath is one of Essex's best hidden woodland walks. Expect sandy trails, open heathland and plenty of sniffing opportunities.",
     "glance": [
-      { "label": "Reactive dogs", "score": 4 },
-      { "label": "Puppies", "score": 3 },
-      { "label": "Low mud", "score": 4 },
-      { "label": "Shade", "score": 5 },
-      { "label": "Pushchairs", "score": 2 },
-      { "label": "Swimming", "score": 1 },
-      { "label": "Off lead", "score": 4 }
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 3
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 4
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 5
+      },
+      {
+        "label": "Low Mud",
+        "score": 4
+      }
     ],
     "gallery": [
-      { "image": "", "caption": "Poppy walking through woodland" },
-      { "image": "", "caption": "The car park" },
-      { "image": "", "caption": "Main sandy trail" },
-      { "image": "", "caption": "Seasonal bluebells (April)" },
-      { "image": "", "caption": "A muddier section" }
+      {
+        "image": "",
+        "caption": "Poppy walking through woodland"
+      },
+      {
+        "image": "",
+        "caption": "The car park"
+      },
+      {
+        "image": "",
+        "caption": "Main sandy trail"
+      },
+      {
+        "image": "",
+        "caption": "Seasonal bluebells (April)"
+      },
+      {
+        "image": "",
+        "caption": "A muddier section"
+      }
     ],
     "route": {
       "parking": "Free car park off Maldon Road (B1022) between Tiptree and Maldon — search \"Tiptree Heath car park\". The reserve is signposted from the road and the trail begins at the car park gate.",
@@ -50,7 +102,12 @@
       "managedBy": "Essex Wildlife Trust",
       "website": "https://www.essexwt.org.uk/nature-reserves/tiptree-heath"
     },
-    "bestFor": ["reactive-dogs", "shade", "mud-lovers", "woodland"],
+    "bestFor": [
+      "reactive-dogs",
+      "shade",
+      "mud-lovers",
+      "woodland"
+    ],
     "seo": {
       "title": "Tiptree Heath Dog Walk | Dogs of Essex",
       "description": "A quiet woodland dog walk near Tiptree with free parking, shade and circular trails. Honest ratings, photos, parking tips and nearby dog-friendly places.",
@@ -75,18 +132,55 @@
     "terrain": "Closed woodland and open lakes.",
     "mud": "High",
     "summary": "There are 2 km of circular trails to enjoy with benches to stop at, enjoy the views and listen to the wildlife.",
-    "tags": ["Woodland", "Circular", "Quiet", "Reactive-friendly"],
-    "rating": { "value": 4.5, "count": 1 },
-    "badges": ["📍 Heybridge", "🐕 Mostly off lead", "🚗 Free parking"],
+    "tags": [
+      "Woodland",
+      "Circular",
+      "Quiet",
+      "Reactive-friendly"
+    ],
+    "rating": {
+      "value": 4.5,
+      "count": 1
+    },
+    "badges": [
+      "📍 Heybridge",
+      "🐕 Mostly off lead",
+      "🚗 Free parking"
+    ],
     "intro": "There are 2 km of circular trails to enjoy with benches to stop at, enjoy the views and listen to the wildlife.",
     "glance": [
-      { "label": "Reactive dogs", "score": 3 },
-      { "label": "Puppies", "score": 4 },
-      { "label": "Low mud", "score": 3 },
-      { "label": "Shade", "score": 4 },
-      { "label": "Pushchairs", "score": 2 },
-      { "label": "Swimming", "score": 4 },
-      { "label": "Off lead", "score": 4 }
+      {
+        "label": "Reactive Dogs",
+        "score": 3
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 3
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 4
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 4
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
     ],
     "route": {
       "mapEmbed": "https://www.google.com/maps?q=Chigborough+Lakes+Nature+Reserve+Essex&output=embed"
@@ -109,7 +203,11 @@
     "distance": "2.0 miles",
     "mud": "Moderate",
     "summary": "Heathland • Multiple routes • Great for energetic dogs",
-    "tags": ["Heathland", "Multiple routes", "Energetic dogs"],
+    "tags": [
+      "Heathland",
+      "Multiple routes",
+      "Energetic dogs"
+    ],
     "hasPage": false
   },
   {
@@ -123,7 +221,11 @@
     "distance": "1.8 miles",
     "mud": "Low",
     "summary": "Parkland • Lake • Café & toilets on site",
-    "tags": ["Parkland", "Lake", "Pushchair friendly"],
+    "tags": [
+      "Parkland",
+      "Lake",
+      "Pushchair friendly"
+    ],
     "hasPage": false
   },
   {
@@ -137,7 +239,11 @@
     "distance": "2.4 miles",
     "mud": "Low",
     "summary": "Parkland • Formal gardens • Wide open spaces",
-    "tags": ["Parkland", "Open spaces", "Café"],
+    "tags": [
+      "Parkland",
+      "Open spaces",
+      "Café"
+    ],
     "hasPage": false
   },
   {
@@ -151,7 +257,11 @@
     "distance": "1.5 miles",
     "mud": "Low",
     "summary": "Riverside • Flat & easy • Great for all ages",
-    "tags": ["Riverside", "Flat", "Pushchair friendly"],
+    "tags": [
+      "Riverside",
+      "Flat",
+      "Pushchair friendly"
+    ],
     "hasPage": false
   },
   {
@@ -165,7 +275,11 @@
     "distance": "2.2 miles",
     "mud": "Low",
     "summary": "Coastal • Water-loving dogs • Seasonal restrictions",
-    "tags": ["Coastal", "Swimming", "Seasonal restrictions"],
+    "tags": [
+      "Coastal",
+      "Swimming",
+      "Seasonal restrictions"
+    ],
     "hasPage": false
   }
 ]
