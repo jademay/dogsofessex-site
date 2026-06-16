@@ -7,7 +7,12 @@
     "lng": 0.7547003025,
     "dogFriendly": true,
     "dogFriendlyNotes": "From their website: \"We welcome well behaved dogs into our Tiptree Tea Room's secret garden.\n\nPlease queue in our waiting area with your furry friend and our staff will take you to the garden once a table is ready. (Please note, The Secret Garden will be closed completely from 1st November until the Spring) However there will be limited seating available outside the visitor centre entrance.\"",
-    "dogAccess": ["inside", "outside", "water-bowls", "dog-menu"],
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "dog-menu"
+    ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -66,7 +71,9 @@
     "lng": 0.7152051423,
     "dogFriendly": true,
     "dogFriendlyNotes": "",
-    "dogAccess": ["inside"],
+    "dogAccess": [
+      "inside"
+    ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -96,7 +103,10 @@
     "lng": 0.7060277983,
     "dogFriendly": true,
     "dogFriendlyNotes": "Dogs are welcome both outside and inside in their bar & snug areas",
-    "dogAccess": ["inside", "outside"],
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -126,7 +136,10 @@
     "lng": 0.8200812854,
     "dogFriendly": true,
     "dogFriendlyNotes": "Family & dog friendly serving locally sourced food and ales",
-    "dogAccess": ["inside", "outside"],
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -185,7 +198,10 @@
     "lng": 0.6974243348,
     "dogFriendly": true,
     "dogFriendlyNotes": "Dogs are welcome in the bar area inside and the gardens outside. Must be kept on a lead.",
-    "dogAccess": ["inside", "outside"],
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -215,7 +231,9 @@
     "lng": 0.7076113571,
     "dogFriendly": true,
     "dogFriendlyNotes": "Dogs are welcome outside in the tranquil walled beer garden, nestled beneath ancient trees and alive with birdsong.",
-    "dogAccess": ["outside"],
+    "dogAccess": [
+      "outside"
+    ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -245,7 +263,9 @@
     "lng": 0.7270028933,
     "dogFriendly": true,
     "dogFriendlyNotes": "They are a dog-friendly restaurant. That ask you to keep your dog on a lead at all times.",
-    "dogAccess": ["inside"],
+    "dogAccess": [
+      "inside"
+    ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -275,7 +295,11 @@
     "lng": 0.7188308716,
     "dogFriendly": true,
     "dogFriendlyNotes": "Their converted barn is dog friendly inside and out. With spacious seating, hard flooring and drinking bowls available, The Farm Cafe is the perfect spot for you and your furry friend to relax and enjoy.",
-    "dogAccess": ["inside", "outside", "water-bowls"],
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls"
+    ],
     "lastChecked": "2026-06-15",
     "checkedBy": "Dogs of Essex",
     "verified": true,
@@ -294,6 +318,35 @@
       "instagram": "https://www.instagram.com/thefarmcafebyblackpig/?hl=en",
       "facebook": "https://www.facebook.com/thefarmcafebyblackpig/",
       "tiktok": null,
+      "youtube": null
+    }
+  },
+  {
+    "id": "the-queens-head-maldon",
+    "name": "The Queen's Head, Maldon",
+    "type": "pub",
+    "lat": 51.72958925,
+    "lng": 0.6878901803,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs on leads are very welcome in both of the bar areas. Dogs are not allowed in the restaurant area.",
+    "lastChecked": "2026-06-16",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A family friendly pub and restaurant set on the Blackwater river, where Thames barges line the quayside.",
+    "website": "https://thequeensheadmaldon.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/LBHc6suTsPsJenwZ6",
+    "phone": "01621 854112",
+    "email": "",
+    "socials": {
+      "instagram": "https://www.instagram.com/thequeensheadmaldon",
+      "facebook": "https://www.facebook.com/queensmaldon",
+      "tiktok": "https://x.com/TheQueensMaldon",
       "youtube": null
     }
   }
