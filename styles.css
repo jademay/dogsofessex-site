@@ -442,8 +442,9 @@ h1, h2, h3 {
 }
 
 .section-cta {
-    margin-top: 2.5rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 3.5rem;
 }
 
 .pill-soon {
