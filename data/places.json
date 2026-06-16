@@ -349,5 +349,40 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "osea-view-cafe-heybridge",
+    "name": "Osea View Cafe",
+    "type": "cafe",
+    "lat": 51.73401382,
+    "lng": 0.7275340697,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome both inside and outside. They often have dog treats available too.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "treats"
+    ],
+    "lastChecked": "2026-06-16",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Nestled on the stunning coastline near Maldon on the banks of the Blackwater Estuary, the Osea View Café has relaunched with a fresh new look and feel.",
+    "website": "https://oseaview.com/",
+    "mapsLink": "https://maps.app.goo.gl/WhPArKSUwRmCyWcv6",
+    "phone": "01621 855122",
+    "email": "eat@oseaview.co.uk",
+    "socials": {
+      "instagram": null,
+      "facebook": null,
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
