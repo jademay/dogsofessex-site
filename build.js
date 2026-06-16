@@ -165,25 +165,30 @@ const ACCESS_META = {
 // venue page, free venues become "More nearby" pills. Add a category here and a
 // /places/<slug>/ page (plus venue pages) appear automatically.
 const PLACE_CATEGORIES = [
-    { slug: 'cafes', emoji: '☕', title: 'Cafés', plural: 'cafés', types: ['cafe'],
-        blurb: 'Dog-friendly spots perfect for coffee and cake after your walk.',
-        cta: 'Explore cafés →',
-        intro: 'The perfect place to warm up, grab lunch or enjoy coffee after your walk.' },
-    { slug: 'pubs', emoji: '🍺', title: 'Pubs', plural: 'pubs', types: ['pub', 'restaurant'],
-        blurb: 'Traditional pubs and beer gardens that welcome muddy paws.',
-        cta: 'Explore pubs →',
-        intro: 'Traditional pubs, beer gardens and dog-friendly dining to round off a good walk.' },
-    { slug: 'days-out', emoji: '🌳', title: 'Days Out', plural: 'days out', types: ['attraction', 'garden-centre', 'shop'],
-        blurb: 'Dog-friendly attractions and destinations beyond a walk — estates, garden centres, markets, country parks and historic sites.',
-        cta: 'Explore days out →',
-        intro: 'Dog-friendly attractions and destinations to build a proper day out around your walk.' },
-    { slug: 'beaches', emoji: '🏖', title: 'Beaches', plural: 'beaches', types: ['beach', 'seaside', 'swim-spot'],
-        blurb: 'Dog-friendly beaches and coastal destinations.',
+    { slug: 'eat-drink', emoji: '☕', title: 'Eat & Drink', plural: 'places to eat & drink',
+        types: ['cafe', 'pub', 'restaurant'],
+        blurb: 'Grab lunch, coffee or a pint after your walk.',
+        cta: 'Explore eat & drink →',
+        intro: 'All the dog-friendly places to eat and drink near your walk — cafés, pubs and restaurants. Use the filters to narrow it down.',
+        filters: [
+            { type: 'all', label: 'All' },
+            { type: 'cafe', label: 'Cafés' },
+            { type: 'pub', label: 'Pubs' },
+            { type: 'restaurant', label: 'Restaurants' }
+        ] },
+    { slug: 'things-to-do', emoji: '🌳', title: 'Things to Do', plural: 'things to do',
+        types: ['attraction', 'garden-centre', 'shop'],
+        blurb: 'Make a full day of it.',
+        cta: 'Explore things to do →',
+        intro: 'Dog-friendly days out beyond a walk — garden centres, National Trust properties, estates, country parks, markets, farm shops and seasonal attractions.' },
+    { slug: 'beaches', emoji: '🏖', title: 'Beaches', plural: 'beaches',
+        types: ['beach', 'seaside', 'swim-spot'],
+        blurb: 'The best coastal spots for muddy paws.',
         cta: 'Explore beaches →',
-        intro: 'Dog-friendly beaches and coastal spots worth the drive.',
+        intro: 'Dog-friendly beaches and coastal spots. Check seasonal restrictions, parking and nearby cafés before you set off.',
         note: 'Seasonal restrictions apply on many Essex beaches — dogs are often banned between 1 May and 30 September. Always check local signage before you go.' },
     { slug: 'stay', emoji: '🏨', title: 'Stay', comingSoon: true,
-        blurb: 'Dog-friendly accommodation throughout Essex.',
+        blurb: 'Coming soon.',
         cta: 'Coming soon' }
 ];
 
@@ -1121,7 +1126,7 @@ function placePickCardHTML(p, walks) {
         ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
         : `<span>${meta.icon} ${esc(p.name)}</span>`;
     return `
-                        <article class="walk-card place-pick-card">
+                        <article class="walk-card place-pick-card" data-place-type="${esc(p.type)}">
                             <div class="photo-ph">${photo}</div>
                             <div class="walk-card-body">
                                 <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
@@ -1144,7 +1149,7 @@ function placeFreePillHTML(p, walks) {
     const url = placeUrl(p) || mapsUrl(p);
     const dist = near ? `${near.mi.toFixed(1)} mi • ${driveMins(near.mi)} mins` : '';
     return `
-                            <a class="free-pill" href="${esc(url)}" target="_blank" rel="noopener">
+                            <a class="free-pill" href="${esc(url)}" target="_blank" rel="noopener" data-place-type="${esc(p.type)}">
                                 <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
                                 <span class="fp-dist">${dist}</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
@@ -1212,6 +1217,12 @@ function placesCategoryPage(cat, places, walks) {
     const picks = inCat.filter((p) => effectiveTier(p) === 'partner').sort(byNear);
     const frees = inCat.filter((p) => effectiveTier(p) !== 'partner').sort(byNear);
     const noteBlock = cat.note ? `\n                    <p class="local-tip">⚠️ ${esc(cat.note)}</p>` : '';
+    const freeLabel = cat.filters ? 'places' : cat.plural;
+
+    const filterBar = cat.filters ? `
+                    <div class="walk-filters places-filter" aria-label="Filter places to eat and drink by type">
+                        ${cat.filters.map((f, i) => `<button type="button" class="filter-pill${i === 0 ? ' is-active' : ''}" data-type="${esc(f.type)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${esc(f.label)}</button>`).join('\n                        ')}
+                    </div>` : '';
 
     let content;
     if (!inCat.length) {
@@ -1224,7 +1235,7 @@ function placesCategoryPage(cat, places, walks) {
             </section>`;
     } else {
         const picksBlock = picks.length ? `
-            <section class="walk-section">
+            <section class="walk-section places-section">
                 <div class="container">
                     <h2>★ Dogs of Essex Picks</h2>
                     <p class="section-lead">Our recommended ${esc(cat.plural)} — visited and dog-approved.</p>
@@ -1233,10 +1244,10 @@ function placesCategoryPage(cat, places, walks) {
                 </div>
             </section>` : '';
         const freeBlock = frees.length ? `
-            <section class="walk-section section-alt">
+            <section class="walk-section section-alt places-section">
                 <div class="container">
                     <div class="more-free">
-                        <h3 class="more-free-title">More nearby ${esc(cat.plural)}</h3>
+                        <h3 class="more-free-title">More nearby ${esc(freeLabel)}</h3>
                         <div class="free-pills">${frees.map((p) => placeFreePillHTML(p, walks)).join('')}</div>
                     </div>
                 </div>
@@ -1249,7 +1260,7 @@ function placesCategoryPage(cat, places, walks) {
                 <div class="container">
                     <p class="breadcrumb"><a href="${prefix}index.html">Home</a> · <a href="../index.html">Places</a> · ${esc(cat.title)}</p>
                     <h1 class="index-title">${cat.emoji} Dog-friendly ${esc(cat.plural)} in Essex</h1>
-                    <p class="index-sub">${esc(cat.intro)}</p>${noteBlock}
+                    <p class="index-sub">${esc(cat.intro)}</p>${noteBlock}${filterBar}
                 </div>
             </section>${content}`;
 

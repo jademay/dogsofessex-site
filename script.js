@@ -131,3 +131,34 @@ if (form) {
         });
     }
 })();
+
+// Places category — filter venues by type (All / Cafés / Pubs / Restaurants)
+(function () {
+    const bar = document.querySelector('.places-filter');
+    if (!bar) return;
+    const btns = Array.from(bar.querySelectorAll('.filter-pill'));
+    const items = Array.from(document.querySelectorAll('[data-place-type]'));
+    const sections = Array.from(document.querySelectorAll('.places-section'));
+    const visible = (el) => el.style.display !== 'none';
+
+    function apply(type) {
+        items.forEach((el) => {
+            el.style.display = (type === 'all' || el.dataset.placeType === type) ? '' : 'none';
+        });
+        sections.forEach((sec) => {
+            const any = Array.from(sec.querySelectorAll('[data-place-type]')).some(visible);
+            sec.style.display = any ? '' : 'none';
+        });
+    }
+
+    bar.addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-pill');
+        if (!btn) return;
+        btns.forEach((b) => {
+            const on = b === btn;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        apply(btn.dataset.type);
+    });
+})();

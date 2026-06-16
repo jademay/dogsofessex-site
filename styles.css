@@ -550,6 +550,9 @@ h1, h2, h3 {
 .venue-info a:hover { text-decoration: underline; }
 .venue-info .social-icons { display: inline-flex; gap: 0.6rem; vertical-align: middle; }
 
+/* Eat & Drink type filter (All / Cafés / Pubs / Restaurants) */
+.places-filter { margin-top: 1.5rem; }
+
 /* ---------- Meetups ---------- */
 
 .meetup {
