@@ -416,5 +416,39 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-jolly-sailor-heybridge-basin",
+    "name": "The Jolly Sailor",
+    "type": "pub",
+    "lat": 51.72968816,
+    "lng": 0.7097124789,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed in the bar area, which has tables to eat at, but not in the restaurant area.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls"
+    ],
+    "lastChecked": "2026-06-16",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "",
+    "website": "https://www.thejollysailorheybridgebasin.co.uk/index",
+    "mapsLink": "https://maps.app.goo.gl/RHjoTourry3ctQqs8",
+    "phone": "",
+    "email": "",
+    "socials": {
+      "instagram": "https://www.instagram.com/thejollysailorheybridgebasin",
+      "facebook": "https://www.facebook.com/TheJollySailorheybridgebasin/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
