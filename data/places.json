@@ -384,5 +384,37 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-old-ship-heybridge",
+    "name": "The Old Ship",
+    "type": "pub",
+    "lat": 51.7291978,
+    "lng": 0.7094237209,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-06-16",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "",
+    "website": "https://placejuice.com/the-old-ship-g2fatt0",
+    "mapsLink": "https://maps.app.goo.gl/Dtb3XD7L7LzyGUM46",
+    "phone": "01621 854150",
+    "email": "",
+    "socials": {
+      "instagram": null,
+      "facebook": null,
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
