@@ -450,5 +450,37 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "mrs-salisburys-maldon",
+    "name": "Mrs Salisbury's",
+    "type": "cafe",
+    "lat": 51.73166539,
+    "lng": 0.6792161088,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed outside only in The Secret Courtyard and The Pathway.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-06-16",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "",
+    "website": "https://mrssalisburys.co.uk/locations/maldon/",
+    "mapsLink": "https://maps.app.goo.gl/9et6XDzKrPYdaA8U7",
+    "phone": "01621 888863",
+    "email": "maldon@mrssalisburys.co.uk",
+    "socials": {
+      "instagram": null,
+      "facebook": null,
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
