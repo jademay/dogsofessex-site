@@ -477,6 +477,79 @@ h1, h2, h3 {
 .senior-scale .glance-row { gap: 1rem; }
 .senior-scale .glance-stars { white-space: nowrap; }
 
+/* ---------- Places page (/places/) ---------- */
+
+.places-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.bestfor-card.is-soon {
+    opacity: 0.75;
+    cursor: default;
+}
+
+.bestfor-card.is-soon:hover {
+    transform: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    border-color: var(--color-border);
+}
+
+.bf-soon {
+    margin-top: auto;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--color-muted);
+}
+
+/* Featured venue cards (Dogs of Essex Picks) reuse .walk-card with actions */
+.place-pick-card .premium-type {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-moss);
+    margin-bottom: 0.4rem;
+}
+
+.place-pick-card .pc-desc {
+    color: var(--color-muted);
+    margin: 0 0 1rem;
+}
+
+.place-pick-card .pc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+}
+
+.place-pick-card .pc-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.place-pick-card .pc-actions .btn { margin: 0; }
+
+/* Venue page essential-information list */
+.venue-info {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.venue-info li { font-size: 1rem; }
+.venue-info a { color: var(--color-terracotta); text-decoration: none; }
+.venue-info a:hover { text-decoration: underline; }
+.venue-info .social-icons { display: inline-flex; gap: 0.6rem; vertical-align: middle; }
+
 /* ---------- Meetups ---------- */
 
 .meetup {
@@ -943,6 +1016,7 @@ h1, h2, h3 {
     .category-grid { grid-template-columns: repeat(2, 1fr); }
     .bestfor-grid { grid-template-columns: repeat(2, 1fr); }
     .places-grid { grid-template-columns: repeat(2, 1fr); }
+    .places-hub-grid { grid-template-columns: repeat(2, 1fr); }
 
     .walk-layout { grid-template-columns: 1fr; }
     .walk-aside { position: static; }
@@ -956,7 +1030,8 @@ h1, h2, h3 {
     .category-grid,
     .bestfor-grid,
     .best-for-grid,
-    .places-grid { grid-template-columns: 1fr; }
+    .places-grid,
+    .places-hub-grid { grid-template-columns: 1fr; }
     .route-photos { grid-template-columns: 1fr 1fr; }
     .signup-form { flex-direction: column; border-radius: 16px; }
     .footer-grid { grid-template-columns: 1fr; }
