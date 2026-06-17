@@ -175,6 +175,16 @@ const PLACE_CATEGORIES = [
             { type: 'cafe', label: 'Cafés' },
             { type: 'pub', label: 'Pubs' },
             { type: 'restaurant', label: 'Restaurants' }
+        ],
+        // Curated "Dogs of Essex Picks" (in display order). When set, these are
+        // the featured venues regardless of partnerTier; everyone else is "More nearby".
+        picks: [
+            'tiptree-tea-rooms',
+            'the-farm-cafe-by-black-pig-maldon',
+            'osea-view-cafe-heybridge',
+            'the-jolly-sailor-heybridge-basin',
+            'the-angel-kelvedon',
+            'the-sun-inn-feering'
         ] },
     { slug: 'things-to-do', emoji: '🌳', title: 'Things to Do', plural: 'things to do',
         types: ['attraction', 'garden-centre', 'shop'],
@@ -1207,15 +1217,32 @@ ${footerHTML('../')}
 `;
 }
 
+// Venues in a category, dog-friendly only.
+function placesInCategory(cat, places) {
+    return places.filter((p) => p.dogFriendly !== false && (cat.types || []).includes(p.type));
+}
+
+// The category's "Dogs of Essex Picks": a curated list when `cat.picks` is set
+// (in that order), otherwise every partner-tier venue.
+function categoryPicks(cat, places) {
+    const inCat = placesInCategory(cat, places);
+    if (cat.picks) {
+        return cat.picks.map((id) => inCat.find((p) => p.id === id)).filter(Boolean);
+    }
+    return inCat.filter((p) => effectiveTier(p) === 'partner');
+}
+
 function placesCategoryPage(cat, places, walks) {
     const prefix = '../../';
-    const inCat = places.filter((p) => p.dogFriendly !== false && (cat.types || []).includes(p.type));
+    const inCat = placesInCategory(cat, places);
     const byNear = (a, b) => {
         const na = nearestWalk(a, walks), nb = nearestWalk(b, walks);
         return (na ? na.mi : 1e9) - (nb ? nb.mi : 1e9);
     };
-    const picks = inCat.filter((p) => effectiveTier(p) === 'partner').sort(byNear);
-    const frees = inCat.filter((p) => effectiveTier(p) !== 'partner').sort(byNear);
+    const pickList = categoryPicks(cat, places);
+    const pickIds = new Set(pickList.map((p) => p.id));
+    const picks = cat.picks ? pickList : pickList.slice().sort(byNear);
+    const frees = inCat.filter((p) => !pickIds.has(p.id)).sort(byNear);
     const noteBlock = cat.note ? `\n                    <p class="local-tip">⚠️ ${esc(cat.note)}</p>` : '';
     const freeLabel = cat.filters ? 'places' : cat.plural;
 
@@ -1411,8 +1438,7 @@ function build() {
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
         fs.writeFileSync(path.join(dir, 'index.html'), placesCategoryPage(cat, places, walks));
         console.log(`  ✓ places/${cat.slug}/index.html`);
-        places
-            .filter((p) => p.dogFriendly !== false && cat.types.includes(p.type) && effectiveTier(p) === 'partner')
+        categoryPicks(cat, places)
             .forEach((p) => {
                 const vdir = path.join(dir, p.id);
                 if (!fs.existsSync(vdir)) fs.mkdirSync(vdir, { recursive: true });
