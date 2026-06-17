@@ -175,16 +175,6 @@ const PLACE_CATEGORIES = [
             { type: 'cafe', label: 'Cafés' },
             { type: 'pub', label: 'Pubs' },
             { type: 'restaurant', label: 'Restaurants' }
-        ],
-        // Curated "Dogs of Essex Picks" (in display order). When set, these are
-        // the featured venues regardless of partnerTier; everyone else is "More nearby".
-        picks: [
-            'tiptree-tea-rooms',
-            'the-farm-cafe-by-black-pig-maldon',
-            'osea-view-cafe-heybridge',
-            'the-jolly-sailor-heybridge-basin',
-            'the-angel-kelvedon',
-            'the-sun-inn-feering'
         ] },
     { slug: 'things-to-do', emoji: '🌳', title: 'Things to Do', plural: 'things to do',
         types: ['attraction', 'garden-centre', 'shop'],
@@ -1127,8 +1117,9 @@ function accessBadgesHTML(p) {
     return `<div class="premium-access">${chips}</div>`;
 }
 
-// A featured/partner venue — a card with photo, badges and actions (links to its venue page).
-function placePickCardHTML(p, walks) {
+// A partner venue — the bigger card: photo, "Partner" badge, dog badges and
+// actions (links to its venue page). Reuses the premium card styling.
+function placePartnerCardHTML(p, walks) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
     const near = nearestWalk(p, walks);
     const web = placeUrl(p);
@@ -1136,17 +1127,22 @@ function placePickCardHTML(p, walks) {
         ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
         : `<span>${meta.icon} ${esc(p.name)}</span>`;
     return `
-                        <article class="walk-card place-pick-card" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
-                            <div class="photo-ph">${photo}</div>
-                            <div class="walk-card-body">
-                                <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
-                                <h3>${esc(p.name)}</h3>
-                                <p class="walk-card-meta"><span class="place-dist">${near ? `📍 ${near.mi.toFixed(1)} mi from ${esc(near.walk.name)} · 🚗 ~${driveMins(near.mi)} min` : ''}</span></p>
-                                ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 5)}
-                                <div class="pc-actions">
-                                    <a class="btn btn-primary" href="${esc(p.id)}/index.html">View details →</a>
-                                    ${web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
-                                    <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
+                        <article class="day-card premium venue-card" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
+                            <div class="premium-badge-bar">
+                                <span class="badge-main">Partner</span>
+                            </div>
+                            <div class="premium-main">
+                                <div class="premium-photo photo-ph">${photo}</div>
+                                <div class="premium-content">
+                                    <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
+                                    <h3 class="premium-name">${esc(p.name)}</h3>
+                                    <div class="info-chips"><span class="access-chip place-dist">${near ? `📍 ${near.mi.toFixed(1)} mi from ${esc(near.walk.name)}` : ''}</span></div>
+                                    ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
+                                    <div class="pc-actions">
+                                        <a class="btn btn-primary premium-cta" href="${esc(p.id)}/index.html">View details →</a>
+                                        ${web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
+                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
+                                    </div>
                                 </div>
                             </div>
                         </article>`;
@@ -1222,29 +1218,17 @@ function placesInCategory(cat, places) {
     return places.filter((p) => p.dogFriendly !== false && (cat.types || []).includes(p.type));
 }
 
-// The category's "Dogs of Essex Picks": a curated list when `cat.picks` is set
-// (in that order), otherwise every partner-tier venue.
-function categoryPicks(cat, places) {
-    const inCat = placesInCategory(cat, places);
-    if (cat.picks) {
-        return cat.picks.map((id) => inCat.find((p) => p.id === id)).filter(Boolean);
-    }
-    return inCat.filter((p) => effectiveTier(p) === 'partner');
-}
-
 function placesCategoryPage(cat, places, walks) {
     const prefix = '../../';
-    const inCat = placesInCategory(cat, places);
     const byNear = (a, b) => {
         const na = nearestWalk(a, walks), nb = nearestWalk(b, walks);
         return (na ? na.mi : 1e9) - (nb ? nb.mi : 1e9);
     };
-    const pickList = categoryPicks(cat, places);
-    const pickIds = new Set(pickList.map((p) => p.id));
-    const picks = cat.picks ? pickList : pickList.slice().sort(byNear);
-    const frees = inCat.filter((p) => !pickIds.has(p.id)).sort(byNear);
+    // One list of every venue, sorted by distance. Partner venues get the
+    // bigger badged card; free venues the compact row. Re-sorts client-side
+    // once the visitor enters a location.
+    const inCat = placesInCategory(cat, places).slice().sort(byNear);
     const noteBlock = cat.note ? `\n                    <p class="local-tip">⚠️ ${esc(cat.note)}</p>` : '';
-    const freeLabel = cat.filters ? 'places' : cat.plural;
 
     const filterBar = cat.filters ? `
                     <div class="walk-filters places-filter" aria-label="Filter places to eat and drink by type">
@@ -1271,25 +1255,17 @@ function placesCategoryPage(cat, places, walks) {
                 </div>
             </section>`;
     } else {
-        const picksBlock = picks.length ? `
-            <section class="walk-section places-section">
-                <div class="container">
-                    <h2>★ Dogs of Essex Picks</h2>
-                    <p class="section-lead">Our recommended ${esc(cat.plural)} — visited and dog-approved.</p>
-                    <div class="walk-grid">${picks.map((p) => placePickCardHTML(p, walks)).join('')}
-                    </div>
-                </div>
-            </section>` : '';
-        const freeBlock = frees.length ? `
+        const list = inCat.map((p) => effectiveTier(p) === 'partner'
+            ? placePartnerCardHTML(p, walks)
+            : placeFreePillHTML(p, walks)).join('');
+        content = `
             <section class="walk-section section-alt places-section">
                 <div class="container">
-                    <div class="more-free">
-                        <h3 class="more-free-title">More nearby ${esc(freeLabel)}</h3>
-                        <div class="free-pills">${frees.map((p) => placeFreePillHTML(p, walks)).join('')}</div>
+                    <p class="section-lead">Sorted by distance — enter your postcode above to see what's closest to you.</p>
+                    <div class="places-list">${list}
                     </div>
                 </div>
-            </section>` : '';
-        content = picksBlock + freeBlock;
+            </section>`;
     }
 
     const body = `
@@ -1438,7 +1414,8 @@ function build() {
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
         fs.writeFileSync(path.join(dir, 'index.html'), placesCategoryPage(cat, places, walks));
         console.log(`  ✓ places/${cat.slug}/index.html`);
-        categoryPicks(cat, places)
+        placesInCategory(cat, places)
+            .filter((p) => effectiveTier(p) === 'partner')
             .forEach((p) => {
                 const vdir = path.join(dir, p.id);
                 if (!fs.existsSync(vdir)) fs.mkdirSync(vdir, { recursive: true });
