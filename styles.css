@@ -512,29 +512,9 @@ h1, h2, h3 {
     margin: 0 auto;
 }
 
-/* Partner venue card (reuses .day-card.premium) */
-.venue-card .premium-type {
-    display: block;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-moss);
-    margin-bottom: 0.3rem;
-}
-
-.venue-card .premium-name { margin-bottom: 0.5rem; }
-.venue-card .info-chips { margin-bottom: 0.6rem; }
-.venue-card .premium-desc { margin: 0 0 0.85rem; }
-
-.venue-card .pc-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.venue-card .pc-actions .btn { margin: 0; }
+/* Partner venue card — same compact card as walk pages; let its description
+   breathe a little more in the wider single-column list. */
+.venue-card.partner-card .pc-desc { -webkit-line-clamp: 3; }
 
 /* Free venue — compact full-width row within the list */
 .places-list .free-pill {

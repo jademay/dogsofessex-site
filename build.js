@@ -1117,33 +1117,22 @@ function accessBadgesHTML(p) {
     return `<div class="premium-access">${chips}</div>`;
 }
 
-// A partner venue — the bigger card: photo, "Partner" badge, dog badges and
-// actions (links to its venue page). Reuses the premium card styling.
+// A partner venue — the same compact partner card used on walk pages, plus a
+// "View details" link to its venue page. The badge bar / large photo (the
+// "Dogs of Essex Pick" look) is intentionally not used here.
 function placePartnerCardHTML(p, walks) {
     const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
     const near = nearestWalk(p, walks);
     const web = placeUrl(p);
-    const photo = p.image
-        ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
-        : `<span>${meta.icon} ${esc(p.name)}</span>`;
     return `
-                        <article class="day-card premium venue-card" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
-                            <div class="premium-badge-bar">
-                                <span class="badge-main">Partner</span>
-                            </div>
-                            <div class="premium-main">
-                                <div class="premium-photo photo-ph">${photo}</div>
-                                <div class="premium-content">
-                                    <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
-                                    <h3 class="premium-name">${esc(p.name)}</h3>
-                                    <div class="info-chips"><span class="access-chip place-dist">${near ? `📍 ${near.mi.toFixed(1)} mi from ${esc(near.walk.name)}` : ''}</span></div>
-                                    ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
-                                    <div class="pc-actions">
-                                        <a class="btn btn-primary premium-cta" href="${esc(p.id)}/index.html">View details →</a>
-                                        ${web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
-                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
-                                    </div>
-                                </div>
+                        <article class="day-card partner-card venue-card" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
+                            <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
+                            <span class="pc-dist place-dist">${near ? `${near.mi.toFixed(1)} mi from ${esc(near.walk.name)}` : ''}</span>
+                            ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
+                            <div class="pc-actions">
+                                <a class="pc-cta" href="${esc(p.id)}/index.html">View details →</a>
+                                ${web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
+                                <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
                             </div>
                         </article>`;
 }
