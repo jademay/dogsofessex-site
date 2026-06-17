@@ -162,3 +162,79 @@ if (form) {
         apply(btn.dataset.type);
     });
 })();
+
+// Places category — order venues by distance from a postcode/town or the user's location
+(function () {
+    const root = document.querySelector('.place-locator');
+    if (!root) return;
+    const form = root.querySelector('.locator-form');
+    const input = root.querySelector('.locator-input');
+    const geoBtn = root.querySelector('.locator-geo');
+    const status = root.querySelector('.locator-status');
+    const items = Array.from(document.querySelectorAll('[data-place-type][data-lat]'));
+    if (!items.length) return;
+
+    function haversine(a, b) {
+        const R = 3958.8, toRad = (d) => d * Math.PI / 180;
+        const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
+        const h = Math.sin(dLat / 2) ** 2 +
+            Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+        return 2 * R * Math.asin(Math.sqrt(h));
+    }
+    function say(msg) { status.hidden = !msg; status.textContent = msg || ''; }
+
+    // Geocode UK postcode → outcode → free-text town, using public services.
+    async function geocode(q) {
+        try {
+            const r = await fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(q));
+            if (r.ok) { const j = await r.json(); if (j.result) return { lat: j.result.latitude, lng: j.result.longitude, label: j.result.postcode }; }
+        } catch (e) { /* try next */ }
+        try {
+            const r = await fetch('https://api.postcodes.io/outcodes/' + encodeURIComponent(q));
+            if (r.ok) { const j = await r.json(); if (j.result) return { lat: j.result.latitude, lng: j.result.longitude, label: j.result.outcode }; }
+        } catch (e) { /* try next */ }
+        try {
+            const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=gb&q=' + encodeURIComponent(q), { headers: { Accept: 'application/json' } });
+            if (r.ok) { const j = await r.json(); if (j[0]) return { lat: parseFloat(j[0].lat), lng: parseFloat(j[0].lon), label: q }; }
+        } catch (e) { /* give up */ }
+        return null;
+    }
+
+    function order(point, label) {
+        items.forEach((el) => {
+            const mi = haversine(point, { lat: parseFloat(el.dataset.lat), lng: parseFloat(el.dataset.lng) });
+            el.dataset.dist = mi;
+            const d = el.querySelector('.place-dist');
+            if (d) d.textContent = mi.toFixed(1) + ' mi away';
+        });
+        const parents = new Set(items.map((el) => el.parentNode));
+        parents.forEach((parent) => {
+            Array.from(parent.children)
+                .filter((c) => c.dataset && c.dataset.dist != null)
+                .sort((a, b) => parseFloat(a.dataset.dist) - parseFloat(b.dataset.dist))
+                .forEach((c) => parent.appendChild(c));
+        });
+        say('Showing places nearest to ' + label + '.');
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const q = input.value.trim();
+        if (!q) return;
+        say('Searching…');
+        const loc = await geocode(q);
+        if (!loc) { say("Sorry, we couldn't find that location — try a postcode."); return; }
+        order({ lat: loc.lat, lng: loc.lng }, loc.label);
+    });
+
+    if (geoBtn) {
+        geoBtn.addEventListener('click', () => {
+            if (!navigator.geolocation) { say('Location services are not available in this browser.'); return; }
+            say('Finding your location…');
+            navigator.geolocation.getCurrentPosition(
+                (pos) => order({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 'your location'),
+                () => say("We couldn't access your location — try entering a postcode.")
+            );
+        });
+    }
+})();

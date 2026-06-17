@@ -553,6 +553,45 @@ h1, h2, h3 {
 /* Eat & Drink type filter (All / Cafés / Pubs / Restaurants) */
 .places-filter { margin-top: 1.5rem; }
 
+/* Location search — order venues by distance from a postcode/town */
+.place-locator { margin-top: 1.25rem; }
+
+.locator-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.locator-input {
+    flex: 1 1 260px;
+    min-width: 0;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background-color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--color-text);
+}
+
+.locator-input:focus {
+    outline: none;
+    border-color: var(--color-moss);
+}
+
+.locator-form .btn { flex: 0 0 auto; }
+
+.locator-status {
+    margin: 0.75rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 560px) {
+    .locator-form .btn { flex: 1 1 auto; }
+}
+
 /* ---------- Meetups ---------- */
 
 .meetup {

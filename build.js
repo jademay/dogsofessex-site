@@ -1126,12 +1126,12 @@ function placePickCardHTML(p, walks) {
         ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
         : `<span>${meta.icon} ${esc(p.name)}</span>`;
     return `
-                        <article class="walk-card place-pick-card" data-place-type="${esc(p.type)}">
+                        <article class="walk-card place-pick-card" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
                             <div class="photo-ph">${photo}</div>
                             <div class="walk-card-body">
                                 <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
                                 <h3>${esc(p.name)}</h3>
-                                ${near ? `<p class="walk-card-meta">📍 ${near.mi.toFixed(1)} mi from ${esc(near.walk.name)} · 🚗 ~${driveMins(near.mi)} min</p>` : ''}
+                                <p class="walk-card-meta"><span class="place-dist">${near ? `📍 ${near.mi.toFixed(1)} mi from ${esc(near.walk.name)} · 🚗 ~${driveMins(near.mi)} min` : ''}</span></p>
                                 ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 5)}
                                 <div class="pc-actions">
                                     <a class="btn btn-primary" href="${esc(p.id)}/index.html">View details →</a>
@@ -1149,9 +1149,9 @@ function placeFreePillHTML(p, walks) {
     const url = placeUrl(p) || mapsUrl(p);
     const dist = near ? `${near.mi.toFixed(1)} mi • ${driveMins(near.mi)} mins` : '';
     return `
-                            <a class="free-pill" href="${esc(url)}" target="_blank" rel="noopener" data-place-type="${esc(p.type)}">
+                            <a class="free-pill" href="${esc(url)}" target="_blank" rel="noopener" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
                                 <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
-                                <span class="fp-dist">${dist}</span>
+                                <span class="fp-dist place-dist">${dist}</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>`;
 }
@@ -1224,6 +1224,16 @@ function placesCategoryPage(cat, places, walks) {
                         ${cat.filters.map((f, i) => `<button type="button" class="filter-pill${i === 0 ? ' is-active' : ''}" data-type="${esc(f.type)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${esc(f.label)}</button>`).join('\n                        ')}
                     </div>` : '';
 
+    const locatorBar = inCat.length ? `
+                    <div class="place-locator">
+                        <form class="locator-form" autocomplete="off">
+                            <input type="text" class="locator-input" name="loc" placeholder="Enter a postcode or town…" aria-label="Your postcode or town">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button type="button" class="locator-geo btn btn-secondary">📍 Use my location</button>
+                        </form>
+                        <p class="locator-status" role="status" hidden></p>
+                    </div>` : '';
+
     let content;
     if (!inCat.length) {
         content = `
@@ -1260,7 +1270,7 @@ function placesCategoryPage(cat, places, walks) {
                 <div class="container">
                     <p class="breadcrumb"><a href="${prefix}index.html">Home</a> · <a href="../index.html">Places</a> · ${esc(cat.title)}</p>
                     <h1 class="index-title">${cat.emoji} Dog-friendly ${esc(cat.plural)} in Essex</h1>
-                    <p class="index-sub">${esc(cat.intro)}</p>${noteBlock}${filterBar}
+                    <p class="index-sub">${esc(cat.intro)}</p>${noteBlock}${filterBar}${locatorBar}
                 </div>
             </section>${content}`;
 
