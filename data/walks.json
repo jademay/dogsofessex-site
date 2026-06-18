@@ -339,5 +339,80 @@
       "website": "https://www.essexwt.org.uk/nature-reserves/danbury-ridge"
     },
     "hasPage": true
+  },
+  {
+    "id": "danbury-commons-and-blakes-wood-danbury",
+    "name": "Danbury Commons and Blakes Wood",
+    "area": "Central Essex",
+    "scenery": "woodland",
+    "lat": 51.708981,
+    "lng": 0.576547,
+    "town": "Danbury",
+    "emoji": "",
+    "time": "50 minutes",
+    "timeShort": "50 mins",
+    "distance": "2 miles",
+    "routeType": "Multiple routes",
+    "terrain": "Woodland, common, heathland",
+    "mud": "Moderate",
+    "summary": "Explore Essex's second largest area of common land.",
+    "tags": [
+      "Woodland",
+      "Heath",
+      "Quiet"
+    ],
+    "rating": {
+      "value": 4.4,
+      "count": 1
+    },
+    "badges": [
+      "🐕 Mostly off lead",
+      "🚗 Free parking"
+    ],
+    "intro": "Explore Essex's second largest area of common land.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 3
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 3
+      },
+      {
+        "label": "Pushchairs",
+        "score": 3
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 3
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "There are two car parks as you drive in. Keep driving around for the second car park.",
+      "localTip": "",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "National Trust",
+      "website": "https://www.nationaltrust.org.uk/visit/essex-bedfordshire-hertfordshire/danbury-commons-and-blakes-wood"
+    },
+    "hasPage": true
   }
 ]
