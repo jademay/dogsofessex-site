@@ -387,6 +387,12 @@ function routeHTML(walk) {
     const r = walk.route || {};
     const pill = (label, val) => val
         ? `<span class="route-pill"><strong>${esc(label)}</strong> ${esc(val)}</span>` : '';
+    // Use an explicit embed URL if given, otherwise auto-build one from the
+    // walk's coordinates (a maps.app.goo.gl share link can't be iframed).
+    const mapSrc = r.mapEmbed
+        || (walk.lat != null && walk.lng != null
+            ? `https://www.google.com/maps?q=${walk.lat},${walk.lng}&output=embed`
+            : '');
     let routesBlock;
     if (walk.routes && walk.routes.length) {
         // Several routes from the same location — one named block each.
@@ -414,7 +420,7 @@ function routeHTML(walk) {
                     ${routesBlock}
                     ${r.parking ? `<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>` : ''}
                     ${r.localTip ? `<p class="local-tip">💡 <strong>Local tip:</strong> ${esc(r.localTip)}</p>` : ''}
-                    ${r.mapEmbed ? `<div class="map-embed"><iframe src="${esc(r.mapEmbed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : ''}`;
+                    ${mapSrc ? `<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : ''}`;
 }
 
 function whatToExpectHTML(paras) {
