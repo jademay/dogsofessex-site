@@ -2,7 +2,7 @@
   {
     "id": "tiptree-heath",
     "name": "Tiptree Heath Nature Reserve",
-    "area": "Central Essex",
+    "area": "Mid Essex",
     "scenery": "woodland",
     "lat": 51.808,
     "lng": 0.738,
@@ -119,7 +119,7 @@
   {
     "id": "chigborough-lakes-nature-reserve-heybridge",
     "name": "Chigborough Lakes Nature Reserve",
-    "area": "Central Essex",
+    "area": "Mid Essex",
     "scenery": "woodland",
     "lat": 51.74531216,
     "lng": 0.7186835096,
@@ -267,7 +267,7 @@
   {
     "id": "danbury-ridge-nature-reserves-danbury",
     "name": "Danbury Ridge Nature Reserves",
-    "area": "Central Essex",
+    "area": "Mid Essex",
     "scenery": "woodland",
     "lat": 51.72211399,
     "lng": 0.5867142927,
@@ -343,7 +343,7 @@
   {
     "id": "danbury-commons-and-blakes-wood-danbury",
     "name": "Danbury Commons and Blakes Wood",
-    "area": "Central Essex",
+    "area": "Mid Essex",
     "scenery": "woodland",
     "lat": 51.708981,
     "lng": 0.576547,
