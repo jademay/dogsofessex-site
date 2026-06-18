@@ -109,7 +109,7 @@ const SENIOR_SCALE = [
 
 const SCENERY_ICON = {
     woodland: '🌳', heathland: '🌿', parkland: '🌳',
-    coastal: '🌊', seaside: '🌊', park: '🌳'
+    coastal: '🌊', seaside: '🌊', park: '🌳', garden: '🌷'
 };
 
 // --- helpers ---
@@ -132,30 +132,48 @@ const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 
 // A walk may define multiple `routes` (each {name, distance, time, terrain?,
 // notes?}) for one location. These derive the card/hero summary from them.
-const firstNum = (s) => { const m = /([\d.]+)/.exec(String(s == null ? '' : s)); return m ? parseFloat(m[1]) : null; };
-function rangeOf(values) {
-    const ns = values.map(firstNum).filter((v) => v != null);
+// The parsers cope with real-world strings — decimals, unicode fractions
+// ("2¼ miles"), trailing "(3.4 km)", and "1 hour 20 minutes".
+const FRACTIONS = { '¼': 0.25, '½': 0.5, '¾': 0.75, '⅓': 1 / 3, '⅔': 2 / 3, '⅛': 0.125 };
+function parseMiles(s) {
+    const m = /^(\d+(?:\.\d+)?)?\s*([¼½¾⅓⅔⅛])?/.exec(String(s == null ? '' : s).trim());
+    if (!m || (m[1] == null && !m[2])) return null;
+    return (m[1] ? parseFloat(m[1]) : 0) + (m[2] ? FRACTIONS[m[2]] : 0);
+}
+function parseMinutes(s) {
+    s = String(s == null ? '' : s).toLowerCase();
+    let mins = 0, found = false;
+    const h = /(\d+(?:\.\d+)?)\s*(?:hours?|hrs?|h)\b/.exec(s);
+    if (h) { mins += parseFloat(h[1]) * 60; found = true; }
+    const mm = /(\d+)\s*(?:minutes?|mins?|m)\b/.exec(s);
+    if (mm) { mins += parseFloat(mm[1]); found = true; }
+    if (!found) { const n = /(\d+(?:\.\d+)?)/.exec(s); if (n) { mins += parseFloat(n[1]); found = true; } }
+    return found ? mins : null;
+}
+function rangeBy(values, parse) {
+    const ns = values.map(parse).filter((v) => v != null);
     if (!ns.length) return null;
     return { min: Math.min(...ns), max: Math.max(...ns) };
 }
+const trimNum = (n) => (Math.round(n * 100) / 100).toString();
 function milesLabel(walk) {
     if (walk.routes && walk.routes.length) {
-        const r = rangeOf(walk.routes.map((x) => x.distance));
-        if (r) return r.min === r.max ? `${r.min} miles` : `${r.min}–${r.max} miles`;
+        const r = rangeBy(walk.routes.map((x) => x.distance), parseMiles);
+        if (r) return r.min === r.max ? `${trimNum(r.min)} miles` : `${trimNum(r.min)}–${trimNum(r.max)} miles`;
     }
     return walk.distance || '';
 }
 function timeLabel(walk, short) {
     if (walk.routes && walk.routes.length) {
-        const r = rangeOf(walk.routes.map((x) => x.time));
-        if (r) return r.min === r.max ? `${r.min} mins` : `${r.min}–${r.max} mins`;
+        const r = rangeBy(walk.routes.map((x) => x.time), parseMinutes);
+        if (r) return r.min === r.max ? `${trimNum(r.min)} mins` : `${trimNum(r.min)}–${trimNum(r.max)} mins`;
     }
     return short ? (walk.timeShort || walk.time || '') : (walk.time || walk.timeShort || '');
 }
 // Numeric miles for sorting (shortest route when there are several).
 function milesValue(walk) {
     if (walk.routes && walk.routes.length) {
-        const r = rangeOf(walk.routes.map((x) => x.distance));
+        const r = rangeBy(walk.routes.map((x) => x.distance), parseMiles);
         if (r) return r.min;
     }
     return parseFloat(walk.distance) || 0;
@@ -402,7 +420,7 @@ function routeHTML(walk) {
                             <div class="route-meta">
                                 ${pill('Distance', rt.distance)}
                                 ${pill('Time', rt.time)}
-                                ${pill('Terrain', rt.terrain || walk.terrain)}
+                                ${pill('Terrain', rt.terrain || '')}
                                 ${pill('Route', rt.routeType || '')}
                             </div>
                             ${rt.notes ? `<p>${esc(rt.notes)}</p>` : ''}
