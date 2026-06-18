@@ -130,6 +130,37 @@ const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => (
 ));
 const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 
+// A walk may define multiple `routes` (each {name, distance, time, terrain?,
+// notes?}) for one location. These derive the card/hero summary from them.
+const firstNum = (s) => { const m = /([\d.]+)/.exec(String(s == null ? '' : s)); return m ? parseFloat(m[1]) : null; };
+function rangeOf(values) {
+    const ns = values.map(firstNum).filter((v) => v != null);
+    if (!ns.length) return null;
+    return { min: Math.min(...ns), max: Math.max(...ns) };
+}
+function milesLabel(walk) {
+    if (walk.routes && walk.routes.length) {
+        const r = rangeOf(walk.routes.map((x) => x.distance));
+        if (r) return r.min === r.max ? `${r.min} miles` : `${r.min}–${r.max} miles`;
+    }
+    return walk.distance || '';
+}
+function timeLabel(walk, short) {
+    if (walk.routes && walk.routes.length) {
+        const r = rangeOf(walk.routes.map((x) => x.time));
+        if (r) return r.min === r.max ? `${r.min} mins` : `${r.min}–${r.max} mins`;
+    }
+    return short ? (walk.timeShort || walk.time || '') : (walk.time || walk.timeShort || '');
+}
+// Numeric miles for sorting (shortest route when there are several).
+function milesValue(walk) {
+    if (walk.routes && walk.routes.length) {
+        const r = rangeOf(walk.routes.map((x) => x.distance));
+        if (r) return r.min;
+    }
+    return parseFloat(walk.distance) || 0;
+}
+
 // Place tiers: `partner` (paid, richer tile) or `free` (basic). The big
 // editorial card is the walk's `dogsOfEssexPick`, not a place tier.
 const EXAMPLE_PLACEHOLDER = 'https://example.com';
@@ -310,7 +341,7 @@ const walkHref = (w) => (w.hasPage ? `${w.id}.html` : '../index.html#walks');
 function heroHTML(walk) {
     const rating = walk.rating || {};
     const pct = rating.value ? Math.round((rating.value / 5) * 1000) / 10 : 0;
-    const metaLine = [cap(walk.scenery), walk.routeType, walk.timeShort, walk.mud ? 'Mud: ' + walk.mud : '']
+    const metaLine = [cap(walk.scenery), walk.routeType, timeLabel(walk, true), walk.mud ? 'Mud: ' + walk.mud : '']
         .filter(Boolean).join(' • ');
     const badges = (walk.badges || []).map((b) => `<span class="chip">${esc(b)}</span>`).join('');
     const ratingBlock = rating.value ? `
@@ -356,13 +387,31 @@ function routeHTML(walk) {
     const r = walk.route || {};
     const pill = (label, val) => val
         ? `<span class="route-pill"><strong>${esc(label)}</strong> ${esc(val)}</span>` : '';
-    return `
-                    <div class="route-meta">
+    let routesBlock;
+    if (walk.routes && walk.routes.length) {
+        // Several routes from the same location — one named block each.
+        routesBlock = `<div class="route-options">${walk.routes.map((rt, i) => `
+                        <div class="route-option">
+                            <h3 class="route-option-name">${esc(rt.name || ('Route ' + (i + 1)))}</h3>
+                            <div class="route-meta">
+                                ${pill('Distance', rt.distance)}
+                                ${pill('Time', rt.time)}
+                                ${pill('Terrain', rt.terrain || walk.terrain)}
+                                ${pill('Route', rt.routeType || '')}
+                            </div>
+                            ${rt.notes ? `<p>${esc(rt.notes)}</p>` : ''}
+                        </div>`).join('')}
+                    </div>`;
+    } else {
+        routesBlock = `<div class="route-meta">
                         ${pill('Distance', walk.distance)}
                         ${pill('Time', walk.time)}
                         ${pill('Terrain', walk.terrain)}
                         ${pill('Route', walk.routeType)}
-                    </div>
+                    </div>`;
+    }
+    return `
+                    ${routesBlock}
                     ${r.parking ? `<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>` : ''}
                     ${r.localTip ? `<p class="local-tip">💡 <strong>Local tip:</strong> ${esc(r.localTip)}</p>` : ''}
                     ${r.mapEmbed ? `<div class="map-embed"><iframe src="${esc(r.mapEmbed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : ''}`;
@@ -777,7 +826,7 @@ ${footerHTML('../')}
 
 function indexWalkCard(w, i) {
     const icon = SCENERY_ICON[w.scenery] || '🐾';
-    const meta = [w.distance, w.time, w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
+    const meta = [milesLabel(w), timeLabel(w), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     // glance scores (for filtering) + sort metadata as data attributes
     const glance = (w.glance || []).map((g) => {
@@ -785,7 +834,7 @@ function indexWalkCard(w, i) {
         return k ? ` data-${k}="${g.score}"` : '';
     }).join('');
     const data = `${glance} data-lat="${w.lat}" data-lng="${w.lng}"`
-        + ` data-miles="${parseFloat(w.distance) || 0}" data-order="${i}"`
+        + ` data-miles="${milesValue(w)}" data-order="${i}"`
         + ` data-pop="${(w.rating && w.rating.count) || 0}" data-added="${esc(w.added || '')}"`;
     const inner = `
                             <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
@@ -941,7 +990,7 @@ function walkPickCardHTML(w, cat, prefix) {
 // A standard walk card for the "more walks" list.
 function bestForWalkCardHTML(w, prefix) {
     const icon = SCENERY_ICON[w.scenery] || '🐾';
-    const meta = [w.distance, w.time, w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
+    const meta = [milesLabel(w), timeLabel(w), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     return `
                         <a href="${prefix}walks/${esc(w.id)}.html" class="walk-card">

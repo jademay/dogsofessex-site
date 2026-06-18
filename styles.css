@@ -1207,6 +1207,27 @@ h1, h2, h3 {
     padding: 0.65rem 0.9rem;
     font-size: 0.92rem;
 }
+
+/* Multiple routes from one location */
+.route-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+.route-option {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+}
+.route-option-name {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin: 0 0 0.75rem;
+}
+.route-option .route-meta { margin-bottom: 0; }
+.route-option .route-meta + p { margin: 0.85rem 0 0; }
 .route-pill strong {
     display: block;
     font-weight: 500;
