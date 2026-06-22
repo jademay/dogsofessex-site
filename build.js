@@ -803,12 +803,34 @@ function page(walk, walks, places, tips) {
           maxZoom: 19,
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        // Branded HTML markers (no external pin images, so no 404s). leaflet-gpx
+        // adds Start/Finish from the track ends and a marker per GPX waypoint,
+        // keyed by its <sym> (e.g. "Parking Area").
+        // anchor offsets fan coincident markers vertically (on a circular walk
+        // the start, finish and car park can sit on the same spot) so each
+        // label stays readable above the trailhead.
+        var pin = function (cls, content, anchor) {
+          return L.divIcon({
+            className: 'gpx-pin',
+            html: '<span class="gpx-pin-badge ' + cls + '">' + content + '</span>',
+            iconSize: [0, 0],
+            iconAnchor: anchor || [0, 0]
+          });
+        };
         new L.GPX(el.dataset.gpx, {
           async: true,
           polyline_options: { color: '#BC6A48', weight: 4, opacity: 0.9 },
-          marker_options: { startIconUrl: null, endIconUrl: null, shadowUrl: null, wptIconUrls: {} }
+          marker_options: {
+            startIcon: pin('gpx-pin-start', 'Start', [0, 30]),
+            endIcon: pin('gpx-pin-end', 'Finish', [0, 58]),
+            wptIcons: {
+              '': pin('gpx-pin-wpt', '📍', [0, 0]),
+              'Parking Area': pin('gpx-pin-parking', '🅿️', [0, 0])
+            }
+          }
         }).on('loaded', function (e) {
-          map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
+          map.fitBounds(e.target.getBounds(), { padding: [30, 30] });
+          map.closePopup();
         }).on('error', function () {
           el.classList.add('route-map-error');
           el.innerHTML = '<p class="map-error">Route map unavailable — download the GPX below.</p>';

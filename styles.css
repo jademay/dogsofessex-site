@@ -1047,6 +1047,27 @@ h1, h2, h3 {
 }
 .gpx-note { color: var(--color-muted); font-size: 0.85rem; }
 .map-error { padding: 1.5rem; margin: 0; color: var(--color-muted); text-align: center; }
+/* GPX route markers (start / finish / waypoints) — HTML pins, no image files */
+.gpx-pin { width: 0; height: 0; }
+.gpx-pin-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font: 600 0.72rem/1 'Inter', system-ui, sans-serif;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+.gpx-pin-start { background: #3C7D4E; color: #fff; }
+.gpx-pin-end { background: var(--color-forest-dark); color: #fff; }
+.gpx-pin-wpt,
+.gpx-pin-parking { background: #fff; font-size: 1rem; padding: 3px 5px; }
 
 .nearby {
     margin-top: 3rem;
