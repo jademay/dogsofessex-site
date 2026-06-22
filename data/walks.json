@@ -547,27 +547,27 @@
       {
         "name": "Pleasure Gardens Walk",
         "distance": "¾ mile (1.3 km)",
-        "time": "30 minutes"
+        "time": "30 mins"
       },
       {
         "name": "Repton's Walk",
         "distance": "2¼ miles (3.4 km)",
-        "time": "1 hour"
+        "time": "1hr"
       },
       {
         "name": "Jubilee Walk",
         "distance": "2¼ miles (3.6 km)",
-        "time": "1 hour 20 minutes"
+        "time": "1hr 20 mins"
       },
       {
         "name": "Lower Estate Walk",
         "distance": "2¾ miles (4.6 km)",
-        "time": "1 hour 45 minutes"
+        "time": "1hr 45 mins"
       },
       {
         "name": "Estate Boundary Walk",
         "distance": "4 miles (6.3 km)",
-        "time": "2 hours 30 minutes"
+        "time": "2hrs 30 mins"
       }
     ],
     "route": {
