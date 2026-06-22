@@ -737,5 +737,93 @@
     },
     "added": "2026-06-22",
     "hasPage": true
+  },
+  {
+    "id": "high-woods-country-park",
+    "name": "High Woods Country Park",
+    "area": "North East Essex",
+    "scenery": "woodland",
+    "lat": 51.90743054,
+    "lng": 0.9084076014,
+    "town": "Colchester",
+    "emoji": "🌳",
+    "routeType": "Multiple routes",
+    "terrain": "Woodland trails, lakeside paths & open parkland",
+    "mud": "Moderate",
+    "summary": "A varied country park with woodland, lakes and wide paths that's perfect for everyday dog walks.",
+    "tags": [
+      "Woodland",
+      "Lake",
+      "Off Lead"
+    ],
+    "rating": {
+      "value": 4.6,
+      "count": 1
+    },
+    "badges": [
+      "📍 Colchester",
+      "🐕 Mostly off lead",
+      "🚗 Free parking",
+      "🌳 Woodland & lakes",
+      "👶 Pushchair friendly"
+    ],
+    "intro": "High Woods Country Park is one of Colchester's most popular dog walks, combining woodland trails, wildlife lakes and open parkland. With wide paths, plenty of variety and routes suitable for most abilities, it's an excellent choice for everything from a quick weekday stroll to a longer weekend adventure.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 3
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 4
+      },
+      {
+        "label": "Pushchairs",
+        "score": 4
+      },
+      {
+        "label": "Swimming",
+        "score": 2
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 4
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "routes": [
+      {
+        "name": "High Woods Small Circular",
+        "distance": "3 miles",
+        "time": "1hr 30 mins"
+      },
+      {
+        "name": "High Woods Large Circular",
+        "distance": "6 miles",
+        "time": "3hrs"
+      }
+    ],
+    "route": {
+      "parking": "There are two main car parks: the Turner Road car park (paid, near the Visitor Centre) and the Chanterelle car park (free, located on the High Woods residential estate).",
+      "localTip": "Water-loving dogs may be disappointed here. The lakes are a great feature of the park, but dogs aren't allowed to swim in them, so don't forget to bring water on warmer days.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Colchester City Council",
+      "website": "https://www.new.colchester.gov.uk/country-parks-and-local-nature-reserves/high-woods-country-park#gsc.tab=0"
+    },
+    "added": "2026-06-22",
+    "hasPage": true
   }
 ]
