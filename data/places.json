@@ -70,11 +70,13 @@
     "lat": 51.79406522,
     "lng": 0.7152051423,
     "dogFriendly": true,
-    "dogFriendlyNotes": "",
+    "dogFriendlyNotes": "The staff welcomed our dog and allowed us either outside or inside the first dining room, but not in the main restaurant itself. They also brought a dog bowl for us.",
     "dogAccess": [
-      "inside"
+      "inside",
+      "outside",
+      "water-bowls"
     ],
-    "lastChecked": "2026-06-14",
+    "lastChecked": "2026-06-20",
     "checkedBy": "Dogs of Essex",
     "verified": true,
     "partnerTier": "partner",

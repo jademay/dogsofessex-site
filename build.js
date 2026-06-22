@@ -375,6 +375,18 @@ function heroHTML(walk) {
                 ${badges ? `<div class="walk-chips">${badges}</div>` : ''}`;
 }
 
+// Asset #1 of 3: a static route-overview image shown near the top of the page
+// (also used as the social/OG share image). Self-removes if the file is missing.
+function routeOverviewHTML(walk) {
+    if (!walk.routeImage) return '';
+    return `
+            <div class="container narrow">
+                <figure class="route-overview">
+                    <img src="../${esc(walk.routeImage)}" alt="Route overview map of ${esc(walk.name)}" loading="eager" onerror="this.closest('.route-overview').remove()">
+                </figure>
+            </div>`;
+}
+
 function glanceHTML(items) {
     if (!items || !items.length) return '';
     return items.map((row) => `
@@ -434,11 +446,19 @@ function routeHTML(walk) {
                         ${pill('Route', walk.routeType)}
                     </div>`;
     }
+    // Assets #2 and #3: an interactive Leaflet map drawn from the walk's GPX
+    // track, plus a download button for Komoot / AllTrails / Garmin / Strava.
+    // Walks without a gpxFile fall back to the existing Google Maps embed.
+    const gpxPath = walk.gpxFile ? `../${esc(walk.gpxFile)}` : '';
+    const mapBlock = gpxPath
+        ? `<div id="route-map" class="route-map" data-gpx="${gpxPath}" role="img" aria-label="Interactive route map of ${esc(walk.name)}"></div>
+                    <p class="gpx-actions"><a class="btn btn-secondary gpx-download" href="${gpxPath}" download>⬇ Download GPX route</a><span class="gpx-note">Works with Komoot, AllTrails, Garmin &amp; Strava</span></p>`
+        : (mapSrc ? `<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : '');
     return `
                     ${routesBlock}
                     ${r.parking ? `<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>` : ''}
                     ${r.localTip ? `<p class="local-tip">💡 <strong>Local tip:</strong> ${esc(r.localTip)}</p>` : ''}
-                    ${mapSrc ? `<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : ''}`;
+                    ${mapBlock}`;
 }
 
 function whatToExpectHTML(paras) {
@@ -753,12 +773,49 @@ function page(walk, walks, places, tips) {
     const title = seo.title || `${walk.name} | Dogs of Essex`;
     const description = seo.description || walk.intro || '';
     const tipSubject = encodeURIComponent(`Walk tip: ${walk.name}`);
+    // Prefer an explicit SEO image; otherwise share the route-overview image.
+    // Social platforms need an absolute URL, so resolve against the domain.
+    const ogImage = seo.image
+        || (walk.routeImage ? `https://dogsofessex.co.uk/${walk.routeImage}` : '');
     const og = [
         `<meta property="og:type" content="article">`,
         `<meta property="og:title" content="${esc(title)}">`,
         description ? `<meta property="og:description" content="${esc(description)}">` : '',
-        seo.image ? `<meta property="og:image" content="${esc(seo.image)}">` : ''
+        ogImage ? `<meta property="og:image" content="${esc(ogImage)}">` : '',
+        ogImage ? `<meta name="twitter:card" content="summary_large_image">` : '',
+        ogImage ? `<meta name="twitter:image" content="${esc(ogImage)}">` : ''
     ].filter(Boolean).join('\n    ');
+    // Leaflet + leaflet-gpx are only loaded on pages that have a GPX track.
+    const needsMap = !!walk.gpxFile;
+    const mapHead = needsMap
+        ? `\n    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">`
+        : '';
+    const mapScripts = needsMap
+        ? `
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>
+    <script>
+      (function () {
+        var el = document.getElementById('route-map');
+        if (!el || typeof L === 'undefined') return;
+        var map = L.map(el, { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        new L.GPX(el.dataset.gpx, {
+          async: true,
+          polyline_options: { color: '#BC6A48', weight: 4, opacity: 0.9 },
+          marker_options: { startIconUrl: null, endIconUrl: null, shadowUrl: null, wptIconUrls: {} }
+        }).on('loaded', function (e) {
+          map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
+        }).on('error', function () {
+          el.classList.add('route-map-error');
+          el.innerHTML = '<p class="map-error">Route map unavailable — download the GPX below.</p>';
+        }).addTo(map);
+      })();
+    </script>`
+        : '';
 
     // Content bands — rendered in order, alternating background like the homepage.
     // Optional bands (gallery, what-to-expect, official) drop out when empty, and
@@ -823,7 +880,7 @@ function page(walk, walks, places, tips) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../styles.css">${mapHead}
     <script>window.WALK_ID = "${walk.id}";</script>
 </head>
 <body>${navHTML('../')}
@@ -831,7 +888,7 @@ function page(walk, walks, places, tips) {
     <main>
         <section class="walk-hero">
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
-            </div>
+            </div>${routeOverviewHTML(walk)}
         </section>
 
         <div class="walk-body">${walkBody}
@@ -840,7 +897,7 @@ function page(walk, walks, places, tips) {
 ${footerHTML('../')}
 
     <script src="../script.js"></script>
-    <script src="../walk.js"></script>
+    <script src="../walk.js"></script>${mapScripts}
 </body>
 </html>
 `;

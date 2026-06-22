@@ -11,7 +11,7 @@
     "dogsOfEssexPick": "tiptree-tea-rooms",
     "time": "30 minutes",
     "timeShort": "30 mins",
-    "distance": "1.3 miles",
+    "distance": "1.5 miles",
     "routeType": "Circular",
     "terrain": "Sandy trails & open heath",
     "mud": "Moderate",
@@ -113,6 +113,8 @@
       "description": "A quiet woodland dog walk near Tiptree with free parking, shade and circular trails. Honest ratings, photos, parking tips and nearby dog-friendly places.",
       "image": ""
     },
+    "routeImage": "images/routes/tiptree-heath.png",
+    "gpxFile": "data/gpx/tiptree-heath.gpx",
     "added": "2026-06-14",
     "hasPage": true
   },
@@ -495,6 +497,77 @@
       "managedBy": "Hylands Estate",
       "website": "https://hylandsestate.co.uk/explore/gardens-and-parklands/"
     },
+    "hasPage": true
+  },
+  {
+    "id": "crowsheath-wood-nature-reserve-billericay",
+    "name": "Crowsheath Wood Nature Reserve",
+    "area": "Mid Essex",
+    "scenery": "woodland",
+    "lat": 51.64118465,
+    "lng": 0.4904430227,
+    "town": "Downham",
+    "time": "20 to 40 minutes",
+    "timeShort": "20–40 mins",
+    "distance": "0.8–1.5 miles",
+    "routeType": "Circular",
+    "terrain": "Woodland, grassland, ponds",
+    "mud": "Moderate",
+    "summary": "Take a walk through this fantastic woodland that shows off one of Essex's best spring flower displays",
+    "tags": [
+      "Woodland",
+      "Grassland",
+      "Ponds"
+    ],
+    "rating": {
+      "value": 4,
+      "count": 1
+    },
+    "intro": "Take a walk through this fantastic woodland that shows off one of Essex's best spring flower displays",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 3
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 3
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 5
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "There is parking at Hanningfield Reservoir which is an easy walking distance, otherwise there is limited parking at the entrance of the track leading up to the reserve",
+      "localTip": "",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Essex Wildlife Trust",
+      "website": "https://www.essexwt.org.uk/nature-reserves/crowsheath-wood"
+    },
+    "added": "2026-06-22",
     "hasPage": true
   }
 ]
