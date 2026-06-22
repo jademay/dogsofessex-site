@@ -454,10 +454,20 @@ function routeHTML(walk) {
         ? `<div id="route-map" class="route-map" data-gpx="${gpxPath}" role="img" aria-label="Interactive route map of ${esc(walk.name)}"></div>
                     <p class="gpx-actions"><a class="btn btn-secondary gpx-download" href="${gpxPath}" download>⬇ Download GPX route</a><span class="gpx-note">Works with Komoot, AllTrails, Garmin &amp; Strava</span></p>`
         : (mapSrc ? `<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : '');
-    return `
-                    ${routesBlock}
+    // For a single-route walk, show a compact stat line directly above the map
+    // (distance • time • route type • terrain) instead of the pill block.
+    // Multi-route walks keep their per-route blocks at the top.
+    const isMulti = walk.routes && walk.routes.length;
+    const statParts = isMulti
+        ? []
+        : [walk.distance, walk.timeShort || walk.time, walk.routeType, walk.terrain].filter(Boolean);
+    const statLine = statParts.length
+        ? `<p class="route-statline">${statParts.map(esc).join(' • ')}</p>` : '';
+    return `${isMulti ? `
+                    ${routesBlock}` : ''}
                     ${r.parking ? `<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>` : ''}
                     ${r.localTip ? `<p class="local-tip">💡 <strong>Local tip:</strong> ${esc(r.localTip)}</p>` : ''}
+                    ${statLine}
                     ${mapBlock}`;
 }
 
@@ -799,37 +809,48 @@ function page(walk, walks, places, tips) {
         var el = document.getElementById('route-map');
         if (!el || typeof L === 'undefined') return;
         var map = L.map(el, { scrollWheelZoom: false });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+          maxZoom: 19,
+          attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics'
+        });
+        L.control.layers({ '🗺 Map': osm, '🛰 Satellite': satellite }, null, { position: 'topright' }).addTo(map);
         // Branded HTML markers (no external pin images, so no 404s). leaflet-gpx
         // adds Start/Finish from the track ends and a marker per GPX waypoint,
         // keyed by its <sym> (e.g. "Parking Area").
-        // anchor offsets fan coincident markers vertically (on a circular walk
-        // the start, finish and car park can sit on the same spot) so each
-        // label stays readable above the trailhead.
-        var pin = function (cls, content, anchor) {
+        // Each marker is rooted exactly on its real point (iconAnchor [0,0]);
+        // a CSS leader line of a per-type length lifts the label clear of the
+        // others, so coincident start/finish/parking points stay legible
+        // without moving the marker off its true location.
+        var pin = function (cls, content) {
           return L.divIcon({
             className: 'gpx-pin',
             html: '<span class="gpx-pin-badge ' + cls + '">' + content + '</span>',
             iconSize: [0, 0],
-            iconAnchor: anchor || [0, 0]
+            iconAnchor: [0, 0]
           });
         };
         new L.GPX(el.dataset.gpx, {
           async: true,
-          polyline_options: { color: '#BC6A48', weight: 4, opacity: 0.9 },
+          polyline_options: { color: '#1F5A44', weight: 4, opacity: 0.95 },
           marker_options: {
-            startIcon: pin('gpx-pin-start', 'Start', [0, 30]),
-            endIcon: pin('gpx-pin-end', 'Finish', [0, 58]),
+            startIcon: pin('gpx-pin-start', 'Start'),
+            endIcon: pin('gpx-pin-end', 'Finish'),
             wptIcons: {
-              '': pin('gpx-pin-wpt', '📍', [0, 0]),
-              'Parking Area': pin('gpx-pin-parking', '🅿️', [0, 0])
+              '': pin('gpx-pin-wpt', '📍'),
+              'Parking Area': pin('gpx-pin-parking', '🅿️')
             }
           }
         }).on('loaded', function (e) {
-          map.fitBounds(e.target.getBounds(), { padding: [30, 30] });
+          // Tight fit so the route fills the frame; extra top room only, to
+          // clear the stacked Start/Finish labels above the trailhead.
+          map.fitBounds(e.target.getBounds(), {
+            paddingTopLeft: [12, 56],
+            paddingBottomRight: [12, 12]
+          });
           map.closePopup();
         }).on('error', function () {
           el.classList.add('route-map-error');
