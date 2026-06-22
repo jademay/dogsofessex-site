@@ -825,5 +825,84 @@
     },
     "added": "2026-06-22",
     "hasPage": true
+  },
+  {
+    "id": "wrabness-nature-reserve-wrabness",
+    "name": "Wrabness Nature Reserve",
+    "area": "North East Essex",
+    "scenery": "coastal",
+    "lat": 51.93931232,
+    "lng": 1.151622376,
+    "town": "Wrabness",
+    "emoji": "🌊",
+    "time": "30 minutes",
+    "timeShort": "30 mins",
+    "distance": "1.4 miles",
+    "routeType": "Circular",
+    "terrain": "Estuary paths, open grassland & woodland trails",
+    "mud": "Moderate",
+    "summary": "A peaceful estuary walk with big skies, wildlife-rich landscapes and some of the best views on the Essex coast.",
+    "tags": [
+      "Estuary",
+      "Wildlife",
+      "Scenic"
+    ],
+    "rating": {
+      "value": 4.8,
+      "count": 1
+    },
+    "badges": [
+      "📍 Wrabness",
+      "🌊 Estuary views",
+      "🐦 Wildlife rich",
+      "🚶 Peaceful trails",
+      "🎨 A House for Essex"
+    ],
+    "intro": "Overlooking the Stour Estuary, Wrabness Nature Reserve offers one of the most peaceful and scenic walks in Essex. Expect sweeping estuary views, abundant wildlife and quiet countryside trails, with plenty of opportunities to slow down and enjoy the landscape with your dog.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 3
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 3
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 3
+      },
+      {
+        "label": "Shade",
+        "score": 2
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "There is a car park at the entrance to the reserve. Please note there is a height barrier of 2.1m.",
+      "localTip": "Keep an eye out for A House for Essex, the striking landmark designed by Grayson Perry. It's one of Essex's most unusual sights and sits just a short detour from the main walking routes.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Essex Wildlife Trust",
+      "website": "https://www.essexwt.org.uk/nature-reserves/wrabness"
+    },
+    "added": "2026-06-22",
+    "hasPage": true
   }
 ]

@@ -979,7 +979,7 @@ ${footerHTML('../')}
 
 function indexWalkCard(w, i) {
     const icon = SCENERY_ICON[w.scenery] || '🐾';
-    const meta = [milesLabel(w), timeLabel(w), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
+    const meta = [milesLabel(w), timeLabel(w, true), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     // glance scores (for filtering) + sort metadata as data attributes
     const glance = (w.glance || []).map((g) => {
@@ -1143,7 +1143,7 @@ function walkPickCardHTML(w, cat, prefix) {
 // A standard walk card for the "more walks" list.
 function bestForWalkCardHTML(w, prefix) {
     const icon = SCENERY_ICON[w.scenery] || '🐾';
-    const meta = [milesLabel(w), timeLabel(w), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
+    const meta = [milesLabel(w), timeLabel(w, true), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     return `
                         <a href="${prefix}walks/${esc(w.id)}.html" class="walk-card">
