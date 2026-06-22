@@ -109,7 +109,8 @@ const SENIOR_SCALE = [
 
 const SCENERY_ICON = {
     woodland: '🌳', heathland: '🌿', parkland: '🌳',
-    coastal: '🌊', seaside: '🌊', park: '🌳', garden: '🌷', beach: '🏖️'
+    coastal: '🌊', seaside: '🌊', park: '🌳', garden: '🌷', beach: '🏖️',
+    riverside: '🏞️'
 };
 
 // --- helpers ---
@@ -165,8 +166,16 @@ function milesLabel(walk) {
 }
 function timeLabel(walk, short) {
     if (walk.routes && walk.routes.length) {
-        const r = rangeBy(walk.routes.map((x) => x.time), parseMinutes);
-        if (r) return r.min === r.max ? `${trimNum(r.min)} mins` : `${trimNum(r.min)}–${trimNum(r.max)} mins`;
+        // Show the actual time strings of the shortest and longest routes
+        // (e.g. "1hr 40 mins–3hrs 20 mins") rather than a raw minutes range.
+        const timed = walk.routes
+            .map((x) => ({ label: x.time, mins: parseMinutes(x.time) }))
+            .filter((x) => x.label && x.mins != null);
+        if (timed.length) {
+            const lo = timed.reduce((a, b) => (b.mins < a.mins ? b : a));
+            const hi = timed.reduce((a, b) => (b.mins > a.mins ? b : a));
+            return lo.label === hi.label ? lo.label : `${lo.label}–${hi.label}`;
+        }
     }
     return short ? (walk.timeShort || walk.time || '') : (walk.time || walk.timeShort || '');
 }

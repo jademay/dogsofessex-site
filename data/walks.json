@@ -651,5 +651,91 @@
     },
     "added": "2026-06-22",
     "hasPage": true
+  },
+  {
+    "id": "dedham-vale-dedham",
+    "name": "Dedham Vale",
+    "area": "North East Essex",
+    "scenery": "riverside",
+    "lat": 51.96073005,
+    "lng": 0.9942639235,
+    "town": "Dedham",
+    "emoji": "🌾",
+    "routeType": "Multiple routes",
+    "terrain": "Riverside paths, open meadows & gentle countryside trails",
+    "mud": "Moderate",
+    "summary": "One of Essex's most beautiful countryside walks, with riverside paths, open fields and classic Dedham Vale views",
+    "tags": [
+      "Riverside",
+      "Countryside",
+      "Off Lead"
+    ],
+    "rating": {
+      "value": 5,
+      "count": 1
+    },
+    "badges": [
+      "🅿️ Parking charges",
+      "🚗 Limited free parking",
+      "🏊 River to swim"
+    ],
+    "intro": "Dedham Vale offers a beautiful mix of riverside paths, open countryside and dog-friendly trails. With plenty of space to explore and some of Essex's most celebrated views, it's a fantastic choice for a relaxing walk with your dog.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 3
+      },
+      {
+        "label": "Puppies",
+        "score": 3
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 5
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 5
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 2
+      },
+      {
+        "label": "Low Mud",
+        "score": 4
+      }
+    ],
+    "routes": [
+      {
+        "name": "Dedham to Flatford River Walk",
+        "distance": "2.5 miles",
+        "time": "1hr 40 mins"
+      },
+      {
+        "name": "Dedham, Gun Hill, and Stour Valley Circular",
+        "distance": "6 miles",
+        "time": "3hrs 20 mins"
+      }
+    ],
+    "route": {
+      "parking": "Two paid for carparks: Dedham Car Park and Dedham Riverside Carpark. You can also park for free for two hours in the town.",
+      "localTip": "Many dogs head straight for the river, so a towel in the car is a good idea, especially after rain when the riverside paths can be muddy.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "National Landscapes",
+      "website": "https://dedhamvale-nl.org.uk/"
+    },
+    "added": "2026-06-22",
+    "hasPage": true
   }
 ]
