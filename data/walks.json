@@ -231,22 +231,104 @@
     "hasPage": false
   },
   {
-    "id": "mersea-beach",
-    "name": "Mersea Beach",
-    "area": "Mersea & the Coast",
-    "scenery": "coastal",
-    "lat": 51.778,
-    "lng": 0.913,
-    "time": "45 minutes",
-    "distance": "2.2 miles",
+    "id": "west-mersea-island",
+    "name": "West Mersea",
+    "area": "North East Essex",
+    "scenery": "beach",
+    "lat": 51.77420801,
+    "lng": 0.9285178677,
+    "town": "Mersea Island",
+    "emoji": "🏖️",
+    "routeType": "Multiple routes",
+    "terrain": "Sandy beach",
     "mud": "Low",
-    "summary": "Coastal • Water-loving dogs • Seasonal restrictions",
+    "summary": "A picturesque seaside town with colourful beach huts, sweeping coastal views and miles of shoreline to explore.",
     "tags": [
-      "Coastal",
-      "Swimming",
-      "Seasonal restrictions"
+      "Beach",
+      "Sandy",
+      "Pebbles",
+      "Rocks"
     ],
-    "hasPage": false
+    "rating": {
+      "value": 4,
+      "count": 1
+    },
+    "badges": [
+      "🅿️ Parking charges",
+      "🏖️ Beach"
+    ],
+    "intro": "A picturesque seaside town with colourful beach huts, sweeping coastal views and miles of shoreline to explore. West Mersea is perfect for a relaxed dog walk by the sea, with plenty of dog-friendly cafés, pubs and beaches nearby.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 3
+      },
+      {
+        "label": "Puppies",
+        "score": 5
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 4
+      },
+      {
+        "label": "Pushchairs",
+        "score": 4
+      },
+      {
+        "label": "Swimming",
+        "score": 5
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 1
+      },
+      {
+        "label": "Low Mud",
+        "score": 2
+      }
+    ],
+    "routes": [
+      {
+        "name": "The 'Old City' Walk",
+        "distance": "1.5 miles"
+      },
+      {
+        "name": "The Strood Channel Walk",
+        "distance": "3.5 miles"
+      },
+      {
+        "name": "'Follies' Walk",
+        "distance": "2.5 miles"
+      },
+      {
+        "name": "The White Hart, St Peter's Meadow, & The Boardwalk Walk",
+        "distance": "1.5 miles"
+      },
+      {
+        "name": "The Esplanade Beach Walk",
+        "distance": "2.3 miles"
+      },
+      {
+        "name": "East Road to Waldegraves Walk",
+        "distance": "2.75 miles"
+      },
+      {
+        "name": "The Fox & The Vineyard Walk",
+        "distance": "3 miles"
+      }
+    ],
+    "route": {
+      "parking": "There are two main car parks (Victoria Esplanade Parking & Willoughby Avenue Car Park) that are a little expensive and fill up on hot days. But if you get there early, you will be able to get a space.",
+      "localTip": "Watch out for the tide times to avoid getting stranded in Mersea until low tide.",
+      "mapEmbed": ""
+    },
+    "added": "2026-06-22",
+    "hasPage": true
   },
   {
     "id": "danbury-ridge-nature-reserves-danbury",
