@@ -490,6 +490,26 @@
             }
           }
         }).on('loaded', function (e) {
+          // White casing beneath the route line so it stays legible on both the
+          // map and the darker satellite imagery. Use a dedicated pane below the
+          // overlay pane (z-index 400) so the casing sits under the route without
+          // a fragile bringToBack() call. leaflet-gpx nests the track polyline in
+          // sub-groups, so recurse to find it.
+          if (!map.getPane('routeCasing')) {
+            map.createPane('routeCasing');
+            map.getPane('routeCasing').style.zIndex = 350;
+          }
+          (function addCasing(layer) {
+            if (layer instanceof L.Polyline && typeof layer.getLatLngs === 'function') {
+              L.polyline(layer.getLatLngs(), {
+                pane: 'routeCasing',
+                color: '#fff', weight: 7, opacity: 0.95,
+                lineJoin: 'round', lineCap: 'round'
+              }).addTo(map);
+            } else if (typeof layer.eachLayer === 'function') {
+              layer.eachLayer(addCasing);
+            }
+          })(e.target);
           // Tight fit so the route fills the frame; extra top room only, to
           // clear the stacked Start/Finish labels above the trailhead.
           map.fitBounds(e.target.getBounds(), {
