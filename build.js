@@ -110,7 +110,7 @@ const SENIOR_SCALE = [
 const SCENERY_ICON = {
     woodland: '🌳', heathland: '🌿', parkland: '🌳',
     coastal: '🌊', seaside: '🌊', park: '🌳', garden: '🌷', beach: '🏖️',
-    riverside: '🏞️'
+    riverside: '🏞️', 'nature-reserve': '🌿'
 };
 
 // --- helpers ---
@@ -368,7 +368,7 @@ const walkHref = (w) => (w.hasPage ? `${w.id}.html` : '../index.html#walks');
 function heroHTML(walk) {
     const rating = walk.rating || {};
     const pct = rating.value ? Math.round((rating.value / 5) * 1000) / 10 : 0;
-    const metaLine = [cap(walk.scenery), walk.routeType, timeLabel(walk, true), walk.mud ? 'Mud: ' + walk.mud : '']
+    const metaLine = [cap((walk.scenery || '').replace(/-/g, ' ')), walk.routeType, timeLabel(walk, true), walk.mud ? 'Mud: ' + walk.mud : '']
         .filter(Boolean).join(' • ');
     const badges = (walk.badges || []).map((b) => `<span class="chip">${esc(b)}</span>`).join('');
     const ratingBlock = rating.value ? `

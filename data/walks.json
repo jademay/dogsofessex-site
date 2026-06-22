@@ -195,22 +195,82 @@
     "hasPage": true
   },
   {
-    "id": "great-notley-country-park",
+    "id": "great-notley-country-park-great-notley",
     "name": "Great Notley Country Park",
-    "area": "Central Essex",
-    "scenery": "parkland",
-    "lat": 51.853,
-    "lng": 0.516,
-    "time": "40 minutes",
-    "distance": "1.8 miles",
+    "area": "North East Essex",
+    "scenery": "park",
+    "lat": 51.86366842,
+    "lng": 0.5175026241,
+    "town": "Great Notley",
+    "emoji": "🌳",
+    "timeShort": "50 mins",
+    "distance": "2 miles",
+    "routeType": "Circular",
+    "terrain": "Wide parkland paths, lakeside trails & open grassland",
     "mud": "Low",
-    "summary": "Parkland • Lake • Café & toilets on site",
+    "summary": "A spacious country park with wide paths, open fields and plenty of room for dogs to explore.",
     "tags": [
-      "Parkland",
-      "Lake",
-      "Pushchair friendly"
+      "Off Lead",
+      "Accessible",
+      "Family Friendly"
     ],
-    "hasPage": false
+    "rating": {
+      "value": 4.7,
+      "count": 1
+    },
+    "badges": [
+      "📍 Braintree",
+      "🐕 Mostly off lead",
+      "🚗 Free parking",
+      "👶 Pushchair friendly",
+      "🌳 Open parkland"
+    ],
+    "intro": "Great Notley Country Park is one of Essex's most accessible dog walks, with wide paths, open spaces and plenty of route options. Whether you're looking for a quick everyday walk or a longer outing, there's plenty of room for dogs to stretch their legs.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 5
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 5
+      },
+      {
+        "label": "Pushchairs",
+        "score": 5
+      },
+      {
+        "label": "Swimming",
+        "score": 2
+      },
+      {
+        "label": "Off Lead",
+        "score": 5
+      },
+      {
+        "label": "Shade",
+        "score": 2
+      },
+      {
+        "label": "Low Mud",
+        "score": 2
+      }
+    ],
+    "route": {
+      "parking": "There is a paid for car park onsite.",
+      "localTip": "If your dog enjoys a good run, head away from the play areas and visitor facilities towards the larger open meadows. There's plenty of space to explore and some of the quietest sections of the park can be found further from the main entrance.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Essex County Council",
+      "website": "https://www.explore-essex.com/places-to-go/find-whats-near-me/great-notley-country-park"
+    },
+    "added": "2026-06-22",
+    "hasPage": true
   },
   {
     "id": "maldon-promenade",
@@ -901,6 +961,84 @@
     "official": {
       "managedBy": "Essex Wildlife Trust",
       "website": "https://www.essexwt.org.uk/nature-reserves/wrabness"
+    },
+    "added": "2026-06-22",
+    "hasPage": true
+  },
+  {
+    "id": "langdon-nature-discovery-park-basildon",
+    "name": "Langdon Nature Discovery Park",
+    "area": "South East Essex",
+    "scenery": "nature-reserve",
+    "lat": 51.56384958,
+    "lng": 0.3938078316,
+    "town": "Basildon",
+    "emoji": "🌿",
+    "timeShort": "30 mins",
+    "distance": "1.3 miles",
+    "routeType": "Circular",
+    "terrain": "Woodland trails, wildflower meadows & gentle hillside paths",
+    "mud": "Moderate",
+    "summary": "A peaceful Essex Wildlife Trust reserve with woodland, meadows and some of the best views in south Essex.",
+    "tags": [
+      "Wildlife",
+      "Woodland",
+      "Quiet"
+    ],
+    "rating": {
+      "value": 4.7,
+      "count": 1
+    },
+    "badges": [
+      "📍 Basildon",
+      "🌿 Essex Wildlife Trust",
+      "🐕 Mostly off lead",
+      "🦋 Wildlife rich",
+      "🌳 Woodland & meadows"
+    ],
+    "intro": "Langdon Nature Reserve is one of south Essex's hidden gems, combining ancient woodland, flower-rich meadows and panoramic countryside views. Managed by Essex Wildlife Trust, it's a peaceful walk that's particularly rewarding for dogs and owners who enjoy quieter, nature-focused routes.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 3
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 4
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "Parking is free in their eco-friendly living car park, but they welcome donations of £2 per car, which you can pay in the centre.",
+      "localTip": "For the best views, head towards the higher meadows on a clear day. The reserve is particularly beautiful in spring and summer when the wildflowers are in bloom, and early mornings are often the quietest time to visit.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Essex Wildlife Trust",
+      "website": "https://www.essexwt.org.uk/nature-reserves/langdon"
     },
     "added": "2026-06-22",
     "hasPage": true
