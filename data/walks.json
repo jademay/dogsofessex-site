@@ -1340,5 +1340,113 @@
     },
     "added": "2026-06-23",
     "hasPage": true
+  },
+  {
+    "id": "epping-forest-epping",
+    "name": "Epping Forest",
+    "area": "West Essex",
+    "scenery": "woodland",
+    "lat": 51.67382558,
+    "lng": 0.0553748682,
+    "town": "Epping",
+    "emoji": "🌲",
+    "routeType": "Multiple routes",
+    "terrain": "Ancient woodland trails, forest tracks & open glades",
+    "mud": "High",
+    "summary": "A vast ancient forest with endless trails, towering trees and some of the best woodland walking in the country.",
+    "tags": [
+      "Woodland",
+      "Off Lead",
+      "Ancient Forest"
+    ],
+    "rating": {
+      "value": 4.9,
+      "count": 1
+    },
+    "badges": [
+      "📍 Epping",
+      "🌲 Ancient woodland",
+      "🐕 Excellent off lead",
+      "🚶 Endless routes",
+      "🦌 Wildlife spotting"
+    ],
+    "intro": "Covering thousands of acres, Epping Forest is one of the most iconic dog walking destinations in the UK. With ancient woodland, open glades and countless trails to explore, it's a place where no two walks ever feel quite the same.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 4
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 3
+      },
+      {
+        "label": "Off Lead",
+        "score": 5
+      },
+      {
+        "label": "Shade",
+        "score": 5
+      },
+      {
+        "label": "Low Mud",
+        "score": 4
+      }
+    ],
+    "routes": [
+      {
+        "name": "Epping Forest Main Path and Green Ride Circular",
+        "distance": "12.7 miles",
+        "time": "6hrs"
+      },
+      {
+        "name": "Oak Trail from Theydon Bois",
+        "distance": "6.9 miles",
+        "time": "3hrs"
+      },
+      {
+        "name": "Epping Forest Circular",
+        "distance": "5.6 miles",
+        "time": "2hrs 15 mins"
+      },
+      {
+        "name": "High Beach and Main Path Circular",
+        "distance": "4.5 miles",
+        "time": "2hrs"
+      },
+      {
+        "name": "Willow Circular",
+        "distance": "2.3 miles",
+        "time": "45 mins"
+      },
+      {
+        "name": "Epping Forest and Green Ride Trail Circular",
+        "distance": "3.3 miles",
+        "time": "1hr 20 mins"
+      }
+    ],
+    "route": {
+      "parking": "Epping Forest has multiple Car Parks, so it is best to search near the part of the forest that you would like to visit.",
+      "localTip": "Don't worry about sticking to a single route. The best part of Epping Forest is simply exploring. If your dog enjoys off-lead freedom, some of the quieter woodland tracks away from the main car parks offer miles of adventure.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "City of London Corporation",
+      "website": "https://www.cityoflondon.gov.uk/things-to-do/green-spaces/epping-forest"
+    },
+    "added": "2026-06-23",
+    "hasPage": true
   }
 ]
