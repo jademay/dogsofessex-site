@@ -110,7 +110,7 @@ const SENIOR_SCALE = [
 const SCENERY_ICON = {
     woodland: '🌳', heathland: '🌿', parkland: '🌳',
     coastal: '🌊', seaside: '🌊', park: '🌳', garden: '🌷', beach: '🏖️',
-    riverside: '🏞️', 'nature-reserve': '🌿'
+    riverside: '🏞️', 'nature-reserve': '🌿', countryside: '🌄'
 };
 
 // --- helpers ---

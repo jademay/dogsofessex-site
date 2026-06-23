@@ -1042,5 +1042,243 @@
     },
     "added": "2026-06-22",
     "hasPage": true
+  },
+  {
+    "id": "langdon-hills-country-park-westley-heights-basildon",
+    "name": "Langdon Hills Country Park - Westley Heights",
+    "area": "South East Essex",
+    "scenery": "woodland",
+    "lat": 51.55476941,
+    "lng": 0.4252246507,
+    "town": "Basildon",
+    "emoji": "🌲",
+    "timeShort": "2hrs",
+    "distance": "2.8 miles",
+    "routeType": "Circular",
+    "terrain": "Woodland trails, open glades & gently rolling countryside",
+    "mud": "Moderate",
+    "summary": "A spacious woodland walk with wide trails, varied routes and excellent off-lead opportunities.",
+    "tags": [
+      "Woodland",
+      "Off Lead",
+      "Nature"
+    ],
+    "rating": {
+      "value": 4.7,
+      "count": 1
+    },
+    "badges": [
+      "📍 Basildon",
+      "🐕 Excellent off lead",
+      "🌲 Woodland trails",
+      "🚶 Multiple routes",
+      "🌿 Nature rich"
+    ],
+    "intro": "Westley Heights is one of the most popular parts of Langdon Hills Country Park, with extensive woodland, varied walking routes and plenty of room for dogs to explore. The wide trails and natural surroundings make it an excellent everyday dog walk.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 3
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 5
+      },
+      {
+        "label": "Shade",
+        "score": 4
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "There's a free car park behind the Miller & Carter restaurant.",
+      "localTip": "The further you venture from the main car park, the quieter the trails become. Dogs with reliable recall will find some excellent off-lead opportunities throughout the woodland.",
+      "mapEmbed": ""
+    },
+    "added": "2026-06-23",
+    "hasPage": true
+  },
+  {
+    "id": "langdon-hills-country-park-one-tree-hill-basildon",
+    "name": "Langdon Hills Country Park - One Tree Hill",
+    "area": "South East Essex",
+    "scenery": "woodland",
+    "lat": 51.54828784,
+    "lng": 0.4466060731,
+    "town": "Basildon",
+    "emoji": "🌲",
+    "terrain": "Woodland paths, gentle climbs & scenic viewpoints",
+    "mud": "Moderate",
+    "summary": "A peaceful woodland walk with panoramic views across south Essex and plenty of space to explore.",
+    "tags": [
+      "Woodland",
+      "Views",
+      "Quiet"
+    ],
+    "rating": {
+      "value": 4.8,
+      "count": 1
+    },
+    "badges": [
+      "📍 Basildon",
+      "🌳 Ancient woodland",
+      "🌄 Panoramic views",
+      "🐕 Mostly off lead",
+      "🤫 Peaceful trails"
+    ],
+    "intro": "One Tree Hill is one of south Essex's hidden gems, offering peaceful woodland trails and some of the finest views in the county. It's a fantastic choice for dogs and owners looking to escape the crowds and enjoy a quieter walk.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 5
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 3
+      },
+      {
+        "label": "Pushchairs",
+        "score": 1
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 5
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "There are two main car parks on One Tree Hill Road - both free.",
+      "localTip": "Don't miss the viewpoint near the summit. On a clear day you can see across much of south Essex, making it one of the best reward-to-effort walks in the county.",
+      "mapEmbed": ""
+    },
+    "added": "2026-06-23",
+    "hasPage": true
+  },
+  {
+    "id": "hadleigh-country-park-hadleigh",
+    "name": "Hadleigh Country Park",
+    "area": "South East Essex",
+    "scenery": "countryside",
+    "lat": 51.551916,
+    "lng": 0.5949829768,
+    "town": "Hadleigh",
+    "emoji": "🌄",
+    "routeType": "Multiple routes",
+    "terrain": "Rolling hills, grassland trails & coastal viewpoints",
+    "mud": "Moderate",
+    "summary": "A spectacular hilltop walk with sweeping estuary views, open countryside and plenty of space for energetic dogs.",
+    "tags": [
+      "Views",
+      "Off Lead",
+      "Coastal"
+    ],
+    "rating": {
+      "value": 4.9,
+      "count": 1
+    },
+    "badges": [
+      "📍 Hadleigh",
+      "🌄 Estuary views",
+      "🐕 Excellent off lead",
+      "🚗 Free parking",
+      "🌿 Open countryside"
+    ],
+    "intro": "Hadleigh Country Park offers some of the most impressive views in Essex, with rolling hills overlooking the Thames Estuary. The combination of open countryside, varied terrain and huge skies makes it a fantastic destination for adventurous dogs and owners.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 3
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 2
+      },
+      {
+        "label": "Pushchairs",
+        "score": 2
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 5
+      },
+      {
+        "label": "Shade",
+        "score": 1
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "routes": [
+      {
+        "name": "Hadleigh Country Park and Castle Circular",
+        "distance": "7.9 miles",
+        "time": "3hrs 30 mins"
+      },
+      {
+        "name": "Hadleigh Country Park Circular",
+        "distance": "3.2 miles",
+        "time": "1hr 30 mins"
+      },
+      {
+        "name": "Hadleigh Country Park Outskirts Circular",
+        "distance": "4.7 miles",
+        "time": "2hrs"
+      }
+    ],
+    "route": {
+      "parking": "Hadleigh Country Park has a pay and stay car park.",
+      "localTip": "The best views are found on the higher ground overlooking the estuary. Bring water for your dog on warm days, as much of the park is exposed with very little shade.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Essex County Council",
+      "website": "https://www.explore-essex.com/places-to-go/find-whats-near-me/hadleigh-country-park"
+    },
+    "added": "2026-06-23",
+    "hasPage": true
   }
 ]
