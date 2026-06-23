@@ -197,7 +197,7 @@
   {
     "id": "great-notley-country-park-great-notley",
     "name": "Great Notley Country Park",
-    "area": "North East Essex",
+    "area": "Mid Essex",
     "scenery": "park",
     "lat": 51.86366842,
     "lng": 0.5175026241,
@@ -273,27 +273,87 @@
     "hasPage": true
   },
   {
-    "id": "maldon-promenade",
+    "id": "maldon-promenade-maldon",
     "name": "Maldon Promenade",
-    "area": "Central Essex",
-    "scenery": "seaside",
-    "lat": 51.728,
-    "lng": 0.687,
-    "time": "30 minutes",
-    "distance": "1.5 miles",
+    "area": "Mid Essex",
+    "scenery": "park",
+    "lat": 51.72528556,
+    "lng": 0.6928534029,
+    "town": "Maldon",
+    "emoji": "⚓",
+    "timeShort": "1hr 10 mins",
+    "distance": "3.3 miles",
+    "routeType": "Circular",
+    "terrain": "Waterside paths, open parkland & surfaced promenades",
     "mud": "Low",
-    "summary": "Riverside • Flat & easy • Great for all ages",
+    "summary": "A popular riverside park with estuary views, wide paths and plenty of facilities for dogs and families.",
     "tags": [
-      "Riverside",
-      "Flat",
-      "Pushchair friendly"
+      "Waterside",
+      "Accessible",
+      "Family Friendly"
     ],
-    "hasPage": false
+    "rating": {
+      "value": 4.7,
+      "count": 1
+    },
+    "badges": [
+      "📍 Maldon",
+      "⚓ Estuary views",
+      "👶 Pushchair friendly",
+      "☕ Cafés nearby",
+      "🚻 Excellent facilities"
+    ],
+    "intro": "Maldon Promenade Park is one of Essex's most popular dog-friendly destinations, offering wide waterside paths, beautiful estuary views and plenty of nearby cafés and attractions. It's ideal for a relaxed stroll with your dog and makes a great day out for the whole family.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 2
+      },
+      {
+        "label": "Puppies",
+        "score": 5
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 5
+      },
+      {
+        "label": "Pushchairs",
+        "score": 5
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 2
+      },
+      {
+        "label": "Shade",
+        "score": 2
+      },
+      {
+        "label": "Low Mud",
+        "score": 1
+      }
+    ],
+    "route": {
+      "parking": "There is plenty of parking in the Promenade Park Car Park and limited spaces in the Promenade Park Coach and Car Park. Or, you could park in the town in Butt Lane Car park or White Horse Lane Car Park.",
+      "localTip": "Visit early in the morning for a quieter experience. The promenade can become very busy on sunny weekends, but the estuary views are at their best around high tide.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Maldon District Council",
+      "website": "https://www.visitmaldon.co.uk/promenade-park/"
+    },
+    "added": "2026-06-23",
+    "hasPage": true
   },
   {
     "id": "west-mersea-island",
     "name": "West Mersea",
-    "area": "North East Essex",
+    "area": "North Essex",
     "scenery": "beach",
     "lat": 51.77420801,
     "lng": 0.9285178677,
@@ -715,7 +775,7 @@
   {
     "id": "dedham-vale-dedham",
     "name": "Dedham Vale",
-    "area": "North East Essex",
+    "area": "North Essex",
     "scenery": "riverside",
     "lat": 51.96073005,
     "lng": 0.9942639235,
@@ -801,7 +861,7 @@
   {
     "id": "high-woods-country-park",
     "name": "High Woods Country Park",
-    "area": "North East Essex",
+    "area": "North Essex",
     "scenery": "woodland",
     "lat": 51.90743054,
     "lng": 0.9084076014,
@@ -889,7 +949,7 @@
   {
     "id": "wrabness-nature-reserve-wrabness",
     "name": "Wrabness Nature Reserve",
-    "area": "North East Essex",
+    "area": "North Essex",
     "scenery": "coastal",
     "lat": 51.93931232,
     "lng": 1.151622376,
@@ -968,7 +1028,7 @@
   {
     "id": "langdon-nature-discovery-park-basildon",
     "name": "Langdon Nature Discovery Park",
-    "area": "South East Essex",
+    "area": "South Essex",
     "scenery": "nature-reserve",
     "lat": 51.56384958,
     "lng": 0.3938078316,
@@ -1046,7 +1106,7 @@
   {
     "id": "langdon-hills-country-park-westley-heights-basildon",
     "name": "Langdon Hills Country Park - Westley Heights",
-    "area": "South East Essex",
+    "area": "South Essex",
     "scenery": "woodland",
     "lat": 51.55476941,
     "lng": 0.4252246507,
@@ -1120,7 +1180,7 @@
   {
     "id": "langdon-hills-country-park-one-tree-hill-basildon",
     "name": "Langdon Hills Country Park - One Tree Hill",
-    "area": "South East Essex",
+    "area": "South Essex",
     "scenery": "woodland",
     "lat": 51.54828784,
     "lng": 0.4466060731,
@@ -1191,7 +1251,7 @@
   {
     "id": "hadleigh-country-park-hadleigh",
     "name": "Hadleigh Country Park",
-    "area": "South East Essex",
+    "area": "South Essex",
     "scenery": "countryside",
     "lat": 51.551916,
     "lng": 0.5949829768,
