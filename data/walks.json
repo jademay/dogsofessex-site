@@ -1448,5 +1448,348 @@
     },
     "added": "2026-06-23",
     "hasPage": true
+  },
+  {
+    "id": "hatfield-forest-bishops-stortford",
+    "name": "Hatfield Forest",
+    "area": "West Essex",
+    "scenery": "woodland",
+    "lat": 51.8599262,
+    "lng": 0.2453073837,
+    "town": "Bishop's Stortford",
+    "emoji": "🌲",
+    "routeType": "Multiple routes",
+    "terrain": "Ancient woodland trails, open grassland & lakeside paths",
+    "mud": "Moderate",
+    "summary": "A beautiful National Trust forest with ancient woodland, lakes and huge open spaces for dogs to explore.",
+    "tags": [
+      "Woodland",
+      "Lake",
+      "National Trust"
+    ],
+    "rating": {
+      "value": 4.9,
+      "count": 1
+    },
+    "badges": [
+      "📍 Bishop's Stortford",
+      "🌳 Ancient woodland",
+      "🐕 Mostly off lead",
+      "💧 Lakeside walks",
+      "🏛 National Trust"
+    ],
+    "intro": "Hatfield Forest is one of the finest woodland walks in Essex, combining ancient trees, open grassland and peaceful lakeside trails. Managed by the National Trust, it offers a fantastic mix of scenery and space, making it a favourite for both dogs and their owners.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 5
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 5
+      },
+      {
+        "label": "Pushchairs",
+        "score": 4
+      },
+      {
+        "label": "Swimming",
+        "score": 2
+      },
+      {
+        "label": "Off Lead",
+        "score": 5
+      },
+      {
+        "label": "Shade",
+        "score": 5
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "routes": [
+      {
+        "name": "Hatfield Forest Circular",
+        "distance": "3.1 miles",
+        "time": "1hr 15 mins"
+      },
+      {
+        "name": "Hatfield Forest - Wall Wood Circular",
+        "distance": "6.7 miles",
+        "time": "2hrs 45 mins"
+      },
+      {
+        "name": "Hatfield Forest Capability Brown Walk",
+        "distance": "2 miles",
+        "time": "45 mins"
+      },
+      {
+        "name": "Hatfield Forest Tree Walk",
+        "distance": "1.8 miles",
+        "time": "40 mins"
+      },
+      {
+        "name": "Hatfield Forest North Circular",
+        "distance": "2.1 miles",
+        "time": "50 mins"
+      }
+    ],
+    "route": {
+      "parking": "Free parking for National Trust members, please remember your card. Follow the 'P' signs to two large grass car parks and a central access-friendly tarmacked car park near facilities. Exit Gate is locked at Dusk. Smaller Entrance Car Park is open until 4pm.",
+      "localTip": "The main lake is beautiful, but don't stop there. Some of the quietest and most scenic sections of Hatfield Forest can be found by following the trails deeper into the woodland away from the visitor centre.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "National Trust",
+      "website": "https://www.nationaltrust.org.uk/visit/essex-bedfordshire-hertfordshire/hatfield-forest"
+    },
+    "added": "2026-06-23",
+    "hasPage": true
+  },
+  {
+    "id": "hainault-forest-country-park-chigwell",
+    "name": "Hainault Forest Country Park",
+    "area": "West Essex",
+    "scenery": "woodland",
+    "lat": 51.61391387,
+    "lng": 0.1309962561,
+    "town": "Chigwell",
+    "emoji": "🌲",
+    "routeType": "Multiple routes",
+    "terrain": "Ancient woodland trails, open grassland & lakeside paths",
+    "mud": "Moderate",
+    "summary": "A varied woodland walk with lakes, open spaces and plenty of room for dogs to explore.",
+    "tags": [
+      "Woodland",
+      "Lake",
+      "Off Lead"
+    ],
+    "rating": {
+      "value": 4.8,
+      "count": 1
+    },
+    "badges": [
+      "📍 Chigwell",
+      "🌳 Ancient woodland",
+      "🐕 Mostly off lead",
+      "💧 Lakeside walks",
+      "☕ Café nearby"
+    ],
+    "intro": "Hainault Forest combines ancient woodland, open meadows and lakeside trails to create one of the most varied dog walks on the Essex border. With plenty of space to explore and a choice of routes, it's ideal for everything from a quick stroll to a longer adventure.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 3
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 4
+      },
+      {
+        "label": "Pushchairs",
+        "score": 3
+      },
+      {
+        "label": "Swimming",
+        "score": 2
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 5
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "routes": [
+      {
+        "name": "The Two Brewers Circular",
+        "distance": "2.9 miles",
+        "time": "1hr 30 mins"
+      },
+      {
+        "name": "View of the London Skyline Trail",
+        "distance": "7.2 miles",
+        "time": "3hrs"
+      }
+    ],
+    "route": {
+      "parking": "Both of the car parks closest to the Forest Centre have charges that are applicable at all times. These are cashless car parks that use the Ringo parking app.",
+      "localTip": "Although Hainault Forest has several lakes, dogs aren't permitted to enter the water. If your dog loves a swim, consider Mersea Beach instead.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "London Borough of Redbridge",
+      "website": "https://www.hainaultforest.co.uk"
+    },
+    "added": "2026-06-23",
+    "hasPage": true
+  },
+  {
+    "id": "thames-chase-forest-centre-upminster",
+    "name": "Thames Chase Forest Centre",
+    "area": "South Essex",
+    "scenery": "woodland",
+    "lat": 51.55209988,
+    "lng": 0.2825378185,
+    "town": "Upminster",
+    "emoji": "🌲",
+    "timeShort": "1hr 15 mins",
+    "distance": "3.6 miles",
+    "routeType": "Circular",
+    "terrain": "Woodland trails, open meadows & countryside paths",
+    "mud": "Moderate",
+    "summary": "A spacious countryside walk with woodland, meadows and easy-to-follow trails perfect for everyday adventures.",
+    "tags": [
+      "Woodland",
+      "Accessible",
+      "Countryside"
+    ],
+    "rating": {
+      "value": 4.6,
+      "count": 1
+    },
+    "badges": [
+      "📍 Upminster",
+      "🌿 Woodland & meadows",
+      "🐕 Mostly off lead",
+      "👶 Family friendly"
+    ],
+    "intro": "Thames Chase Forest Centre offers a relaxed mix of woodland, meadows and countryside trails, making it a fantastic choice for an everyday dog walk. With accessible paths, varied scenery and plenty of open space, it's particularly popular with families and local dog owners.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 5
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 5
+      },
+      {
+        "label": "Pushchairs",
+        "score": 5
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 3
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "Check on arrival.",
+      "localTip": "The main trails are excellent for puppies, older dogs and anyone looking for an easier walk. If you prefer quieter routes, head away from the Forest Centre and explore the wider trail network.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Thames Chase Community Forest",
+      "website": "https://www.thameschase.org.uk/"
+    },
+    "added": "2026-06-23",
+    "hasPage": true
+  },
+  {
+    "id": "thameside-nature-discovery-park-stanford-le-hope",
+    "name": "Thameside Nature Discovery Park",
+    "area": "South Essex",
+    "scenery": "coastal",
+    "lat": 51.49924583,
+    "lng": 0.4429606702,
+    "town": "Stanford-le-Hope",
+    "emoji": "🌊",
+    "terrain": "Estuary paths, open grassland & coastal trails",
+    "mud": "Low",
+    "summary": "A spectacular estuary walk with huge skies, abundant wildlife and panoramic views across the Thames.",
+    "tags": [
+      "Estuary",
+      "Wildlife",
+      "Views"
+    ],
+    "rating": {
+      "value": 4.8,
+      "count": 1
+    },
+    "badges": [
+      "📍 Stanford-le-Hope",
+      "🌊 Estuary views",
+      "🐦 Wildlife rich",
+      "☕ Visitor centre café",
+      "👶 Accessible paths"
+    ],
+    "intro": "Perched above the Thames Estuary, Thameside Nature Discovery Park offers some of the most impressive views in south Essex. With wide open landscapes, excellent wildlife spotting and miles of estuary scenery, it's a fantastic destination for a peaceful walk with your dog.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 4
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 5
+      },
+      {
+        "label": "Pushchairs",
+        "score": 5
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 3
+      },
+      {
+        "label": "Shade",
+        "score": 1
+      },
+      {
+        "label": "Low Mud",
+        "score": 2
+      }
+    ],
+    "route": {
+      "parking": "The car park at the Nature Discovery Centre suggests a donation of £5 per car.",
+      "localTip": "Bring binoculars if you have them. The estuary attracts a huge variety of birds throughout the year, and the higher viewpoints offer some of the best wildlife watching opportunities in Essex.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Essex Wildlife Trust",
+      "website": "https://www.essexwt.org.uk/nature-reserves/thameside"
+    },
+    "added": "2026-06-23",
+    "hasPage": true
   }
 ]
