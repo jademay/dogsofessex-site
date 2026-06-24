@@ -484,5 +484,71 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "tea-at-the-quay-mistley",
+    "name": "Tea At The Quay",
+    "type": "cafe",
+    "lat": 51.94526713,
+    "lng": 1.079289878,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "They are dog friendly.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A dog-friendly café on the quayside with great coffee, homemade cakes and lovely estuary views.",
+    "website": "https://www.teaatthequay.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/wSj7pExYt5CFGoPa7",
+    "phone": "",
+    "email": "",
+    "socials": {
+      "instagram": "https://www.instagram.com/TeaAtTheQuayMistley",
+      "facebook": "https://www.facebook.com/TeaAtTheQuayMistley",
+      "tiktok": null,
+      "youtube": null
+    }
+  },
+  {
+    "id": "the-walled-garden-cafe-mistley",
+    "name": "The Walled Garden Café",
+    "type": "cafe",
+    "lat": 51.93736069,
+    "lng": 1.06584863,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "They are dog friendly.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A peaceful dog-friendly café set within beautiful gardens, serving homemade cakes, lunches and great coffee.",
+    "website": "https://acornvillages.com/cafe",
+    "mapsLink": "https://maps.app.goo.gl/9RbWf4tQMiJfrE9XA",
+    "phone": "01206 918982",
+    "email": "coffeeshop@acornvillages.com",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/p/The-Walled-Garden-Cafe-61552340640129/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
