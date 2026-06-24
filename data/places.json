@@ -817,5 +817,41 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-royal-forest-chingford",
+    "name": "The Royal Forest",
+    "type": "pub",
+    "lat": 51.634442,
+    "lng": 0.01689430885,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are incredibly welcome at The Royal Forest. They have treats and a dog menu, as well as a doggie washing station if your pup needs a wash down after a walk. There is another Dining area where dogs are not allowed.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "treats",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A classic Epping Forest pub where muddy paws are welcome, perfect for food and drinks after a woodland walk.",
+    "website": "https://royalforesteppingforest.com/",
+    "mapsLink": "https://maps.app.goo.gl/2tcvCN6mk3bkbeQK7",
+    "phone": "020 8149 7879",
+    "email": "reservations.eppingforest@heartwoodinns.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/royalforestepping/",
+      "facebook": "https://www.facebook.com/profile.php?id=61567535602939",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
