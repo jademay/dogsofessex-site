@@ -922,5 +922,39 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-toaster-bishops-stortford",
+    "name": "The Toaster",
+    "type": "cafe",
+    "lat": 51.86797802,
+    "lng": 0.1606918325,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Toaster is very dog friendly. They even have a doggie menu for your furry friend.",
+    "dogAccess": [
+      "inside",
+      "water-bowls",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A dog-friendly café serving speciality coffee, brunch and homemade treats in the heart of Bishop's Stortford.",
+    "website": "",
+    "mapsLink": "https://maps.app.goo.gl/C8RZZ75fAipgxPT49",
+    "phone": "",
+    "email": "the.toaster.ltd@gmail.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/wearethetoaster/?hl=en",
+      "facebook": "https://www.facebook.com/thesourdoughtoaster/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
