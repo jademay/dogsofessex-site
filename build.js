@@ -199,12 +199,13 @@ const TIER_CONTACT = {
     partner: { phone: false, email: false, socials: true },
     free: { phone: false, email: false, socials: false }
 };
-const SOCIAL_LABELS = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube' };
+const SOCIAL_LABELS = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube', twitter: 'X' };
 const SOCIAL_ICONS = {
     instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></svg>',
     facebook: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6c-.8-.1-1.6-.15-2.4-.15-2.4 0-4.05 1.47-4.05 4.16v2.29H7.5V13h2.75v8h3.25z"/></svg>',
     tiktok: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.5 5.6a4.3 4.3 0 01-1-2.6h-2.9v11.4a2.1 2.1 0 11-2.1-2.1c.2 0 .4 0 .6.1V9.5a5 5 0 00-.6 0 5 5 0 105 5V8.7a7.1 7.1 0 004 1.2V7a4.3 4.3 0 01-3-1.4z"/></svg>',
-    youtube: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12c0-1.7-.2-3.3-.4-4a2.5 2.5 0 00-1.7-1.7C18.3 6 12 6 12 6s-6.3 0-7.9.3A2.5 2.5 0 002.4 8c-.2.7-.4 2.3-.4 4s.2 3.3.4 4a2.5 2.5 0 001.7 1.7c1.6.3 7.9.3 7.9.3s6.3 0 7.9-.3a2.5 2.5 0 001.7-1.7c.2-.7.4-2.3.4-4zM10 15V9l5 3-5 3z"/></svg>'
+    youtube: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12c0-1.7-.2-3.3-.4-4a2.5 2.5 0 00-1.7-1.7C18.3 6 12 6 12 6s-6.3 0-7.9.3A2.5 2.5 0 002.4 8c-.2.7-.4 2.3-.4 4s.2 3.3.4 4a2.5 2.5 0 001.7 1.7c1.6.3 7.9.3 7.9.3s6.3 0 7.9-.3a2.5 2.5 0 001.7-1.7c.2-.7.4-2.3.4-4zM10 15V9l5 3-5 3z"/></svg>',
+    twitter: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>'
 };
 
 // Dog-access chips (premium card). Add keys as needed.

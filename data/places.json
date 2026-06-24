@@ -583,5 +583,73 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-crown-manningtree",
+    "name": "The Crown",
+    "type": "pub",
+    "lat": 51.94560894,
+    "lng": 1.065685046,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Crown welcomes all well-behaved dogs. They have water bowls and treats, and dogs are welcome inside or out. They ask that dogs are kept on a lead at all times.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "treats"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A welcoming dog-friendly pub and hotel in the heart of Manningtree, ideal for food and drinks after a riverside walk.",
+    "website": "https://thecrownmanningtree.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/LAxA4bdwxBKH1En69",
+    "phone": "01206 396333",
+    "email": "hello@thecrownmanningtree.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/thecrownpubandhotelmanningtree/",
+      "facebook": "https://www.facebook.com/TheCrownAtManningtree?locale=en_GB",
+      "tiktok": null,
+      "youtube": null
+    }
+  },
+  {
+    "id": "lucca-enoteca-manningtree",
+    "name": "Lucca Enoteca",
+    "type": "restaurant",
+    "lat": 51.94565136,
+    "lng": 1.064943238,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed outside at Lucca, we are currently checking if they are allowed inside too.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A well-loved Italian restaurant perfect for a post-walk meal, serving pizza, pasta and great coffee.",
+    "website": "https://www.luccafoods.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/bymdxGjWfd2fgEdR8",
+    "phone": "01206 390044",
+    "email": "luccafoods@gmail.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/luccaenoteca/",
+      "facebook": "https://www.facebook.com/luccamanningtree/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": "https://x.com/luccaenoteca"
+    }
   }
 ]
