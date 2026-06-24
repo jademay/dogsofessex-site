@@ -784,5 +784,38 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "white-hart-inn-ingatestone",
+    "name": "White Hart Inn",
+    "type": "pub",
+    "lat": 51.68438316,
+    "lng": 0.4341096752,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Your four-legged friends are welcome at the White Hart Inn.",
+    "dogAccess": [
+      "outside",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A historic Essex pub with a spacious garden and a popular stop for walkers and cyclists.",
+    "website": "https://www.whitehartinnessex.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/2kK7zUZf58aFzDCW8",
+    "phone": "01277 282382",
+    "email": "info@whitehartinnessex.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/thewhitehart_margarettingtye/",
+      "facebook": "https://www.facebook.com/profile.php?id=61570405286435",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
