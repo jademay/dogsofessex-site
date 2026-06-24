@@ -887,5 +887,40 @@
       "youtube": null,
       "twitter": "https://x.com/leatherbottleph?lang=en"
     }
+  },
+  {
+    "id": "the-three-horseshoes-spellbrook",
+    "name": "The Three Horseshoes",
+    "type": "pub",
+    "lat": 51.83903122,
+    "lng": 0.1579681576,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Three Horseshoes is dog-friendly. Dogs are allowed outside and in some areas inside. It's best to call when booking to confirm a dog-friendly spot inside.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "treats"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A welcoming dog-friendly country pub serving quality food, drinks and a great stop after exploring the local countryside.",
+    "website": "https://www.chefandbrewer.com/pubs/hertfordshire/three-horse-shoes",
+    "mapsLink": "https://maps.app.goo.gl/YLLKGnHGyDBatNiQ6",
+    "phone": "01279 722849",
+    "email": "",
+    "socials": {
+      "instagram": "https://www.instagram.com/_threehorseshoes",
+      "facebook": "https://www.facebook.com/profile.php?id=100051045677994",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
