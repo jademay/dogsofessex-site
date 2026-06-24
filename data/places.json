@@ -651,5 +651,38 @@
       "youtube": null,
       "twitter": "https://x.com/luccaenoteca"
     }
+  },
+  {
+    "id": "the-woodmans-arms-benfleet",
+    "name": "The Woodmans Arms",
+    "type": "pub",
+    "lat": 51.56976195,
+    "lng": 0.5953293124,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Woodmans Arms is dog-friendly and they even have a Woofmans menu for your dog.",
+    "dogAccess": [
+      "outside",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Dog-friendly pub close to Hadleigh and Langdon Hills, popular for food and post-walk drinks.",
+    "website": "https://woodmans-arms.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/F9vm6n9LampCKFum8",
+    "phone": "01268 833165",
+    "email": "hello@woodmans-arms.co.uk",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/people/The-Woodmans-Arms/61577856322018/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
