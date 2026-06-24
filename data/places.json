@@ -684,5 +684,72 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-deli-hylands-chelmsford",
+    "name": "The Deli Hylands",
+    "type": "cafe",
+    "lat": 51.71180005,
+    "lng": 0.4356048987,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "At the back of The Deli there is a dog-friendly courtyard. Dogs are not allowed inside the cafe.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Dog-friendly café within Hylands Estate serving coffee, cakes and light lunches after your walk.",
+    "website": "https://hylandsestate.co.uk/explore/thedelihylands/",
+    "mapsLink": "https://maps.app.goo.gl/T3QSaKZW7C2MnSeN7",
+    "phone": "",
+    "email": "hylands@thedeli.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/thedelisocial/",
+      "facebook": null,
+      "tiktok": null,
+      "youtube": null
+    }
+  },
+  {
+    "id": "the-horse-and-groom-writtle",
+    "name": "The Horse & Groom",
+    "type": "pub",
+    "lat": 51.74099994,
+    "lng": 0.4347898225,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Horse & Groom is dog-friendly. Dogs are allowed outside and in some areas inside. It's best to call when booking to confirm a dog-friendly spot inside.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "treats"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A dog-friendly countryside pub with a large beer garden, hearty food and free parking.",
+    "website": "https://www.chefandbrewer.com/pubs/essex/horse-and-groom",
+    "mapsLink": "https://maps.app.goo.gl/ZUGBe7nXNXZpS9dF6",
+    "phone": "01245 420245",
+    "email": "",
+    "socials": {
+      "instagram": "https://www.instagram.com/horsegroomwrittle",
+      "facebook": "https://www.facebook.com/horseandgroomwrittle/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
