@@ -853,5 +853,39 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-leather-bottle-blackmore",
+    "name": "The Leather Bottle",
+    "type": "pub",
+    "lat": 51.69309037,
+    "lng": 0.3187360942,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "All garden tables are dog friendly. The dog-friendly tables inside are located in the bar area and The Leather Bottle ask that you call if you would like to bring your dog.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A traditional dog-friendly village pub serving great food, local ales and a warm welcome in the heart of Blackmore.",
+    "website": "https://www.leatherbottle.pub/",
+    "mapsLink": "https://maps.app.goo.gl/jMnqU37fjfNfzt4CA",
+    "phone": "01277 821891",
+    "email": "info@leatherbottle.pub",
+    "socials": {
+      "instagram": "https://www.instagram.com/theleatherbottleblackmore/?hl=en",
+      "facebook": "https://www.facebook.com/LeatherBottleBlackmore/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": "https://x.com/leatherbottleph?lang=en"
+    }
   }
 ]
