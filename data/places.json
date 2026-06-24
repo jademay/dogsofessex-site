@@ -550,5 +550,38 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "mistley-thorn-mistley",
+    "name": "The Mistley Thorn",
+    "type": "restaurant",
+    "lat": 51.94487992,
+    "lng": 1.07901632,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Best to check with The Mistley Thorn when booking as they like to know beforehand and allocate specific tables for people with dogs. We've had no issues so far.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A popular dog-friendly pub on the waterfront with great food, estuary views and plenty of outdoor seating.",
+    "website": "https://www.mistleythorn.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/pYeHnCNWB1ime9hz6",
+    "phone": "01206 392821",
+    "email": "info@mistleythorn.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/themistleythorn/",
+      "facebook": "https://www.facebook.com/themistleythorn?locale=en_GB",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
