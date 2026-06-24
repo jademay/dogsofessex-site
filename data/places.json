@@ -751,5 +751,38 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-rayleigh-arms-chelmsford",
+    "name": "The Rayleigh Arms",
+    "type": "pub",
+    "lat": 51.80632901,
+    "lng": 0.566685373,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Rayleigh Arms is dog-friendly, however they have limited dog-friendly tables available. If you are looking to eat, it is advisable to call and book.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A highly rated country pub serving modern British food with dog-friendly areas available.",
+    "website": "https://www.therayleigharms.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/yJp9yAYVDZqXTZmq7",
+    "phone": "01245 233444",
+    "email": "info@therayleigharms.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/the_rayleigh_arms/?hl=en",
+      "facebook": "https://www.facebook.com/TheRayleighArms/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
