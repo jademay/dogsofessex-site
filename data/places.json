@@ -956,5 +956,69 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-bakers-arms-stock",
+    "name": "The Bakers Arms",
+    "type": "pub",
+    "lat": 51.66517201,
+    "lng": 0.4480242808,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Currently, dogs are allowed outside at the front and under the tent, not inside the pub. However, a representative mentioned they \"are hoping to change this soon\" - June 2026. So this may change.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A welcoming country pub with great food, outdoor seating and a dog-friendly atmosphere year-round.",
+    "website": "https://www.bakersarms.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/PMB3o6AEKm6cbrhi7",
+    "phone": "01277 840423",
+    "email": "jane@bakersarms.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/thebakersarmsstock/",
+      "facebook": "https://www.facebook.com/bakers.arms",
+      "tiktok": null,
+      "youtube": null
+    }
+  },
+  {
+    "id": "the-lobster-smack-canvey-island",
+    "name": "The Lobster Smack",
+    "type": "pub",
+    "lat": 51.51124901,
+    "lng": 0.5530137556,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Lobster Smack is a dog-friendly pub.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A characterful waterside pub with estuary views, outdoor seating and a great spot to relax after a walk.",
+    "website": "https://www.lobstersmackcanveyisland.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/P14aLZpmH8nVBrdu7",
+    "phone": "01268 435387",
+    "email": "lobstersmack@hotmail.com",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/thelobstersmack",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
