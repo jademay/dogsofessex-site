@@ -792,8 +792,9 @@
     "lat": 51.68438316,
     "lng": 0.4341096752,
     "dogFriendly": true,
-    "dogFriendlyNotes": "Your four-legged friends are welcome at the White Hart Inn.",
+    "dogFriendlyNotes": "Your four-legged friends are very welcome at the White Hart Inn with a doggie menu consisting of drinks (not just water), treats and bites to eat. Dogs are allowed inside at the bar area, not in the restaurant section.",
     "dogAccess": [
+      "inside",
       "outside",
       "dog-menu"
     ],
@@ -806,7 +807,7 @@
     "showOnAreaPages": true,
     "showOnHomepage": true,
     "image": "",
-    "notes": "A historic Essex pub with a spacious garden and a popular stop for walkers and cyclists.",
+    "notes": "A welcoming village pub serving freshly prepared food, seasonal specials and renowned Sunday roasts.",
     "website": "https://www.whitehartinnessex.co.uk/",
     "mapsLink": "https://maps.app.goo.gl/2kK7zUZf58aFzDCW8",
     "phone": "01277 282382",
@@ -1019,6 +1020,73 @@
       "facebook": "https://www.facebook.com/thelobstersmack",
       "tiktok": null,
       "youtube": null
+    }
+  },
+  {
+    "id": "compasses-inn-littley-green",
+    "name": "Compasses Inn",
+    "type": "pub",
+    "lat": 51.82798199,
+    "lng": 0.4637777486,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "They are a dog friendly pub and only ask that your dog is well behaved and kept on a lead at all times.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-24",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Traditional dog-friendly village pub serving local food and real ales in the Essex countryside.",
+    "website": "https://www.compasseslittleygreen.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/cF1Hxrbp2nQpMcMw7",
+    "phone": "01245 362308",
+    "email": "compasseslittleygreen@googlemail.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/compasseslg/",
+      "facebook": "https://www.facebook.com/CompassesLittleyGreen/",
+      "tiktok": null,
+      "youtube": null
+    }
+  },
+  {
+    "id": "the-hoop-stock",
+    "name": "The Hoop",
+    "type": "pub",
+    "lat": 51.66460805,
+    "lng": 0.4454134674,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Hoop are dog-friendly; they allow dogs in the garden and there are three tables in the pub itself which can cater dogs. No dogs are allowed in the upstairs restaurant. You will need to specify when booking, whether you have a dog. Even if there are no dog tables online, it's still a good idea to call up and enquire to see what they can do.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-25",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Award-winning gastro pub with a large enclosed beer garden, real ales and a welcoming traditional atmosphere.",
+    "website": "https://www.thehoop.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/mfUdNiCBgzjr6gYL7",
+    "phone": "01277 841137",
+    "email": "thehoopstock@yahoo.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/thehoop/",
+      "facebook": "https://www.facebook.com/thehoopstock",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": "https://x.com/TheHoopStock"
     }
   }
 ]
