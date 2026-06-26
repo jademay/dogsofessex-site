@@ -788,6 +788,8 @@ h1, h2, h3 {
     align-items: flex-end;
     color: #fff;
     background: linear-gradient(150deg, #5B6B4F 0%, #3C4A3E 60%, #2C382E 100%);
+    background-size: cover;
+    background-position: center;
     overflow: hidden;
 }
 

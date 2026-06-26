@@ -502,11 +502,29 @@ function officialInner(walk) {
                     </ul>`;
 }
 
+// Auto-discovered photos for a walk, from images/walks/<id>/ (sorted naturally
+// so -img-1, -img-2 ... -img-10 order correctly). Returns paths relative to the
+// site root; callers add any needed prefix. First image doubles as the hero.
+function walkImages(walk) {
+    const dir = path.join(ROOT, 'images', 'walks', walk.id);
+    let files = [];
+    try {
+        files = fs.readdirSync(dir)
+            .filter((f) => /\.(jpe?g|png|webp|avif|gif)$/i.test(f))
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+    } catch (e) { /* no folder yet — falls back to the gradient hero / no gallery */ }
+    return files.map((f) => `images/walks/${walk.id}/${f}`);
+}
+
 function galleryInner(walk) {
-    if (!walk.gallery || !walk.gallery.length) return '';
+    const imgs = walkImages(walk);
+    if (!imgs.length) return '';
+    // Optional captions, matched by order to walk.gallery[i].caption.
+    const captions = (walk.gallery || []).map((g) => g.caption || '');
+    const items = imgs.map((img, i) => ({ image: `../${img}`, caption: captions[i] || '' }));
     return `<h2>📸 Photo gallery</h2>
                     <p class="section-lead">See what it actually looks like before you go.</p>
-                    <div id="gallery" class="gallery-grid">${galleryHTML(walk.gallery)}
+                    <div id="gallery" class="gallery-grid">${galleryHTML(items)}
                     </div>`;
 }
 
@@ -790,6 +808,11 @@ function footerHTML(prefix) {
 
 function page(walk, walks, places, tips) {
     const seo = walk.seo || {};
+    // First walk photo (if any) becomes the hero background behind the header.
+    const heroImgs = walkImages(walk);
+    const heroAttrs = heroImgs.length
+        ? ` has-photo" style="background-image:url('../${esc(heroImgs[0])}')"`
+        : '"';
     const title = seo.title || `${walk.name} | Dogs of Essex`;
     const description = seo.description || walk.intro || '';
     const tipSubject = encodeURIComponent(`Walk tip: ${walk.name}`);
@@ -899,7 +922,7 @@ function page(walk, walks, places, tips) {
                     <p class="section-lead">Honest ratings, so you can decide in seconds whether it suits your dog.</p>
                     <div id="glance" class="glance">${glanceHTML(walk.glance)}
                     </div>` },
-        (walk.gallery && walk.gallery.length) && { narrow: false, html: galleryInner(walk) },
+        (walkImages(walk).length) && { narrow: false, html: galleryInner(walk) },
         { narrow: true, html: `<h2>🗺️ The route</h2>
                     <div id="route">${routeHTML(walk)}
                     </div>` },
@@ -959,7 +982,7 @@ function page(walk, walks, places, tips) {
 <body>${navHTML('../')}
 
     <main>
-        <section class="walk-hero">
+        <section class="walk-hero${heroAttrs}>
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
             </div>${routeOverviewHTML(walk)}
         </section>
