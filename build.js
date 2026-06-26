@@ -380,7 +380,7 @@ function heroHTML(walk) {
                 </div>` : '';
     return `
                 <p class="breadcrumb"><a href="../index.html">Home</a> · <a href="index.html">Walks</a> · ${esc(walk.name)}</p>
-                <h1>${walk.emoji ? esc(walk.emoji) + ' ' : ''}${esc(walk.name)}</h1>${ratingBlock}
+                <h1>${esc(walk.name)}</h1>${ratingBlock}
                 ${metaLine ? `<p class="meta-line">${esc(metaLine)}</p>` : ''}
                 ${badges ? `<div class="walk-chips">${badges}</div>` : ''}`;
 }
