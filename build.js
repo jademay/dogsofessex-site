@@ -984,8 +984,8 @@ function page(walk, walks, places, tips) {
     <main>
         <section class="walk-hero${heroAttrs}>
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
-            </div>${routeOverviewHTML(walk)}
-        </section>
+            </div>
+        </section>${routeOverviewHTML(walk)}
 
         <div class="walk-body">${walkBody}
         </div>

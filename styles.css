@@ -804,6 +804,7 @@ h1, h2, h3 {
 .walk-hero-inner {
     position: relative;
     z-index: 2;
+    width: 100%;
     padding-bottom: 3rem;
     padding-top: 5rem;
 }
@@ -819,11 +820,6 @@ h1, h2, h3 {
 .walk-hero h1 {
     color: #fff;
     font-size: clamp(2.2rem, 5vw, 3.6rem);
-}
-/* Keep the title on one line on desktop; phones still wrap so long names
-   don't get clipped. */
-@media (min-width: 768px) {
-    .walk-hero h1 { white-space: nowrap; }
 }
 
 .walk-hero .meta-line {
