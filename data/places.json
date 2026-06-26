@@ -1088,5 +1088,104 @@
       "youtube": null,
       "twitter": "https://x.com/TheHoopStock"
     }
+  },
+  {
+    "id": "cafe-casa-bar-chingford",
+    "name": "Cafe Casa Bar",
+    "type": "restaurant",
+    "lat": 51.63314559,
+    "lng": 0.007852301271,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "All furry friends are welcome at Cafe Casa - inside and out.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-25",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A welcoming neighbourhood café and restaurant serving speciality coffee, home-inspired dishes and relaxed all-day dining.",
+    "website": "https://cafecasabar.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/6YszK8gitryqvzUR6",
+    "phone": "07717 908 754",
+    "email": "Info@cafecasabar.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/cafecasabar",
+      "facebook": "https://www.facebook.com/cafecasabar",
+      "tiktok": "https://www.tiktok.com/@casachingford",
+      "youtube": null
+    }
+  },
+  {
+    "id": "the-shepherd-and-dog-crays-hill",
+    "name": "The Shepherd & Dog",
+    "type": "pub",
+    "lat": 51.60356691,
+    "lng": 0.4754051531,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome in the inside bar area and large garden - you can eat in both areas. The restaurant is kept pooch free.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-26",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Award-winning family-run country pub serving homemade food, with a beautiful beer garden and over 300 years of history.",
+    "website": "https://theshepherd.pub/",
+    "mapsLink": "https://maps.app.goo.gl/ProFvpLSDMyoxSMx8",
+    "phone": "01268 521967",
+    "email": "shepherdanddogcrayshill@gmail.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/shepherdanddogcrayshill/?hl=en-gb",
+      "facebook": "https://www.facebook.com/TheShepherdandDogCraysHill/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null
+    }
+  },
+  {
+    "id": "the-cricketers-mill-green-ingatestone",
+    "name": "The Cricketers Mill Green",
+    "type": "pub",
+    "lat": 51.68556217,
+    "lng": 0.3692991685,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome in the inside bar area and outside.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-26",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A relaxed countryside pub near Ingatestone, serving freshly prepared food, seasonal specials and pub favourites.",
+    "website": "https://thecricketersmillgreen.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/X5RjVAzfiqzMStgD6",
+    "phone": "01277 352400",
+    "email": "info@thecricketersmillgreen.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/cricksmillgreen/",
+      "facebook": "https://www.facebook.com/millgreeningatestone/",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
