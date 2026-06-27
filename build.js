@@ -37,7 +37,7 @@ const ICONS = require('./icons.js');
 const icon = (name) => ICONS[name] || '';
 // Emoji -> Lucide name, for swapping emojis baked into the data (e.g. badges).
 const EMOJI_ICON = {
-    '📍': 'map-pin', '🐕': 'dog', '🦮': 'dog', '🚗': 'car', '👶': 'baby',
+    '📍': 'map-pin', '🐕': 'paw-print', '🦮': 'dog', '🚗': 'car', '👶': 'baby',
     '🌳': 'trees', '🌲': 'tree-pine', '⚓': 'anchor', '☕': 'coffee', '🚻': 'toilet',
     '🅿': 'square-parking', '🏖': 'parasol', '🏊': 'waves', '🌊': 'waves', '🐦': 'bird',
     '🦋': 'bird', '🚶': 'footprints', '🎨': 'palette', '🌿': 'leaf', '🌄': 'mountain',
