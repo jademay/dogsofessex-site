@@ -16,21 +16,26 @@
         wireLightbox();
         wireGlance();
         wireRoutes();
-        wireTips();
+        wireImprove();
     });
 
-    // --- Community tips ---
-    // Approved tips are baked into the page from data/tips.json (added manually).
-    // The "Share a tip" form emails new tips via FormSubmit (formsubmit.co); they
-    // appear on the site once you add them to data/tips.json and rebuild.
+    // --- Help improve this walk ---
+    // Four contribution types, each opening the same form pre-set to that type.
+    // Submissions are emailed via FormSubmit (formsubmit.co); approved walking
+    // tips are then added manually to data/tips.json and baked in on rebuild.
     const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/tips@dogsofessex.co.uk';
+    const TIP_TYPES = {
+        'walking tip': { title: 'Submit a tip', label: 'Your tip', placeholder: 'e.g. The back field gets muddy after rain.' },
+        'suggestUpdate': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' },
+        'recPlace': { title: 'Recommend a nearby place', label: 'Which place, and why?', placeholder: 'Name of the café, pub or restaurant — and what makes it dog-friendly.' },
+        'report': { title: 'Report an issue', label: 'What needs fixing?', placeholder: 'Tell us what looks wrong or out of date.' }
+    };
 
-    function wireTips() {
-        const list = document.getElementById('community-tips');
-        const shareBtn = document.getElementById('share-tip');
-        if (!list || !shareBtn) return;
-        const walkId = list.dataset.walk;
-        const walkName = (document.querySelector('.walk-hero h1') || {}).textContent || document.title;
+    function wireImprove() {
+        const section = document.getElementById('improve');
+        if (!section) return;
+        const walkName = section.dataset.walk || '';
+        const walkId = section.dataset.walkid || '';
 
         const modal = document.createElement('div');
         modal.className = 'tip-modal';
@@ -38,25 +43,38 @@
         modal.innerHTML =
             '<div class="tip-modal-inner">' +
             '<button class="tip-modal-close" type="button" aria-label="Close">×</button>' +
-            '<h3>Share a tip</h3>' +
+            '<h3 class="tip-modal-title">Share a tip</h3>' +
             '<form class="tip-form">' +
-            '<label>Tip<textarea name="tip" rows="4" required maxlength="800" placeholder="e.g. The back field gets muddy after rain."></textarea></label>' +
+            '<label><span class="tip-field-label">Your tip</span><textarea name="tip" rows="4" required maxlength="1000"></textarea></label>' +
             '<label>Name <span class="opt">(optional)</span><input name="name" type="text" maxlength="80" placeholder="Sarah & Luna"></label>' +
             '<label>Email <span class="opt">(optional, never shown)</span><input name="email" type="email" maxlength="120"></label>' +
-            '<button type="submit" class="btn btn-primary tip-submit">Submit tip</button>' +
+            '<button type="submit" class="btn btn-primary tip-submit">Submit</button>' +
             '<p class="tip-form-msg" role="status"></p>' +
             '</form></div>';
         document.body.appendChild(modal);
 
         const form = modal.querySelector('.tip-form');
         const msg = modal.querySelector('.tip-form-msg');
+        const titleEl = modal.querySelector('.tip-modal-title');
+        const fieldLabel = modal.querySelector('.tip-field-label');
+        const textarea = form.querySelector('textarea');
+        let currentType = 'walking tip';
+
         const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
-        const openModal = () => {
+        const openModal = (type) => {
+            currentType = TIP_TYPES[type] ? type : 'walking tip';
+            const cfg = TIP_TYPES[currentType];
+            titleEl.textContent = cfg.title;
+            fieldLabel.textContent = cfg.label;
+            textarea.placeholder = cfg.placeholder;
             msg.textContent = ''; form.reset();
             modal.classList.add('open'); document.body.style.overflow = 'hidden';
-            modal.querySelector('textarea').focus();
+            textarea.focus();
         };
-        shareBtn.addEventListener('click', openModal);
+
+        section.querySelectorAll('.improve-btn').forEach((btn) => {
+            btn.addEventListener('click', () => openModal(btn.dataset.tiptype));
+        });
         modal.querySelector('.tip-modal-close').addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
@@ -65,24 +83,31 @@
             e.preventDefault();
             const tip = form.tip.value.trim();
             if (!tip) return;
+            // A walking tip / report relates to this walk; recPlace & suggestUpdate
+            // also carry the walk for context. Place fields are left blank here
+            // (filled in when the same form is used on a place page later).
+            const carryWalk = true;
             const btn = form.querySelector('.tip-submit');
             btn.disabled = true; msg.textContent = 'Sending…';
             fetch(FORMSUBMIT_ENDPOINT, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({
-                    Walk: walkName,
-                    walkId: walkId,
-                    Tip: tip,
-                    Name: form.name.value.trim() || '(not given)',
+                    tipType: currentType,
+                    walk: carryWalk ? walkName : '',
+                    walkId: carryWalk ? walkId : '',
+                    place: '',
+                    placeId: '',
+                    tip: tip,
+                    name: form.name.value.trim() || '(not given)',
                     email: form.email.value.trim() || '',
-                    _subject: 'New walk tip: ' + walkName,
+                    _subject: TIP_TYPES[currentType].title + ' — ' + (walkName || 'Dogs of Essex'),
                     _template: 'table',
                     _captcha: 'false'
                 })
             }).then((r) => r.json()).then((d) => {
                 if (d && (d.success === 'true' || d.success === true)) {
-                    msg.textContent = 'Thanks! Your tip has been sent and will appear once reviewed.';
+                    msg.textContent = 'Thanks! Your message has been sent — we really appreciate it.';
                     form.reset();
                     setTimeout(closeModal, 2400);
                 } else {

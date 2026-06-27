@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=59c13faa">
+    <link rel="stylesheet" href="../styles.css?v=7bbcfca2">
     <script>window.WALK_ID = "crowsheath-wood-nature-reserve-billericay";</script>
 </head>
 <body>
@@ -402,7 +402,7 @@
                         </div>
                     </div>
                     <div class="walk-actions">
-                        <button type="button" id="share-tip" class="btn btn-primary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg> Share a tip</button>
+                        <a href="#improve" class="btn btn-primary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg> Share a tip</a>
                         <a href="#" id="save-walk" class="btn btn-secondary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></svg><span class="action-label">Save this walk</span></a>
                         <a href="#" id="email-walk" class="btn btn-secondary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></svg><span class="action-label">Email this walk</span></a>
                         <a href="#" id="share-walk" class="btn btn-secondary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></svg><span class="action-label">Share</span></a>
@@ -410,6 +410,21 @@
                 </div>
             </section>
             <section class="walk-section">
+                <div class="container narrow">
+                    <div id="improve" class="improve" data-walk="Crowsheath Wood Nature Reserve" data-walkid="crowsheath-wood-nature-reserve-billericay">
+                    <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /><path d="M9 18h6" /><path d="M10 22h4" /></svg> Help Improve This Walk</h2>
+                    <p>Have you spotted something we've missed?</p>
+                    <p class="section-lead">We'd love your help keeping Dogs of Essex accurate and up to date.</p>
+                    <div class="improve-actions">
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="walking tip">Submit a tip</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="suggestUpdate">Suggest a new walk</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="recPlace">Recommend a nearby place</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">Report an issue</button>
+                    </div>
+                </div>
+                </div>
+            </section>
+            <section class="walk-section section-alt">
                 <div class="container narrow">
                     <h2>Official Information</h2>
                     <p>Managed by Essex Wildlife Trust.</p>
@@ -461,6 +476,6 @@
     </footer>
 
     <script src="../script.js?v=797b4f2e"></script>
-    <script src="../walk.js?v=98c2c566"></script>
+    <script src="../walk.js?v=7b00a1fc"></script>
 </body>
 </html>

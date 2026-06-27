@@ -1020,11 +1020,22 @@ function page(walk, walks, places, tips) {
                         </div>
                     </div>
                     <div class="walk-actions">
-                        <button type="button" id="share-tip" class="btn btn-primary">${icon('message-circle')} Share a tip</button>
+                        <a href="#improve" class="btn btn-primary">${icon('message-circle')} Share a tip</a>
                         <a href="#" id="save-walk" class="btn btn-secondary">${icon('heart')}<span class="action-label">Save this walk</span></a>
                         <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
                         <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
                     </div>` },
+        { narrow: true, html: `<div id="improve" class="improve" data-walk="${esc(walk.name)}" data-walkid="${esc(walk.id)}">
+                    <h2>${icon('lightbulb')} Help Improve This Walk</h2>
+                    <p>Have you spotted something we've missed?</p>
+                    <p class="section-lead">We'd love your help keeping Dogs of Essex accurate and up to date.</p>
+                    <div class="improve-actions">
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="walking tip">Submit a tip</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="suggestUpdate">Suggest a new walk</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="recPlace">Recommend a nearby place</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">Report an issue</button>
+                    </div>
+                </div>` },
         (walk.official && walk.official.managedBy) && { narrow: true, html: officialInner(walk) }
     ].filter(Boolean);
 

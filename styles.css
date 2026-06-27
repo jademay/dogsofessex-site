@@ -2062,6 +2062,18 @@ h2 .lucide { vertical-align: -0.1em; }
 .tip-submit { align-self: flex-start; }
 .tip-form-msg { margin: 0; font-size: 0.9rem; color: var(--color-forest); }
 
+/* Help improve this walk */
+html { scroll-behavior: smooth; }
+.improve { scroll-margin-top: 90px; }
+.improve p { margin: 0 0 0.5rem; }
+.improve-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+.improve-actions .btn { flex: 0 1 auto; }
+
 /* Save / share actions */
 .walk-actions {
     display: flex;
