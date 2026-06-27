@@ -1008,21 +1008,20 @@ function page(walk, walks, places, tips) {
                     <div id="community-tips" class="tips-grid" data-walk="${esc(walk.id)}">${tipsHTML(walk.id, tips)}
                     </div>
                     <div id="tips-empty" class="tips-empty"${tips.filter((t) => t.walkId === walk.id).length ? ' hidden' : ''}>
-                        <p class="tips-empty-lead">★ Be the first to share a tip for this walk.</p>
+                        <p class="tips-empty-lead">★ This walk doesn't have any community tips yet.</p>
                         <div class="tips-help">
-                            <p><strong>Help other walkers…</strong></p>
+                            <p><strong>Know something that would help another dog owner?</strong></p>
                             <ul>
                                 <li>Is there a quieter entrance?</li>
-                                <li>Is the mud worse after rain?</li>
-                                <li>Where's the best place to swim?</li>
-                                <li>Any livestock to look out for?</li>
+                                <li>Does it get muddy after heavy rain?</li>
+                                <li>Where's the best place for a swim?</li>
+                                <li>Any livestock or seasonal hazards?</li>
+                                <li>Is there a hidden picnic spot?</li>
                             </ul>
                         </div>
                     </div>
                     <div class="walk-actions">
                         <button type="button" class="btn btn-primary improve-btn" data-tiptype="walkingTip">${icon('message-circle')} Share a tip</button>
-                        <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
-                        <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
                     </div>` },
         { narrow: true, html: `<div id="improve" class="improve" data-walk="${esc(walk.name)}" data-walkid="${esc(walk.id)}">
                     <h2>${icon('lightbulb')} Help Improve This Walk</h2>
@@ -1078,6 +1077,10 @@ function page(walk, walks, places, tips) {
     <main>
         <section class="walk-hero${heroAttrs}>
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
+            </div>
+            <div class="hero-actions">
+                <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
+                <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
             </div>
         </section>${routeOverviewHTML(walk)}
 
