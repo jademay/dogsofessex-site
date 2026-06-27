@@ -1020,7 +1020,7 @@ function page(walk, walks, places, tips) {
                         </div>
                     </div>
                     <div class="walk-actions">
-                        <a href="#improve" class="btn btn-primary">${icon('message-circle')} Share a tip below</a>
+                        <button type="button" class="btn btn-primary improve-btn" data-tiptype="walkingTip">${icon('message-circle')} Share a tip</button>
                         <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
                         <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
                     </div>` },

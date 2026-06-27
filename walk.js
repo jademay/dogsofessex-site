@@ -72,7 +72,8 @@
             textarea.focus();
         };
 
-        section.querySelectorAll('.improve-btn').forEach((btn) => {
+        // Includes the "Share a tip" button up in the Community tips section.
+        document.querySelectorAll('.improve-btn').forEach((btn) => {
             btn.addEventListener('click', () => openModal(btn.dataset.tiptype));
         });
         modal.querySelector('.tip-modal-close').addEventListener('click', closeModal);
