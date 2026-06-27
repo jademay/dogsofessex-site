@@ -433,13 +433,88 @@ function routeOverviewHTML(walk) {
             </div>`;
 }
 
-function glanceHTML(items) {
+// What each 1–5 score means per category (index 0 = 1 star … index 4 = 5 stars).
+const RATING_SCALES = {
+    'Reactive Dogs': [
+        'Busy, narrow paths, dogs everywhere',
+        'Often busy, few escape routes',
+        'Mixed, depends on time of day',
+        'Generally quiet with space to move away',
+        'Excellent visibility and lots of space'
+    ],
+    'Puppies': [
+        'Long or demanding — too much for little legs',
+        'Fairly long or uneven; hard work for a pup',
+        'Manageable, with a few trickier sections',
+        'Short and easy with gentle, varied interest',
+        'Short, safe and ideal for first adventures'
+    ],
+    'Senior Dogs': [
+        'Long and strenuous — tough for older dogs',
+        'Some demanding stretches or rough ground',
+        'Doable at a gentle pace, with a few harder bits',
+        'Mostly easy going with places to rest',
+        'Short, flat and gentle — perfect for seniors'
+    ],
+    'Pushchairs': [
+        'Not passable with a pushchair',
+        'Difficult — steps, stiles or rough ground',
+        'Possible on the main path, tricky elsewhere',
+        'Mostly firm, even paths',
+        'Smooth, surfaced and fully buggy-friendly'
+    ],
+    'Swimming': [
+        'No water to swim in',
+        'Water nearby but hard or unsafe to reach',
+        'Somewhere to paddle in the right conditions',
+        'Good, accessible water for a swim',
+        'Excellent, safe swimming with easy access'
+    ],
+    'Off Lead': [
+        'Keep on lead throughout (roads or livestock)',
+        'Mostly on lead; few safe stretches',
+        'Off lead in parts, on lead near hazards',
+        'Largely off lead with good visibility',
+        'Safe, open space — ideal for off-lead time'
+    ],
+    'Shade': [
+        'Very exposed — little or no shade',
+        'Mostly open with occasional cover',
+        'A mix of sun and shade',
+        'Plenty of shade for warm days',
+        'Cool and shaded throughout'
+    ],
+    'Low Mud': [
+        'Very muddy — wellies essential after rain',
+        'Often muddy in wet weather',
+        'Some muddy patches; fine when dry',
+        'Mostly firm and drains well',
+        'Dry and firm underfoot year-round'
+    ]
+};
+
+function glanceHTML(items, explain) {
     if (!items || !items.length) return '';
-    return items.map((row) => `
-                        <div class="glance-row">
-                            <span class="glance-feature">${esc(row.label)}</span>
-                            <span class="glance-stars">${starsHTML(row.score)}</span>
-                        </div>`).join('');
+    return items.map((row) => {
+        const scale = explain && RATING_SCALES[row.label];
+        const feature = scale
+            ? `<button type="button" class="glance-feature gl-toggle" aria-expanded="false">${esc(row.label)}</button>`
+            : `<span class="glance-feature">${esc(row.label)}</span>`;
+        const explainBlock = scale ? `
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">${scale.map((d, i) => `
+                                    <li><span class="gs-stars">${starsHTML(i + 1)}</span> ${esc(d)}</li>`).join('')}
+                                </ul>
+                            </div>` : '';
+        return `
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                ${feature}
+                                <span class="glance-stars">${starsHTML(row.score)}</span>
+                            </div>${explainBlock}
+                        </div>`;
+    }).join('');
 }
 
 function galleryHTML(items) {
@@ -956,7 +1031,8 @@ function page(walk, walks, places, tips) {
         { narrow: true, html: `<p class="lead-intro" id="walk-intro">${esc(walk.intro || '')}</p>
                     <h2>At a glance</h2>
                     <p class="section-lead">Honest ratings, so you can decide in seconds whether it suits your dog.</p>
-                    <div id="glance" class="glance">${glanceHTML(walk.glance)}
+                    <button type="button" class="glance-explain-all" aria-expanded="false">How are these ratings decided?</button>
+                    <div id="glance" class="glance">${glanceHTML(walk.glance, true)}
                     </div>` },
         (walkImages(walk).length) && { narrow: false, html: galleryInner(walk) },
         { narrow: true, html: `<h2>${icon('map')} The route</h2>

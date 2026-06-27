@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=57e4bd35">
+    <link rel="stylesheet" href="../styles.css?v=def12fa7">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script>window.WALK_ID = "tiptree-heath";</script>
 </head>
@@ -75,38 +75,135 @@
                     <p class="lead-intro" id="walk-intro">Tiptree Heath is one of Essex's best hidden woodland walks. Expect sandy trails, open heathland and plenty of sniffing opportunities.</p>
                     <h2>At a glance</h2>
                     <p class="section-lead">Honest ratings, so you can decide in seconds whether it suits your dog.</p>
+                    <button type="button" class="glance-explain-all" aria-expanded="false">How are these ratings decided?</button>
                     <div id="glance" class="glance">
-                        <div class="glance-row">
-                            <span class="glance-feature">Reactive Dogs</span>
-                            <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Reactive Dogs</button>
+                                <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> Busy, narrow paths, dogs everywhere</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Often busy, few escape routes</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> Mixed, depends on time of day</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Generally quiet with space to move away</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Excellent visibility and lots of space</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="glance-row">
-                            <span class="glance-feature">Puppies</span>
-                            <span class="glance-stars"><span class="on">★★★</span><span class="off">☆☆</span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Puppies</button>
+                                <span class="glance-stars"><span class="on">★★★</span><span class="off">☆☆</span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> Long or demanding — too much for little legs</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Fairly long or uneven; hard work for a pup</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> Manageable, with a few trickier sections</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Short and easy with gentle, varied interest</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Short, safe and ideal for first adventures</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="glance-row">
-                            <span class="glance-feature">Senior Dogs</span>
-                            <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Senior Dogs</button>
+                                <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> Long and strenuous — tough for older dogs</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Some demanding stretches or rough ground</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> Doable at a gentle pace, with a few harder bits</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Mostly easy going with places to rest</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Short, flat and gentle — perfect for seniors</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="glance-row">
-                            <span class="glance-feature">Pushchairs</span>
-                            <span class="glance-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Pushchairs</button>
+                                <span class="glance-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> Not passable with a pushchair</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Difficult — steps, stiles or rough ground</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> Possible on the main path, tricky elsewhere</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Mostly firm, even paths</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Smooth, surfaced and fully buggy-friendly</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="glance-row">
-                            <span class="glance-feature">Swimming</span>
-                            <span class="glance-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Swimming</button>
+                                <span class="glance-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> No water to swim in</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Water nearby but hard or unsafe to reach</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> Somewhere to paddle in the right conditions</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Good, accessible water for a swim</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Excellent, safe swimming with easy access</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="glance-row">
-                            <span class="glance-feature">Off Lead</span>
-                            <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Off Lead</button>
+                                <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> Keep on lead throughout (roads or livestock)</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Mostly on lead; few safe stretches</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> Off lead in parts, on lead near hazards</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Largely off lead with good visibility</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Safe, open space — ideal for off-lead time</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="glance-row">
-                            <span class="glance-feature">Shade</span>
-                            <span class="glance-stars"><span class="on">★★★★★</span><span class="off"></span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Shade</button>
+                                <span class="glance-stars"><span class="on">★★★★★</span><span class="off"></span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> Very exposed — little or no shade</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Mostly open with occasional cover</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> A mix of sun and shade</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Plenty of shade for warm days</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Cool and shaded throughout</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="glance-row">
-                            <span class="glance-feature">Low Mud</span>
-                            <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                        <div class="glance-item">
+                            <div class="glance-row">
+                                <button type="button" class="glance-feature gl-toggle" aria-expanded="false">Low Mud</button>
+                                <span class="glance-stars"><span class="on">★★★★</span><span class="off">☆</span></span>
+                            </div>
+                            <div class="glance-explain" hidden>
+                                <p class="glance-explain-title">How we rate this</p>
+                                <ul class="glance-scale">
+                                    <li><span class="gs-stars"><span class="on">★</span><span class="off">☆☆☆☆</span></span> Very muddy — wellies essential after rain</li>
+                                    <li><span class="gs-stars"><span class="on">★★</span><span class="off">☆☆☆</span></span> Often muddy in wet weather</li>
+                                    <li><span class="gs-stars"><span class="on">★★★</span><span class="off">☆☆</span></span> Some muddy patches; fine when dry</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★</span><span class="off">☆</span></span> Mostly firm and drains well</li>
+                                    <li><span class="gs-stars"><span class="on">★★★★★</span><span class="off"></span></span> Dry and firm underfoot year-round</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -466,7 +563,7 @@
     </footer>
 
     <script src="../script.js?v=797b4f2e"></script>
-    <script src="../walk.js?v=b7ba52ec"></script>
+    <script src="../walk.js?v=f44700ec"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>
     <script>

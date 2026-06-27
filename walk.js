@@ -14,7 +14,37 @@
         wireDayToggles();
         wireActions();
         wireLightbox();
+        wireGlance();
     });
+
+    // Rating explanations: click a row label to reveal its 1–5 scale beneath
+    // the row; the "How are these ratings decided?" link toggles them all.
+    function wireGlance() {
+        const glance = document.getElementById('glance');
+        if (!glance) return;
+        const setOpen = (item, open) => {
+            const exp = item.querySelector('.glance-explain');
+            const btn = item.querySelector('.gl-toggle');
+            if (!exp) return;
+            if (open) exp.removeAttribute('hidden'); else exp.setAttribute('hidden', '');
+            if (btn) btn.setAttribute('aria-expanded', String(open));
+        };
+        glance.querySelectorAll('.gl-toggle').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.glance-item');
+                setOpen(item, item.querySelector('.glance-explain').hasAttribute('hidden'));
+            });
+        });
+        const allBtn = document.querySelector('.glance-explain-all');
+        if (allBtn) {
+            allBtn.addEventListener('click', () => {
+                const show = !!glance.querySelector('.glance-explain[hidden]');
+                glance.querySelectorAll('.glance-item').forEach((item) => setOpen(item, show));
+                allBtn.setAttribute('aria-expanded', String(show));
+                allBtn.textContent = show ? 'Hide rating explanations' : 'How are these ratings decided?';
+            });
+        }
+    }
 
     // Click a gallery photo to open a full-screen carousel (prev/next, close,
     // backdrop click, Esc and arrow keys, swipe on touch).

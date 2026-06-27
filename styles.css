@@ -1243,13 +1243,52 @@ h2 .lucide { vertical-align: -0.1em; }
     justify-content: space-between;
     align-items: center;
     padding: 0.85rem 1.25rem;
-    border-bottom: 1px solid var(--color-border);
 }
-.glance-row:last-child { border-bottom: none; }
+.glance-item { border-bottom: 1px solid var(--color-border); }
+.glance-item:last-child { border-bottom: none; }
 .glance-feature { font-size: 1rem; }
 .glance-stars { font-size: 1.05rem; letter-spacing: 0.05em; }
 .glance-stars .on { color: var(--color-gold); }
 .glance-stars .off { color: #D8CDB9; }
+
+/* Clickable rating labels + per-row explanation popover */
+.gl-toggle {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+}
+.gl-toggle:hover, .gl-toggle[aria-expanded="true"] { text-decoration-style: solid; }
+.glance-explain {
+    padding: 0.25rem 1.25rem 1rem;
+    background-color: var(--color-bg);
+    font-size: 0.88rem;
+    color: var(--color-text);
+}
+.glance-explain-title { font-weight: 600; margin: 0 0 0.45rem; }
+.glance-scale { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; }
+.glance-scale li { display: flex; gap: 0.6rem; align-items: baseline; }
+.gs-stars { white-space: nowrap; letter-spacing: 0.05em; }
+.gs-stars .on { color: var(--color-gold); }
+.gs-stars .off { color: #D8CDB9; }
+.glance-explain-all {
+    display: inline-block;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: -0.5rem 0 1rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--color-terracotta);
+    cursor: pointer;
+    text-decoration: underline;
+}
+.glance-explain-all:hover { color: var(--color-terracotta-dark); }
 
 /* Photo gallery */
 .gallery-grid {
