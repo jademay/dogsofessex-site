@@ -587,9 +587,8 @@ function routeList(walk) {
 function routeCardHTML(route, i, walk) {
     const color = ROUTE_DOT_COLORS[i % ROUTE_DOT_COLORS.length];
     const gpx = route.gpxFile ? `../${esc(route.gpxFile)}` : '';
-    const preview = gpx && routeLineSVG(route.gpxFile);
-    const previewHTML = preview
-        ? `<div class="route-card-preview">${preview}</div>`
+    const previewHTML = gpx
+        ? `<div class="route-card-preview route-card-map" data-gpx="${gpx}" data-name="${esc(route.name || walk.name)}">${routeLineSVG(route.gpxFile)}</div>`
         : `<div class="route-card-preview is-empty">${routePlaceholderSVG()}</div>`;
     const meta = [route.distance, route.time].filter(Boolean).join(' • ');
     const link = gpx
@@ -611,7 +610,7 @@ function routeCardHTML(route, i, walk) {
 function walkRoutesInner(walk) {
     const routes = routeList(walk);
     if (!routes.length) return '';
-    const heading = routes.length > 1 ? 'Walk Routes' : 'Route';
+    const heading = routes.length > 1 ? 'Walk Routes' : 'Walk Route';
     return `<h2>${icon('map')} ${heading}</h2>
                     <div class="route-carousel">${routes.map((r, i) => routeCardHTML(r, i, walk)).join('')}
                     </div>`;
@@ -1004,7 +1003,6 @@ function page(walk, walks, places, tips) {
         { narrow: true, html: walkRoutesInner(walk) },
         { narrow: true, html: gettingThereInner(walk) },
         (walk.whatToExpect && walk.whatToExpect.length) && { narrow: true, html: whatToExpectInner(walk) },
-        (walk.official && walk.official.managedBy) && { narrow: true, html: officialInner(walk) },
         { narrow: false, html: `<div id="make-a-day">${dayHTML(walk, places)}
                     </div>` },
         { narrow: false, html: `<div id="explore-nearby">${exploreHTML(walk, walks)}
@@ -1018,7 +1016,8 @@ function page(walk, walks, places, tips) {
                         <a href="#" id="save-walk" class="btn btn-secondary">${icon('heart')}<span class="action-label">Save this walk</span></a>
                         <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
                         <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
-                    </div>` }
+                    </div>` },
+        (walk.official && walk.official.managedBy) && { narrow: true, html: officialInner(walk) }
     ].filter(Boolean);
 
     const walkBody = bands.map((b, i) => `

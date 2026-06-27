@@ -61,11 +61,64 @@
         };
 
         triggers.forEach((t) => t.addEventListener('click', () => open(t.dataset.gpx, t.dataset.name)));
+
+        // Live mini-map preview behind each route card, lazy-loaded as it scrolls
+        // into view; clicking a preview opens the full map popup too.
+        const previews = document.querySelectorAll('.route-card-map[data-gpx]');
+        previews.forEach((el) => el.addEventListener('click', () => open(el.dataset.gpx, el.dataset.name)));
+        if (previews.length && typeof L !== 'undefined') {
+            if ('IntersectionObserver' in window) {
+                const io = new IntersectionObserver((entries, obs) => {
+                    entries.forEach((en) => {
+                        if (!en.isIntersecting) return;
+                        obs.unobserve(en.target);
+                        en.target.innerHTML = '';
+                        buildPreviewMap(en.target, en.target.dataset.gpx);
+                    });
+                }, { rootMargin: '200px' });
+                previews.forEach((el) => io.observe(el));
+            } else {
+                previews.forEach((el) => { el.innerHTML = ''; buildPreviewMap(el, el.dataset.gpx); });
+            }
+        }
+
         pop.querySelector('.route-popup-close').addEventListener('click', close);
         pop.addEventListener('click', (e) => { if (e.target === pop) close(); });
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && pop.classList.contains('open')) close();
         });
+    }
+
+    // A small, non-interactive map for the card preview (tiles + route line).
+    function buildPreviewMap(el, gpxUrl) {
+        const map = L.map(el, {
+            zoomControl: false, attributionControl: false, dragging: false,
+            scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false,
+            keyboard: false, touchZoom: false, tap: false
+        });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+        new L.GPX(gpxUrl, {
+            async: true,
+            marker_options: { startIconUrl: null, endIconUrl: null, shadowUrl: null, wptIconUrls: {} },
+            polyline_options: { color: '#1F5A44', weight: 4, opacity: 0.95 }
+        }).on('loaded', (e) => {
+            if (!map.getPane('routeCasing')) {
+                map.createPane('routeCasing');
+                map.getPane('routeCasing').style.zIndex = 350;
+            }
+            (function addCasing(layer) {
+                if (layer instanceof L.Polyline && typeof layer.getLatLngs === 'function') {
+                    L.polyline(layer.getLatLngs(), {
+                        pane: 'routeCasing', color: '#fff', weight: 6, opacity: 0.95,
+                        lineJoin: 'round', lineCap: 'round'
+                    }).addTo(map);
+                } else if (typeof layer.eachLayer === 'function') {
+                    layer.eachLayer(addCasing);
+                }
+            })(e.target);
+            map.fitBounds(e.target.getBounds(), { padding: [16, 16] });
+        }).addTo(map);
+        return map;
     }
 
     function buildRouteMap(el, gpxUrl) {
