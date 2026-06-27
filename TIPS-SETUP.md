@@ -10,7 +10,7 @@ Nothing appears on the site automatically.
 
 ## One-time FormSubmit activation
 1. The endpoint is set in `walk.js`: `FORMSUBMIT_ENDPOINT`
-   (currently `https://formsubmit.co/ajax/hello@dogsofessex.co.uk`). Change the
+   (currently `https://formsubmit.co/ajax/tips@dogsofessex.co.uk`). Change the
    email if you want tips sent elsewhere.
 2. The **first** submission triggers a confirmation email from FormSubmit to that
    address — click the link once to activate. After that, tips arrive by email.

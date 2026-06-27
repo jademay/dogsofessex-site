@@ -23,7 +23,7 @@
     // Approved tips are baked into the page from data/tips.json (added manually).
     // The "Share a tip" form emails new tips via FormSubmit (formsubmit.co); they
     // appear on the site once you add them to data/tips.json and rebuild.
-    const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/hello@dogsofessex.co.uk';
+    const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/tips@dogsofessex.co.uk';
 
     function wireTips() {
         const list = document.getElementById('community-tips');
