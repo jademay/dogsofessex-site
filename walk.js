@@ -15,7 +15,103 @@
         wireActions();
         wireLightbox();
         wireGlance();
+        wireRoutes();
     });
+
+    // "View route" on a route card opens a popup with the full interactive map,
+    // built on demand (one map at a time) from that route's GPX.
+    function wireRoutes() {
+        const triggers = document.querySelectorAll('.route-card-link[data-gpx]');
+        if (!triggers.length) return;
+
+        const pop = document.createElement('div');
+        pop.className = 'route-popup';
+        pop.setAttribute('aria-hidden', 'true');
+        pop.innerHTML =
+            '<div class="route-popup-inner">' +
+            '<button class="route-popup-close" aria-label="Close map">×</button>' +
+            '<h3 class="route-popup-title"></h3>' +
+            '<div class="route-popup-map"></div>' +
+            '<a class="route-popup-download btn btn-secondary" download>⬇ Download GPX</a>' +
+            '</div>';
+        document.body.appendChild(pop);
+
+        const mapEl = pop.querySelector('.route-popup-map');
+        const titleEl = pop.querySelector('.route-popup-title');
+        const dl = pop.querySelector('.route-popup-download');
+        let map = null;
+
+        const close = () => {
+            pop.classList.remove('open');
+            pop.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (map) { map.remove(); map = null; }
+        };
+        const open = (gpxUrl, name) => {
+            titleEl.textContent = name || 'Route';
+            dl.setAttribute('href', gpxUrl);
+            pop.classList.add('open');
+            pop.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            if (map) { map.remove(); map = null; }
+            mapEl.innerHTML = '';
+            if (typeof L === 'undefined') return;
+            map = buildRouteMap(mapEl, gpxUrl);
+            setTimeout(() => { if (map) map.invalidateSize(); }, 60);
+        };
+
+        triggers.forEach((t) => t.addEventListener('click', () => open(t.dataset.gpx, t.dataset.name)));
+        pop.querySelector('.route-popup-close').addEventListener('click', close);
+        pop.addEventListener('click', (e) => { if (e.target === pop) close(); });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && pop.classList.contains('open')) close();
+        });
+    }
+
+    function buildRouteMap(el, gpxUrl) {
+        const map = L.map(el, { scrollWheelZoom: false });
+        const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19,
+            attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics'
+        });
+        L.control.layers({ '🗺 Map': osm, '🛰 Satellite': satellite }, null, { position: 'topright' }).addTo(map);
+        const pin = (cls, content) => L.divIcon({
+            className: 'gpx-pin',
+            html: '<span class="gpx-pin-badge ' + cls + '">' + content + '</span>',
+            iconSize: [0, 0], iconAnchor: [0, 0]
+        });
+        new L.GPX(gpxUrl, {
+            async: true,
+            polyline_options: { color: '#1F5A44', weight: 4, opacity: 0.95 },
+            marker_options: {
+                startIcon: pin('gpx-pin-start', 'Start'),
+                endIcon: pin('gpx-pin-end', 'Finish'),
+                wptIcons: { '': pin('gpx-pin-wpt', '📍'), 'Parking Area': pin('gpx-pin-parking', '🅿️') }
+            }
+        }).on('loaded', (e) => {
+            if (!map.getPane('routeCasing')) {
+                map.createPane('routeCasing');
+                map.getPane('routeCasing').style.zIndex = 350;
+            }
+            (function addCasing(layer) {
+                if (layer instanceof L.Polyline && typeof layer.getLatLngs === 'function') {
+                    L.polyline(layer.getLatLngs(), {
+                        pane: 'routeCasing', color: '#fff', weight: 7, opacity: 0.95,
+                        lineJoin: 'round', lineCap: 'round'
+                    }).addTo(map);
+                } else if (typeof layer.eachLayer === 'function') {
+                    layer.eachLayer(addCasing);
+                }
+            })(e.target);
+            map.fitBounds(e.target.getBounds(), { paddingTopLeft: [12, 56], paddingBottomRight: [12, 12] });
+            map.closePopup();
+        }).addTo(map);
+        return map;
+    }
 
     // Rating explanations: click a row label to reveal its 1–5 scale beneath
     // the row; the "How are these ratings decided?" link toggles them all.

@@ -534,62 +534,102 @@ function galleryHTML(items) {
     }).join('');
 }
 
-function routeHTML(walk) {
+// Colours for the little route dots, cycled by card index.
+const ROUTE_DOT_COLORS = ['#1F5A44', '#BC6A48', '#3C7D4E', '#C9972B', '#5E6E54', '#A2583A', '#2C382E'];
+
+// Turn a GPX file's track into a compact inline SVG route-line preview at build
+// time — crisp and dependency-free (no runtime map needed in the card).
+function routeLineSVG(gpxFile) {
+    if (!gpxFile) return '';
+    let xml;
+    try { xml = fs.readFileSync(path.join(ROOT, gpxFile), 'utf8'); } catch (e) { return ''; }
+    const pts = [];
+    const re = /<trkpt[^>]*\blat="([-\d.]+)"[^>]*\blon="([-\d.]+)"/g;
+    let m;
+    while ((m = re.exec(xml))) pts.push([parseFloat(m[2]), parseFloat(m[1])]); // [lon, lat]
+    if (pts.length < 2) return '';
+    const meanLat = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+    const k = Math.cos(meanLat * Math.PI / 180);
+    const xs = pts.map((p) => p[0] * k), ys = pts.map((p) => p[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+    const W = 100, H = 60, pad = 8;
+    const sx = (maxX - minX) || 1e-9, sy = (maxY - minY) || 1e-9;
+    const scale = Math.min((W - 2 * pad) / sx, (H - 2 * pad) / sy);
+    const ox = (W - sx * scale) / 2, oy = (H - sy * scale) / 2;
+    const step = Math.max(1, Math.floor(pts.length / 90));
+    const poly = [];
+    for (let i = 0; i < pts.length; i += step) {
+        poly.push((ox + (xs[i] - minX) * scale).toFixed(1) + ',' + (oy + (maxY - ys[i]) * scale).toFixed(1));
+    }
+    return `<svg class="route-line" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><polyline points="${poly.join(' ')}" fill="none" stroke="#1F5A44" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+}
+
+function routePlaceholderSVG() {
+    return `<svg class="route-line route-line-ph" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M12 46 Q32 14 52 34 T90 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-dasharray="3 5" stroke-linecap="round"/></svg>`;
+}
+
+// Normalise a walk into a list of route objects for the cards.
+function routeList(walk) {
+    if (walk.routes && walk.routes.length) {
+        return walk.routes.map((r, i) => ({
+            name: r.name || ('Route ' + (i + 1)),
+            distance: r.distance || '', time: r.time || '',
+            routeType: r.routeType || '', notes: r.notes || '',
+            gpxFile: r.gpxFile || ''
+        }));
+    }
+    return [{
+        name: '', distance: walk.distance || '', time: walk.timeShort || walk.time || '',
+        routeType: walk.routeType || '', notes: '', gpxFile: walk.gpxFile || ''
+    }];
+}
+
+function routeCardHTML(route, i, walk) {
+    const color = ROUTE_DOT_COLORS[i % ROUTE_DOT_COLORS.length];
+    const gpx = route.gpxFile ? `../${esc(route.gpxFile)}` : '';
+    const preview = gpx && routeLineSVG(route.gpxFile);
+    const previewHTML = preview
+        ? `<div class="route-card-preview">${preview}</div>`
+        : `<div class="route-card-preview is-empty">${routePlaceholderSVG()}</div>`;
+    const meta = [route.distance, route.time].filter(Boolean).join(' • ');
+    const link = gpx
+        ? `<button type="button" class="route-card-link" data-gpx="${gpx}" data-name="${esc(route.name || walk.name)}">View route →</button>`
+        : `<a class="route-card-link" href="https://www.google.com/maps?q=${walk.lat},${walk.lng}" target="_blank" rel="noopener">View location →</a>`;
+    return `
+                        <article class="route-card">
+                            ${previewHTML}
+                            <div class="route-card-body">
+                                ${route.name ? `<h3 class="route-card-name"><span class="route-dot" style="background:${color}"></span>${esc(route.name)}</h3>` : ''}
+                                ${meta ? `<p class="route-card-meta">${esc(meta)}</p>` : ''}
+                                ${route.routeType ? `<p class="route-card-type">${esc(route.routeType)}</p>` : ''}
+                                ${route.notes ? `<p class="route-card-notes">${esc(route.notes)}</p>` : ''}
+                                ${link}
+                            </div>
+                        </article>`;
+}
+
+function walkRoutesInner(walk) {
+    const routes = routeList(walk);
+    if (!routes.length) return '';
+    const heading = routes.length > 1 ? 'Walk Routes' : 'Route';
+    return `<h2>${icon('map')} ${heading}</h2>
+                    <div class="route-carousel">${routes.map((r, i) => routeCardHTML(r, i, walk)).join('')}
+                    </div>`;
+}
+
+function gettingThereInner(walk) {
     const r = walk.route || {};
-    const pill = (label, val) => val
-        ? `<span class="route-pill"><strong>${esc(label)}</strong> ${esc(val)}</span>` : '';
-    // Use an explicit embed URL if given, otherwise auto-build one from the
-    // walk's coordinates (a maps.app.goo.gl share link can't be iframed).
     const mapSrc = r.mapEmbed
         || (walk.lat != null && walk.lng != null
             ? `https://www.google.com/maps?q=${walk.lat},${walk.lng}&output=embed`
             : '');
-    let routesBlock;
-    if (walk.routes && walk.routes.length) {
-        // Several routes from the same location — one named block each.
-        routesBlock = `<div class="route-options">${walk.routes.map((rt, i) => `
-                        <div class="route-option">
-                            <h3 class="route-option-name">${esc(rt.name || ('Route ' + (i + 1)))}</h3>
-                            <div class="route-meta">
-                                ${pill('Distance', rt.distance)}
-                                ${pill('Time', rt.time)}
-                                ${pill('Terrain', rt.terrain || '')}
-                                ${pill('Route', rt.routeType || '')}
-                            </div>
-                            ${rt.notes ? `<p>${esc(rt.notes)}</p>` : ''}
-                        </div>`).join('')}
-                    </div>`;
-    } else {
-        routesBlock = `<div class="route-meta">
-                        ${pill('Distance', walk.distance)}
-                        ${pill('Time', walk.time)}
-                        ${pill('Terrain', walk.terrain)}
-                        ${pill('Route', walk.routeType)}
-                    </div>`;
-    }
-    // Assets #2 and #3: an interactive Leaflet map drawn from the walk's GPX
-    // track, plus a download button for Komoot / AllTrails / Garmin / Strava.
-    // Walks without a gpxFile fall back to the existing Google Maps embed.
-    const gpxPath = walk.gpxFile ? `../${esc(walk.gpxFile)}` : '';
-    const mapBlock = gpxPath
-        ? `<div id="route-map" class="route-map" data-gpx="${gpxPath}" role="img" aria-label="Interactive route map of ${esc(walk.name)}"></div>
-                    <p class="gpx-actions"><a class="btn btn-secondary gpx-download" href="${gpxPath}" download>${icon('download')} Download GPX route</a><span class="gpx-note">Works with Komoot, AllTrails, Garmin &amp; Strava</span></p>`
-        : (mapSrc ? `<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : '');
-    // For a single-route walk, show a compact stat line directly above the map
-    // (distance • time • route type • terrain) instead of the pill block.
-    // Multi-route walks keep their per-route blocks at the top.
-    const isMulti = walk.routes && walk.routes.length;
-    const statParts = isMulti
-        ? []
-        : [walk.distance, walk.timeShort || walk.time, walk.routeType, walk.terrain].filter(Boolean);
-    const statLine = statParts.length
-        ? `<p class="route-statline">${statParts.map(esc).join(' • ')}</p>` : '';
-    return `${isMulti ? `
-                    ${routesBlock}` : ''}
-                    ${r.parking ? `<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>` : ''}
-                    ${r.localTip ? `<p class="local-tip">${icon('lightbulb')} <strong>Local tip:</strong> ${esc(r.localTip)}</p>` : ''}
-                    ${statLine}
-                    ${mapBlock}`;
+    const parts = [];
+    if (r.parking) parts.push(`<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
+    if (r.localTip) parts.push(`<p class="local-tip">${icon('lightbulb')} <strong>Local tip:</strong> ${esc(r.localTip)}</p>`);
+    if (mapSrc) parts.push(`<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
+    if (!parts.length) return '';
+    return `<h2>${icon('map-pin')} Getting there</h2>
+                    ${parts.join('\n                    ')}`;
 }
 
 function whatToExpectHTML(paras) {
@@ -940,88 +980,14 @@ function page(walk, walks, places, tips) {
         ogImage ? `<meta name="twitter:image" content="${esc(ogImage)}">` : ''
     ].filter(Boolean).join('\n    ');
     // Leaflet + leaflet-gpx are only loaded on pages that have a GPX track.
-    const needsMap = !!walk.gpxFile;
+    const needsMap = !!walk.gpxFile || (walk.routes || []).some(function (r) { return r.gpxFile; });
     const mapHead = needsMap
         ? `\n    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">`
         : '';
     const mapScripts = needsMap
         ? `
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>
-    <script>
-      (function () {
-        var el = document.getElementById('route-map');
-        if (!el || typeof L === 'undefined') return;
-        var map = L.map(el, { scrollWheelZoom: false });
-        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        var satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          maxZoom: 19,
-          attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics'
-        });
-        L.control.layers({ '🗺 Map': osm, '🛰 Satellite': satellite }, null, { position: 'topright' }).addTo(map);
-        // Branded HTML markers (no external pin images, so no 404s). leaflet-gpx
-        // adds Start/Finish from the track ends and a marker per GPX waypoint,
-        // keyed by its <sym> (e.g. "Parking Area").
-        // Each marker is rooted exactly on its real point (iconAnchor [0,0]);
-        // a CSS leader line of a per-type length lifts the label clear of the
-        // others, so coincident start/finish/parking points stay legible
-        // without moving the marker off its true location.
-        var pin = function (cls, content) {
-          return L.divIcon({
-            className: 'gpx-pin',
-            html: '<span class="gpx-pin-badge ' + cls + '">' + content + '</span>',
-            iconSize: [0, 0],
-            iconAnchor: [0, 0]
-          });
-        };
-        new L.GPX(el.dataset.gpx, {
-          async: true,
-          polyline_options: { color: '#1F5A44', weight: 4, opacity: 0.95 },
-          marker_options: {
-            startIcon: pin('gpx-pin-start', 'Start'),
-            endIcon: pin('gpx-pin-end', 'Finish'),
-            wptIcons: {
-              '': pin('gpx-pin-wpt', '📍'),
-              'Parking Area': pin('gpx-pin-parking', '🅿️')
-            }
-          }
-        }).on('loaded', function (e) {
-          // White casing beneath the route line so it stays legible on both the
-          // map and the darker satellite imagery. Use a dedicated pane below the
-          // overlay pane (z-index 400) so the casing sits under the route without
-          // a fragile bringToBack() call. leaflet-gpx nests the track polyline in
-          // sub-groups, so recurse to find it.
-          if (!map.getPane('routeCasing')) {
-            map.createPane('routeCasing');
-            map.getPane('routeCasing').style.zIndex = 350;
-          }
-          (function addCasing(layer) {
-            if (layer instanceof L.Polyline && typeof layer.getLatLngs === 'function') {
-              L.polyline(layer.getLatLngs(), {
-                pane: 'routeCasing',
-                color: '#fff', weight: 7, opacity: 0.95,
-                lineJoin: 'round', lineCap: 'round'
-              }).addTo(map);
-            } else if (typeof layer.eachLayer === 'function') {
-              layer.eachLayer(addCasing);
-            }
-          })(e.target);
-          // Tight fit so the route fills the frame; extra top room only, to
-          // clear the stacked Start/Finish labels above the trailhead.
-          map.fitBounds(e.target.getBounds(), {
-            paddingTopLeft: [12, 56],
-            paddingBottomRight: [12, 12]
-          });
-          map.closePopup();
-        }).on('error', function () {
-          el.classList.add('route-map-error');
-          el.innerHTML = '<p class="map-error">Route map unavailable — download the GPX below.</p>';
-        }).addTo(map);
-      })();
-    </script>`
+    <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>`
         : '';
 
     // Content bands — rendered in order, alternating background like the homepage.
@@ -1035,9 +1001,8 @@ function page(walk, walks, places, tips) {
                     <div id="glance" class="glance">${glanceHTML(walk.glance, true)}
                     </div>` },
         (walkImages(walk).length) && { narrow: false, html: galleryInner(walk) },
-        { narrow: true, html: `<h2>${icon('map')} The route</h2>
-                    <div id="route">${routeHTML(walk)}
-                    </div>` },
+        { narrow: true, html: walkRoutesInner(walk) },
+        { narrow: true, html: gettingThereInner(walk) },
         (walk.whatToExpect && walk.whatToExpect.length) && { narrow: true, html: whatToExpectInner(walk) },
         (walk.official && walk.official.managedBy) && { narrow: true, html: officialInner(walk) },
         { narrow: false, html: `<div id="make-a-day">${dayHTML(walk, places)}
