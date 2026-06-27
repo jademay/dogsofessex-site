@@ -33,7 +33,7 @@ const icon = (name) => ICONS[name] || '';
 const EMOJI_ICON = {
     '📍': 'map-pin', '🐕': 'dog', '🦮': 'dog', '🚗': 'car', '👶': 'baby',
     '🌳': 'trees', '🌲': 'tree-pine', '⚓': 'anchor', '☕': 'coffee', '🚻': 'toilet',
-    '🅿': 'square-parking', '🏖': 'umbrella', '🏊': 'waves', '🌊': 'waves', '🐦': 'bird',
+    '🅿': 'square-parking', '🏖': 'parasol', '🏊': 'waves', '🌊': 'waves', '🐦': 'bird',
     '🦋': 'bird', '🚶': 'footprints', '🎨': 'palette', '🌿': 'leaf', '🌄': 'mountain',
     '🤫': 'feather', '🦌': 'binoculars', '💧': 'droplets', '🏛': 'landmark'
 };
@@ -139,7 +139,7 @@ const SENIOR_SCALE = [
 
 const SCENERY_ICON = {
     woodland: icon('trees'), heathland: icon('leaf'), parkland: icon('trees'),
-    coastal: icon('waves'), seaside: icon('waves'), park: icon('trees'), garden: icon('flower'), beach: icon('umbrella'),
+    coastal: icon('waves'), seaside: icon('waves'), park: icon('trees'), garden: icon('flower'), beach: icon('parasol'),
     riverside: icon('waves'), 'nature-reserve': icon('leaf'), countryside: icon('mountain')
 };
 
@@ -270,7 +270,7 @@ const PLACE_CATEGORIES = [
         blurb: 'Make a full day of it.',
         cta: 'Explore things to do →',
         intro: 'Dog-friendly days out beyond a walk — garden centres, National Trust properties, estates, country parks, markets, farm shops and seasonal attractions.' },
-    { slug: 'beaches', emoji: icon('umbrella'), title: 'Beaches', plural: 'beaches',
+    { slug: 'beaches', emoji: icon('parasol'), title: 'Beaches', plural: 'beaches',
         types: ['beach', 'seaside', 'swim-spot'],
         blurb: 'The best coastal spots for muddy paws.',
         cta: 'Explore beaches →',
