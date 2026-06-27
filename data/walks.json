@@ -141,8 +141,17 @@
     "dogsOfEssexPick": "the-farm-cafe-by-black-pig-maldon",
     "time": "30 minutes",
     "timeShort": "30 mins",
-    "distance": "1.3 miles",
+    "distance": "1.4 miles",
     "routeType": "Circular",
+    "routes": [
+      {
+        "name": "Chigborough Lakes Circular",
+        "distance": "1.4 miles",
+        "time": "30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/chigborough-lakes.gpx"
+      }
+    ],
     "terrain": "Closed woodland and open lakes.",
     "mud": "High",
     "summary": "There are 2 km of circular trails to enjoy with benches to stop at, enjoy the views and listen to the wildlife.",
