@@ -135,7 +135,8 @@
             const sync = () => {
                 const saved = read().includes(WALK_ID);
                 saveBtn.classList.toggle('is-saved', saved);
-                saveBtn.innerHTML = saved ? '♥ Saved' : '♡ Save this walk';
+                const label = saveBtn.querySelector('.action-label');
+                if (label) label.textContent = saved ? 'Saved' : 'Save this walk';
             };
             saveBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -165,9 +166,10 @@
                     try { await navigator.share(data); } catch (err) { /* cancelled */ }
                 } else if (navigator.clipboard) {
                     await navigator.clipboard.writeText(location.href);
-                    const old = shareBtn.textContent;
-                    shareBtn.textContent = '🔗 Link copied';
-                    setTimeout(() => { shareBtn.textContent = old; }, 1800);
+                    const label = shareBtn.querySelector('.action-label') || shareBtn;
+                    const old = label.textContent;
+                    label.textContent = 'Link copied';
+                    setTimeout(() => { label.textContent = old; }, 1800);
                 }
             });
         }

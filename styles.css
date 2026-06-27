@@ -1198,7 +1198,29 @@ h1, h2, h3 {
     padding: 0.4rem 0.85rem;
     border-radius: 999px;
     font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
 }
+
+/* Lucide icons (inline SVG) — size to the surrounding text */
+.lucide {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.125em;
+    flex-shrink: 0;
+}
+/* chips/links lay icon + text out with flex, so drop the baseline nudge there */
+.chip .lucide,
+.access-chip .lucide,
+.contact-link .lucide,
+.free-pill .lucide,
+.meta-badge .lucide { vertical-align: 0; }
+h2 .lucide { vertical-align: -0.1em; }
+.nav-toggle .lucide { width: 1.4rem; height: 1.4rem; }
+.walk-actions .btn { display: inline-flex; align-items: center; gap: 0.45em; }
+#save-walk.is-saved .lucide { fill: currentColor; }
 
 /* Section rhythm on walk pages */
 .walk-section { padding: 2.75rem 0; }

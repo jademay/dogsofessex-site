@@ -17,6 +17,27 @@ const ROOT = __dirname;
 const DATA = path.join(ROOT, 'data');
 const OUT = path.join(ROOT, 'walks');
 
+// --- Lucide icons (lucide.dev) ---
+const ICONS = require('./icons.js');
+const icon = (name) => ICONS[name] || '';
+// Emoji -> Lucide name, for swapping emojis baked into the data (e.g. badges).
+const EMOJI_ICON = {
+    '📍': 'map-pin', '🐕': 'dog', '🦮': 'dog', '🚗': 'car', '👶': 'baby',
+    '🌳': 'trees', '🌲': 'tree-pine', '⚓': 'anchor', '☕': 'coffee', '🚻': 'toilet',
+    '🅿': 'square-parking', '🏖': 'umbrella', '🏊': 'waves', '🌊': 'waves', '🐦': 'bird',
+    '🦋': 'bird', '🚶': 'footprints', '🎨': 'palette', '🌿': 'leaf', '🌄': 'mountain',
+    '🤫': 'feather', '🦌': 'binoculars', '💧': 'droplets', '🏛': 'landmark'
+};
+// Render a "📍 Label" badge string, swapping a leading emoji for its Lucide icon.
+function badgeLabel(text) {
+    const t = String(text == null ? '' : text).trim();
+    const first = [...t][0];
+    const name = first && EMOJI_ICON[first];
+    if (!name) return esc(t);
+    const rest = t.slice(first.length).replace(/^️/, '').trim();
+    return icon(name) + ' ' + esc(rest);
+}
+
 // Tuning (keep in sync with the values documented on the site)
 const DAY_RADIUS_MI = 10;          // partners/free shown within this radius (no count cap)
 const NEARBY_WALK_RADIUS_MI = 25;
@@ -25,31 +46,31 @@ const AVG_MPH = 26;
 const ROAD_FACTOR = 1.25;
 
 const TYPE_META = {
-    cafe: { icon: '☕', label: 'Café' },
-    pub: { icon: '🍺', label: 'Pub' },
-    restaurant: { icon: '🍽️', label: 'Restaurant' },
-    'garden-centre': { icon: '🪴', label: 'Garden Centre' },
-    beach: { icon: '🌊', label: 'Beach' },
-    seaside: { icon: '🌊', label: 'Seaside' },
-    'swim-spot': { icon: '🌊', label: 'Swim Spot' },
-    attraction: { icon: '🎡', label: 'Attraction' },
-    shop: { icon: '🛍️', label: 'Shop' },
-    'dog-service': { icon: '🐶', label: 'Dog Service' },
-    groomer: { icon: '✂️', label: 'Dog Groomer' },
-    vet: { icon: '🩺', label: 'Vet' },
-    daycare: { icon: '🏡', label: 'Dog Daycare' },
-    'dog-walker': { icon: '🦮', label: 'Dog Walker' }
+    cafe: { icon: icon('coffee'), label: 'Café' },
+    pub: { icon: icon('beer'), label: 'Pub' },
+    restaurant: { icon: icon('utensils'), label: 'Restaurant' },
+    'garden-centre': { icon: icon('sprout'), label: 'Garden Centre' },
+    beach: { icon: icon('waves'), label: 'Beach' },
+    seaside: { icon: icon('waves'), label: 'Seaside' },
+    'swim-spot': { icon: icon('waves'), label: 'Swim Spot' },
+    attraction: { icon: icon('ferris-wheel'), label: 'Attraction' },
+    shop: { icon: icon('shopping-bag'), label: 'Shop' },
+    'dog-service': { icon: icon('dog'), label: 'Dog Service' },
+    groomer: { icon: icon('scissors'), label: 'Dog Groomer' },
+    vet: { icon: icon('stethoscope'), label: 'Vet' },
+    daycare: { icon: icon('house'), label: 'Dog Daycare' },
+    'dog-walker': { icon: icon('dog'), label: 'Dog Walker' }
 };
 
 // "Make a Day of It" categories, in display order. Each place type maps
 // into one of these; anything unmatched falls into "More nearby".
 const CATEGORIES = [
-    { icon: '☕', label: 'Cafés nearby', types: ['cafe'] },
-    { icon: '🍺', label: 'Pubs nearby', types: ['pub'] },
-    { icon: '🍽️', label: 'Restaurants nearby', types: ['restaurant'] },
-    { icon: '🌊', label: 'Swim spots nearby', types: ['beach', 'seaside', 'swim-spot'] },
-    { icon: '🛍️', label: 'Shops nearby', types: ['shop', 'garden-centre'] },
-    { icon: '🐶', label: 'Dog services nearby', types: ['dog-service', 'groomer', 'vet', 'daycare', 'dog-walker'] }
+    { icon: icon('coffee'), label: 'Cafés nearby', types: ['cafe'] },
+    { icon: icon('beer'), label: 'Pubs nearby', types: ['pub'] },
+    { icon: icon('utensils'), label: 'Restaurants nearby', types: ['restaurant'] },
+    { icon: icon('waves'), label: 'Swim spots nearby', types: ['beach', 'seaside', 'swim-spot'] },
+    { icon: icon('shopping-bag'), label: 'Shops nearby', types: ['shop', 'garden-centre'] },
+    { icon: icon('dog'), label: 'Dog services nearby', types: ['dog-service', 'groomer', 'vet', 'daycare', 'dog-walker'] }
 ];
 // "At a glance" filter categories for the walks index (key -> data attribute)
 const GLANCE_FILTERS = [
@@ -69,31 +90,31 @@ const GLANCE_KEYS = Object.fromEntries(GLANCE_FILTERS.map((f) => [f.label, f.key
 // /best-for grid + a curated /best-for/<slug>/ page appear automatically —
 // no layout changes needed.
 const BEST_FOR = [
-    { slug: 'reactive-dogs', emoji: '🐕', title: 'Reactive Dogs', key: 'reactive',
+    { slug: 'reactive-dogs', emoji: icon('dog'), title: 'Reactive Dogs', key: 'reactive',
         blurb: 'Quiet Essex walks with fewer surprises and more space.',
         intro: 'Looking for calmer walks? These routes tend to be quieter, with good visibility and room to create distance — so reactive dogs can relax and enjoy the sniffs.' },
-    { slug: 'puppies', emoji: '🐶', title: 'Puppies', key: 'puppies',
+    { slug: 'puppies', emoji: icon('baby'), title: 'Puppies', key: 'puppies',
         blurb: 'Shorter routes ideal for little legs and training.',
         intro: 'Short, manageable walks that suit little legs and growing bodies — with plenty of gentle new sights, sounds and smells for early socialisation and training.' },
-    { slug: 'senior-dogs', emoji: '🦴', title: 'Senior Dogs', key: 'senior',
+    { slug: 'senior-dogs', emoji: icon('bone'), title: 'Senior Dogs', key: 'senior',
         blurb: 'Gentle walks suited to older dogs.',
         intro: 'Looking for gentler walks for older dogs? These routes offer shorter distances, easier terrain and plenty of opportunities for breaks.' },
-    { slug: 'pushchairs', emoji: '👶', title: 'Pushchairs', key: 'pushchairs',
+    { slug: 'pushchairs', emoji: icon('baby'), title: 'Pushchairs', key: 'pushchairs',
         blurb: 'Buggy-friendly routes for families with little ones.',
         intro: 'Firm, even paths and gentle gradients make these walks easy to enjoy with a pushchair alongside the dog.' },
-    { slug: 'swimming', emoji: '🌊', title: 'Swimming Dogs', key: 'swimming',
+    { slug: 'swimming', emoji: icon('waves'), title: 'Swimming Dogs', key: 'swimming',
         blurb: 'Walks with opportunities for paddling or swimming.',
         intro: 'For dogs who love the water — these walks offer safe spots to paddle, splash and swim. Always check conditions and seasonal restrictions before letting your dog in.' },
-    { slug: 'low-mud', emoji: '🥾', title: 'Low Mud', key: 'mud',
+    { slug: 'low-mud', emoji: icon('footprints'), title: 'Low Mud', key: 'mud',
         blurb: 'The driest routes for wet-weather walks.',
         intro: 'Best during wet weather — these are the firmer, better-drained routes that stay walkable when everywhere else turns to mud.' },
-    { slug: 'hot-weather', emoji: '☀️', title: 'Hot Weather', key: 'shade',
+    { slug: 'hot-weather', emoji: icon('sun'), title: 'Hot Weather', key: 'shade',
         blurb: 'Shaded routes and water to keep dogs cool.',
         intro: 'Shaded, sheltered walks — often with water access — to help keep dogs cool and comfortable on warmer days. Always walk early or late and carry water in the heat.' },
-    { slug: 'off-lead', emoji: '🐾', title: 'Off Lead', key: 'offlead',
+    { slug: 'off-lead', emoji: icon('paw-print'), title: 'Off Lead', key: 'offlead',
         blurb: 'Safe spaces for dogs with reliable recall.',
         intro: 'Open, enclosed or quiet spaces suited to dogs with reliable recall. Always check local signage for livestock, ground-nesting birds and seasonal lead rules.' },
-    { slug: 'high-energy', emoji: '⚡', title: 'High-Energy Dogs', rank: 'distance',
+    { slug: 'high-energy', emoji: icon('zap'), title: 'High-Energy Dogs', rank: 'distance',
         blurb: 'Longer walks to burn off energy.',
         intro: 'Longer, more varied routes that give high-energy dogs the distance and stimulation they need to come home happily tired.' }
 ];
@@ -108,9 +129,9 @@ const SENIOR_SCALE = [
 ];
 
 const SCENERY_ICON = {
-    woodland: '🌳', heathland: '🌿', parkland: '🌳',
-    coastal: '🌊', seaside: '🌊', park: '🌳', garden: '🌷', beach: '🏖️',
-    riverside: '🏞️', 'nature-reserve': '🌿', countryside: '🌄'
+    woodland: icon('trees'), heathland: icon('leaf'), parkland: icon('trees'),
+    coastal: icon('waves'), seaside: icon('waves'), park: icon('trees'), garden: icon('flower'), beach: icon('umbrella'),
+    riverside: icon('waves'), 'nature-reserve': icon('leaf'), countryside: icon('mountain')
 };
 
 // --- helpers ---
@@ -210,13 +231,13 @@ const SOCIAL_ICONS = {
 
 // Dog-access chips (premium card). Add keys as needed.
 const ACCESS_META = {
-    inside: { icon: '🐶', label: 'Dogs inside' },
-    outside: { icon: '🪑', label: 'Dogs outside' },
-    garden: { icon: '🌳', label: 'Garden' },
-    'water-bowls': { icon: '💧', label: 'Water bowls' },
-    'dog-menu': { icon: '🦴', label: 'Dog menu' },
-    treats: { icon: '🍪', label: 'Treats available' },
-    'off-lead': { icon: '🐾', label: 'Off-lead area' }
+    inside: { icon: icon('door-open'), label: 'Dogs inside' },
+    outside: { icon: icon('armchair'), label: 'Dogs outside' },
+    garden: { icon: icon('trees'), label: 'Garden' },
+    'water-bowls': { icon: icon('droplets'), label: 'Water bowls' },
+    'dog-menu': { icon: icon('bone'), label: 'Dog menu' },
+    treats: { icon: icon('cookie'), label: 'Treats available' },
+    'off-lead': { icon: icon('paw-print'), label: 'Off-lead area' }
 };
 
 // "Places" categories. Each gathers dog-friendly venues whose `type` is in
@@ -224,7 +245,7 @@ const ACCESS_META = {
 // venue page, free venues become "More nearby" pills. Add a category here and a
 // /places/<slug>/ page (plus venue pages) appear automatically.
 const PLACE_CATEGORIES = [
-    { slug: 'eat-drink', emoji: '☕', title: 'Eat & Drink', plural: 'places to eat & drink',
+    { slug: 'eat-drink', emoji: icon('coffee'), title: 'Eat & Drink', plural: 'places to eat & drink',
         types: ['cafe', 'pub', 'restaurant'],
         blurb: 'Grab lunch, coffee or a pint after your walk.',
         cta: 'Explore eat & drink →',
@@ -235,18 +256,18 @@ const PLACE_CATEGORIES = [
             { type: 'pub', label: 'Pubs' },
             { type: 'restaurant', label: 'Restaurants' }
         ] },
-    { slug: 'things-to-do', emoji: '🌳', title: 'Things to Do', plural: 'things to do',
+    { slug: 'things-to-do', emoji: icon('compass'), title: 'Things to Do', plural: 'things to do',
         types: ['attraction', 'garden-centre', 'shop'],
         blurb: 'Make a full day of it.',
         cta: 'Explore things to do →',
         intro: 'Dog-friendly days out beyond a walk — garden centres, National Trust properties, estates, country parks, markets, farm shops and seasonal attractions.' },
-    { slug: 'beaches', emoji: '🏖', title: 'Beaches', plural: 'beaches',
+    { slug: 'beaches', emoji: icon('umbrella'), title: 'Beaches', plural: 'beaches',
         types: ['beach', 'seaside', 'swim-spot'],
         blurb: 'The best coastal spots for muddy paws.',
         cta: 'Explore beaches →',
         intro: 'Dog-friendly beaches and coastal spots. Check seasonal restrictions, parking and nearby cafés before you set off.',
         note: 'Seasonal restrictions apply on many Essex beaches — dogs are often banned between 1 May and 30 September. Always check local signage before you go.' },
-    { slug: 'stay', emoji: '🏨', title: 'Stay', comingSoon: true,
+    { slug: 'stay', emoji: icon('bed-double'), title: 'Stay', comingSoon: true,
         blurb: 'Coming soon.',
         cta: 'Coming soon' }
 ];
@@ -293,7 +314,7 @@ function formatMonthYear(iso) {
 // Dog-friendly note (e.g. "Dogs welcome indoors and outside.")
 function dogNoteHTML(p) {
     return p.dogFriendlyNotes
-        ? `\n                                <span class="dog-note">🐕 ${esc(p.dogFriendlyNotes)}</span>` : '';
+        ? `\n                                <span class="dog-note">${icon('dog')} ${esc(p.dogFriendlyNotes)}</span>` : '';
 }
 
 // Dog-access chips from a structured dogAccess array (pick card)
@@ -301,7 +322,7 @@ function accessHTML(p) {
     const items = p.dogAccess || [];
     if (!items.length) return '';
     const chips = items.map((k) => {
-        const m = ACCESS_META[k] || { icon: '🐾', label: k };
+        const m = ACCESS_META[k] || { icon: icon('paw-print'), label: k };
         return `<span class="access-chip">${m.icon} ${esc(m.label)}</span>`;
     }).join('');
     return `\n                                    <div class="premium-access">${chips}</div>`;
@@ -312,7 +333,7 @@ function dogTagsHTML(p, max) {
     const items = (p.dogAccess || []).slice(0, max || 4);
     if (!items.length) return '';
     const chips = items.map((k) => {
-        const m = ACCESS_META[k] || { icon: '🐾', label: k };
+        const m = ACCESS_META[k] || { icon: icon('paw-print'), label: k };
         return `<span class="access-chip">${m.icon} ${esc(m.label)}</span>`;
     }).join('');
     return `\n                                <div class="pc-tags">${chips}</div>`;
@@ -323,14 +344,14 @@ function verifyHTML(p) {
     if (!p.verified) return '';
     const by = p.checkedBy ? ` by ${esc(p.checkedBy)}` : '';
     const when = p.lastChecked ? ` • ${formatMonthYear(p.lastChecked)}` : '';
-    return `\n                                <span class="place-verify">✓ Last checked${by}${when}</span>`;
+    return `\n                                <span class="place-verify">${icon('circle-check')} Last checked${by}${when}</span>`;
 }
 
 // Distance + drive time as chips (premium card)
 function distChipsHTML(p) {
     return `<div class="info-chips">
-                                        <span class="access-chip">📍 ${p._mi.toFixed(1)} miles</span>
-                                        <span class="access-chip">🚗 ${driveMins(p._mi)} mins</span>
+                                        <span class="access-chip">${icon('map-pin')} ${p._mi.toFixed(1)} miles</span>
+                                        <span class="access-chip">${icon('car')} ${driveMins(p._mi)} mins</span>
                                     </div>`;
 }
 
@@ -340,10 +361,10 @@ function contactHTML(p, tier) {
     const show = TIER_CONTACT[tier] || TIER_CONTACT.free;
     const bits = [];
     if (show.phone && p.phone) {
-        bits.push(`<a class="contact-link" href="tel:${esc(p.phone.replace(/\s+/g, ''))}">📞 ${esc(p.phone)}</a>`);
+        bits.push(`<a class="contact-link" href="tel:${esc(p.phone.replace(/\s+/g, ''))}">${icon('phone')} ${esc(p.phone)}</a>`);
     }
     if (show.email && p.email) {
-        bits.push(`<a class="contact-link" href="mailto:${esc(p.email)}">✉️ ${esc(p.email)}</a>`);
+        bits.push(`<a class="contact-link" href="mailto:${esc(p.email)}">${icon('mail')} ${esc(p.email)}</a>`);
     }
     let icons = '';
     if (show.socials && p.socials) {
@@ -371,7 +392,7 @@ function heroHTML(walk) {
     const pct = rating.value ? Math.round((rating.value / 5) * 1000) / 10 : 0;
     const metaLine = [cap((walk.scenery || '').replace(/-/g, ' ')), walk.routeType, timeLabel(walk, true), walk.mud ? 'Mud: ' + walk.mud : '']
         .filter(Boolean).join(' • ');
-    const badges = (walk.badges || []).map((b) => `<span class="chip">${esc(b)}</span>`).join('');
+    const badges = (walk.badges || []).map((b) => `<span class="chip">${badgeLabel(b)}</span>`).join('');
     const ratingBlock = rating.value ? `
                 <div class="walk-rating">
                     <span class="star-track" aria-hidden="true"><span class="fill" style="width:${pct}%"></span></span>
@@ -462,7 +483,7 @@ function routeHTML(walk) {
     const gpxPath = walk.gpxFile ? `../${esc(walk.gpxFile)}` : '';
     const mapBlock = gpxPath
         ? `<div id="route-map" class="route-map" data-gpx="${gpxPath}" role="img" aria-label="Interactive route map of ${esc(walk.name)}"></div>
-                    <p class="gpx-actions"><a class="btn btn-secondary gpx-download" href="${gpxPath}" download>⬇ Download GPX route</a><span class="gpx-note">Works with Komoot, AllTrails, Garmin &amp; Strava</span></p>`
+                    <p class="gpx-actions"><a class="btn btn-secondary gpx-download" href="${gpxPath}" download>${icon('download')} Download GPX route</a><span class="gpx-note">Works with Komoot, AllTrails, Garmin &amp; Strava</span></p>`
         : (mapSrc ? `<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of ${esc(walk.name)}"></iframe></div>` : '');
     // For a single-route walk, show a compact stat line directly above the map
     // (distance • time • route type • terrain) instead of the pill block.
@@ -476,7 +497,7 @@ function routeHTML(walk) {
     return `${isMulti ? `
                     ${routesBlock}` : ''}
                     ${r.parking ? `<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>` : ''}
-                    ${r.localTip ? `<p class="local-tip">💡 <strong>Local tip:</strong> ${esc(r.localTip)}</p>` : ''}
+                    ${r.localTip ? `<p class="local-tip">${icon('lightbulb')} <strong>Local tip:</strong> ${esc(r.localTip)}</p>` : ''}
                     ${statLine}
                     ${mapBlock}`;
 }
@@ -493,12 +514,12 @@ function officialInner(walk) {
     const o = walk.official;
     if (!o || !o.managedBy) return '';
     const site = o.website
-        ? `\n                        <li>🌐 <a href="${esc(o.website)}" target="_blank" rel="noopener">${esc(o.managedBy)} website →</a></li>`
+        ? `\n                        <li>${icon('globe')} <a href="${esc(o.website)}" target="_blank" rel="noopener">${esc(o.managedBy)} website →</a></li>`
         : '';
     return `<h2>Official Information</h2>
                     <p>Managed by ${esc(o.managedBy)}.</p>
                     <ul class="official-list">${site}
-                        <li>⚠️ Check for seasonal updates, conservation notices and temporary closures.</li>
+                        <li>${icon('triangle-alert')} Check for seasonal updates, conservation notices and temporary closures.</li>
                     </ul>`;
 }
 
@@ -522,7 +543,7 @@ function galleryInner(walk) {
     // Optional captions, matched by order to walk.gallery[i].caption.
     const captions = (walk.gallery || []).map((g) => g.caption || '');
     const items = imgs.map((img, i) => ({ image: `../${img}`, caption: captions[i] || '' }));
-    return `<h2>📸 Photo gallery</h2>
+    return `<h2>${icon('camera')} Photo gallery</h2>
                     <p class="section-lead">See what it actually looks like before you go.</p>
                     <div id="gallery" class="gallery-grid">${galleryHTML(items)}
                     </div>`;
@@ -537,7 +558,7 @@ function whatToExpectInner(walk) {
 
 // The walk's single editorial "Dogs of Essex Pick" — the big card.
 function pickCardHTML(p) {
-    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const href = placeUrl(p);
     const photo = p.image
         ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
@@ -557,7 +578,7 @@ function pickCardHTML(p) {
                                     ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
                                     <div class="pc-actions">
                                         ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
-                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
+                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>
                                     </div>${contactHTML(p, 'pick')}${verifyHTML(p)}
                                 </div>
                             </div>
@@ -566,7 +587,7 @@ function pickCardHTML(p) {
 
 // A paid partner — compact card: name, distance, one-liner, dog tags, CTA.
 function partnerCardHTML(p, extraClass) {
-    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const href = placeUrl(p);
     return `
                                 <article class="day-card partner-card${extraClass || ''}">
@@ -575,14 +596,14 @@ function partnerCardHTML(p, extraClass) {
                                     ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
                                     <div class="pc-actions">
                                         ${href ? `<a class="pc-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
-                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
+                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>
                                     </div>
                                 </article>`;
 }
 
 // A free listing — a compact pill (name + distance + arrow) that opens Google Maps.
 function freePillHTML(p) {
-    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     return `
                             <a class="free-pill" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">
                                 <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
@@ -659,13 +680,13 @@ function dayHTML(walk, places) {
         sections += categoryBlock(cat.icon, cat.label, inCat);
     }
     const leftover = inRange.filter((p) => !used.has(p.id));
-    if (leftover.length) sections += categoryBlock('📍', 'More nearby', leftover);
+    if (leftover.length) sections += categoryBlock(icon('map-pin'), 'More nearby', leftover);
 
     if (!pick && !sections) return '';
 
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
-                    <h2>🐾 Make a Day of It</h2>
+                    <h2>${icon('paw-print')} Make a Day of It</h2>
                     <p class="section-lead">Already heading to ${who}? Here's what other local dog owners pair with this walk.</p>
                     ${pick ? pickCardHTML(pick) : ''}
                     ${sections}`;
@@ -681,22 +702,22 @@ function exploreHTML(walk, walks) {
         .slice(0, NEARBY_WALK_MAX);
     if (!nearby.length) return '';
     const cards = nearby.map((w) => {
-        const icon = SCENERY_ICON[w.scenery] || '🐾';
+        const sceneryIcon = SCENERY_ICON[w.scenery] || icon('paw-print');
         return `
                             <a href="${walkHref(w)}" class="walk-card nearby-card">
-                                <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
+                                <div class="photo-ph"><span>${sceneryIcon} ${esc(w.name)}</span></div>
                                 <div class="walk-card-body">
                                     <h3>${esc(w.name)}</h3>
                                     <div class="nearby-meta">
-                                        <span class="meta-badge">📍 ${w._mi.toFixed(1)} mi</span>
-                                        <span class="meta-badge">🚗 ~${driveMins(w._mi)} min</span>
+                                        <span class="meta-badge">${icon('map-pin')} ${w._mi.toFixed(1)} mi</span>
+                                        <span class="meta-badge">${icon('car')} ~${driveMins(w._mi)} min</span>
                                     </div>
                                     <span class="link-arrow">${w.hasPage ? 'Explore Walk →' : 'Coming soon'}</span>
                                 </div>
                             </a>`;
     }).join('');
     return `
-                    <h2>🧭 Explore Nearby</h2>
+                    <h2>${icon('compass')} Explore Nearby</h2>
                     <p class="section-lead">Other dog-friendly walks within easy reach of ${esc(walk.name)}.</p>
                     <div class="carousel">
                         <button class="carousel-btn prev" type="button" aria-label="Scroll left">‹</button>
@@ -750,7 +771,7 @@ function navHTML(prefix) {
         <div class="container">
             <nav class="nav">
                 <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
-                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">${icon('menu')}</button>
                 <ul class="nav-links">
                     <li><a href="${prefix}walks/index.html">Walks</a></li>
                     <li><a href="${prefix}best-for/index.html">Best For</a></li>
@@ -798,7 +819,7 @@ function footerHTML(prefix) {
             </div>
             <div class="footer-bottom">
                 <span>&copy; <span id="year"></span> Dogs of Essex</span>
-                <span>Made with muddy paws in Essex 🐾</span>
+                <span>Made with muddy paws in Essex ${icon('paw-print')}</span>
             </div>
         </div>
     </footer>`;
@@ -923,7 +944,7 @@ function page(walk, walks, places, tips) {
                     <div id="glance" class="glance">${glanceHTML(walk.glance)}
                     </div>` },
         (walkImages(walk).length) && { narrow: false, html: galleryInner(walk) },
-        { narrow: true, html: `<h2>🗺️ The route</h2>
+        { narrow: true, html: `<h2>${icon('map')} The route</h2>
                     <div id="route">${routeHTML(walk)}
                     </div>` },
         (walk.whatToExpect && walk.whatToExpect.length) && { narrow: true, html: whatToExpectInner(walk) },
@@ -932,15 +953,15 @@ function page(walk, walks, places, tips) {
                     </div>` },
         { narrow: false, html: `<div id="explore-nearby">${exploreHTML(walk, walks)}
                     </div>` },
-        { narrow: true, html: `<h2>💬 Community tips</h2>
+        { narrow: true, html: `<h2>${icon('message-circle')} Community tips</h2>
                     <p class="section-lead">From local dog owners who've walked it.</p>
                     <div id="community-tips" class="tips-grid">${tipsHTML(walk.id, tips)}
                     </div>
                     <p class="tip-cta">Visited recently? <a href="mailto:hello@dogsofessex.co.uk?subject=${tipSubject}">Leave a tip →</a></p>
                     <div class="walk-actions">
-                        <a href="#" id="save-walk" class="btn btn-secondary">♡ Save this walk</a>
-                        <a href="#" id="email-walk" class="btn btn-secondary">📧 Email this walk</a>
-                        <a href="#" id="share-walk" class="btn btn-secondary">🔗 Share</a>
+                        <a href="#" id="save-walk" class="btn btn-secondary">${icon('heart')}<span class="action-label">Save this walk</span></a>
+                        <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
+                        <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
                     </div>` }
     ].filter(Boolean);
 
@@ -1002,7 +1023,7 @@ ${footerHTML('../')}
 // --- walks index page (/walks/) ---
 
 function indexWalkCard(w, i) {
-    const icon = SCENERY_ICON[w.scenery] || '🐾';
+    const sceneryIcon = SCENERY_ICON[w.scenery] || icon('paw-print');
     const meta = [milesLabel(w), timeLabel(w, true), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     // glance scores (for filtering) + sort metadata as data attributes
@@ -1014,7 +1035,7 @@ function indexWalkCard(w, i) {
         + ` data-miles="${milesValue(w)}" data-order="${i}"`
         + ` data-pop="${(w.rating && w.rating.count) || 0}" data-added="${esc(w.added || '')}"`;
     const inner = `
-                            <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
+                            <div class="photo-ph"><span>${sceneryIcon} ${esc(w.name)}</span></div>
                             <div class="walk-card-body">
                                 <h3>${esc(w.name)}</h3>
                                 ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
@@ -1129,17 +1150,17 @@ function rankWalksForCategory(cat, walks) {
 }
 
 function walkPhotoHTML(w) {
-    const icon = SCENERY_ICON[w.scenery] || '🐾';
+    const sceneryIcon = SCENERY_ICON[w.scenery] || icon('paw-print');
     const img = (w.gallery && w.gallery[0] && w.gallery[0].image) ? w.gallery[0].image : '';
     return img
         ? `<img src="${esc(img)}" alt="${esc(w.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
-        : `<span>${icon} ${esc(w.name)}</span>`;
+        : `<span>${sceneryIcon} ${esc(w.name)}</span>`;
 }
 
 // The category's strongest walk — reuses the "Dogs of Essex Pick" premium styling.
 function walkPickCardHTML(w, cat, prefix) {
     const href = `${prefix}walks/${esc(w.id)}.html`;
-    const chips = [w.distance ? `📏 ${esc(w.distance)}` : '', w.time ? `⏱️ ${esc(w.time)}` : '']
+    const chips = [w.distance ? `${icon('ruler')} ${esc(w.distance)}` : '', w.time ? `${icon('clock')} ${esc(w.time)}` : '']
         .filter(Boolean).map((c) => `<span class="access-chip">${c}</span>`).join('');
     return `
                     <article class="day-card premium walk-pick">
@@ -1150,7 +1171,7 @@ function walkPickCardHTML(w, cat, prefix) {
                         <div class="premium-main">
                             <div class="premium-photo photo-ph">${walkPhotoHTML(w)}</div>
                             <div class="premium-content">
-                                <span class="premium-type">${SCENERY_ICON[w.scenery] || '🐾'} ${esc(cap(w.scenery))}</span>
+                                <span class="premium-type">${SCENERY_ICON[w.scenery] || icon('paw-print')} ${esc(cap(w.scenery))}</span>
                                 <h3 class="premium-name">${esc(w.name)}</h3>
                                 <div class="info-chips">${chips}</div>
                                 ${w.intro ? `<p class="premium-desc">${esc(w.intro)}</p>` : ''}
@@ -1166,12 +1187,12 @@ function walkPickCardHTML(w, cat, prefix) {
 
 // A standard walk card for the "more walks" list.
 function bestForWalkCardHTML(w, prefix) {
-    const icon = SCENERY_ICON[w.scenery] || '🐾';
+    const sceneryIcon = SCENERY_ICON[w.scenery] || icon('paw-print');
     const meta = [milesLabel(w), timeLabel(w, true), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     return `
                         <a href="${prefix}walks/${esc(w.id)}.html" class="walk-card">
-                            <div class="photo-ph"><span>${icon} ${esc(w.name)}</span></div>
+                            <div class="photo-ph"><span>${sceneryIcon} ${esc(w.name)}</span></div>
                             <div class="walk-card-body">
                                 <h3>${esc(w.name)}</h3>
                                 ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
@@ -1324,10 +1345,10 @@ function placeSocialsHTML(p) {
 function essentialInfoHTML(p) {
     const web = placeUrl(p);
     const rows = [];
-    if (web) rows.push(`<li>🌐 <a href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a></li>`);
-    if (p.phone) rows.push(`<li>📞 <a href="tel:${esc(p.phone.replace(/\s+/g, ''))}">${esc(p.phone)}</a></li>`);
-    if (p.email) rows.push(`<li>✉️ <a href="mailto:${esc(p.email)}">${esc(p.email)}</a></li>`);
-    rows.push(`<li>📍 <a href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">Go to map ↗</a></li>`);
+    if (web) rows.push(`<li>${icon('globe')} <a href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a></li>`);
+    if (p.phone) rows.push(`<li>${icon('phone')} <a href="tel:${esc(p.phone.replace(/\s+/g, ''))}">${esc(p.phone)}</a></li>`);
+    if (p.email) rows.push(`<li>${icon('mail')} <a href="mailto:${esc(p.email)}">${esc(p.email)}</a></li>`);
+    rows.push(`<li>${icon('map-pin')} <a href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">Go to map ↗</a></li>`);
     const socials = placeSocialsHTML(p);
     if (socials) rows.push(`<li>${socials}</li>`);
     return `<ul class="venue-info">${rows.join('')}</ul>`;
@@ -1337,7 +1358,7 @@ function accessBadgesHTML(p) {
     const items = p.dogAccess || [];
     if (!items.length) return '';
     const chips = items.map((k) => {
-        const m = ACCESS_META[k] || { icon: '🐾', label: k };
+        const m = ACCESS_META[k] || { icon: icon('paw-print'), label: k };
         return `<span class="access-chip">${m.icon} ${esc(m.label)}</span>`;
     }).join('');
     return `<div class="premium-access">${chips}</div>`;
@@ -1347,7 +1368,7 @@ function accessBadgesHTML(p) {
 // "View details" link to its venue page. The badge bar / large photo (the
 // "Dogs of Essex Pick" look) is intentionally not used here.
 function placePartnerCardHTML(p, walks) {
-    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const near = nearestWalk(p, walks);
     const web = placeUrl(p);
     return `
@@ -1358,14 +1379,14 @@ function placePartnerCardHTML(p, walks) {
                             <div class="pc-actions">
                                 <a class="pc-cta" href="${esc(p.id)}/index.html">View details →</a>
                                 ${web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
-                                <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">📍 Go to map</a>
+                                <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>
                             </div>
                         </article>`;
 }
 
 // A free venue — a pill linking straight to its own website (or map).
 function placeFreePillHTML(p, walks) {
-    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const near = nearestWalk(p, walks);
     const url = placeUrl(p) || mapsUrl(p);
     const dist = near ? `${near.mi.toFixed(1)} mi • ${driveMins(near.mi)} mins` : '';
@@ -1443,7 +1464,7 @@ function placesCategoryPage(cat, places, walks) {
     // bigger badged card; free venues the compact row. Re-sorts client-side
     // once the visitor enters a location.
     const inCat = placesInCategory(cat, places).slice().sort(byNear);
-    const noteBlock = cat.note ? `\n                    <p class="local-tip">⚠️ ${esc(cat.note)}</p>` : '';
+    const noteBlock = cat.note ? `\n                    <p class="local-tip">${icon('triangle-alert')} ${esc(cat.note)}</p>` : '';
 
     const filterBar = cat.filters ? `
                     <div class="walk-filters places-filter" aria-label="Filter places to eat and drink by type">
@@ -1455,7 +1476,7 @@ function placesCategoryPage(cat, places, walks) {
                         <form class="locator-form" autocomplete="off">
                             <input type="text" class="locator-input" name="loc" placeholder="Enter a postcode or town…" aria-label="Your postcode or town">
                             <button type="submit" class="btn btn-primary">Search</button>
-                            <button type="button" class="locator-geo btn btn-secondary">📍 Use my location</button>
+                            <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} Use my location</button>
                         </form>
                         <p class="locator-status" role="status" hidden></p>
                     </div>` : '';
@@ -1511,7 +1532,7 @@ ${footerHTML(prefix)}
 
 function venuePage(p, cat, walks) {
     const prefix = '../../../';
-    const meta = TYPE_META[p.type] || { icon: '📍', label: p.type };
+    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const near = walks
         .filter((w) => w.hasPage && w.lat != null && w.lng != null)
         .map((w) => ({ ...w, _mi: miles({ lat: p.lat, lng: p.lng }, { lat: w.lat, lng: w.lng }) }))
@@ -1520,7 +1541,7 @@ function venuePage(p, cat, walks) {
         .slice(0, 4);
 
     const verify = p.verified
-        ? `<p class="meta-line">✓ Last checked${p.checkedBy ? ' by ' + esc(p.checkedBy) : ''}${p.lastChecked ? ' • ' + formatMonthYear(p.lastChecked) : ''}</p>`
+        ? `<p class="meta-line">${icon('circle-check')} Last checked${p.checkedBy ? ' by ' + esc(p.checkedBy) : ''}${p.lastChecked ? ' • ' + formatMonthYear(p.lastChecked) : ''}</p>`
         : '';
     const overview = p.notes
         ? `<p class="lead-intro">${esc(p.notes)}</p>`
@@ -1535,7 +1556,7 @@ function venuePage(p, cat, walks) {
 
             <section class="walk-section section-alt">
                 <div class="container">
-                    <h2>🐾 Nearby walks</h2>
+                    <h2>${icon('paw-print')} Nearby walks</h2>
                     <p class="section-lead">Pair your visit with a good walk close by.</p>
                     <div class="walk-grid">${near.map((w) => bestForWalkCardHTML(w, prefix)).join('')}
                     </div>
