@@ -17,10 +17,16 @@ const ROOT = __dirname;
 const DATA = path.join(ROOT, 'data');
 const OUT = path.join(ROOT, 'walks');
 
-// Cache-busting asset versions (file mtime) so updated CSS/JS reach browsers.
+// Cache-busting asset versions (content hash) so updated CSS/JS reach browsers.
+// Content-based (not mtime) keeps the build deterministic across machines, so
+// local and CI builds produce identical output.
+const crypto = require('crypto');
 const assetVer = (file) => {
-    try { return String(Math.floor(fs.statSync(path.join(ROOT, file)).mtimeMs)); }
-    catch (e) { return '1'; }
+    try {
+        return crypto.createHash('sha256')
+            .update(fs.readFileSync(path.join(ROOT, file)))
+            .digest('hex').slice(0, 8);
+    } catch (e) { return '1'; }
 };
 const V_CSS = assetVer('styles.css');
 const V_JS = assetVer('script.js');
