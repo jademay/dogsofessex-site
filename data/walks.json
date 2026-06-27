@@ -9,10 +9,7 @@
     "town": "Tiptree",
     "emoji": "🌿",
     "dogsOfEssexPick": "tiptree-tea-rooms",
-    "time": "30 minutes",
-    "timeShort": "30 mins",
-    "distance": "1.5 miles",
-    "routeType": "Circular",
+    "routeType": "Multiple routes",
     "terrain": "Sandy trails & open heath",
     "mud": "Moderate",
     "summary": "Woodland • Circular • 30 mins • Mud: Moderate",
@@ -114,7 +111,22 @@
       "image": ""
     },
     "routeImage": "images/routes/tiptree-heath.png",
-    "gpxFile": "data/gpx/tiptree-heath.gpx",
+    "routes": [
+      {
+        "name": "Tiptree Heath Circular",
+        "distance": "1.5 miles",
+        "time": "30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/tiptree-heath.gpx"
+      },
+      {
+        "name": "Tiptree Heath Loop",
+        "distance": "1.5 miles",
+        "time": "30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/tiptree-heath-2.gpx"
+      }
+    ],
     "added": "2026-06-14",
     "hasPage": true
   },
