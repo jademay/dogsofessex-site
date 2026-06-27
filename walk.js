@@ -86,7 +86,7 @@
                     form.reset();
                     setTimeout(closeModal, 2400);
                 } else {
-                    msg.textContent = 'Sorry, something went wrong. Please try again.';
+                    msg.textContent = (d && d.message) ? d.message : 'Sorry, something went wrong. Please try again.';
                 }
             }).catch(() => {
                 msg.textContent = 'Sorry, something went wrong. Please try again.';
