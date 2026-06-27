@@ -1217,8 +1217,10 @@ h1, h2, h3 {
 .gpx-pin-parking::before { height: 8px; }
 .gpx-pin-start { bottom: 32px; background: #3C7D4E; color: #fff; }
 .gpx-pin-start::before { height: 32px; }
-.gpx-pin-end { bottom: 56px; background: var(--color-forest-dark); color: #fff; }
-.gpx-pin-end::before { height: 56px; }
+/* Finish sits below its point (leader line going up) so it never stacks on
+   top of Start on circular routes where the two points nearly coincide. */
+.gpx-pin-end { top: 32px; bottom: auto; background: var(--color-forest-dark); color: #fff; }
+.gpx-pin-end::before { top: auto; bottom: 100%; height: 32px; }
 .gpx-pin-wpt { bottom: 8px; background: #fff; font-size: 1rem; padding: 3px 5px; }
 .gpx-pin-wpt::before { height: 8px; }
 
