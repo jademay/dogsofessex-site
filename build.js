@@ -17,6 +17,15 @@ const ROOT = __dirname;
 const DATA = path.join(ROOT, 'data');
 const OUT = path.join(ROOT, 'walks');
 
+// Cache-busting asset versions (file mtime) so updated CSS/JS reach browsers.
+const assetVer = (file) => {
+    try { return String(Math.floor(fs.statSync(path.join(ROOT, file)).mtimeMs)); }
+    catch (e) { return '1'; }
+};
+const V_CSS = assetVer('styles.css');
+const V_JS = assetVer('script.js');
+const V_WALK = assetVer('walk.js');
+
 // --- Lucide icons (lucide.dev) ---
 const ICONS = require('./icons.js');
 const icon = (name) => ICONS[name] || '';
@@ -762,7 +771,7 @@ function headHTML(prefix, title, description, extra) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${prefix}styles.css">`;
+    <link rel="stylesheet" href="${prefix}styles.css?v=${V_CSS}">`;
 }
 
 function navHTML(prefix) {
@@ -997,7 +1006,7 @@ function page(walk, walks, places, tips) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">${mapHead}
+    <link rel="stylesheet" href="../styles.css?v=${V_CSS}">${mapHead}
     <script>window.WALK_ID = "${walk.id}";</script>
 </head>
 <body>${navHTML('../')}
@@ -1013,8 +1022,8 @@ function page(walk, walks, places, tips) {
     </main>
 ${footerHTML('../')}
 
-    <script src="../script.js"></script>
-    <script src="../walk.js"></script>${mapScripts}
+    <script src="../script.js?v=${V_JS}"></script>
+    <script src="../walk.js?v=${V_WALK}"></script>${mapScripts}
 </body>
 </html>
 `;
@@ -1109,7 +1118,7 @@ function walksIndexPage(walks) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../styles.css?v=${V_CSS}">
 </head>
 <body>${navHTML('../')}
 
@@ -1119,7 +1128,7 @@ function walksIndexPage(walks) {
     </main>
 ${footerHTML('../')}
 
-    <script src="../script.js"></script>
+    <script src="../script.js?v=${V_JS}"></script>
 </body>
 </html>
 `;
@@ -1239,7 +1248,7 @@ function bestForIndexPage() {
     </main>
 ${footerHTML('../')}
 
-    <script src="../script.js"></script>
+    <script src="../script.js?v=${V_JS}"></script>
 </body>
 </html>
 `;
@@ -1312,7 +1321,7 @@ function bestForCategoryPage(cat, walks) {
     </main>
 ${footerHTML(prefix)}
 
-    <script src="${prefix}script.js"></script>
+    <script src="${prefix}script.js?v=${V_JS}"></script>
 </body>
 </html>
 `;
@@ -1443,7 +1452,7 @@ function placesIndexPage() {
     </main>
 ${footerHTML('../')}
 
-    <script src="../script.js"></script>
+    <script src="../script.js?v=${V_JS}"></script>
 </body>
 </html>
 `;
@@ -1524,7 +1533,7 @@ function placesCategoryPage(cat, places, walks) {
     </main>
 ${footerHTML(prefix)}
 
-    <script src="${prefix}script.js"></script>
+    <script src="${prefix}script.js?v=${V_JS}"></script>
 </body>
 </html>
 `;
@@ -1595,7 +1604,7 @@ function venuePage(p, cat, walks) {
     </main>
 ${footerHTML(prefix)}
 
-    <script src="${prefix}script.js"></script>
+    <script src="${prefix}script.js?v=${V_JS}"></script>
 </body>
 </html>
 `;
