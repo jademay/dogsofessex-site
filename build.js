@@ -31,7 +31,6 @@ const assetVer = (file) => {
 const V_CSS = assetVer('styles.css');
 const V_JS = assetVer('script.js');
 const V_WALK = assetVer('walk.js');
-const V_FB = assetVer('firebase-config.js');
 
 // --- Lucide icons (lucide.dev) ---
 const ICONS = require('./icons.js');
@@ -1077,9 +1076,6 @@ function page(walk, walks, places, tips) {
     </main>
 ${footerHTML('../')}
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
-    <script src="../firebase-config.js?v=${V_FB}"></script>
     <script src="../script.js?v=${V_JS}"></script>
     <script src="../walk.js?v=${V_WALK}"></script>${mapScripts}
 </body>

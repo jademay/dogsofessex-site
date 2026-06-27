@@ -19,46 +19,19 @@
         wireTips();
     });
 
-    // --- Community tips (Firestore) ---
-    function fbDB() {
-        try {
-            const cfg = window.FIREBASE_CONFIG;
-            if (!cfg || !cfg.projectId || typeof firebase === 'undefined') return null;
-            if (!firebase.apps.length) firebase.initializeApp(cfg);
-            return firebase.firestore();
-        } catch (e) { return null; }
-    }
-
-    function renderTip(list, t) {
-        const q = document.createElement('blockquote');
-        q.className = 'tip-card';
-        q.textContent = t.tip;
-        if (t.name) { const c = document.createElement('cite'); c.textContent = '— ' + t.name; q.appendChild(c); }
-        list.appendChild(q);
-    }
+    // --- Community tips ---
+    // Approved tips are baked into the page from data/tips.json (added manually).
+    // The "Share a tip" form emails new tips via FormSubmit (formsubmit.co); they
+    // appear on the site once you add them to data/tips.json and rebuild.
+    const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/hello@dogsofessex.co.uk';
 
     function wireTips() {
         const list = document.getElementById('community-tips');
         const shareBtn = document.getElementById('share-tip');
         if (!list || !shareBtn) return;
         const walkId = list.dataset.walk;
-        const empty = document.getElementById('tips-empty');
-        const db = fbDB();
+        const walkName = (document.querySelector('.walk-hero h1') || {}).textContent || document.title;
 
-        // Live-load approved tips (two equality filters need no composite index;
-        // sort client-side by createdAt).
-        if (db) {
-            db.collection('tips').where('walkId', '==', walkId).where('status', '==', 'approved').get()
-                .then((snap) => {
-                    const docs = snap.docs.map((d) => d.data());
-                    docs.sort((a, b) => ((a.createdAt && b.createdAt) ? a.createdAt.seconds - b.createdAt.seconds : 0));
-                    docs.forEach((t) => renderTip(list, t));
-                    if (list.children.length && empty) empty.setAttribute('hidden', '');
-                })
-                .catch(() => { /* rules/offline — leave server-rendered tips as-is */ });
-        }
-
-        // Share-a-tip modal form.
         const modal = document.createElement('div');
         modal.className = 'tip-modal';
         modal.setAttribute('aria-hidden', 'true');
@@ -92,20 +65,29 @@
             e.preventDefault();
             const tip = form.tip.value.trim();
             if (!tip) return;
-            if (!db) { msg.textContent = 'Tips aren’t set up yet — please check back soon.'; return; }
             const btn = form.querySelector('.tip-submit');
             btn.disabled = true; msg.textContent = 'Sending…';
-            db.collection('tips').add({
-                walkId: walkId,
-                tip: tip,
-                name: form.name.value.trim() || null,
-                email: form.email.value.trim() || null,
-                status: 'pending',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                msg.textContent = 'Thanks! Your tip has been submitted and will appear once approved.';
-                form.reset();
-                setTimeout(closeModal, 2400);
+            fetch(FORMSUBMIT_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    Walk: walkName,
+                    walkId: walkId,
+                    Tip: tip,
+                    Name: form.name.value.trim() || '(not given)',
+                    email: form.email.value.trim() || '',
+                    _subject: 'New walk tip: ' + walkName,
+                    _template: 'table',
+                    _captcha: 'false'
+                })
+            }).then((r) => r.json()).then((d) => {
+                if (d && (d.success === 'true' || d.success === true)) {
+                    msg.textContent = 'Thanks! Your tip has been sent and will appear once reviewed.';
+                    form.reset();
+                    setTimeout(closeModal, 2400);
+                } else {
+                    msg.textContent = 'Sorry, something went wrong. Please try again.';
+                }
             }).catch(() => {
                 msg.textContent = 'Sorry, something went wrong. Please try again.';
             }).finally(() => { btn.disabled = false; });
