@@ -1992,6 +1992,73 @@ h2 .lucide { vertical-align: -0.1em; }
 }
 .tip-cta { margin-top: 1.5rem; color: var(--color-muted); }
 .tip-cta a { color: var(--color-terracotta); text-decoration: none; font-weight: 500; }
+.tip-card cite { display: block; margin-top: 0.6rem; font-style: normal; font-size: 0.85rem; color: var(--color-muted); }
+.tips-grid:empty { display: none; }
+
+/* Empty state for community tips */
+.tips-empty {
+    background-color: var(--color-card);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+}
+.tips-empty-lead { margin: 0; font-weight: 600; font-size: 1.05rem; color: var(--color-forest); }
+.tips-empty-lead::first-letter { color: var(--color-gold); }
+.tips-help { margin-top: 1rem; color: var(--color-muted); font-size: 0.95rem; }
+.tips-help p { margin: 0 0 0.4rem; }
+.tips-help ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.25rem; }
+
+/* Share-a-tip modal */
+.tip-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(20, 24, 20, 0.9);
+    padding: 4vh 4vw;
+}
+.tip-modal.open { display: flex; }
+.tip-modal-inner {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    background-color: var(--color-card);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+}
+.tip-modal-inner h3 { margin: 0 2rem 1rem 0; }
+.tip-modal-close {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.75rem;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.08);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+}
+.tip-modal-close:hover { background: rgba(0, 0, 0, 0.18); }
+.tip-form { display: flex; flex-direction: column; gap: 0.85rem; }
+.tip-form label { display: flex; flex-direction: column; gap: 0.3rem; font-weight: 500; font-size: 0.9rem; }
+.tip-form .opt { font-weight: 400; color: var(--color-muted); }
+.tip-form textarea, .tip-form input {
+    font: inherit;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    resize: vertical;
+}
+.tip-form textarea:focus, .tip-form input:focus { outline: 2px solid var(--color-moss); outline-offset: 1px; }
+.tip-submit { align-self: flex-start; }
+.tip-form-msg { margin: 0; font-size: 0.9rem; color: var(--color-forest); }
 
 /* Save / share actions */
 .walk-actions {

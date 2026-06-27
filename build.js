@@ -31,6 +31,7 @@ const assetVer = (file) => {
 const V_CSS = assetVer('styles.css');
 const V_JS = assetVer('script.js');
 const V_WALK = assetVer('walk.js');
+const V_FB = assetVer('firebase-config.js');
 
 // --- Lucide icons (lucide.dev) ---
 const ICONS = require('./icons.js');
@@ -856,12 +857,8 @@ function exploreHTML(walk, walks) {
 }
 
 function tipsHTML(walkId, tips) {
-    const mine = tips.filter((t) => t.walkId === walkId);
-    if (!mine.length) {
-        return '<p class="section-lead" style="margin:0;">Be the first to leave a tip for this walk.</p>';
-    }
-    return mine.map((t) => `
-                        <blockquote class="tip-card">${esc(t.tip)}</blockquote>`).join('');
+    return tips.filter((t) => t.walkId === walkId).map((t) => `
+                        <blockquote class="tip-card">${esc(t.tip)}${t.name ? `<cite>— ${esc(t.name)}</cite>` : ''}</blockquote>`).join('');
 }
 
 // --- shared chrome (parameterized by `prefix` = relative path to site root) ---
@@ -1009,10 +1006,22 @@ function page(walk, walks, places, tips) {
                     </div>` },
         { narrow: true, html: `<h2>${icon('message-circle')} Community tips</h2>
                     <p class="section-lead">From local dog owners who've walked it.</p>
-                    <div id="community-tips" class="tips-grid">${tipsHTML(walk.id, tips)}
+                    <div id="community-tips" class="tips-grid" data-walk="${esc(walk.id)}">${tipsHTML(walk.id, tips)}
                     </div>
-                    <p class="tip-cta">Visited recently? <a href="mailto:hello@dogsofessex.co.uk?subject=${tipSubject}">Leave a tip →</a></p>
+                    <div id="tips-empty" class="tips-empty"${tips.filter((t) => t.walkId === walk.id).length ? ' hidden' : ''}>
+                        <p class="tips-empty-lead">★ Be the first to share a tip for this walk.</p>
+                        <div class="tips-help">
+                            <p><strong>Help other walkers…</strong></p>
+                            <ul>
+                                <li>Is there a quieter entrance?</li>
+                                <li>Is the mud worse after rain?</li>
+                                <li>Where's the best place to swim?</li>
+                                <li>Any livestock to look out for?</li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="walk-actions">
+                        <button type="button" id="share-tip" class="btn btn-primary">${icon('message-circle')} Share a tip</button>
                         <a href="#" id="save-walk" class="btn btn-secondary">${icon('heart')}<span class="action-label">Save this walk</span></a>
                         <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
                         <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
@@ -1068,6 +1077,9 @@ function page(walk, walks, places, tips) {
     </main>
 ${footerHTML('../')}
 
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="../firebase-config.js?v=${V_FB}"></script>
     <script src="../script.js?v=${V_JS}"></script>
     <script src="../walk.js?v=${V_WALK}"></script>${mapScripts}
 </body>

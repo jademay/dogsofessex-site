@@ -16,7 +16,101 @@
         wireLightbox();
         wireGlance();
         wireRoutes();
+        wireTips();
     });
+
+    // --- Community tips (Firestore) ---
+    function fbDB() {
+        try {
+            const cfg = window.FIREBASE_CONFIG;
+            if (!cfg || !cfg.projectId || typeof firebase === 'undefined') return null;
+            if (!firebase.apps.length) firebase.initializeApp(cfg);
+            return firebase.firestore();
+        } catch (e) { return null; }
+    }
+
+    function renderTip(list, t) {
+        const q = document.createElement('blockquote');
+        q.className = 'tip-card';
+        q.textContent = t.tip;
+        if (t.name) { const c = document.createElement('cite'); c.textContent = '— ' + t.name; q.appendChild(c); }
+        list.appendChild(q);
+    }
+
+    function wireTips() {
+        const list = document.getElementById('community-tips');
+        const shareBtn = document.getElementById('share-tip');
+        if (!list || !shareBtn) return;
+        const walkId = list.dataset.walk;
+        const empty = document.getElementById('tips-empty');
+        const db = fbDB();
+
+        // Live-load approved tips (two equality filters need no composite index;
+        // sort client-side by createdAt).
+        if (db) {
+            db.collection('tips').where('walkId', '==', walkId).where('status', '==', 'approved').get()
+                .then((snap) => {
+                    const docs = snap.docs.map((d) => d.data());
+                    docs.sort((a, b) => ((a.createdAt && b.createdAt) ? a.createdAt.seconds - b.createdAt.seconds : 0));
+                    docs.forEach((t) => renderTip(list, t));
+                    if (list.children.length && empty) empty.setAttribute('hidden', '');
+                })
+                .catch(() => { /* rules/offline — leave server-rendered tips as-is */ });
+        }
+
+        // Share-a-tip modal form.
+        const modal = document.createElement('div');
+        modal.className = 'tip-modal';
+        modal.setAttribute('aria-hidden', 'true');
+        modal.innerHTML =
+            '<div class="tip-modal-inner">' +
+            '<button class="tip-modal-close" type="button" aria-label="Close">×</button>' +
+            '<h3>Share a tip</h3>' +
+            '<form class="tip-form">' +
+            '<label>Tip<textarea name="tip" rows="4" required maxlength="800" placeholder="e.g. The back field gets muddy after rain."></textarea></label>' +
+            '<label>Name <span class="opt">(optional)</span><input name="name" type="text" maxlength="80" placeholder="Sarah & Luna"></label>' +
+            '<label>Email <span class="opt">(optional, never shown)</span><input name="email" type="email" maxlength="120"></label>' +
+            '<button type="submit" class="btn btn-primary tip-submit">Submit tip</button>' +
+            '<p class="tip-form-msg" role="status"></p>' +
+            '</form></div>';
+        document.body.appendChild(modal);
+
+        const form = modal.querySelector('.tip-form');
+        const msg = modal.querySelector('.tip-form-msg');
+        const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+        const openModal = () => {
+            msg.textContent = ''; form.reset();
+            modal.classList.add('open'); document.body.style.overflow = 'hidden';
+            modal.querySelector('textarea').focus();
+        };
+        shareBtn.addEventListener('click', openModal);
+        modal.querySelector('.tip-modal-close').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const tip = form.tip.value.trim();
+            if (!tip) return;
+            if (!db) { msg.textContent = 'Tips aren’t set up yet — please check back soon.'; return; }
+            const btn = form.querySelector('.tip-submit');
+            btn.disabled = true; msg.textContent = 'Sending…';
+            db.collection('tips').add({
+                walkId: walkId,
+                tip: tip,
+                name: form.name.value.trim() || null,
+                email: form.email.value.trim() || null,
+                status: 'pending',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                msg.textContent = 'Thanks! Your tip has been submitted and will appear once approved.';
+                form.reset();
+                setTimeout(closeModal, 2400);
+            }).catch(() => {
+                msg.textContent = 'Sorry, something went wrong. Please try again.';
+            }).finally(() => { btn.disabled = false; });
+        });
+    }
 
     // "View route" on a route card opens a popup with the full interactive map,
     // built on demand (one map at a time) from that route's GPX.
