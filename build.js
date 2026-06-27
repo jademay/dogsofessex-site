@@ -240,8 +240,8 @@ const SOCIAL_ICONS = {
 
 // Dog-access chips (premium card). Add keys as needed.
 const ACCESS_META = {
-    inside: { icon: icon('door-open'), label: 'Dogs inside' },
-    outside: { icon: icon('armchair'), label: 'Dogs outside' },
+    inside: { icon: icon('house'), label: 'Dogs inside' },
+    outside: { icon: icon('trees'), label: 'Dogs outside' },
     garden: { icon: icon('trees'), label: 'Garden' },
     'water-bowls': { icon: icon('droplets'), label: 'Water bowls' },
     'dog-menu': { icon: icon('bone'), label: 'Dog menu' },
