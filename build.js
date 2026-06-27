@@ -834,7 +834,7 @@ function exploreHTML(walk, walks) {
         const sceneryIcon = SCENERY_ICON[w.scenery] || icon('paw-print');
         return `
                             <a href="${walkHref(w)}" class="walk-card nearby-card">
-                                <div class="photo-ph"><span>${sceneryIcon} ${esc(w.name)}</span></div>
+                                <div class="photo-ph">${walkPhotoHTML(w, '../')}</div>
                                 <div class="walk-card-body">
                                     <h3>${esc(w.name)}</h3>
                                     <div class="nearby-meta">
@@ -1098,7 +1098,7 @@ function indexWalkCard(w, i) {
         + ` data-miles="${milesValue(w)}" data-order="${i}"`
         + ` data-pop="${(w.rating && w.rating.count) || 0}" data-added="${esc(w.added || '')}"`;
     const inner = `
-                            <div class="photo-ph"><span>${sceneryIcon} ${esc(w.name)}</span></div>
+                            <div class="photo-ph">${walkPhotoHTML(w, '../')}</div>
                             <div class="walk-card-body">
                                 <h3>${esc(w.name)}</h3>
                                 ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
@@ -1212,11 +1212,12 @@ function rankWalksForCategory(cat, walks) {
             || ((b.walk.rating && b.walk.rating.value) || 0) - ((a.walk.rating && a.walk.rating.value) || 0));
 }
 
-function walkPhotoHTML(w) {
+function walkPhotoHTML(w, prefix) {
+    prefix = prefix || '';
     const sceneryIcon = SCENERY_ICON[w.scenery] || icon('paw-print');
-    const img = (w.gallery && w.gallery[0] && w.gallery[0].image) ? w.gallery[0].image : '';
-    return img
-        ? `<img src="${esc(img)}" alt="${esc(w.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
+    const imgs = walkImages(w);
+    return imgs.length
+        ? `<img src="${prefix}${esc(imgs[0])}" alt="${esc(w.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
         : `<span>${sceneryIcon} ${esc(w.name)}</span>`;
 }
 
@@ -1232,7 +1233,7 @@ function walkPickCardHTML(w, cat, prefix) {
                             <span class="badge-sub">Our top walk for ${esc(cat.title.toLowerCase())}</span>
                         </div>
                         <div class="premium-main">
-                            <div class="premium-photo photo-ph">${walkPhotoHTML(w)}</div>
+                            <div class="premium-photo photo-ph">${walkPhotoHTML(w, prefix)}</div>
                             <div class="premium-content">
                                 <span class="premium-type">${SCENERY_ICON[w.scenery] || icon('paw-print')} ${esc(cap(w.scenery))}</span>
                                 <h3 class="premium-name">${esc(w.name)}</h3>
@@ -1255,7 +1256,7 @@ function bestForWalkCardHTML(w, prefix) {
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     return `
                         <a href="${prefix}walks/${esc(w.id)}.html" class="walk-card">
-                            <div class="photo-ph"><span>${sceneryIcon} ${esc(w.name)}</span></div>
+                            <div class="photo-ph">${walkPhotoHTML(w, prefix)}</div>
                             <div class="walk-card-body">
                                 <h3>${esc(w.name)}</h3>
                                 ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
