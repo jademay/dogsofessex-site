@@ -820,6 +820,17 @@ h1, h2, h3 {
     justify-content: flex-end;
     gap: 0.6rem;
 }
+.hero-actions .btn {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: var(--color-forest-dark);
+    border-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+.hero-actions .btn:hover {
+    background-color: #fff;
+    color: var(--color-forest-dark);
+    border-color: #fff;
+}
 @media (max-width: 600px) {
     .hero-actions { right: 1rem; bottom: 1rem; }
 }
