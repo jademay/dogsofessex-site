@@ -25,9 +25,9 @@
     // tips are then added manually to data/tips.json and baked in on rebuild.
     const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/tips@dogsofessex.co.uk';
     const TIP_TYPES = {
-        'walking tip': { title: 'Submit a tip', label: 'Your tip', placeholder: 'e.g. The back field gets muddy after rain.' },
-        'suggestUpdate': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' },
-        'recPlace': { title: 'Recommend a nearby place', label: 'Which place, and why?', placeholder: 'Name of the café, pub or restaurant — and what makes it dog-friendly.' },
+        'walkingTip': { title: 'Submit a tip', label: 'Your tip', placeholder: 'e.g. The back field gets muddy after rain.' },
+        'newWalkSuggestion': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' },
+        'newPlaceSuggestion': { title: 'Recommend a nearby place', label: 'Which place, and why?', placeholder: 'Name of the café, pub or restaurant — and what makes it dog-friendly.' },
         'report': { title: 'Report an issue', label: 'What needs fixing?', placeholder: 'Tell us what looks wrong or out of date.' }
     };
 
@@ -58,11 +58,11 @@
         const titleEl = modal.querySelector('.tip-modal-title');
         const fieldLabel = modal.querySelector('.tip-field-label');
         const textarea = form.querySelector('textarea');
-        let currentType = 'walking tip';
+        let currentType = 'walkingTip';
 
         const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
         const openModal = (type) => {
-            currentType = TIP_TYPES[type] ? type : 'walking tip';
+            currentType = TIP_TYPES[type] ? type : 'walkingTip';
             const cfg = TIP_TYPES[currentType];
             titleEl.textContent = cfg.title;
             fieldLabel.textContent = cfg.label;
@@ -83,8 +83,8 @@
             e.preventDefault();
             const tip = form.tip.value.trim();
             if (!tip) return;
-            // A walking tip / report relates to this walk; recPlace & suggestUpdate
-            // also carry the walk for context. Place fields are left blank here
+            // Every type carries the walk for context (walkingTip/report relate
+            // to it directly). Place fields are left blank here
             // (filled in when the same form is used on a place page later).
             const carryWalk = true;
             const btn = form.querySelector('.tip-submit');
