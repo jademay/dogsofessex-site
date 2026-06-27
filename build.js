@@ -443,11 +443,11 @@ const RATING_SCALES = {
         'Excellent visibility and lots of space'
     ],
     'Puppies': [
-        'Long or demanding — too much for little legs',
-        'Fairly long or uneven; hard work for a pup',
-        'Manageable, with a few trickier sections',
-        'Short and easy with gentle, varied interest',
-        'Short, safe and ideal for first adventures'
+        'Long, difficult, overwhelming',
+        'Not ideal for young dogs',
+        'Fine with breaks',
+        'Great starter walk',
+        'Perfect for puppies'
     ],
     'Senior Dogs': [
         'Long and strenuous — tough for older dogs',
@@ -457,39 +457,39 @@ const RATING_SCALES = {
         'Short, flat and gentle — perfect for seniors'
     ],
     'Pushchairs': [
-        'Not passable with a pushchair',
-        'Difficult — steps, stiles or rough ground',
-        'Possible on the main path, tricky elsewhere',
-        'Mostly firm, even paths',
-        'Smooth, surfaced and fully buggy-friendly'
+        'Impossible',
+        'Some sections manageable',
+        'Mostly accessible',
+        'Easy with care',
+        'Fully accessible'
     ],
     'Swimming': [
-        'No water to swim in',
-        'Water nearby but hard or unsafe to reach',
-        'Somewhere to paddle in the right conditions',
-        'Good, accessible water for a swim',
-        'Excellent, safe swimming with easy access'
+        'No water',
+        'Water but difficult access',
+        'Small streams/seasonal water',
+        'Good swimming spots',
+        'Destination for water-loving dogs'
     ],
     'Off Lead': [
-        'Keep on lead throughout (roads or livestock)',
-        'Mostly on lead; few safe stretches',
-        'Off lead in parts, on lead near hazards',
-        'Largely off lead with good visibility',
-        'Safe, open space — ideal for off-lead time'
+        'Lead essential',
+        'Very few opportunities',
+        'Some suitable areas',
+        'Mostly suitable with recall',
+        'Excellent off-lead freedom'
     ],
     'Shade': [
-        'Very exposed — little or no shade',
-        'Mostly open with occasional cover',
-        'A mix of sun and shade',
-        'Plenty of shade for warm days',
-        'Cool and shaded throughout'
+        'Completely exposed',
+        'Limited shade',
+        'Some shaded stretches',
+        'Mostly shaded',
+        'Woodland cover throughout'
     ],
     'Low Mud': [
-        'Very muddy — wellies essential after rain',
-        'Often muddy in wet weather',
-        'Some muddy patches; fine when dry',
-        'Mostly firm and drains well',
-        'Dry and firm underfoot year-round'
+        'Bring a towel and spare clothes',
+        'Expect muddy paws most of the year',
+        'Mud after rain',
+        'Occasional puddles',
+        'Trainers stay clean'
     ]
 };
 
