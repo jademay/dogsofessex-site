@@ -112,7 +112,8 @@
     "dogFriendlyNotes": "Dogs are welcome both outside and inside in their bar & snug areas",
     "dogAccess": [
       "inside",
-      "outside"
+      "outside",
+      "water-bowls"
     ],
     "lastChecked": "2026-06-14",
     "checkedBy": "Dogs of Essex",
