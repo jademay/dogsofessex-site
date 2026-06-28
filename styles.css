@@ -1514,6 +1514,28 @@ h2 .lucide { vertical-align: -0.1em; }
 .g-item { position: relative; }
 .gallery-grid .g-item img { cursor: zoom-in; }
 
+/* Sliding gallery: one large photo with the next peeking in on the right,
+   so it's clear there are more to swipe through. */
+.gallery-carousel .carousel-track {
+    gap: 1rem;
+    scrollbar-width: none;
+    padding: 0.25rem 0.25rem 0.5rem;
+}
+.gallery-carousel .carousel-track::-webkit-scrollbar { display: none; }
+.gallery-carousel .g-item {
+    flex: 0 0 66%;
+    scroll-snap-align: start;
+    aspect-ratio: 3 / 2;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0;
+}
+.gallery-carousel .g-item img { cursor: zoom-in; }
+.gallery-carousel .carousel-btn { top: 50%; }
+@media (max-width: 560px) {
+    .gallery-carousel .g-item { flex-basis: 86%; }
+}
+
 /* Lightbox / photo carousel */
 .lightbox {
     position: fixed;

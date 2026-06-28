@@ -520,18 +520,17 @@ function glanceHTML(items, explain) {
 
 function galleryHTML(items) {
     if (!items || !items.length) return '';
-    return items.map((g, i) => {
-        const big = i === 0 ? ' g-big' : '';
+    return items.map((g) => {
         const c = esc(g.caption || '');
         if (g.image) {
             return `
-                        <figure class="photo-ph g-item${big}">
+                        <figure class="photo-ph g-item">
                             <img src="${esc(g.image)}" alt="${c}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">
                             <figcaption>${c}</figcaption>
                         </figure>`;
         }
         return `
-                        <figure class="photo-ph g-item noimg${big}"><figcaption>${c}</figcaption></figure>`;
+                        <figure class="photo-ph g-item noimg"><figcaption>${c}</figcaption></figure>`;
     }).join('');
 }
 
@@ -675,7 +674,11 @@ function galleryInner(walk) {
     const items = imgs.map((img, i) => ({ image: `../${img}`, caption: captions[i] || '' }));
     return `<h2>${icon('camera')} Photo gallery</h2>
                     <p class="section-lead">See what it actually looks like before you go.</p>
-                    <div id="gallery" class="gallery-grid">${galleryHTML(items)}
+                    <div id="gallery" class="carousel gallery-carousel">
+                        <button class="carousel-btn prev" type="button" aria-label="Previous photo">‹</button>
+                        <div class="carousel-track">${galleryHTML(items)}
+                        </div>
+                        <button class="carousel-btn next" type="button" aria-label="Next photo">›</button>
                     </div>`;
 }
 
