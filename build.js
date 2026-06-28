@@ -1707,10 +1707,9 @@ function aboutPage() {
                         <h2>Why I created Dogs of Essex</h2>
                         <p>Dogs of Essex started with Poppy, my Labrador. Every time we wanted to try somewhere new, I found myself searching for the same answers:</p>
                         <ul>
-                            <li>Is it muddy?</li>
-                            <li>Can my dog swim?</li>
-                            <li>Is it good for reactive dogs?</li>
-                            <li>Is there a decent café afterwards?</li>
+                            <li>Can she be off lead?</li>
+                            <li>Can she swim? (she loves a swim!)</li>
+                            <li>Is there a dog-friendly café afterwards?</li>
                         </ul>
                         <p>No single website answered those questions. The information was scattered across reviews, forums and old blog posts — and rarely written with dogs in mind. So I started keeping my own notes, and Dogs of Essex grew from there: one honest, dog-first guide to walking in Essex.</p>
 
