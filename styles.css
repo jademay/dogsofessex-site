@@ -1520,7 +1520,7 @@ h2 .lucide { vertical-align: -0.1em; }
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: repeat(2, 150px);
-    grid-auto-columns: 31%;
+    grid-auto-columns: 31.5%;
     gap: 0.85rem;
     overflow-x: auto;
     scrollbar-width: none;
