@@ -831,6 +831,12 @@ h1, h2, h3 {
     color: var(--color-forest-dark);
     border-color: #fff;
 }
+.hero-actions .btn.is-saved {
+    background-color: var(--color-forest-dark);
+    color: #fff;
+    border-color: var(--color-forest-dark);
+}
+.hero-actions .btn.is-saved .lucide { fill: currentColor; }
 @media (max-width: 600px) {
     .hero-actions { right: 1rem; bottom: 1rem; }
 }
