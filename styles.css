@@ -1514,26 +1514,36 @@ h2 .lucide { vertical-align: -0.1em; }
 .g-item { position: relative; }
 .gallery-grid .g-item img { cursor: zoom-in; }
 
-/* Sliding gallery: one large photo with the next peeking in on the right,
-   so it's clear there are more to swipe through. */
-.gallery-carousel .carousel-track {
-    gap: 1rem;
+/* Mosaic gallery (big hero tile + smaller tiles) that scrolls horizontally
+   as one unit, with the next column of photos peeking in on the right. */
+.gallery-mosaic .carousel-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, 150px);
+    grid-auto-columns: 27.5%;
+    gap: 0.85rem;
+    overflow-x: auto;
     scrollbar-width: none;
-    padding: 0.25rem 0.25rem 0.5rem;
+    padding: 0.25rem 0.1rem 0.5rem;
+    scroll-behavior: smooth;
 }
-.gallery-carousel .carousel-track::-webkit-scrollbar { display: none; }
-.gallery-carousel .g-item {
-    flex: 0 0 66%;
-    scroll-snap-align: start;
-    aspect-ratio: 3 / 2;
-    border-radius: 10px;
+.gallery-mosaic .carousel-track::-webkit-scrollbar { display: none; }
+.gallery-mosaic .g-item {
+    border-radius: 8px;
     overflow: hidden;
     margin: 0;
 }
-.gallery-carousel .g-item img { cursor: zoom-in; }
-.gallery-carousel .carousel-btn { top: 50%; }
+.gallery-mosaic .g-big {
+    grid-row: span 2;
+    grid-column: span 2;
+}
+.gallery-mosaic .g-item img { cursor: zoom-in; }
+.gallery-mosaic .carousel-btn { top: 50%; }
 @media (max-width: 560px) {
-    .gallery-carousel .g-item { flex-basis: 86%; }
+    .gallery-mosaic .carousel-track {
+        grid-template-rows: repeat(2, 115px);
+        grid-auto-columns: 42%;
+    }
 }
 
 /* Lightbox / photo carousel */
