@@ -41,7 +41,8 @@ const EMOJI_ICON = {
     '🌳': 'trees', '🌲': 'tree-pine', '⚓': 'anchor', '☕': 'coffee', '🚻': 'toilet',
     '🅿': 'square-parking', '🏖': 'parasol', '🏊': 'waves', '🌊': 'waves', '🐦': 'bird',
     '🦋': 'bird', '🚶': 'footprints', '🎨': 'palette', '🌿': 'leaf', '🌄': 'mountain',
-    '🤫': 'feather', '🦌': 'binoculars', '💧': 'droplets', '🏛': 'landmark'
+    '🤫': 'feather', '🦌': 'binoculars', '💧': 'droplets', '🏛': 'landmark',
+    '🚤': 'sailboat', '⛵': 'sailboat'
 };
 // Render a "📍 Label" badge string, swapping a leading emoji for its Lucide icon.
 function badgeLabel(text) {

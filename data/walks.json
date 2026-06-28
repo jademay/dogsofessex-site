@@ -1812,5 +1812,88 @@
     },
     "added": "2026-06-23",
     "hasPage": true
+  },
+  {
+    "id": "heybridge-basin-heybridge",
+    "name": "Heybridge Basin",
+    "area": "Mid Essex",
+    "scenery": "coastal",
+    "lat": 51.73008325,
+    "lng": 0.7071438224,
+    "town": "Heybridge",
+    "time": "50 minutes",
+    "timeShort": "50 mins",
+    "distance": "2.6 miles",
+    "routeType": "Circular",
+    "routes": [
+      {
+        "name": "Heybridge Basin Circular",
+        "distance": "2.6 miles",
+        "time": "50 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/heybridge-basin-circular.gpx"
+      }
+    ],
+    "terrain": "Paved paths, compact gravel, sea wall, canal towpath and short sections of grass.",
+    "mud": "Mostly dry year-round, although short grassy sections can become muddy after prolonged rain.",
+    "summary": "A scenic waterside walk around the historic Heybridge Basin, following the Chelmer & Blackwater Navigation and the Blackwater Estuary. Expect wide, mostly flat paths and plenty of boats and wildlife.",
+    "tags": [
+      "Estuary",
+      "Views",
+      "Canal"
+    ],
+    "rating": {
+      "value": 4.8,
+      "count": 2
+    },
+    "badges": [
+      "📍 Heybridge",
+      "⚓ Historic basin",
+      "🌊 Estuary views",
+      "👶 Pushchair friendly",
+      "🚤 Historic lock gates"
+    ],
+    "intro": "One of Essex's most popular waterside walks, Heybridge Basin combines peaceful canal paths, estuary views and historic lock gates with several excellent dog-friendly cafés and pubs. It's an easy, mostly flat walk that's suitable for all ages and ideal for a relaxed morning or afternoon with your dog.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 5
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 5
+      },
+      {
+        "label": "Pushchairs",
+        "score": 5
+      },
+      {
+        "label": "Swimming",
+        "score": 3
+      },
+      {
+        "label": "Off Lead",
+        "score": 3
+      },
+      {
+        "label": "Shade",
+        "score": 2
+      },
+      {
+        "label": "Low Mud",
+        "score": 4
+      }
+    ],
+    "route": {
+      "parking": "Daisy Meadow Car Park is a large and easy to navigate car park right next to the basin — you can pay via the RingGo app or with your credit/debit card at the machines. You can also park at the two nearby pubs if you are planning to eat there; see The Jolly Sailor and The Old Ship in the Make a Day of It section below.",
+      "localTip": "Arrive early on sunny weekends to make parking easier and enjoy a quieter walk. If the tide is in, the estuary views are particularly beautiful.",
+      "mapEmbed": ""
+    },
+    "added": "2026-06-28",
+    "hasPage": true
   }
 ]
