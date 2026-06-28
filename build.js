@@ -932,7 +932,7 @@ function footerHTML(prefix) {
                     <ul>
                         <li><a href="#">About</a></li>
                         <li><a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1678,6 +1678,118 @@ ${footerHTML(prefix)}
 `;
 }
 
+function privacyPage() {
+    const updated = 'Last updated: 28 June 2026';
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container">
+                    <h1 class="index-title">Privacy Policy</h1>
+                    <p class="index-sub">${updated}</p>
+                </div>
+            </section>
+
+            <section class="walk-section section-alt">
+                <div class="container">
+                    <div class="legal">
+                        <h2>1. Introduction</h2>
+                        <p>Dogs of Essex is committed to protecting your privacy. This policy explains what information we collect, why we collect it, and how we use it. We aim to keep things simple and honest — this policy reflects how the site actually works, in plain English.</p>
+
+                        <h2>2. Who We Are</h2>
+                        <ul>
+                            <li><strong>Website name:</strong> Dogs of Essex</li>
+                            <li><strong>Website:</strong> <a href="https://dogsofessex.co.uk">dogsofessex.co.uk</a></li>
+                            <li><strong>Contact:</strong> <a href="mailto:privacy@dogsofessex.co.uk">privacy@dogsofessex.co.uk</a></li>
+                        </ul>
+
+                        <h2>3. What Information We Collect</h2>
+                        <h3>Information you provide</h3>
+                        <p>When you use one of our forms — for example, when you:</p>
+                        <ul>
+                            <li>submit a community tip</li>
+                            <li>suggest a new walk</li>
+                            <li>recommend a dog-friendly place</li>
+                            <li>report incorrect information</li>
+                            <li>contact us</li>
+                        </ul>
+                        <p>we may collect:</p>
+                        <ul>
+                            <li>your name (if provided)</li>
+                            <li>your email address (if provided)</li>
+                            <li>the message or submission itself</li>
+                        </ul>
+                        <p>Providing your name and email address is optional. You can submit a tip without giving either, though we won't be able to reply to you if you don't leave an email address.</p>
+
+                        <h2>4. How We Use Your Information</h2>
+                        <p>We use the information you provide to:</p>
+                        <ul>
+                            <li>respond to enquiries</li>
+                            <li>review community submissions</li>
+                            <li>verify information before publishing</li>
+                            <li>improve the website</li>
+                        </ul>
+                        <p>Submissions may be edited for clarity before being published.</p>
+
+                        <h2>5. Publishing Community Tips</h2>
+                        <p>If you submit a community tip, we may publish all or part of your submission on Dogs of Essex. We will only display the name you choose to provide (for example, &ldquo;Sarah &amp; Luna&rdquo;). Email addresses are never published.</p>
+
+                        <h2>6. Community Contributions</h2>
+                        <p>By submitting a tip, walk recommendation, or other contribution, you give Dogs of Essex permission to edit, publish, or decline your submission. We may make minor edits for spelling, grammar, length, or clarity while preserving the original meaning.</p>
+
+                        <h2>7. Email Addresses</h2>
+                        <p>If you provide an email address:</p>
+                        <ul>
+                            <li>it is only used so we can contact you about your submission or enquiry</li>
+                            <li>it is never sold</li>
+                            <li>it is never shared with third parties</li>
+                        </ul>
+
+                        <h2>8. Cookies &amp; Analytics</h2>
+                        <p>Dogs of Essex uses Google Analytics to understand how visitors use the site (for example, which walks are most popular) so we can improve it. Google Analytics sets cookies and collects anonymised usage data such as pages viewed and approximate location. We do not use this data to identify you personally.</p>
+                        <p>Aside from analytics, we only use essential cookies required for the website to function.</p>
+
+                        <h2>9. Third-Party Services</h2>
+                        <p>We use a small number of trusted third-party services to run the site. These may process limited data on our behalf:</p>
+                        <ul>
+                            <li><strong>GitHub Pages</strong> — website hosting</li>
+                            <li><strong>Google Analytics</strong> — anonymised website usage statistics</li>
+                            <li><strong>FormSubmit</strong> — delivers form submissions (tips, suggestions, reports) to us by email</li>
+                            <li><strong>Google Workspace</strong> — our email accounts</li>
+                        </ul>
+
+                        <h2>10. Your Rights</h2>
+                        <p>You can ask us to:</p>
+                        <ul>
+                            <li>access the personal information we hold about you</li>
+                            <li>correct it</li>
+                            <li>delete it</li>
+                        </ul>
+                        <p>To make a request, email <a href="mailto:privacy@dogsofessex.co.uk">privacy@dogsofessex.co.uk</a>.</p>
+
+                        <h2>11. Data Retention</h2>
+                        <p>We only keep personal information for as long as necessary to manage submissions and operate the website.</p>
+
+                        <h2>12. Contact</h2>
+                        <p>If you have any questions about this Privacy Policy or how your information is handled, please contact:</p>
+                        <p><a href="mailto:privacy@dogsofessex.co.uk">privacy@dogsofessex.co.uk</a></p>
+                    </div>
+                </div>
+            </section>`;
+    return `${headHTML('', 'Privacy Policy | Dogs of Essex', 'How Dogs of Essex collects, uses and protects your information when you use the site or submit a community contribution.')}
+</head>
+<body>${navHTML('')}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML('')}
+
+    <script src="script.js?v=${V_JS}"></script>
+</body>
+</html>
+`;
+}
+
 // --- run ---
 
 function readJSON(file) {
@@ -1702,6 +1814,9 @@ function build() {
 
     fs.writeFileSync(path.join(OUT, 'index.html'), walksIndexPage(walks));
     console.log('  ✓ walks/index.html');
+
+    fs.writeFileSync(path.join(ROOT, 'privacy.html'), privacyPage());
+    console.log('  ✓ privacy.html');
 
     // Best For hub + one curated page per category.
     const BF_OUT = path.join(ROOT, 'best-for');

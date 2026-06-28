@@ -890,6 +890,26 @@ h1, h2, h3 {
     margin: 0 0 1.5rem;
     max-width: 640px;
 }
+.legal {
+    max-width: 760px;
+    color: var(--color-text);
+    line-height: 1.65;
+}
+.legal h2 {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    margin: 2rem 0 0.5rem;
+}
+.legal h2:first-child { margin-top: 0; }
+.legal h3 {
+    font-size: 1.08rem;
+    margin: 1.25rem 0 0.4rem;
+}
+.legal p { margin: 0 0 1rem; }
+.legal ul { margin: 0 0 1rem; padding-left: 1.3rem; }
+.legal li { margin-bottom: 0.35rem; }
+.legal a { color: var(--color-forest-dark); text-decoration: underline; }
+
 .controls-title {
     font-family: var(--font-serif);
     font-size: 1.35rem;
