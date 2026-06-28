@@ -1712,19 +1712,19 @@ function aboutPage() {
                             <li>Can she swim? (she loves a swim!)</li>
                             <li>Is there a dog-friendly café afterwards?</li>
                         </ul>
-                        <p>No single website answered those questions. The information was scattered across reviews, forums and old blog posts — and rarely written with dogs in mind. So I started keeping my own notes, and Dogs of Essex grew from there: one honest, dog-first guide to walking in Essex.</p>
+                        <p>No single website answered those questions. The information was scattered across reviews, forums and old blog posts - and rarely written with dogs in mind. So I started keeping my own notes, and Dogs of Essex grew from there: one honest, dog-first guide to walking in Essex.</p>
 
                         <h2>How we review walks</h2>
-                        <p>Every walk is visited and reviewed using the same set of criteria, including suitability for reactive dogs, puppies and senior dogs, swimming opportunities, shade, mud, parking and nearby dog-friendly places. That's why the star ratings aren't random — they reflect the same checks applied to every walk, so you can compare them fairly.</p>
+                        <p>Every walk is visited and reviewed using the same set of criteria, including suitability for reactive dogs, puppies and senior dogs, swimming opportunities, shade, mud, parking and nearby dog-friendly places. That's why the star ratings aren't random - they reflect the same checks applied to every walk, so you can compare them fairly.</p>
 
                         <h2>Accuracy</h2>
-                        <p>We aim to keep every walk accurate and up to date, but things change — a café closes, a path floods, livestock arrives in a field. If you spot something that's out of date or wrong, we'd genuinely love to hear about it. Every walk page has a <strong>&ldquo;Help improve this walk&rdquo;</strong> section, and you can always get in touch below.</p>
+                        <p>We aim to keep every walk accurate and up to date, but things change - a café closes, a path floods, livestock arrives in a field. If you spot something that's out of date or wrong, we'd genuinely love to hear about it. Every walk page has a <strong>&ldquo;Help improve this walk&rdquo;</strong> section, and you can always get in touch below.</p>
 
                         <h2>Meet Poppy ${icon('paw-print')}</h2>
                         <figure class="about-poppy photo-ph">${aboutPhotoHTML()}</figure>
                         <p>Poppy is my Labrador and chief walk tester. If there's water nearby, she'll almost certainly find it.</p>
 
-                        <blockquote class="about-quote">Dogs of Essex isn't about finding the longest walks — it's about finding the right walk for you and your dog.</blockquote>
+                        <blockquote class="about-quote">Dogs of Essex isn't about finding the longest walks - it's about finding the right walk for you and your dog.</blockquote>
 
                         <h2>Get in touch</h2>
                         <p>Want to help shape Dogs of Essex? Pick whichever fits:</p>
