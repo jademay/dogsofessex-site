@@ -930,7 +930,7 @@ function footerHTML(prefix) {
                 <div class="footer-col">
                     <h4>Information</h4>
                     <ul>
-                        <li><a href="#">About</a></li>
+                        <li><a href="${prefix}about.html">About</a></li>
                         <li><a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Contact</a></li>
                         <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
                     </ul>
@@ -1679,6 +1679,82 @@ ${footerHTML(prefix)}
 `;
 }
 
+function aboutPhotoHTML() {
+    const dir = path.join(ROOT, 'images', 'about');
+    let file = '';
+    try {
+        file = fs.readdirSync(dir)
+            .filter((f) => /\.(jpe?g|png|webp|avif|gif)$/i.test(f))
+            .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))[0] || '';
+    } catch (e) { /* no folder yet */ }
+    return file
+        ? `<img src="images/about/${file}" alt="Poppy, the Dogs of Essex chief walk tester" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
+        : `<span>${icon('paw-print')} A photo of Poppy goes here</span>`;
+}
+
+function aboutPage() {
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container">
+                    <h1 class="index-title">About Dogs of Essex</h1>
+                    <p class="index-sub">Helping dog owners discover the very best walks across Essex.</p>
+                </div>
+            </section>
+
+            <section class="walk-section section-alt">
+                <div class="container">
+                    <div class="about">
+                        <h2>Why I created Dogs of Essex</h2>
+                        <p>Dogs of Essex started with Poppy, my Labrador. Every time we wanted to try somewhere new, I found myself searching for the same answers:</p>
+                        <ul>
+                            <li>Is it muddy?</li>
+                            <li>Can my dog swim?</li>
+                            <li>Is it good for reactive dogs?</li>
+                            <li>Is there a decent café afterwards?</li>
+                        </ul>
+                        <p>No single website answered those questions. The information was scattered across reviews, forums and old blog posts — and rarely written with dogs in mind. So I started keeping my own notes, and Dogs of Essex grew from there: one honest, dog-first guide to walking in Essex.</p>
+
+                        <h2>How we review walks</h2>
+                        <p>Every walk is visited and reviewed using the same set of criteria, including suitability for reactive dogs, puppies and senior dogs, swimming opportunities, shade, mud, parking and nearby dog-friendly places. That's why the star ratings aren't random — they reflect the same checks applied to every walk, so you can compare them fairly.</p>
+
+                        <h2>Accuracy</h2>
+                        <p>We aim to keep every walk accurate and up to date, but things change — a café closes, a path floods, livestock arrives in a field. If you spot something that's out of date or wrong, we'd genuinely love to hear about it. Every walk page has a <strong>&ldquo;Help improve this walk&rdquo;</strong> section, and you can always get in touch below.</p>
+
+                        <h2>Meet Poppy ${icon('paw-print')}</h2>
+                        <figure class="about-poppy photo-ph">${aboutPhotoHTML()}</figure>
+                        <p>Poppy is my Labrador and chief walk tester. If there's water nearby, she'll almost certainly find it.</p>
+
+                        <blockquote class="about-quote">Dogs of Essex isn't about finding the longest walks — it's about finding the right walk for you and your dog.</blockquote>
+
+                        <h2>Get in touch</h2>
+                        <p>Want to help shape Dogs of Essex? Pick whichever fits:</p>
+                        <div id="improve" class="improve" data-walk="" data-walkid="">
+                            <div class="improve-actions">
+                                <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">${icon('map-pin')} Suggest a walk</button>
+                                <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">${icon('triangle-alert')} Report an issue</button>
+                                <a class="btn btn-secondary" href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">${icon('mail')} Contact Dogs of Essex</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>`;
+    return `${headHTML('', 'About | Dogs of Essex', 'Why Dogs of Essex exists, how every walk is reviewed, and the Labrador who started it all.')}
+</head>
+<body>${navHTML('')}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML('')}
+
+    <script src="script.js?v=${V_JS}"></script>
+    <script src="walk.js?v=${V_WALK}"></script>
+</body>
+</html>
+`;
+}
+
 function privacyPage() {
     const updated = 'Last updated: 28 June 2026';
     const body = `
@@ -1823,6 +1899,9 @@ function build() {
 
     fs.writeFileSync(path.join(ROOT, 'privacy.html'), privacyPage());
     console.log('  ✓ privacy.html');
+
+    fs.writeFileSync(path.join(ROOT, 'about.html'), aboutPage());
+    console.log('  ✓ about.html');
 
     // Best For hub + one curated page per category.
     const BF_OUT = path.join(ROOT, 'best-for');
