@@ -917,7 +917,7 @@ function footerHTML(prefix) {
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
-                    <p>The local guide for dog owners in Essex — walks, places and adventures worth sharing.</p>
+                    <p>The local guide for dog owners in Essex - walks, places and adventures worth sharing.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Explore</h4>
