@@ -196,7 +196,10 @@
         const map = L.map(el, {
             zoomControl: false, attributionControl: false, dragging: false,
             scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false,
-            keyboard: false, touchZoom: false, tap: false
+            keyboard: false, touchZoom: false, tap: false,
+            // Allow fractional zoom so fitBounds hugs the route tightly instead
+            // of snapping to a whole zoom level and leaving slack around it.
+            zoomSnap: 0
         });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
         new L.GPX(gpxUrl, {
