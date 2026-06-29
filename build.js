@@ -1,5 +1,5 @@
 /* ===========================================================
-   build.js — bakes the data layer into static walk pages.
+   build.js - bakes the data layer into static walk pages.
 
    Reads data/walks.json, data/places.json, data/tips.json and writes
    a fully-rendered walks/<id>.html for every walk with "hasPage": true.
@@ -7,7 +7,7 @@
    interactivity (carousel, save/share) on top.
 
    Run:  node build.js   (or: npm run build)
-   Zero dependencies — plain Node.
+   Zero dependencies - plain Node.
    =========================================================== */
 
 const fs = require('fs');
@@ -103,15 +103,15 @@ const GLANCE_KEYS = Object.fromEntries(GLANCE_FILTERS.map((f) => [f.label, f.key
 
 // "Best For" categories. Each ranks reviewed walks by `key` (a glance key)
 // or, when `rank` is set, by a custom measure. Add new objects here and the
-// /best-for grid + a curated /best-for/<slug>/ page appear automatically —
+// /best-for grid + a curated /best-for/<slug>/ page appear automatically -
 // no layout changes needed.
 const BEST_FOR = [
     { slug: 'reactive-dogs', emoji: icon('dog'), title: 'Reactive Dogs', key: 'reactive',
         blurb: 'Quiet Essex walks with fewer surprises and more space.',
-        intro: 'Looking for calmer walks? These routes tend to be quieter, with good visibility and room to create distance — so reactive dogs can relax and enjoy the sniffs.' },
+        intro: 'Looking for calmer walks? These routes tend to be quieter, with good visibility and room to create distance - so reactive dogs can relax and enjoy the sniffs.' },
     { slug: 'puppies', emoji: icon('baby'), title: 'Puppies', key: 'puppies',
         blurb: 'Shorter routes ideal for little legs and training.',
-        intro: 'Short, manageable walks that suit little legs and growing bodies — with plenty of gentle new sights, sounds and smells for early socialisation and training.' },
+        intro: 'Short, manageable walks that suit little legs and growing bodies - with plenty of gentle new sights, sounds and smells for early socialisation and training.' },
     { slug: 'senior-dogs', emoji: icon('bone'), title: 'Senior Dogs', key: 'senior',
         blurb: 'Gentle walks suited to older dogs.',
         intro: 'Looking for gentler walks for older dogs? These routes offer shorter distances, easier terrain and plenty of opportunities for breaks.' },
@@ -120,13 +120,13 @@ const BEST_FOR = [
         intro: 'Firm, even paths and gentle gradients make these walks easy to enjoy with a pushchair alongside the dog.' },
     { slug: 'swimming', emoji: icon('waves'), title: 'Swimming Dogs', key: 'swimming',
         blurb: 'Walks with opportunities for paddling or swimming.',
-        intro: 'For dogs who love the water — these walks offer safe spots to paddle, splash and swim. Always check conditions and seasonal restrictions before letting your dog in.' },
+        intro: 'For dogs who love the water - these walks offer safe spots to paddle, splash and swim. Always check conditions and seasonal restrictions before letting your dog in.' },
     { slug: 'low-mud', emoji: icon('footprints'), title: 'Low Mud', key: 'mud',
         blurb: 'The driest routes for wet-weather walks.',
-        intro: 'Best during wet weather — these are the firmer, better-drained routes that stay walkable when everywhere else turns to mud.' },
+        intro: 'Best during wet weather - these are the firmer, better-drained routes that stay walkable when everywhere else turns to mud.' },
     { slug: 'hot-weather', emoji: icon('sun'), title: 'Hot Weather', key: 'shade',
         blurb: 'Shaded routes and water to keep dogs cool.',
-        intro: 'Shaded, sheltered walks — often with water access — to help keep dogs cool and comfortable on warmer days. Always walk early or late and carry water in the heat.' },
+        intro: 'Shaded, sheltered walks - often with water access - to help keep dogs cool and comfortable on warmer days. Always walk early or late and carry water in the heat.' },
     { slug: 'off-lead', emoji: icon('paw-print'), title: 'Off Lead', key: 'offlead',
         blurb: 'Safe spaces for dogs with reliable recall.',
         intro: 'Open, enclosed or quiet spaces suited to dogs with reliable recall. Always check local signage for livestock, ground-nesting birds and seasonal lead rules.' },
@@ -170,7 +170,7 @@ const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 
 // A walk may define multiple `routes` (each {name, distance, time, terrain?,
 // notes?}) for one location. These derive the card/hero summary from them.
-// The parsers cope with real-world strings — decimals, unicode fractions
+// The parsers cope with real-world strings - decimals, unicode fractions
 // ("2¼ miles"), trailing "(3.4 km)", and "1 hour 20 minutes".
 const FRACTIONS = { '¼': 0.25, '½': 0.5, '¾': 0.75, '⅓': 1 / 3, '⅔': 2 / 3, '⅛': 0.125 };
 function parseMiles(s) {
@@ -265,7 +265,7 @@ const PLACE_CATEGORIES = [
         types: ['cafe', 'pub', 'restaurant'],
         blurb: 'Grab lunch, coffee or a pint after your walk.',
         cta: 'Explore eat & drink →',
-        intro: 'All the dog-friendly places to eat and drink near your walk — cafés, pubs and restaurants. Use the filters to narrow it down.',
+        intro: 'All the dog-friendly places to eat and drink near your walk - cafés, pubs and restaurants. Use the filters to narrow it down.',
         filters: [
             { type: 'all', label: 'All' },
             { type: 'cafe', label: 'Cafés' },
@@ -276,13 +276,13 @@ const PLACE_CATEGORIES = [
         types: ['attraction', 'garden-centre', 'shop'],
         blurb: 'Make a full day of it.',
         cta: 'Explore things to do →',
-        intro: 'Dog-friendly days out beyond a walk — garden centres, National Trust properties, estates, country parks, markets, farm shops and seasonal attractions.' },
+        intro: 'Dog-friendly days out beyond a walk - garden centres, National Trust properties, estates, country parks, markets, farm shops and seasonal attractions.' },
     { slug: 'beaches', emoji: icon('parasol'), title: 'Beaches', plural: 'beaches',
         types: ['beach', 'seaside', 'swim-spot'],
         blurb: 'The best coastal spots for muddy paws.',
         cta: 'Explore beaches →',
         intro: 'Dog-friendly beaches and coastal spots. Check seasonal restrictions, parking and nearby cafés before you set off.',
-        note: 'Seasonal restrictions apply on many Essex beaches — dogs are often banned between 1 May and 30 September. Always check local signage before you go.' },
+        note: 'Seasonal restrictions apply on many Essex beaches - dogs are often banned between 1 May and 30 September. Always check local signage before you go.' },
     { slug: 'stay', emoji: icon('bed-double'), title: 'Stay', comingSoon: true,
         blurb: 'Coming soon.',
         cta: 'Coming soon' }
@@ -371,7 +371,7 @@ function distChipsHTML(p) {
                                     </div>`;
 }
 
-// Contact block — only the details this place's tier is allowed to show.
+// Contact block - only the details this place's tier is allowed to show.
 function contactHTML(p, tier) {
     tier = tier || p._tier || effectiveTier(p);
     const show = TIER_CONTACT[tier] || TIER_CONTACT.free;
@@ -451,11 +451,11 @@ const RATING_SCALES = {
         'Perfect for puppies'
     ],
     'Senior Dogs': [
-        'Long and strenuous — tough for older dogs',
+        'Long and strenuous - tough for older dogs',
         'Some demanding stretches or rough ground',
         'Doable at a gentle pace, with a few harder bits',
         'Mostly easy going with places to rest',
-        'Short, flat and gentle — perfect for seniors'
+        'Short, flat and gentle - perfect for seniors'
     ],
     'Pushchairs': [
         'Impossible',
@@ -539,7 +539,7 @@ function galleryHTML(items) {
 const ROUTE_DOT_COLORS = ['#1F5A44', '#BC6A48', '#3C7D4E', '#C9972B', '#5E6E54', '#A2583A', '#2C382E'];
 
 // Turn a GPX file's track into a compact inline SVG route-line preview at build
-// time — crisp and dependency-free (no runtime map needed in the card).
+// time - crisp and dependency-free (no runtime map needed in the card).
 function routeLineSVG(gpxFile) {
     if (!gpxFile) return '';
     let xml;
@@ -638,7 +638,7 @@ function whatToExpectHTML(paras) {
                     <p>${esc(p)}</p>`).join('');
 }
 
-// Section inner content (no <section> wrapper — the band wrapper adds it).
+// Section inner content (no <section> wrapper - the band wrapper adds it).
 // Optional sections return '' when they have no content.
 function officialInner(walk) {
     const o = walk.official;
@@ -663,7 +663,7 @@ function walkImages(walk) {
         files = fs.readdirSync(dir)
             .filter((f) => /\.(jpe?g|png|webp|avif|gif)$/i.test(f))
             .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
-    } catch (e) { /* no folder yet — falls back to the gradient hero / no gallery */ }
+    } catch (e) { /* no folder yet - falls back to the gradient hero / no gallery */ }
     return files.map((f) => `images/walks/${walk.id}/${f}`);
 }
 
@@ -690,7 +690,7 @@ function whatToExpectInner(walk) {
                     </div>`;
 }
 
-// The walk's single editorial "Dogs of Essex Pick" — the big card.
+// The walk's single editorial "Dogs of Essex Pick" - the big card.
 function pickCardHTML(p) {
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const href = placeUrl(p);
@@ -719,7 +719,7 @@ function pickCardHTML(p) {
                         </article>`;
 }
 
-// A paid partner — compact card: name, distance, one-liner, dog tags, CTA.
+// A paid partner - compact card: name, distance, one-liner, dog tags, CTA.
 function partnerCardHTML(p, extraClass) {
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const href = placeUrl(p);
@@ -735,7 +735,7 @@ function partnerCardHTML(p, extraClass) {
                                 </article>`;
 }
 
-// A free listing — a compact pill (name + distance + arrow) that opens Google Maps.
+// A free listing - a compact pill (name + distance + arrow) that opens Google Maps.
 function freePillHTML(p) {
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     return `
@@ -862,7 +862,7 @@ function exploreHTML(walk, walks) {
 
 function tipsHTML(walkId, tips) {
     return tips.filter((t) => t.walkId === walkId).map((t) => `
-                        <blockquote class="tip-card">${esc(t.tip)}${t.name ? `<cite>— ${esc(t.name)}</cite>` : ''}</blockquote>`).join('');
+                        <blockquote class="tip-card">${esc(t.tip)}${t.name ? `<cite>- ${esc(t.name)}</cite>` : ''}</blockquote>`).join('');
 }
 
 // --- shared chrome (parameterized by `prefix` = relative path to site root) ---
@@ -884,7 +884,7 @@ function headHTML(prefix, title, description, extra) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${esc(title)}</title>
     <meta name="description" content="${esc(description)}">${extra ? '\n    ' + extra : ''}
-    <!-- This page is generated by build.js — do not edit by hand. -->
+    <!-- This page is generated by build.js - do not edit by hand. -->
     <link rel="icon" href="${prefix}favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="${prefix}favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="${prefix}favicon-16x16.png">
@@ -990,7 +990,7 @@ function page(walk, walks, places, tips) {
     <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>`
         : '';
 
-    // Content bands — rendered in order, alternating background like the homepage.
+    // Content bands - rendered in order, alternating background like the homepage.
     // Optional bands (gallery, what-to-expect, official) drop out when empty, and
     // the alternation re-computes so the stripes stay consistent.
     const bands = [
@@ -1066,7 +1066,7 @@ function page(walk, walks, places, tips) {
     <title>${esc(title)}</title>
     <meta name="description" content="${esc(description)}">
     ${og}
-    <!-- This page is generated by build.js from data/walks.json — do not edit by hand. -->
+    <!-- This page is generated by build.js from data/walks.json - do not edit by hand. -->
     <link rel="icon" href="../favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -1141,7 +1141,7 @@ function walksIndexPage(walks) {
             <section class="walk-section walk-index-head">
                 <div class="container">
                     <h1 class="index-title">Dog walks in Essex</h1>
-                    <p class="index-sub">Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex — with more added every month.</p>
+                    <p class="index-sub">Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex - with more added every month.</p>
                     <h2 class="controls-title">Find the perfect walk</h2>
                     <div class="controls-row">
                         <div class="walk-filters" aria-label="Filter walks by what they're best for">
@@ -1163,7 +1163,7 @@ function walksIndexPage(walks) {
                 <div class="container">
                     <div class="walk-grid walks-index-grid">${walks.map((w, i) => indexWalkCard(w, i)).join('')}
                     </div>
-                    <p class="no-results" hidden>No walks match those filters yet — try fewer.</p>
+                    <p class="no-results" hidden>No walks match those filters yet - try fewer.</p>
                 </div>
             </section>`;
 
@@ -1182,8 +1182,8 @@ function walksIndexPage(walks) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dog Walks in Essex | Dogs of Essex</title>
-    <meta name="description" content="Browse honest, dog-tested walks across Essex — woodland, heathland, parkland and coastal routes for you and your dog.">
-    <!-- This page is generated by build.js — do not edit by hand. -->
+    <meta name="description" content="Browse honest, dog-tested walks across Essex - woodland, heathland, parkland and coastal routes for you and your dog.">
+    <!-- This page is generated by build.js - do not edit by hand. -->
     <link rel="icon" href="../favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -1240,7 +1240,7 @@ function walkPhotoHTML(w, prefix) {
         : `<span>${sceneryIcon} ${esc(w.name)}</span>`;
 }
 
-// The category's strongest walk — reuses the "Dogs of Essex Pick" premium styling.
+// The category's strongest walk - reuses the "Dogs of Essex Pick" premium styling.
 function walkPickCardHTML(w, cat, prefix) {
     const href = `${prefix}walks/${esc(w.id)}.html`;
     const chips = [w.distance ? `${icon('ruler')} ${esc(w.distance)}` : '', w.time ? `${icon('clock')} ${esc(w.time)}` : '']
@@ -1311,8 +1311,8 @@ function bestForIndexPage() {
                     </div>
                 </div>
             </section>`;
-    return `${headHTML('../', 'Best For — Find the right walk for your dog | Dogs of Essex',
-        'Find the perfect Essex walk for your dog — reactive dogs, puppies, senior dogs, swimming, low mud, hot weather, off lead and high-energy dogs.')}
+    return `${headHTML('../', 'Best For - Find the right walk for your dog | Dogs of Essex',
+        'Find the perfect Essex walk for your dog - reactive dogs, puppies, senior dogs, swimming, low mud, hot weather, off lead and high-energy dogs.')}
 </head>
 <body>${navHTML('../')}
 
@@ -1332,7 +1332,7 @@ function seniorScaleHTML() {
     const rows = SENIOR_SCALE.map((s) => `
                         <div class="glance-row">
                             <span class="glance-stars">${starsHTML(s.stars)}</span>
-                            <span class="glance-feature"><strong>${esc(s.label)}</strong> — ${esc(s.note)}</span>
+                            <span class="glance-feature"><strong>${esc(s.label)}</strong> - ${esc(s.note)}</span>
                         </div>`).join('');
     return `<h2>How we rate walks for senior dogs</h2>
                     <p class="section-lead">Our Senior Dogs rating weighs distance, terrain difficulty, steep gradients, rest stops and surface quality.</p>
@@ -1349,7 +1349,7 @@ function bestForCategoryPage(cat, walks) {
 
     const pickBlock = pick
         ? walkPickCardHTML(pick, cat, prefix)
-        : `<p class="section-lead">We're still reviewing walks for this category — check back soon.</p>`;
+        : `<p class="section-lead">We're still reviewing walks for this category - check back soon.</p>`;
 
     const othersBlock = others.length ? `
 
@@ -1447,7 +1447,7 @@ function accessBadgesHTML(p) {
     return `<div class="premium-access">${chips}</div>`;
 }
 
-// A partner venue — the same compact partner card used on walk pages, plus a
+// A partner venue - the same compact partner card used on walk pages, plus a
 // "View details" link to its venue page. The badge bar / large photo (the
 // "Dogs of Essex Pick" look) is intentionally not used here.
 function placePartnerCardHTML(p, walks) {
@@ -1467,7 +1467,7 @@ function placePartnerCardHTML(p, walks) {
                         </article>`;
 }
 
-// A free venue — a pill linking straight to its own website (or map).
+// A free venue - a pill linking straight to its own website (or map).
 function placeFreePillHTML(p, walks) {
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const near = nearestWalk(p, walks);
@@ -1569,7 +1569,7 @@ function placesCategoryPage(cat, places, walks) {
         content = `
             <section class="walk-section">
                 <div class="container narrow">
-                    <p class="section-lead">We're still adding dog-friendly ${esc(cat.plural)} — check back soon.</p>
+                    <p class="section-lead">We're still adding dog-friendly ${esc(cat.plural)} - check back soon.</p>
                     <p class="tip-cta">Know a great one? <a href="mailto:hello@dogsofessex.co.uk?subject=${encodeURIComponent('Place suggestion: ' + cat.title)}">Tell us →</a></p>
                 </div>
             </section>`;
@@ -1580,7 +1580,7 @@ function placesCategoryPage(cat, places, walks) {
         content = `
             <section class="walk-section section-alt places-section">
                 <div class="container">
-                    <p class="section-lead">Sorted by distance — enter your postcode above to see what's closest to you.</p>
+                    <p class="section-lead">Sorted by distance - enter your postcode above to see what's closest to you.</p>
                     <div class="places-list">${list}
                     </div>
                 </div>
@@ -1666,7 +1666,7 @@ function venuePage(p, cat, walks) {
                 </div>
             </section>${nearbyBlock}`;
 
-    const title = `${p.name} — dog-friendly ${(meta.label || '').toLowerCase()} in Essex | Dogs of Essex`;
+    const title = `${p.name} - dog-friendly ${(meta.label || '').toLowerCase()} in Essex | Dogs of Essex`;
     const description = p.notes || p.dogFriendlyNotes || `${p.name}, a dog-friendly ${(meta.label || '').toLowerCase()} in Essex.`;
     return `${headHTML(prefix, title, description)}
 </head>
@@ -1773,7 +1773,7 @@ function privacyPage() {
                 <div class="container">
                     <div class="legal">
                         <h2>1. Introduction</h2>
-                        <p>Dogs of Essex is committed to protecting your privacy. This policy explains what information we collect, why we collect it, and how we use it. We aim to keep things simple and honest — this policy reflects how the site actually works, in plain English.</p>
+                        <p>Dogs of Essex is committed to protecting your privacy. This policy explains what information we collect, why we collect it, and how we use it. We aim to keep things simple and honest - this policy reflects how the site actually works, in plain English.</p>
 
                         <h2>2. Who We Are</h2>
                         <ul>
@@ -1784,7 +1784,7 @@ function privacyPage() {
 
                         <h2>3. What Information We Collect</h2>
                         <h3>Information you provide</h3>
-                        <p>When you use one of our forms or email us — for example, when you:</p>
+                        <p>When you use one of our forms or email us - for example, when you:</p>
                         <ul>
                             <li>submit a community tip</li>
                             <li>suggest a new walk</li>
@@ -1801,7 +1801,7 @@ function privacyPage() {
                         <p>Providing your name and email address is optional. You can submit a tip without giving either, though we won't be able to reply to you if you don't leave an email address.</p>
 
                         <h3>Location (only when you ask for it)</h3>
-                        <p>Some pages let you find walks near you. If you use the &ldquo;nearest&rdquo; option, your browser will ask permission to share your location. We use this only in your browser to sort walks by distance — your location is not sent to us and is not stored.</p>
+                        <p>Some pages let you find walks near you. If you use the &ldquo;nearest&rdquo; option, your browser will ask permission to share your location. We use this only in your browser to sort walks by distance - your location is not sent to us and is not stored.</p>
                         <p>If you instead search by typing a postcode or town, that text is sent to mapping services to look up the location (see <a href="#third-parties">Third-Party Services</a>). We don't store what you search for.</p>
 
                         <h2>4. How We Use Your Information</h2>
@@ -1835,11 +1835,11 @@ function privacyPage() {
                         <h2 id="third-parties">9. Third-Party Services</h2>
                         <p>We use a small number of trusted third-party services to run the site. These may process limited data on our behalf:</p>
                         <ul>
-                            <li><strong>GitHub Pages</strong> — website hosting</li>
-                            <li><strong>Google Analytics</strong> — anonymised website usage statistics</li>
-                            <li><strong>FormSubmit</strong> — delivers form submissions (tips, suggestions, reports) to us by email</li>
-                            <li><strong>Google Workspace</strong> — our email accounts</li>
-                            <li><strong>Postcodes.io</strong> and <strong>OpenStreetMap (Nominatim)</strong> — look up a postcode or town you type into the &ldquo;find walks near me&rdquo; search</li>
+                            <li><strong>GitHub Pages</strong> - website hosting</li>
+                            <li><strong>Google Analytics</strong> - anonymised website usage statistics</li>
+                            <li><strong>FormSubmit</strong> - delivers form submissions (tips, suggestions, reports) to us by email</li>
+                            <li><strong>Google Workspace</strong> - our email accounts</li>
+                            <li><strong>Postcodes.io</strong> and <strong>OpenStreetMap (Nominatim)</strong> - look up a postcode or town you type into the &ldquo;find walks near me&rdquo; search</li>
                         </ul>
 
                         <h2>10. Your Rights</h2>
