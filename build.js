@@ -216,13 +216,21 @@ function timeLabel(walk, short) {
     }
     return short ? (walk.timeShort || walk.time || '') : (walk.time || walk.timeShort || '');
 }
-// Numeric miles for sorting (shortest route when there are several).
-function milesValue(walk) {
+// Numeric miles range for sorting. Returns { min, max } so "shortest" can sort
+// on the lower bound and "longest" on the upper bound — across multiple routes
+// or a single range distance like "0.8–1.5 miles".
+function milesRange(walk) {
     if (walk.routes && walk.routes.length) {
         const r = rangeBy(walk.routes.map((x) => x.distance), parseMiles);
-        if (r) return r.min;
+        if (r) return r;
     }
-    return parseFloat(walk.distance) || 0;
+    // walk.distance may itself be a range; parse only the part before "mile(s)"
+    // so the "(x km)" suffix is ignored.
+    const beforeMile = String(walk.distance || '').split(/mile/i)[0];
+    const parts = beforeMile.split(/[–—-]/).map(parseMiles).filter((v) => v != null);
+    if (parts.length) return { min: Math.min(...parts), max: Math.max(...parts) };
+    const f = parseFloat(walk.distance) || 0;
+    return { min: f, max: f };
 }
 
 // Place tiers: `partner` (paid, richer tile) or `free` (basic). The big
@@ -1113,8 +1121,9 @@ function indexWalkCard(w, i) {
         const k = GLANCE_KEYS[g.label];
         return k ? ` data-${k}="${g.score}"` : '';
     }).join('');
+    const mr = milesRange(w);
     const data = `${glance} data-lat="${w.lat}" data-lng="${w.lng}"`
-        + ` data-miles="${milesValue(w)}" data-order="${i}"`
+        + ` data-miles-min="${mr.min}" data-miles-max="${mr.max}" data-order="${i}"`
         + ` data-pop="${(w.rating && w.rating.count) || 0}" data-added="${esc(w.added || '')}"`;
     const inner = `
                             <div class="photo-ph">${walkPhotoHTML(w, '../')}</div>

@@ -70,8 +70,10 @@ if (form) {
 
     function sortCards(list, keys) {
         const sort = sortSelect ? sortSelect.value : 'featured';
-        if (sort === 'shortest') return list.sort((a, b) => num(a, 'miles') - num(b, 'miles'));
-        if (sort === 'longest') return list.sort((a, b) => num(b, 'miles') - num(a, 'miles'));
+        // Walks with no distance data (0) sort to the bottom of both, rather
+        // than masquerading as the "shortest".
+        if (sort === 'shortest') return list.sort((a, b) => (num(a, 'milesMin') || Infinity) - (num(b, 'milesMin') || Infinity));
+        if (sort === 'longest') return list.sort((a, b) => num(b, 'milesMax') - num(a, 'milesMax'));
         if (sort === 'popular') return list.sort((a, b) => num(b, 'pop') - num(a, 'pop'));
         if (sort === 'newest') {
             const t = (c) => c.dataset.added ? Date.parse(c.dataset.added) : 0;
