@@ -460,31 +460,38 @@
     "routes": [
       {
         "name": "The 'Old City' Walk",
-        "distance": "1.5 miles"
+        "distance": "1.5 miles",
+        "gpxFile": "data/gpx/west-mersea-island-old-city-walk.gpx"
       },
       {
         "name": "The Strood Channel Walk",
-        "distance": "3.5 miles"
+        "distance": "3.5 miles",
+        "gpxFile": "data/gpx/west-mersea-island-strood-channel-walk.gpx"
       },
       {
         "name": "'Follies' Walk",
-        "distance": "2.5 miles"
+        "distance": "2.5 miles",
+        "gpxFile": "data/gpx/west-mersea-island-follies-walk.gpx"
       },
       {
         "name": "The White Hart, St Peter's Meadow, & The Boardwalk Walk",
-        "distance": "1.5 miles"
+        "distance": "1.5 miles",
+        "gpxFile": "data/gpx/west-mersea-island-white-hart-st-peters-meadow.gpx"
       },
       {
         "name": "The Esplanade Beach Walk",
-        "distance": "2.3 miles"
+        "distance": "2.3 miles",
+        "gpxFile": "data/gpx/west-mersea-island-esplanade-beach-walk.gpx"
       },
       {
         "name": "East Road to Waldegraves Walk",
-        "distance": "2.75 miles"
+        "distance": "2.75 miles",
+        "gpxFile": "data/gpx/west-mersea-island-east-road-to-waldegraves-walk.gpx"
       },
       {
         "name": "The Fox & The Vineyard Walk",
-        "distance": "3 miles"
+        "distance": "3 miles",
+        "gpxFile": "data/gpx/west-mersea-island-fox-and-the-vineyard-walk.gpx"
       }
     ],
     "route": {
