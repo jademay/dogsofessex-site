@@ -228,15 +228,10 @@
 
     function buildRouteMap(el, gpxUrl) {
         const map = L.map(el, { scrollWheelZoom: false });
-        const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
-        const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            maxZoom: 19,
-            attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics'
-        });
-        L.control.layers({ '🗺 Map': osm, '🛰 Satellite': satellite }, null, { position: 'topright' }).addTo(map);
         const pin = (cls, content) => L.divIcon({
             className: 'gpx-pin',
             html: '<span class="gpx-pin-badge ' + cls + '">' + content + '</span>',
