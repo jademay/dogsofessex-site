@@ -1129,7 +1129,8 @@ function indexWalkCard(w, i) {
                             <div class="photo-ph">${walkPhotoHTML(w, '../')}</div>
                             <div class="walk-card-body">
                                 <h3>${esc(w.name)}</h3>
-                                ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
+                                ${meta ? `<p class="walk-card-meta">${icon('footprints')}<span>${esc(meta)}</span></p>` : ''}
+                                <p class="walk-card-distance" hidden></p>
                                 <div class="tag-row">${tags}</div>
                                 <div class="walk-card-stars" hidden></div>
                                 <span class="link-arrow">${w.hasPage ? 'Explore Walk →' : 'Basic details available now. Full review coming soon.'}</span>
@@ -1287,7 +1288,7 @@ function bestForWalkCardHTML(w, prefix) {
                             <div class="photo-ph">${walkPhotoHTML(w, prefix)}</div>
                             <div class="walk-card-body">
                                 <h3>${esc(w.name)}</h3>
-                                ${meta ? `<p class="walk-card-meta">${esc(meta)}</p>` : ''}
+                                ${meta ? `<p class="walk-card-meta">${icon('footprints')}<span>${esc(meta)}</span></p>` : ''}
                                 <div class="tag-row">${tags}</div>
                                 <span class="link-arrow">Explore Walk →</span>
                             </div>

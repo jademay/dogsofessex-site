@@ -50,6 +50,7 @@ if (form) {
     pills.forEach((p) => { LABELS[p.dataset.key] = p.textContent.trim(); });
     const selected = new Set();
     let userPos = null;
+    const CAR_SVG = '<svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>';
 
     const score = (card, key) => {
         const v = card.dataset[key];
@@ -107,6 +108,19 @@ if (form) {
             }
         });
         sortCards(visible, keys).forEach((c) => grid.appendChild(c));
+        // When sorting by nearest, show each walk's straight-line distance.
+        const showDist = sortSelect && sortSelect.value === 'nearest' && userPos;
+        cards.forEach((c) => {
+            const distEl = c.querySelector('.walk-card-distance');
+            if (!distEl) return;
+            if (showDist && c.style.display !== 'none') {
+                distEl.innerHTML = CAR_SVG + '<span>' + distTo(c).toFixed(1) + ' miles away</span>';
+                distEl.hidden = false;
+            } else {
+                distEl.hidden = true;
+                distEl.innerHTML = '';
+            }
+        });
         if (noResults) noResults.hidden = visible.length > 0;
     }
 
