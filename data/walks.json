@@ -724,17 +724,20 @@
       {
         "name": "Jubilee Walk",
         "distance": "2¼ miles (3.6 km)",
-        "time": "1hr 20 mins"
+        "time": "1hr 20 mins",
+        "gpxFile": "data/gpx/hylands-park-writtle-jubilee-walk.gpx"
       },
       {
         "name": "Lower Estate Walk",
         "distance": "2¾ miles (4.6 km)",
-        "time": "1hr 45 mins"
+        "time": "1hr 45 mins",
+        "gpxFile": "data/gpx/hylands-park-writtle-lower-estate-walk.gpx"
       },
       {
         "name": "Estate Boundary Walk",
         "distance": "4 miles (6.3 km)",
-        "time": "2hrs 30 mins"
+        "time": "2hrs 30 mins",
+        "gpxFile": "data/gpx/hylands-park-writtle-estate-boundary-walk.gpx"
       }
     ],
     "route": {
