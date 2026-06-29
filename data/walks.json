@@ -457,6 +457,36 @@
         "score": 4
       }
     ],
+    "gallery": [
+      {
+        "image": "",
+        "caption": "Beach huts along the promenade"
+      },
+      {
+        "image": "",
+        "caption": "Stony, grassy and sandy shoreline"
+      },
+      {
+        "image": "",
+        "caption": "Grassy shoreline overlooking the sea"
+      },
+      {
+        "image": "",
+        "caption": "Poppy enjoying the stony beach"
+      },
+      {
+        "image": "",
+        "caption": "View across the Blackwater Estuary"
+      },
+      {
+        "image": "",
+        "caption": "Victoria Esplanade car park"
+      },
+      {
+        "image": "",
+        "caption": "Available parking at Victoria Esplanade"
+      }
+    ],
     "routes": [
       {
         "name": "The 'Old City' Walk",
