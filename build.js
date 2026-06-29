@@ -596,12 +596,13 @@ function routeList(walk) {
 function routeCardHTML(route, i, walk) {
     const color = ROUTE_DOT_COLORS[i % ROUTE_DOT_COLORS.length];
     const gpx = route.gpxFile ? `../${esc(route.gpxFile)}` : '';
+    const bestPark = route.bestCarPark ? ` data-bestpark="${esc(route.bestCarPark)}"` : '';
     const previewHTML = gpx
-        ? `<div class="route-card-preview route-card-map" data-gpx="${gpx}" data-name="${esc(route.name || walk.name)}">${routeLineSVG(route.gpxFile)}</div>`
+        ? `<div class="route-card-preview route-card-map" data-gpx="${gpx}" data-name="${esc(route.name || walk.name)}"${bestPark}>${routeLineSVG(route.gpxFile)}</div>`
         : `<div class="route-card-preview is-empty">${routePlaceholderSVG()}</div>`;
     const meta = [route.distance, route.time].filter(Boolean).join(' • ');
     const link = gpx
-        ? `<button type="button" class="route-card-link" data-gpx="${gpx}" data-name="${esc(route.name || walk.name)}">View route →</button>`
+        ? `<button type="button" class="route-card-link" data-gpx="${gpx}" data-name="${esc(route.name || walk.name)}"${bestPark}>View route →</button>`
         : `<a class="route-card-link" href="https://www.google.com/maps?q=${walk.lat},${walk.lng}" target="_blank" rel="noopener">View location →</a>`;
     return `
                         <article class="route-card">
@@ -624,6 +625,15 @@ function walkRoutesInner(walk) {
     return `<h2>${icon('map')} ${heading}</h2>
                     <div class="route-carousel">${routes.map((r, i) => routeCardHTML(r, i, walk)).join('')}
                     </div>`;
+}
+
+// Car parks with coordinates, exposed for the route map to drop pins.
+function carParksScript(walk) {
+    const r = walk.route || {};
+    const cps = (Array.isArray(r.carParks) ? r.carParks : [])
+        .filter((cp) => cp && cp.name && cp.lat != null && cp.lng != null)
+        .map((cp) => ({ name: cp.name, lat: cp.lat, lng: cp.lng }));
+    return cps.length ? ` window.WALK_CARPARKS = ${JSON.stringify(cps)};` : '';
 }
 
 function gettingThereInner(walk) {
@@ -1092,7 +1102,7 @@ function page(walk, walks, places, tips) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css?v=${V_CSS}">${mapHead}
-    <script>window.WALK_ID = "${walk.id}";</script>
+    <script>window.WALK_ID = "${walk.id}";${carParksScript(walk)}</script>
 </head>
 <body>${navHTML('../')}
 

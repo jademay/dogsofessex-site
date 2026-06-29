@@ -1344,6 +1344,17 @@ h1, h2, h3 {
 .gpx-pin-end::before { top: auto; bottom: 100%; height: 32px; }
 .gpx-pin-wpt { bottom: 8px; background: #fff; font-size: 1rem; padding: 3px 5px; }
 .gpx-pin-wpt::before { height: 8px; }
+/* Car park pins: white by default, forest-green for the route's best one. */
+.gpx-pin-carpark {
+    bottom: 14px;
+    background: #fff;
+    color: var(--color-forest-dark);
+    gap: 0.3rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+.gpx-pin-carpark::before { height: 14px; }
+.gpx-pin-carpark .lucide { width: 0.95em; height: 0.95em; flex-shrink: 0; }
+.gpx-pin-carpark.is-best { background: var(--color-forest-dark); color: #fff; }
 
 .nearby {
     margin-top: 3rem;

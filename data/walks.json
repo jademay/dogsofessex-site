@@ -530,7 +530,9 @@
       "carParks": [
         {
           "name": "Victoria Esplanade Parking",
-          "info": "Right by the seafront, closest to the beach and esplanade."
+          "info": "Right by the seafront, closest to the beach and esplanade.",
+          "lat": 51.77377,
+          "lng": 0.92709
         },
         {
           "name": "Willoughby Avenue Car Park",

@@ -149,7 +149,7 @@
             document.body.style.overflow = '';
             if (map) { map.remove(); map = null; }
         };
-        const open = (gpxUrl, name) => {
+        const open = (gpxUrl, name, bestPark) => {
             titleEl.textContent = name || 'Route';
             dl.setAttribute('href', gpxUrl);
             pop.classList.add('open');
@@ -158,16 +158,16 @@
             if (map) { map.remove(); map = null; }
             mapEl.innerHTML = '';
             if (typeof L === 'undefined') return;
-            map = buildRouteMap(mapEl, gpxUrl);
+            map = buildRouteMap(mapEl, gpxUrl, bestPark);
             setTimeout(() => { if (map) map.invalidateSize(); }, 60);
         };
 
-        triggers.forEach((t) => t.addEventListener('click', () => open(t.dataset.gpx, t.dataset.name)));
+        triggers.forEach((t) => t.addEventListener('click', () => open(t.dataset.gpx, t.dataset.name, t.dataset.bestpark)));
 
         // Live mini-map preview behind each route card, lazy-loaded as it scrolls
         // into view; clicking a preview opens the full map popup too.
         const previews = document.querySelectorAll('.route-card-map[data-gpx]');
-        previews.forEach((el) => el.addEventListener('click', () => open(el.dataset.gpx, el.dataset.name)));
+        previews.forEach((el) => el.addEventListener('click', () => open(el.dataset.gpx, el.dataset.name, el.dataset.bestpark)));
         if (previews.length && typeof L !== 'undefined') {
             if ('IntersectionObserver' in window) {
                 const io = new IntersectionObserver((entries, obs) => {
@@ -281,7 +281,7 @@
         return separateOverlaps(lls, offsetM);
     }
 
-    function buildRouteMap(el, gpxUrl) {
+    function buildRouteMap(el, gpxUrl, bestPark) {
         const map = L.map(el, { scrollWheelZoom: false });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -291,6 +291,24 @@
             className: 'gpx-pin',
             html: '<span class="gpx-pin-badge ' + cls + '">' + content + '</span>',
             iconSize: [0, 0], iconAnchor: [0, 0]
+        });
+        // Car park pins (those with coordinates), the route's best one highlighted.
+        const P_SVG = '<svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>';
+        // Show the car park relevant to this route (its "best car park"); if the
+        // route names none, show all the walk's car parks that have coordinates.
+        const carParks = Array.isArray(window.WALK_CARPARKS) ? window.WALK_CARPARKS : [];
+        const relevant = bestPark ? carParks.filter((cp) => cp.name === bestPark) : carParks;
+        const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const cpMarkers = relevant.map((cp) => {
+            const best = bestPark && cp.name === bestPark;
+            return L.marker([cp.lat, cp.lng], {
+                icon: L.divIcon({
+                    className: 'gpx-pin',
+                    html: '<span class="gpx-pin-badge gpx-pin-carpark' + (best ? ' is-best' : '') + '">' + P_SVG + '<span>' + escHtml(cp.name) + '</span></span>',
+                    iconSize: [0, 0], iconAnchor: [0, 0]
+                }),
+                zIndexOffset: best ? 1000 : 500
+            }).addTo(map);
         });
         new L.GPX(gpxUrl, {
             async: true,
@@ -317,7 +335,11 @@
                     layer.eachLayer(addCasing);
                 }
             })(e.target);
-            map.fitBounds(e.target.getBounds(), { paddingTopLeft: [12, 56], paddingBottomRight: [12, 12] });
+            let bounds = e.target.getBounds();
+            // Only widen the view to reach the route's own (best) car park, so an
+            // unrelated distant car park can't zoom the whole map out.
+            if (bestPark) cpMarkers.forEach((m) => { bounds = bounds.extend(m.getLatLng()); });
+            map.fitBounds(bounds, { paddingTopLeft: [12, 56], paddingBottomRight: [12, 12] });
             map.closePopup();
         }).addTo(map);
         return map;
