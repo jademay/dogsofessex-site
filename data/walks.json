@@ -895,12 +895,14 @@
       {
         "name": "Dedham to Flatford River Walk",
         "distance": "2.5 miles",
-        "time": "1hr 40 mins"
+        "time": "1hr 40 mins",
+        "gpxFile": "data/gpx/dedham-vale-dedham-to-flatford.gpx"
       },
       {
         "name": "Dedham, Gun Hill, and Stour Valley Circular",
         "distance": "6 miles",
-        "time": "3hrs 20 mins"
+        "time": "3hrs 20 mins",
+        "gpxFile": "data/gpx/dedham-vale-dedham-river-stour-and-manningtree-circular.gpx"
       }
     ],
     "route": {
