@@ -226,6 +226,61 @@
         return map;
     }
 
+    // Where a route retraces its own path (out-and-back sections), the line
+    // would draw on top of itself and you couldn't tell which way to go. This
+    // nudges the retraced points sideways, perpendicular to the direction of
+    // travel — since the two passes head opposite ways, they split to opposite
+    // sides and read as two parallel lines. Only overlapping points move, eased
+    // in and out so the rest of the route stays exactly on the path.
+    function separateOverlaps(latlngs, offsetM) {
+        const n = latlngs.length;
+        if (n < 6) return latlngs;
+        let meanLat = 0;
+        for (const p of latlngs) meanLat += p.lat;
+        meanLat /= n;
+        const mLat = 111320, mLng = 111320 * Math.cos(meanLat * Math.PI / 180);
+        const xy = latlngs.map((p) => [p.lng * mLng, p.lat * mLat]);
+        const TH = 7, GAP = 10; // metres apart, min index separation
+        const ov = new Array(n).fill(0);
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                if (Math.abs(i - j) <= GAP) continue;
+                const dx = xy[i][0] - xy[j][0], dy = xy[i][1] - xy[j][1];
+                if (dx * dx + dy * dy < TH * TH) { ov[i] = 1; break; }
+            }
+        }
+        // Smooth the on/off mask into a 0–1 ramp and anchor the endpoints at 0.
+        const ramp = new Array(n).fill(0);
+        const SMOOTH = 4;
+        for (let i = 0; i < n; i++) {
+            let s = 0, c = 0;
+            for (let k = -SMOOTH; k <= SMOOTH; k++) {
+                const idx = i + k;
+                if (idx >= 0 && idx < n) { s += ov[idx]; c++; }
+            }
+            ramp[i] = s / c;
+        }
+        ramp[0] = 0; ramp[n - 1] = 0;
+        if (!ramp.some((r) => r > 0.01)) return latlngs;
+        return latlngs.map((p, i) => {
+            if (ramp[i] <= 0.01) return p;
+            const a = xy[Math.max(0, i - 1)], b = xy[Math.min(n - 1, i + 1)];
+            let dx = b[0] - a[0], dy = b[1] - a[1];
+            const len = Math.hypot(dx, dy) || 1;
+            dx /= len; dy /= len;
+            const m = offsetM * ramp[i];
+            const nx = xy[i][0] + (-dy) * m, ny = xy[i][1] + dx * m;
+            return L.latLng(ny / mLat, nx / mLng);
+        });
+    }
+
+    function offsetRouteLatLngs(lls, offsetM) {
+        if (Array.isArray(lls) && lls.length && Array.isArray(lls[0])) {
+            return lls.map((sub) => offsetRouteLatLngs(sub, offsetM));
+        }
+        return separateOverlaps(lls, offsetM);
+    }
+
     function buildRouteMap(el, gpxUrl) {
         const map = L.map(el, { scrollWheelZoom: false });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -252,7 +307,9 @@
             }
             (function addCasing(layer) {
                 if (layer instanceof L.Polyline && typeof layer.getLatLngs === 'function') {
-                    L.polyline(layer.getLatLngs(), {
+                    const lls = offsetRouteLatLngs(layer.getLatLngs(), 9);
+                    layer.setLatLngs(lls); // redraw the coloured route on the offset path
+                    L.polyline(lls, {
                         pane: 'routeCasing', color: '#fff', weight: 7, opacity: 0.95,
                         lineJoin: 'round', lineCap: 'round'
                     }).addTo(map);

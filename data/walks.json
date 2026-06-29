@@ -712,12 +712,14 @@
       {
         "name": "Pleasure Gardens Walk",
         "distance": "¾ mile (1.3 km)",
-        "time": "30 mins"
+        "time": "30 mins",
+        "gpxFile": "data/gpx/hylands-park-writtle-pleasure-gardens-walk.gpx"
       },
       {
         "name": "Repton's Walk",
         "distance": "2¼ miles (3.4 km)",
-        "time": "1hr"
+        "time": "1hr",
+        "gpxFile": "data/gpx/hylands-park-writtle-reptons-walk.gpx"
       },
       {
         "name": "Jubilee Walk",
