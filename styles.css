@@ -1231,7 +1231,28 @@ h1, h2, h3 {
 .route-dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; flex-shrink: 0; }
 .route-card-meta { margin: 0; font-weight: 600; color: var(--color-forest); }
 .route-card-type { margin: 0; font-size: 0.9rem; color: var(--color-muted); }
+.route-card-park {
+    margin: 0.3rem 0 0;
+    font-size: 0.85rem;
+    color: var(--color-forest);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.route-card-park .lucide { color: var(--color-moss); flex-shrink: 0; }
 .route-card-notes { margin: 0.15rem 0 0; font-size: 0.9rem; }
+
+/* Multiple car parks in the "Getting there" section */
+.car-park-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+.car-park-list li { display: flex; gap: 0.5rem; line-height: 1.5; }
+.car-park-list .lucide { color: var(--color-moss); flex-shrink: 0; margin-top: 0.2em; }
 .route-card-link {
     margin-top: auto;
     align-self: flex-start;

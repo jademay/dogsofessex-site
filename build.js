@@ -584,7 +584,7 @@ function routeList(walk) {
             name: r.name || ('Route ' + (i + 1)),
             distance: r.distance || '', time: r.time || '',
             routeType: r.routeType || '', notes: r.notes || '',
-            gpxFile: r.gpxFile || ''
+            gpxFile: r.gpxFile || '', bestCarPark: r.bestCarPark || ''
         }));
     }
     return [{
@@ -610,6 +610,7 @@ function routeCardHTML(route, i, walk) {
                                 ${route.name ? `<h3 class="route-card-name"><span class="route-dot" style="background:${color}"></span>${esc(route.name)}</h3>` : ''}
                                 ${meta ? `<p class="route-card-meta">${esc(meta)}</p>` : ''}
                                 ${route.routeType ? `<p class="route-card-type">${esc(route.routeType)}</p>` : ''}
+                                ${route.bestCarPark ? `<p class="route-card-park">${icon('square-parking')} <span>Best car park: ${esc(route.bestCarPark)}</span></p>` : ''}
                                 ${route.notes ? `<p class="route-card-notes">${esc(route.notes)}</p>` : ''}
                                 ${link}
                             </div>
@@ -632,7 +633,15 @@ function gettingThereInner(walk) {
             ? `https://www.google.com/maps?q=${walk.lat},${walk.lng}&output=embed`
             : '');
     const parts = [];
-    if (r.parking) parts.push(`<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
+    const carParks = Array.isArray(r.carParks) ? r.carParks.filter((cp) => cp && cp.name) : [];
+    if (carParks.length) {
+        parts.push(`<p><strong>Parking &amp; directions.</strong>${r.parking ? ' ' + esc(r.parking) : ''}</p>`);
+        parts.push(`<ul class="car-park-list">${carParks.map((cp) =>
+            `<li>${icon('square-parking')} <span><strong>${esc(cp.name)}.</strong>${cp.info ? ' ' + esc(cp.info) : ''}</span></li>`
+        ).join('')}</ul>`);
+    } else if (r.parking) {
+        parts.push(`<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
+    }
     if (r.localTip) parts.push(`<p class="local-tip">${icon('lightbulb')} <strong>Local tip:</strong> ${esc(r.localTip)}</p>`);
     if (mapSrc) parts.push(`<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
     if (!parts.length) return '';

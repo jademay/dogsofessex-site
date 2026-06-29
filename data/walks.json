@@ -511,7 +511,8 @@
       {
         "name": "The Esplanade Beach Walk",
         "distance": "2.3 miles",
-        "gpxFile": "data/gpx/west-mersea-island-esplanade-beach-walk.gpx"
+        "gpxFile": "data/gpx/west-mersea-island-esplanade-beach-walk.gpx",
+        "bestCarPark": "Victoria Esplanade Parking"
       },
       {
         "name": "East Road to Waldegraves Walk",
@@ -525,7 +526,17 @@
       }
     ],
     "route": {
-      "parking": "There are two main car parks (Victoria Esplanade Parking & Willoughby Avenue Car Park) that are a little expensive and fill up on hot days. But if you get there early, you will be able to get a space.",
+      "parking": "There are two main car parks that are a little expensive and fill up on hot days. But if you get there early, you will be able to get a space.",
+      "carParks": [
+        {
+          "name": "Victoria Esplanade Parking",
+          "info": "Right by the seafront, closest to the beach and esplanade."
+        },
+        {
+          "name": "Willoughby Avenue Car Park",
+          "info": "A short walk from the front - a handy alternative when the Esplanade is full."
+        }
+      ],
       "localTip": "Watch out for the tide times to avoid getting stranded in Mersea until low tide.",
       "mapEmbed": ""
     },
