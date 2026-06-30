@@ -491,17 +491,20 @@
       {
         "name": "The 'Old City' Walk",
         "distance": "1.5 miles",
-        "gpxFile": "data/gpx/west-mersea-island-old-city-walk.gpx"
+        "gpxFile": "data/gpx/west-mersea-island-old-city-walk.gpx",
+        "bestCarPark": "Coast Road"
       },
       {
         "name": "The Strood Channel Walk",
         "distance": "3.5 miles",
-        "gpxFile": "data/gpx/west-mersea-island-strood-channel-walk.gpx"
+        "gpxFile": "data/gpx/west-mersea-island-strood-channel-walk.gpx",
+        "bestCarPark": "Coast Road"
       },
       {
         "name": "'Follies' Walk",
         "distance": "2.5 miles",
-        "gpxFile": "data/gpx/west-mersea-island-follies-walk.gpx"
+        "gpxFile": "data/gpx/west-mersea-island-follies-walk.gpx",
+        "bestCarPark": "Coast Road"
       },
       {
         "name": "The White Hart, St Peter's Meadow, & The Boardwalk Walk",
@@ -517,12 +520,14 @@
       {
         "name": "East Road to Waldegraves Walk",
         "distance": "2.75 miles",
-        "gpxFile": "data/gpx/west-mersea-island-east-road-to-waldegraves-walk.gpx"
+        "gpxFile": "data/gpx/west-mersea-island-east-road-to-waldegraves-walk.gpx",
+        "bestCarPark": "The Fox Inn"
       },
       {
         "name": "The Fox & The Vineyard Walk",
         "distance": "3 miles",
-        "gpxFile": "data/gpx/west-mersea-island-fox-and-the-vineyard-walk.gpx"
+        "gpxFile": "data/gpx/west-mersea-island-fox-and-the-vineyard-walk.gpx",
+        "bestCarPark": "The Fox Inn"
       }
     ],
     "route": {
@@ -531,12 +536,26 @@
         {
           "name": "Victoria Esplanade Parking",
           "info": "Right by the seafront, closest to the beach and esplanade.",
-          "lat": 51.77377,
-          "lng": 0.92709
+          "lat": 51.77413065966831,
+          "lng": 0.9284653351260843
         },
         {
           "name": "Willoughby Avenue Car Park",
-          "info": "A short walk from the front - a handy alternative when the Esplanade is full."
+          "info": "A short walk from the front - a handy alternative when the Esplanade is full.",
+          "lat": 51.775008207229,
+          "lng": 0.9254633470565019
+        },
+        {
+          "name": "Coast Road",
+          "info": "Near the Strood, handy for the western walks.",
+          "lat": 51.77925916851767,
+          "lng": 0.8988851146201581
+        },
+        {
+          "name": "The Fox Inn",
+          "info": "At the eastern end of the island, by the vineyard and Waldegraves.",
+          "lat": 51.78372391216395,
+          "lng": 0.9347552338342258
         }
       ],
       "localTip": "Watch out for the tide times to avoid getting stranded in Mersea until low tide.",
