@@ -1214,6 +1214,13 @@ function walksIndexPage(walks) {
                 </div>
             </section>
 
+            <section class="walk-section walks-map-section">
+                <div class="container">
+                    <div id="walks-map" class="walks-map" aria-label="Map of all walks in Essex"></div>
+                    <p class="walks-map-hint">${icon('map-pin')} Tap a pin to open that walk.</p>
+                </div>
+            </section>
+
             <section class="walk-section section-alt walk-index-grid">
                 <div class="container">
                     <div class="walk-grid walks-index-grid">${walks.map((w, i) => indexWalkCard(w, i)).join('')}
@@ -1246,6 +1253,7 @@ function walksIndexPage(walks) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <link rel="stylesheet" href="../styles.css?v=${V_CSS}">
 </head>
 <body>${navHTML('../')}
@@ -1256,6 +1264,7 @@ function walksIndexPage(walks) {
     </main>
 ${footerHTML('../')}
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="../script.js?v=${V_JS}"></script>
 </body>
 </html>

@@ -85,6 +85,46 @@ if (form) {
         return list.sort((a, b) => num(a, 'order') - num(b, 'order'));
     }
 
+    // Map of all walks: a pin per card, linking to its page; kept in sync with
+    // the filters so the map shows exactly the walks listed below.
+    const mapEl = document.getElementById('walks-map');
+    let walksMap = null;
+    const walkMarkers = [];
+    if (mapEl && typeof L !== 'undefined') {
+        walksMap = L.map(mapEl, { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(walksMap);
+        cards.forEach((card) => {
+            const lat = parseFloat(card.dataset.lat), lng = parseFloat(card.dataset.lng);
+            if (!isFinite(lat) || !isFinite(lng)) { walkMarkers.push(null); return; }
+            const name = (card.querySelector('h3') ? card.querySelector('h3').textContent : '').trim();
+            const href = card.getAttribute('href'); // null for "coming soon" cards
+            const m = L.marker([lat, lng], {
+                icon: L.divIcon({ className: 'walk-map-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] }),
+                title: name
+            });
+            m.bindTooltip(name, { direction: 'top', offset: [0, -8], opacity: 1 });
+            if (href) m.on('click', () => { window.location.href = href; });
+            m.addTo(walksMap);
+            walkMarkers.push(m);
+        });
+        const pts = walkMarkers.filter(Boolean).map((m) => m.getLatLng());
+        if (pts.length) walksMap.fitBounds(pts, { padding: [30, 30] });
+        setTimeout(() => walksMap.invalidateSize(), 80);
+    }
+    const updateMapMarkers = () => {
+        if (!walksMap) return;
+        cards.forEach((card, i) => {
+            const m = walkMarkers[i];
+            if (!m) return;
+            const visible = card.style.display !== 'none';
+            if (visible && !walksMap.hasLayer(m)) m.addTo(walksMap);
+            else if (!visible && walksMap.hasLayer(m)) walksMap.removeLayer(m);
+        });
+    };
+
     function apply() {
         const keys = [...selected];
         const visible = [];
@@ -122,6 +162,7 @@ if (form) {
             }
         });
         if (noResults) noResults.hidden = visible.length > 0;
+        updateMapMarkers();
     }
 
     pills.forEach((btn) => {
