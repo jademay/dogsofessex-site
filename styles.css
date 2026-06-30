@@ -1157,6 +1157,10 @@ h1, h2, h3 {
     border-radius: var(--radius);
     overflow: hidden;
     border: 1px solid var(--color-border);
+    /* Own stacking context below the sticky header (z-index 50) so Leaflet's
+       panes/controls don't paint over the header when scrolling. */
+    position: relative;
+    z-index: 0;
 }
 .carparks-map-link { margin: 0.6rem 0 0; font-size: 0.9rem; }
 .carparks-map-link a {
@@ -1262,6 +1266,10 @@ h1, h2, h3 {
     justify-content: center;
     background-color: var(--color-bg-alt);
     border-bottom: 1px solid var(--color-border);
+    /* Own stacking context so the preview map's Leaflet panes don't paint over
+       the sticky header (z-index 50) when scrolling. */
+    position: relative;
+    z-index: 0;
 }
 .route-card-preview .route-line { width: 100%; height: 100%; padding: 0.5rem; }
 .route-card-preview.is-empty { color: var(--color-border); }
