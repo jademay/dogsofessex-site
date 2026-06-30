@@ -120,7 +120,16 @@ if (form) {
         // top is the column's CSS top plus the map's offset within the column.
         const stuckMapTop = STICKY_TOP + (mapEl.offsetTop || 0);
         const cardDocCentre = card.top + window.scrollY + card.height / 2;
-        const targetY = cardDocCentre - (stuckMapTop + map.height / 2);
+        let targetY = cardDocCentre - (stuckMapTop + map.height / 2);
+        // Never scroll up past the point where the map sticks, so for top cards
+        // the map stays stuck (centred/full-height) on the right rather than
+        // being pushed down by the filters. Measure the explorer (not the sticky
+        // column, which would report its already-stuck position).
+        const ref = mapEl.closest('.walks-explorer');
+        if (ref) {
+            const minStick = (ref.getBoundingClientRect().top + window.scrollY) - STICKY_TOP;
+            targetY = Math.max(minStick, targetY);
+        }
         window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     };
 
@@ -137,7 +146,8 @@ if (form) {
             const href = card.getAttribute('href'); // null for "coming soon" cards
             const m = L.marker([lat, lng], {
                 icon: L.divIcon({ className: 'walk-map-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] }),
-                title: name
+                title: name,
+                keyboard: false // don't focus on click (avoids the browser scrolling it into view)
             });
             m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
             m.bindPopup('<div class="walk-pop"><strong>' + esc(name) + '</strong>' +
@@ -158,10 +168,15 @@ if (form) {
             if (pts.length) walksMap.fitBounds(pts, { padding: [22, 22] });
         };
         fit();
-        setTimeout(() => { walksMap.invalidateSize(); fit(); }, 90);
-        // Once the user drives the map, filter the list to what's in view.
-        walksMap.on('movestart', () => { boundsSync = true; });
-        walksMap.on('moveend', () => applyBounds());
+        // Attach the bounds-filter only after the initial programmatic fitting
+        // has settled, so it doesn't prematurely hide walks on load.
+        setTimeout(() => {
+            walksMap.invalidateSize();
+            fit();
+            setTimeout(() => {
+                walksMap.on('moveend', () => { boundsSync = true; applyBounds(); });
+            }, 300);
+        }, 90);
     }
 
     function updateCount(count) {
