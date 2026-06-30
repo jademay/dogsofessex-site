@@ -704,11 +704,14 @@
     "lat": 51.71180005,
     "lng": 0.4356048987,
     "dogFriendly": true,
-    "dogFriendlyNotes": "At the back of The Deli there is a dog-friendly courtyard. Dogs are not allowed inside the cafe.",
+    "dogFriendlyNotes": "Dogs are not allowed inside the Deli but around the corner there is a very dog-friendly courtyard. They have water bowls, dog treats and a small dog menu.",
     "dogAccess": [
-      "outside"
+      "outside",
+      "water-bowls",
+      "treats",
+      "dog-menu"
     ],
-    "lastChecked": "2026-06-24",
+    "lastChecked": "2026-06-30",
     "checkedBy": "Dogs of Essex",
     "verified": true,
     "partnerTier": "free",
