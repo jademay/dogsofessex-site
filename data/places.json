@@ -1270,5 +1270,39 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-white-hart-inn-mersea",
+    "name": "The White Hart Inn",
+    "type": "pub",
+    "lat": 51.77590229,
+    "lng": 0.9110190922,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed inside and outside. They generally only have room for two small dogs or one medium/large size dog per table, but always worth to talk to the pub to check this.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-30",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A cosy village pub in the heart of West Mersea serving lunch, dinner and drinks, with six guest rooms for overnight stays. Just a short walk from the beach, it's a great place to relax before or after exploring the island.",
+    "website": "https://whitehartinnmersea.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/J25AUSuVkYd8iMb66",
+    "phone": "01206 583212",
+    "email": "office@whitehartinnmersea.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/whitehartinnmersea/",
+      "facebook": "https://www.facebook.com/whitehartinnmersea/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
