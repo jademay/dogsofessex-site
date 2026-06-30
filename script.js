@@ -121,14 +121,21 @@ if (form) {
         const stuckMapTop = STICKY_TOP + (mapEl.offsetTop || 0);
         const cardDocCentre = card.top + window.scrollY + card.height / 2;
         let targetY = cardDocCentre - (stuckMapTop + map.height / 2);
-        // Never scroll up past the point where the map sticks, so for top cards
-        // the map stays stuck (centred/full-height) on the right rather than
-        // being pushed down by the filters. Measure the explorer (not the sticky
-        // column, which would report its already-stuck position).
+        // Keep the scroll within the range where the map stays stuck, so the
+        // map remains centred for both top and bottom cards (rather than being
+        // pushed down by the filters or scrolling up off the bottom). Measure
+        // the explorer (not the sticky column, which reports its stuck spot).
         const ref = mapEl.closest('.walks-explorer');
-        if (ref) {
-            const minStick = (ref.getBoundingClientRect().top + window.scrollY) - STICKY_TOP;
-            targetY = Math.max(minStick, targetY);
+        const colEl = mapEl.closest('.walks-map-col');
+        if (ref && colEl) {
+            const refRect = ref.getBoundingClientRect();
+            const refTop = refRect.top + window.scrollY;
+            const colH = colEl.getBoundingClientRect().height;
+            const minStick = refTop - STICKY_TOP;
+            const maxStick = refTop + refRect.height - colH - STICKY_TOP;
+            targetY = (maxStick > minStick)
+                ? Math.min(maxStick, Math.max(minStick, targetY))
+                : Math.max(minStick, targetY);
         }
         window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     };
