@@ -97,9 +97,28 @@ if (form) {
 
     const highlightMarker = (i, on) => { const m = walkMarkers[i]; if (m && m._icon) m._icon.classList.toggle('walk-map-pin--active', on); if (m && on) m.setZIndexOffset(1000); else if (m) m.setZIndexOffset(0); };
     const highlightCard = (i, on) => { const c = cards[i]; if (c) c.classList.toggle('is-map-active', on); };
-    const scrollToCard = (i, center) => {
+    // Scroll a card so its centre lines up with the vertical centre of the
+    // sticky map. Because the map is sticky, target the position it occupies
+    // once stuck (CSS top) rather than its current on-screen spot. force=true
+    // always recentres (click); otherwise only scrolls when the card is
+    // outside the map's vertical band (hover).
+    const STICKY_TOP = 84; // matches .walks-map-col { top: 84px }
+    const scrollToCard = (i, force) => {
         const c = cards[i];
-        if (c && c.style.display !== 'none') c.scrollIntoView({ behavior: 'smooth', block: center ? 'center' : 'nearest' });
+        if (!c || c.style.display === 'none') return;
+        if (!mapEl || window.innerWidth <= 900) {
+            if (force) c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        const map = mapEl.getBoundingClientRect();
+        const card = c.getBoundingClientRect();
+        if (!force) {
+            const offBand = card.bottom < map.top + 20 || card.top > map.bottom - 20;
+            if (!offBand) return;
+        }
+        const cardDocCentre = card.top + window.scrollY + card.height / 2;
+        const targetY = cardDocCentre - (STICKY_TOP + map.height / 2);
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     };
 
     if (mapEl && typeof L !== 'undefined') {
@@ -119,7 +138,7 @@ if (form) {
             });
             m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
             m.bindPopup('<div class="walk-pop"><strong>' + esc(name) + '</strong>' +
-                (href ? '<br><a href="' + esc(href) + '">View walk →</a>' : '') + '</div>');
+                (href ? '<br><a href="' + esc(href) + '">View walk →</a>' : '') + '</div>', { autoPan: false });
             m.on('mouseover', () => { highlightCard(i, true); scrollToCard(i, false); });
             m.on('mouseout', () => highlightCard(i, false));
             m.on('click', () => { scrollToCard(i, true); });
