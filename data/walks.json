@@ -798,13 +798,15 @@
         "name": "Pleasure Gardens Walk",
         "distance": "¾ mile (1.3 km)",
         "time": "30 mins",
-        "gpxFile": "data/gpx/hylands-park-writtle-pleasure-gardens-walk.gpx"
+        "gpxFile": "data/gpx/hylands-park-writtle-pleasure-gardens-walk.gpx",
+        "bestCarPark": "The Stables Visitor Centre Car Park"
       },
       {
         "name": "Repton's Walk",
         "distance": "2¼ miles (3.4 km)",
         "time": "1hr",
-        "gpxFile": "data/gpx/hylands-park-writtle-reptons-walk.gpx"
+        "gpxFile": "data/gpx/hylands-park-writtle-reptons-walk.gpx",
+        "bestCarPark": "London Road Car Park"
       },
       {
         "name": "Jubilee Walk",
@@ -816,17 +818,24 @@
         "name": "Lower Estate Walk",
         "distance": "2¾ miles (4.6 km)",
         "time": "1hr 45 mins",
-        "gpxFile": "data/gpx/hylands-park-writtle-lower-estate-walk.gpx"
+        "gpxFile": "data/gpx/hylands-park-writtle-lower-estate-walk.gpx",
+        "bestCarPark": "Writtle Car Park"
       },
       {
         "name": "Estate Boundary Walk",
         "distance": "4 miles (6.3 km)",
         "time": "2hrs 30 mins",
-        "gpxFile": "data/gpx/hylands-park-writtle-estate-boundary-walk.gpx"
+        "gpxFile": "data/gpx/hylands-park-writtle-estate-boundary-walk.gpx",
+        "bestCarPark": "London Road Car Park"
       }
     ],
     "route": {
       "parking": "There are three main parking areas spread across the estate's two entrance zones. Parking charges apply daily from 9:00 AM to 6:00 PM (including weekends and bank holidays) across all car parks at Hylands Estate. Gates open at 7:30 AM.",
+      "carParks": [
+        { "name": "Writtle Car Park" },
+        { "name": "The Stables Visitor Centre Car Park" },
+        { "name": "London Road Car Park" }
+      ],
       "localTip": "",
       "mapEmbed": ""
     },
