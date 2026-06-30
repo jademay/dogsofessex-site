@@ -1344,15 +1344,33 @@ h1, h2, h3 {
 .gpx-pin-end::before { top: auto; bottom: 100%; height: 32px; }
 .gpx-pin-wpt { bottom: 8px; background: #fff; font-size: 1rem; padding: 3px 5px; }
 .gpx-pin-wpt::before { height: 8px; }
-/* Car park pins: white by default, forest-green for the route's best one. */
+/* Car park pins sit to the RIGHT of their point (with a short leader line)
+   so they don't cover the Start/Finish badges that stack above/below it.
+   Multi-word names stack on separate lines to keep the pin narrow. */
 .gpx-pin-carpark {
-    bottom: 14px;
+    left: 14px;
+    bottom: auto;
+    top: 0;
+    transform: translateY(-50%);
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    line-height: 1.1;
+    text-align: center;
     background: #fff;
     color: var(--color-forest-dark);
-    gap: 0.3rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
-.gpx-pin-carpark::before { height: 14px; }
+.gpx-pin-carpark::before {
+    left: auto;
+    right: 100%;
+    top: 50%;
+    bottom: auto;
+    width: 14px;
+    height: 2px;
+    transform: translateY(-50%);
+}
+.gpx-pin-carpark .cp-name { display: flex; flex-direction: column; align-items: center; }
 .gpx-pin-carpark .lucide { width: 0.95em; height: 0.95em; flex-shrink: 0; }
 .gpx-pin-carpark.is-best { background: var(--color-forest-dark); color: #fff; }
 

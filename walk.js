@@ -301,10 +301,11 @@
         const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
         const cpMarkers = relevant.map((cp) => {
             const best = bestPark && cp.name === bestPark;
+            const words = String(cp.name).split(/\s+/).map((w) => '<span>' + escHtml(w) + '</span>').join('');
             return L.marker([cp.lat, cp.lng], {
                 icon: L.divIcon({
                     className: 'gpx-pin',
-                    html: '<span class="gpx-pin-badge gpx-pin-carpark' + (best ? ' is-best' : '') + '">' + P_SVG + '<span>' + escHtml(cp.name) + '</span></span>',
+                    html: '<span class="gpx-pin-badge gpx-pin-carpark' + (best ? ' is-best' : '') + '">' + P_SVG + '<span class="cp-name">' + words + '</span></span>',
                     iconSize: [0, 0], iconAnchor: [0, 0]
                 }),
                 zIndexOffset: best ? 1000 : 500
