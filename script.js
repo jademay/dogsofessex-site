@@ -116,8 +116,11 @@ if (form) {
             const offBand = card.bottom < map.top + 20 || card.top > map.bottom - 20;
             if (!offBand) return;
         }
+        // The map sits below its heading inside the sticky column, so its stuck
+        // top is the column's CSS top plus the map's offset within the column.
+        const stuckMapTop = STICKY_TOP + (mapEl.offsetTop || 0);
         const cardDocCentre = card.top + window.scrollY + card.height / 2;
-        const targetY = cardDocCentre - (STICKY_TOP + map.height / 2);
+        const targetY = cardDocCentre - (stuckMapTop + map.height / 2);
         window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     };
 

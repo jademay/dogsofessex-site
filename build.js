@@ -1218,14 +1218,13 @@ function walksIndexPage(walks) {
                 <div class="container">
                     <div class="walks-explorer">
                         <div class="walks-list-col">
-                            <p class="walks-count" id="walks-count" aria-live="polite"></p>
                             <div class="walk-grid walks-index-grid">${walks.map((w, i) => indexWalkCard(w, i)).join('')}
                             </div>
                             <p class="no-results" hidden>No walks match those filters yet - try fewer.</p>
                         </div>
                         <aside class="walks-map-col">
+                            <p class="walks-count" id="walks-count" aria-live="polite"></p>
                             <div id="walks-map" class="walks-map" aria-label="Map of all walks in Essex"></div>
-                            <p class="walks-map-hint">${icon('map-pin')} Hover or tap a pin. Zoom and pan to explore by area.</p>
                         </aside>
                     </div>
                 </div>
