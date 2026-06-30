@@ -1628,7 +1628,7 @@ h2 .lucide { vertical-align: -0.1em; }
     position: sticky;
     top: 84px;
     align-self: start;
-    height: calc(100vh - 108px);
+    height: 80vh;
     display: flex;
     flex-direction: column;
 }

@@ -150,8 +150,6 @@ if (form) {
                 keyboard: false // don't focus on click (avoids the browser scrolling it into view)
             });
             m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
-            m.bindPopup('<div class="walk-pop"><strong>' + esc(name) + '</strong>' +
-                (href ? '<br><a href="' + esc(href) + '">View walk →</a>' : '') + '</div>', { autoPan: false });
             m.on('mouseover', () => { highlightCard(i, true); scrollToCard(i, false); });
             m.on('mouseout', () => highlightCard(i, false));
             m.on('click', () => { scrollToCard(i, true); });
@@ -181,11 +179,14 @@ if (form) {
 
     function updateCount(count) {
         if (!countEl) return;
-        const total = catEligible.size;
+        const keys = [...selected];
         const noun = count === 1 ? 'walk' : 'walks';
-        countEl.textContent = (boundsSync && count < total)
-            ? 'Showing ' + count + ' ' + noun + ' in this area'
-            : 'Showing all ' + count + ' ' + noun;
+        const area = (boundsSync && count < catEligible.size) ? ' in this area' : '';
+        if (keys.length) {
+            countEl.textContent = keys.map((k) => LABELS[k]).join(' + ') + ' • ' + count + ' ' + noun + area;
+        } else {
+            countEl.textContent = 'Showing ' + count + ' ' + noun + area;
+        }
     }
 
     // Show/hide list cards by whether their marker is within the map's view
