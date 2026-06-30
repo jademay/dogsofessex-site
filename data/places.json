@@ -1199,5 +1199,39 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "valeries-tea-room-mersea",
+    "name": "Valeries Tea Room",
+    "type": "cafe",
+    "lat": 51.77590662,
+    "lng": 0.9099679,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome inside and out.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-30",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A cosy, family-run tea room in West Mersea serving homemade food, cakes and drinks. Dogs are welcome, and outdoor seating is available on sunny days.",
+    "website": "",
+    "mapsLink": "https://maps.app.goo.gl/a7TdmhNvHhPQFFQcA",
+    "phone": "01206 920482",
+    "email": "info@valeriestearoom.co.uk",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/profile.php?id=61558222266469",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
