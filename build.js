@@ -424,7 +424,6 @@ function heroHTML(walk) {
                     ${rating.count ? `<span class="rating-count">(${esc(rating.count)} reviews)</span>` : ''}
                 </div>` : '';
     return `
-                <p class="breadcrumb"><a href="../index.html">Home</a> · <a href="index.html">Walks</a> · ${esc(walk.name)}</p>
                 <h1>${esc(walk.name)}</h1>${ratingBlock}
                 ${metaLine ? `<p class="meta-line">${esc(metaLine)}</p>` : ''}
                 ${badges ? `<div class="walk-chips">${badges}</div>` : ''}`;
@@ -506,9 +505,10 @@ function glanceHTML(items, explain) {
     if (!items || !items.length) return '';
     return items.map((row) => {
         const scale = explain && RATING_SCALES[row.label];
+        const display = row.label === 'Low Mud' ? 'Mud' : row.label;
         const feature = scale
-            ? `<button type="button" class="glance-feature gl-toggle" aria-expanded="false">${esc(row.label)}</button>`
-            : `<span class="glance-feature">${esc(row.label)}</span>`;
+            ? `<button type="button" class="glance-feature gl-toggle" aria-expanded="false">${esc(display)}</button>`
+            : `<span class="glance-feature">${esc(display)}</span>`;
         const explainBlock = scale ? `
                             <div class="glance-explain" hidden>
                                 <p class="glance-explain-title">How we rate this</p>
@@ -645,20 +645,20 @@ function gettingThereInner(walk) {
     const parts = [];
     const carParks = Array.isArray(r.carParks) ? r.carParks.filter((cp) => cp && cp.name) : [];
     if (carParks.length) {
-        parts.push(`<p><strong>Parking &amp; directions.</strong>${r.parking ? ' ' + esc(r.parking) : ''}</p>`);
+        parts.push(`<p class="parking-lead"><strong>Parking &amp; directions.</strong>${r.parking ? ' ' + esc(r.parking) : ''}</p>`);
         parts.push(`<div class="car-park-cards">${carParks.map((cp, i) =>
             `<div class="cp-card${cp.recommended ? ' is-recommended' : ''}" data-cp-name="${esc(cp.name)}">
                         <div class="cp-card-head">
                             <span class="cp-num">${i + 1}</span>
                             ${icon('square-parking')}
                             <span class="cp-card-name">${esc(cp.name)}</span>
-                            ${cp.recommended ? '<span class="cp-rec">★ Recommended</span>' : ''}
                         </div>${cp.info ? `
-                        <p class="cp-card-info">${esc(cp.info)}</p>` : ''}
+                        <p class="cp-card-info">${esc(cp.info)}</p>` : ''}${cp.recommended ? `
+                        <span class="cp-rec">★ Recommended</span>` : ''}
                     </div>`
         ).join('')}</div>`);
     } else if (r.parking) {
-        parts.push(`<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
+        parts.push(`<p class="parking-lead"><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
     }
     // If car parks have coordinates, show them all on an interactive map (the
     // Google embed can't plot multiple pins); otherwise fall back to the embed.
@@ -1129,6 +1129,11 @@ function page(walk, walks, places, tips) {
 
     <main>
         <section class="walk-hero${heroAttrs}>
+            <div class="walk-hero-top">
+                <div class="container">
+                    <p class="breadcrumb"><a href="../index.html">Home</a> · <a href="index.html">Walks</a> · ${esc(walk.name)}</p>
+                </div>
+            </div>
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
             </div>
             <div class="hero-actions">

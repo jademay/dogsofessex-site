@@ -841,6 +841,15 @@ h1, h2, h3 {
     .hero-actions { right: 1rem; bottom: 1rem; }
 }
 
+.walk-hero-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    padding-top: 1.1rem;
+}
+.walk-hero-top .breadcrumb { margin: 0; }
 .breadcrumb {
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.8);
@@ -1278,8 +1287,8 @@ h1, h2, h3 {
 .route-card-body {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    padding: 1rem 1.1rem 1.15rem;
+    gap: 0.4rem;
+    padding: 1.25rem 1.1rem 1.4rem;
     flex: 1;
 }
 .route-card-name { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 1.05rem; }
@@ -1309,6 +1318,8 @@ h1, h2, h3 {
     border-radius: var(--radius);
     background: var(--color-card);
     padding: 0.8rem 0.9rem;
+    display: flex;
+    flex-direction: column;
 }
 .cp-card.is-recommended {
     border-color: var(--color-moss);
@@ -1339,7 +1350,8 @@ h1, h2, h3 {
 }
 .cp-card-name { font-weight: 600; }
 .cp-rec {
-    margin-left: auto;
+    align-self: flex-end;
+    margin-top: 0.7rem;
     font-size: 0.72rem;
     font-weight: 600;
     color: var(--color-forest-dark);
@@ -1597,13 +1609,20 @@ h2 .lucide { vertical-align: -0.1em; }
 #save-walk.is-saved .lucide { fill: currentColor; }
 
 /* Section rhythm on walk pages */
-.walk-section { padding: 2.75rem 0; }
+.walk-section { padding: 3.5rem 0; }
 .walk-section > .container > h2,
 .walk-section > h2,
 .walk-main h2 { scroll-margin-top: 90px; }
 .walk-section h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); margin-bottom: 0.4rem; }
 .section-lead { color: var(--color-muted); margin-bottom: 1.6rem; }
-.walk-section.section-alt { padding: 3.5rem 0; }
+.walk-section.section-alt { padding: 4.25rem 0; }
+
+/* A little breathing room around the "Parking & directions" line */
+.parking-lead { margin: 0.6rem 0 1.2rem; }
+
+/* Space out the "What to expect" paragraphs */
+#what-to-expect p { margin: 0 0 1.1rem; }
+#what-to-expect p:last-child { margin-bottom: 0; }
 
 /* At a glance */
 .glance {
