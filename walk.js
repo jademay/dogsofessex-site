@@ -27,27 +27,30 @@
         if (!el || typeof L === 'undefined') return;
         const carParks = Array.isArray(window.WALK_CARPARKS) ? window.WALK_CARPARKS : [];
         if (!carParks.length) { el.remove(); return; }
-        const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-        const P_SVG = '<svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>';
+        const P_SVG = '<svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>';
         const map = L.map(el, { scrollWheelZoom: false });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        // Compact circular "P" markers so close-together car parks stay distinct;
+        // the name shows on hover/tap (and is listed above the map).
         const latlngs = [];
         carParks.forEach((cp) => {
-            const words = String(cp.name).split(/\s+/).map((w) => '<span>' + escHtml(w) + '</span>').join('');
-            L.marker([cp.lat, cp.lng], {
+            const m = L.marker([cp.lat, cp.lng], {
                 icon: L.divIcon({
-                    className: 'gpx-pin',
-                    html: '<span class="gpx-pin-badge gpx-pin-carpark">' + P_SVG + '<span class="cp-name">' + words + '</span></span>',
-                    iconSize: [0, 0], iconAnchor: [0, 0]
-                })
+                    className: 'cp-pin',
+                    html: P_SVG,
+                    iconSize: [30, 30], iconAnchor: [15, 15]
+                }),
+                title: cp.name,
+                riseOnHover: true
             }).addTo(map);
+            m.bindTooltip(cp.name, { direction: 'top', offset: [0, -14], opacity: 1 });
             latlngs.push([cp.lat, cp.lng]);
         });
         if (latlngs.length === 1) map.setView(latlngs[0], 15);
-        else map.fitBounds(latlngs, { padding: [60, 60] });
+        else map.fitBounds(latlngs, { padding: [45, 45] });
         setTimeout(() => map.invalidateSize(), 60);
     }
 

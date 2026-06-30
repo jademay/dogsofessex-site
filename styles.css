@@ -1166,6 +1166,20 @@ h1, h2, h3 {
     gap: 0.35rem;
 }
 .carparks-map-link .lucide { color: var(--color-moss); }
+/* Compact car park markers on the overview map */
+.cp-pin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--color-forest-dark);
+    color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+}
+.cp-pin .lucide { width: 17px; height: 17px; }
 
 /* Route assets: overview image (top of page), interactive map, GPX download */
 .route-overview {
