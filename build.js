@@ -988,8 +988,11 @@ function page(walk, walks, places, tips) {
     const seo = walk.seo || {};
     // First walk photo (if any) becomes the hero background behind the header.
     const heroImgs = walkImages(walk);
+    // Optional per-walk vertical framing of the hero photo (CSS background-position
+    // Y, e.g. "25%" or "top"). Lower % shows more of the top (sky); default centre.
+    const heroPos = walk.heroFocus ? `;background-position:center ${esc(walk.heroFocus)}` : '';
     const heroAttrs = heroImgs.length
-        ? ` has-photo" style="background-image:url('../${esc(heroImgs[0])}')"`
+        ? ` has-photo" style="background-image:url('../${esc(heroImgs[0])}')${heroPos}"`
         : '"';
     const title = seo.title || `${walk.name} | Dogs of Essex`;
     const description = seo.description || walk.intro || '';

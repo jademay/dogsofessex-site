@@ -724,6 +724,7 @@
     "lng": 0.4315194437,
     "town": "Writtle",
     "emoji": "🌷",
+    "heroFocus": "25%",
     "routeType": "Multiple routes",
     "terrain": "Woodland, lake, gardens, parkland",
     "mud": "Low",
