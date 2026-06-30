@@ -632,7 +632,7 @@ function carParksScript(walk) {
     const r = walk.route || {};
     const cps = (Array.isArray(r.carParks) ? r.carParks : [])
         .filter((cp) => cp && cp.name && cp.lat != null && cp.lng != null)
-        .map((cp) => ({ name: cp.name, lat: cp.lat, lng: cp.lng }));
+        .map((cp) => ({ name: cp.name, lat: cp.lat, lng: cp.lng, recommended: !!cp.recommended }));
     return cps.length ? ` window.WALK_CARPARKS = ${JSON.stringify(cps)};` : '';
 }
 
@@ -646,9 +646,17 @@ function gettingThereInner(walk) {
     const carParks = Array.isArray(r.carParks) ? r.carParks.filter((cp) => cp && cp.name) : [];
     if (carParks.length) {
         parts.push(`<p><strong>Parking &amp; directions.</strong>${r.parking ? ' ' + esc(r.parking) : ''}</p>`);
-        parts.push(`<ul class="car-park-list">${carParks.map((cp) =>
-            `<li>${icon('square-parking')} <span><strong>${esc(cp.name)}.</strong>${cp.info ? ' ' + esc(cp.info) : ''}</span></li>`
-        ).join('')}</ul>`);
+        parts.push(`<div class="car-park-cards">${carParks.map((cp, i) =>
+            `<div class="cp-card${cp.recommended ? ' is-recommended' : ''}">
+                        <div class="cp-card-head">
+                            <span class="cp-num">${i + 1}</span>
+                            ${icon('square-parking')}
+                            <span class="cp-card-name">${esc(cp.name)}</span>
+                            ${cp.recommended ? '<span class="cp-rec">★ Recommended</span>' : ''}
+                        </div>${cp.info ? `
+                        <p class="cp-card-info">${esc(cp.info)}</p>` : ''}
+                    </div>`
+        ).join('')}</div>`);
     } else if (r.parking) {
         parts.push(`<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
     }

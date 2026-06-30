@@ -1178,8 +1178,8 @@ h1, h2, h3 {
     color: #fff;
     border: 2px solid #fff;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+    font: 600 0.9rem/1 'Inter', system-ui, sans-serif;
 }
-.cp-pin .lucide { width: 17px; height: 17px; }
 
 /* Route assets: overview image (top of page), interactive map, GPX download */
 .route-overview {
@@ -1272,17 +1272,51 @@ h1, h2, h3 {
 .route-card-park .lucide { color: var(--color-moss); flex-shrink: 0; }
 .route-card-notes { margin: 0.15rem 0 0; font-size: 0.9rem; }
 
-/* Multiple car parks in the "Getting there" section */
-.car-park-list {
-    list-style: none;
-    padding: 0;
+/* Car park cards in the "Getting there" section */
+.car-park-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
     margin: 0 0 1.1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
 }
-.car-park-list li { display: flex; gap: 0.5rem; line-height: 1.5; }
-.car-park-list .lucide { color: var(--color-moss); flex-shrink: 0; margin-top: 0.2em; }
+.cp-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-card);
+    padding: 0.8rem 0.9rem;
+}
+.cp-card.is-recommended {
+    border-color: var(--color-moss);
+    box-shadow: inset 0 0 0 1px var(--color-moss);
+}
+.cp-card-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.cp-card-head .lucide { color: var(--color-moss); flex-shrink: 0; }
+.cp-num {
+    flex-shrink: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--color-forest-dark);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.cp-card-name { font-weight: 600; }
+.cp-rec {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--color-forest-dark);
+    background: #F3E7C8;
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
+}
+.cp-card-info { margin: 0.45rem 0 0; font-size: 0.9rem; color: var(--color-muted); }
+.cp-pin--rec { background: var(--color-terracotta); }
 .route-card-link {
     margin-top: auto;
     align-self: flex-start;

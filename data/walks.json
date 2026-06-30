@@ -515,7 +515,7 @@
         "name": "The Esplanade Beach Walk",
         "distance": "2.3 miles",
         "gpxFile": "data/gpx/west-mersea-island-esplanade-beach-walk.gpx",
-        "bestCarPark": "Victoria Esplanade Parking"
+        "bestCarPark": "Victoria Esplanade"
       },
       {
         "name": "East Road to Waldegraves Walk",
@@ -531,29 +531,30 @@
       }
     ],
     "route": {
-      "parking": "There are two main car parks that are a little expensive and fill up on hot days. But if you get there early, you will be able to get a space.",
+      "parking": "There are several parking options around West Mersea. The two main seafront car parks can fill up on warm days, so arriving early is recommended.",
       "carParks": [
         {
-          "name": "Victoria Esplanade Parking",
-          "info": "Right by the seafront, closest to the beach and esplanade.",
+          "name": "Victoria Esplanade",
+          "info": "Right on the seafront and the closest parking for the beach and Esplanade.",
+          "recommended": true,
           "lat": 51.77413065966831,
           "lng": 0.9284653351260843
         },
         {
-          "name": "Willoughby Avenue Car Park",
-          "info": "A short walk from the front - a handy alternative when the Esplanade is full.",
+          "name": "Willoughby Avenue",
+          "info": "A short walk from the seafront. A good alternative when Victoria Esplanade is full.",
           "lat": 51.775008207229,
           "lng": 0.9254633470565019
         },
         {
           "name": "Coast Road",
-          "info": "Near the Strood, handy for the western walks.",
+          "info": "Best for the western walks and access near the Strood.",
           "lat": 51.77925916851767,
           "lng": 0.8988851146201581
         },
         {
           "name": "The Fox Inn",
-          "info": "At the eastern end of the island, by the vineyard and Waldegraves.",
+          "info": "Ideal for the eastern end of the island, Waldegraves and the vineyard.",
           "lat": 51.78372391216395,
           "lng": 0.9347552338342258
         }
