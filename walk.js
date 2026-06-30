@@ -17,7 +17,39 @@
         wireGlance();
         wireRoutes();
         wireImprove();
+        wireCarparksMap();
     });
+
+    // "Getting there" overview map: plot every car park (with coordinates) so
+    // visitors can see all parking options at once.
+    function wireCarparksMap() {
+        const el = document.getElementById('carparks-map');
+        if (!el || typeof L === 'undefined') return;
+        const carParks = Array.isArray(window.WALK_CARPARKS) ? window.WALK_CARPARKS : [];
+        if (!carParks.length) { el.remove(); return; }
+        const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const P_SVG = '<svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>';
+        const map = L.map(el, { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        const latlngs = [];
+        carParks.forEach((cp) => {
+            const words = String(cp.name).split(/\s+/).map((w) => '<span>' + escHtml(w) + '</span>').join('');
+            L.marker([cp.lat, cp.lng], {
+                icon: L.divIcon({
+                    className: 'gpx-pin',
+                    html: '<span class="gpx-pin-badge gpx-pin-carpark">' + P_SVG + '<span class="cp-name">' + words + '</span></span>',
+                    iconSize: [0, 0], iconAnchor: [0, 0]
+                })
+            }).addTo(map);
+            latlngs.push([cp.lat, cp.lng]);
+        });
+        if (latlngs.length === 1) map.setView(latlngs[0], 15);
+        else map.fitBounds(latlngs, { padding: [60, 60] });
+        setTimeout(() => map.invalidateSize(), 60);
+    }
 
     // --- Help improve this walk ---
     // Four contribution types, each opening the same form pre-set to that type.

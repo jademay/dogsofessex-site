@@ -653,7 +653,17 @@ function gettingThereInner(walk) {
         parts.push(`<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
     }
     if (r.localTip) parts.push(`<p class="local-tip">${icon('lightbulb')} <strong>Local tip:</strong> ${esc(r.localTip)}</p>`);
-    if (mapSrc) parts.push(`<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
+    // If car parks have coordinates, show them all on an interactive map (the
+    // Google embed can't plot multiple pins); otherwise fall back to the embed.
+    const mappedCarParks = carParks.filter((cp) => cp.lat != null && cp.lng != null);
+    if (mappedCarParks.length) {
+        const gmaps = (walk.lat != null && walk.lng != null)
+            ? `https://www.google.com/maps?q=${walk.lat},${walk.lng}` : '';
+        parts.push(`<div class="carparks-map" id="carparks-map"></div>${gmaps
+            ? `\n                    <p class="carparks-map-link"><a href="${esc(gmaps)}" target="_blank" rel="noopener">${icon('map-pin')} Open in Google Maps for directions</a></p>` : ''}`);
+    } else if (mapSrc) {
+        parts.push(`<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
+    }
     if (!parts.length) return '';
     return `<h2>${icon('map-pin')} Getting there</h2>
                     ${parts.join('\n                    ')}`;
@@ -1010,7 +1020,8 @@ function page(walk, walks, places, tips) {
         ogImage ? `<meta name="twitter:image" content="${esc(ogImage)}">` : ''
     ].filter(Boolean).join('\n    ');
     // Leaflet + leaflet-gpx are only loaded on pages that have a GPX track.
-    const needsMap = !!walk.gpxFile || (walk.routes || []).some(function (r) { return r.gpxFile; });
+    const needsMap = !!walk.gpxFile || (walk.routes || []).some(function (r) { return r.gpxFile; })
+        || ((walk.route && walk.route.carParks) || []).some(function (cp) { return cp && cp.lat != null && cp.lng != null; });
     const mapHead = needsMap
         ? `\n    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">`
         : '';
