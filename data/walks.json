@@ -778,6 +778,21 @@
         "score": 4
       }
     ],
+    "gallery": [
+      { "image": "", "caption": "Hylands House" },
+      { "image": "", "caption": "Visitors walking towards Hylands House" },
+      { "image": "", "caption": "Open parkland" },
+      { "image": "", "caption": "Tall woodland trees" },
+      { "image": "", "caption": "Poppy exploring the woodland" },
+      { "image": "", "caption": "Poppy by the woodland pond" },
+      { "image": "", "caption": "Sheep grazing beside the woodland" },
+      { "image": "", "caption": "Pleasure Gardens trellis and pond" },
+      { "image": "", "caption": "Sundial in the Pleasure Gardens" },
+      { "image": "", "caption": "Poppy posing in the Pleasure Gardens" },
+      { "image": "", "caption": "Writtle car park" },
+      { "image": "", "caption": "Writtle car park - Visitor information board" },
+      { "image": "", "caption": "Writtle car park - Map" }
+    ],
     "routes": [
       {
         "name": "Pleasure Gardens Walk",
