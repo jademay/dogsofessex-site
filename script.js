@@ -91,7 +91,9 @@ if (form) {
     let walksMap = null;
     const walkMarkers = [];
     if (mapEl && typeof L !== 'undefined') {
-        walksMap = L.map(mapEl, { scrollWheelZoom: false });
+        // zoomSnap: 0 lets fitBounds hug the pins instead of snapping down a
+        // whole zoom level and leaving slack around them.
+        walksMap = L.map(mapEl, { scrollWheelZoom: false, zoomSnap: 0 });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -111,8 +113,8 @@ if (form) {
             walkMarkers.push(m);
         });
         const pts = walkMarkers.filter(Boolean).map((m) => m.getLatLng());
-        if (pts.length) walksMap.fitBounds(pts, { padding: [30, 30] });
-        setTimeout(() => walksMap.invalidateSize(), 80);
+        if (pts.length) walksMap.fitBounds(pts, { padding: [18, 18] });
+        setTimeout(() => { walksMap.invalidateSize(); walksMap.fitBounds(pts, { padding: [18, 18] }); }, 80);
     }
     const updateMapMarkers = () => {
         if (!walksMap) return;
