@@ -800,7 +800,7 @@
         "distance": "¾ mile (1.3 km)",
         "time": "30 mins",
         "gpxFile": "data/gpx/hylands-park-writtle-pleasure-gardens-walk.gpx",
-        "bestCarPark": "The Stables Visitor Centre Car Park"
+        "bestCarPark": "The Stables Visitor Centre"
       },
       {
         "name": "Repton's Walk",
@@ -833,9 +833,25 @@
     "route": {
       "parking": "There are three main parking areas spread across the estate's two entrance zones. Parking charges apply daily from 9:00 AM to 6:00 PM (including weekends and bank holidays) across all car parks at Hylands Estate. Gates open at 7:30 AM.",
       "carParks": [
-        { "name": "Writtle Car Park" },
-        { "name": "The Stables Visitor Centre Car Park" },
-        { "name": "London Road Car Park" }
+        {
+          "name": "Writtle Car Park",
+          "info": "Largest car park, ideal for the Adventure Playground, Go Ape and the western side of the estate.",
+          "lat": 51.71663551844991,
+          "lng": 0.4315149531007411
+        },
+        {
+          "name": "The Stables Visitor Centre",
+          "info": "Closest parking for Hylands House, The Stables, The Deli café and the Pleasure Gardens.",
+          "recommended": true,
+          "lat": 51.71174513654936,
+          "lng": 0.43395143633371697
+        },
+        {
+          "name": "London Road Car Park",
+          "info": "A quieter option with good access to Hylands House and the surrounding parkland.",
+          "lat": 51.709701231128605,
+          "lng": 0.44110287426773326
+        }
       ],
       "localTip": "",
       "mapEmbed": ""
