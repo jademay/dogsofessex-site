@@ -47,6 +47,10 @@
                 zIndexOffset: cp.recommended ? 1000 : 0
             }).addTo(map);
             m.bindTooltip((i + 1) + '. ' + cp.name, { direction: 'top', offset: [0, -14], opacity: 1 });
+            // Click a marker to open that car park in Google Maps.
+            m.on('click', () => {
+                window.open('https://www.google.com/maps/search/?api=1&query=' + cp.lat + ',' + cp.lng, '_blank', 'noopener');
+            });
             latlngs.push([cp.lat, cp.lng]);
         });
         if (latlngs.length === 1) map.setView(latlngs[0], 15);

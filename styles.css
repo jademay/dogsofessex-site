@@ -1167,7 +1167,9 @@ h1, h2, h3 {
 }
 .carparks-map-link .lucide { color: var(--color-moss); }
 /* Compact car park markers on the overview map */
-.cp-pin {
+/* Scoped with the map id so these win over Leaflet's own .leaflet-div-icon
+   rules (Leaflet's CSS loads after styles.css), keeping the number centred. */
+#carparks-map .cp-pin {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1178,7 +1180,9 @@ h1, h2, h3 {
     color: #fff;
     border: 2px solid #fff;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
-    font: 600 0.9rem/1 'Inter', system-ui, sans-serif;
+    font: 600 0.95rem/30px 'Inter', system-ui, sans-serif;
+    text-align: center;
+    cursor: pointer;
 }
 
 /* Route assets: overview image (top of page), interactive map, GPX download */
@@ -1316,7 +1320,7 @@ h1, h2, h3 {
     white-space: nowrap;
 }
 .cp-card-info { margin: 0.45rem 0 0; font-size: 0.9rem; color: var(--color-muted); }
-.cp-pin--rec { background: var(--color-terracotta); }
+#carparks-map .cp-pin--rec { background: var(--color-terracotta); }
 .route-card-link {
     margin-top: auto;
     align-self: flex-start;

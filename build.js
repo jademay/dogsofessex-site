@@ -665,10 +665,8 @@ function gettingThereInner(walk) {
     // Google embed can't plot multiple pins); otherwise fall back to the embed.
     const mappedCarParks = carParks.filter((cp) => cp.lat != null && cp.lng != null);
     if (mappedCarParks.length) {
-        const gmaps = (walk.lat != null && walk.lng != null)
-            ? `https://www.google.com/maps?q=${walk.lat},${walk.lng}` : '';
-        parts.push(`<div class="carparks-map" id="carparks-map"></div>${gmaps
-            ? `\n                    <p class="carparks-map-link"><a href="${esc(gmaps)}" target="_blank" rel="noopener">${icon('map-pin')} Open in Google Maps for directions</a></p>` : ''}`);
+        parts.push(`<div class="carparks-map" id="carparks-map"></div>
+                    <p class="carparks-map-link">${icon('map-pin')} Click a car park above to open it in Google Maps</p>`);
     } else if (mapSrc) {
         parts.push(`<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
     }
