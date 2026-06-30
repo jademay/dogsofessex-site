@@ -834,17 +834,17 @@
       "parking": "There are three main parking areas spread across the estate's two entrance zones. Parking charges apply daily from 9:00 AM to 6:00 PM (including weekends and bank holidays) across all car parks at Hylands Estate. Gates open at 7:30 AM.",
       "carParks": [
         {
-          "name": "Writtle Car Park",
-          "info": "Largest car park, ideal for the Adventure Playground, Go Ape and the western side of the estate.",
-          "lat": 51.71663551844991,
-          "lng": 0.4315149531007411
-        },
-        {
           "name": "The Stables Visitor Centre",
           "info": "Closest parking for Hylands House, The Stables, The Deli café and the Pleasure Gardens.",
           "recommended": true,
           "lat": 51.71174513654936,
           "lng": 0.43395143633371697
+        },
+        {
+          "name": "Writtle Car Park",
+          "info": "Largest car park, ideal for the Adventure Playground, Go Ape and the western side of the estate.",
+          "lat": 51.71663551844991,
+          "lng": 0.4315149531007411
         },
         {
           "name": "London Road Car Park",

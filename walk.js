@@ -34,6 +34,7 @@
         }).addTo(map);
         // Numbered circular markers matching the car park cards above; the name
         // shows on hover/tap. Compact so close-together car parks stay distinct.
+        const openInMaps = (cp) => window.open('https://www.google.com/maps/search/?api=1&query=' + cp.lat + ',' + cp.lng, '_blank', 'noopener');
         const latlngs = [];
         const markers = [];
         carParks.forEach((cp, i) => {
@@ -47,11 +48,9 @@
                 riseOnHover: true,
                 zIndexOffset: cp.recommended ? 1000 : 0
             }).addTo(map);
-            m.bindTooltip((i + 1) + '. ' + cp.name, { direction: 'top', offset: [0, -14], opacity: 1 });
+            m.bindTooltip(cp.name, { direction: 'top', offset: [0, -14], opacity: 1 });
             // Click a marker to open that car park in Google Maps.
-            m.on('click', () => {
-                window.open('https://www.google.com/maps/search/?api=1&query=' + cp.lat + ',' + cp.lng, '_blank', 'noopener');
-            });
+            m.on('click', () => openInMaps(cp));
             markers.push(m);
             latlngs.push([cp.lat, cp.lng]);
         });
@@ -59,7 +58,8 @@
         else map.fitBounds(latlngs, { padding: [45, 45] });
         setTimeout(() => map.invalidateSize(), 60);
 
-        // Link cards and markers: hovering/tapping one highlights the other.
+        // Link cards and markers: hovering one highlights the other, clicking
+        // either opens that car park in Google Maps.
         const cardByName = {};
         document.querySelectorAll('.cp-card[data-cp-name]').forEach((card) => {
             cardByName[card.getAttribute('data-cp-name')] = card;
@@ -77,7 +77,7 @@
             if (card) {
                 card.addEventListener('mouseenter', () => setActive(i, true));
                 card.addEventListener('mouseleave', () => setActive(i, false));
-                card.addEventListener('click', () => setActive(i, true));
+                card.addEventListener('click', () => openInMaps(cp));
             }
             const m = markers[i];
             if (m) {
