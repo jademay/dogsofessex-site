@@ -1233,5 +1233,39 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-coast-inn-west-mersea",
+    "name": "The Coast Inn",
+    "type": "pub",
+    "lat": 51.77827969,
+    "lng": 0.8997088204,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome inside and out.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-06-30",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A welcoming riverside pub and restaurant overlooking the Blackwater Estuary, serving breakfast, lunch and dinner using fresh local produce. Famous for its seafood, homemade dishes and estuary views, The Coast Inn also offers customer parking and dog-friendly outdoor seating.",
+    "website": "https://thecoastinn.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/M1YDoMs3T33jExQf6",
+    "phone": "01206 383568",
+    "email": "info@thecoastinn.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/thecoastinn/",
+      "facebook": "https://www.facebook.com/TheCoastInn/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
