@@ -306,7 +306,7 @@ h1, h2, h3 {
     flex-direction: column;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .walk-card:hover {
@@ -1608,10 +1608,27 @@ h2 .lucide { vertical-align: -0.1em; }
 .walk-actions .btn { display: inline-flex; align-items: center; gap: 0.45em; }
 #save-walk.is-saved .lucide { fill: currentColor; }
 
-/* Map of all walks on the walks index */
-.walks-map-section { padding-top: 0; }
+/* Walks explorer: scrolling card list (left) + sticky map (right) */
+.walks-explorer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.75rem;
+    align-items: start;
+}
+.walks-count {
+    margin: 0 0 1rem;
+    font: 600 1.05rem/1.4 'Inter', system-ui, sans-serif;
+    color: var(--color-forest);
+}
+.walks-explorer .walks-index-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+.walks-map-col {
+    position: sticky;
+    top: 84px;
+    align-self: start;
+    height: calc(100vh - 108px);
+}
 .walks-map {
-    height: 460px;
+    height: 100%;
     border-radius: var(--radius);
     overflow: hidden;
     border: 1px solid var(--color-border);
@@ -1620,8 +1637,8 @@ h2 .lucide { vertical-align: -0.1em; }
     z-index: 0;
 }
 .walks-map-hint {
-    margin: 0.65rem 0 0;
-    font-size: 0.9rem;
+    margin: 0.55rem 0 0;
+    font-size: 0.85rem;
     color: var(--color-muted);
     display: flex;
     align-items: center;
@@ -1639,9 +1656,26 @@ h2 .lucide { vertical-align: -0.1em; }
     cursor: pointer;
     transition: transform 0.12s ease, background-color 0.12s ease;
 }
-.walk-map-pin span:hover {
+.walk-map-pin span:hover,
+.walk-map-pin--active span {
     background: var(--color-terracotta);
-    transform: scale(1.25);
+    transform: scale(1.5);
+}
+.walks-index-grid .walk-card.is-map-active {
+    border-color: var(--color-terracotta);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+.walk-pop { text-align: center; font-size: 0.9rem; }
+.walk-pop a { color: var(--color-forest-dark); font-weight: 600; }
+@media (max-width: 900px) {
+    .walks-explorer { grid-template-columns: 1fr; }
+    .walks-map-col {
+        position: static;
+        height: 320px;
+        order: -1;
+        margin-bottom: 1.5rem;
+    }
 }
 
 /* Section rhythm on walk pages */

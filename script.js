@@ -85,20 +85,30 @@ if (form) {
         return list.sort((a, b) => num(a, 'order') - num(b, 'order'));
     }
 
-    // Map of all walks: a pin per card, linking to its page; kept in sync with
-    // the filters so the map shows exactly the walks listed below.
+    // --- Map of all walks (Airbnb-style): sticky map + scrolling cards, with
+    // two-way hover/click sync and a list that filters to the map's view. ---
     const mapEl = document.getElementById('walks-map');
+    const countEl = document.getElementById('walks-count');
     let walksMap = null;
     const walkMarkers = [];
+    const catEligible = new Set();   // cards passing the category filters
+    let boundsSync = false;          // only filter the list to the map after the user moves the map
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    const highlightMarker = (i, on) => { const m = walkMarkers[i]; if (m && m._icon) m._icon.classList.toggle('walk-map-pin--active', on); if (m && on) m.setZIndexOffset(1000); else if (m) m.setZIndexOffset(0); };
+    const highlightCard = (i, on) => { const c = cards[i]; if (c) c.classList.toggle('is-map-active', on); };
+    const scrollToCard = (i, center) => {
+        const c = cards[i];
+        if (c && c.style.display !== 'none') c.scrollIntoView({ behavior: 'smooth', block: center ? 'center' : 'nearest' });
+    };
+
     if (mapEl && typeof L !== 'undefined') {
-        // zoomSnap: 0 lets fitBounds hug the pins instead of snapping down a
-        // whole zoom level and leaving slack around them.
-        walksMap = L.map(mapEl, { scrollWheelZoom: false, zoomSnap: 0 });
+        walksMap = L.map(mapEl, { zoomSnap: 0, scrollWheelZoom: true });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(walksMap);
-        cards.forEach((card) => {
+        cards.forEach((card, i) => {
             const lat = parseFloat(card.dataset.lat), lng = parseFloat(card.dataset.lng);
             if (!isFinite(lat) || !isFinite(lng)) { walkMarkers.push(null); return; }
             const name = (card.querySelector('h3') ? card.querySelector('h3').textContent : '').trim();
@@ -107,64 +117,89 @@ if (form) {
                 icon: L.divIcon({ className: 'walk-map-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] }),
                 title: name
             });
-            m.bindTooltip(name, { direction: 'top', offset: [0, -8], opacity: 1 });
-            if (href) m.on('click', () => { window.location.href = href; });
-            m.addTo(walksMap);
+            m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
+            m.bindPopup('<div class="walk-pop"><strong>' + esc(name) + '</strong>' +
+                (href ? '<br><a href="' + esc(href) + '">View walk →</a>' : '') + '</div>');
+            m.on('mouseover', () => { highlightCard(i, true); scrollToCard(i, false); });
+            m.on('mouseout', () => highlightCard(i, false));
+            m.on('click', () => { scrollToCard(i, true); });
             walkMarkers.push(m);
         });
-        const pts = walkMarkers.filter(Boolean).map((m) => m.getLatLng());
-        if (pts.length) walksMap.fitBounds(pts, { padding: [18, 18] });
-        setTimeout(() => { walksMap.invalidateSize(); walksMap.fitBounds(pts, { padding: [18, 18] }); }, 80);
-    }
-    const updateMapMarkers = () => {
-        if (!walksMap) return;
+        // Hovering a card grows/colours its marker.
         cards.forEach((card, i) => {
-            const m = walkMarkers[i];
-            if (!m) return;
-            const visible = card.style.display !== 'none';
-            if (visible && !walksMap.hasLayer(m)) m.addTo(walksMap);
-            else if (!visible && walksMap.hasLayer(m)) walksMap.removeLayer(m);
+            if (!walkMarkers[i]) return;
+            card.addEventListener('mouseenter', () => highlightMarker(i, true));
+            card.addEventListener('mouseleave', () => highlightMarker(i, false));
         });
-    };
+        const fit = () => {
+            const pts = walkMarkers.filter(Boolean).map((m) => m.getLatLng());
+            if (pts.length) walksMap.fitBounds(pts, { padding: [22, 22] });
+        };
+        fit();
+        setTimeout(() => { walksMap.invalidateSize(); fit(); }, 90);
+        // Once the user drives the map, filter the list to what's in view.
+        walksMap.on('movestart', () => { boundsSync = true; });
+        walksMap.on('moveend', () => applyBounds());
+    }
 
-    function apply() {
+    function updateCount(count) {
+        if (!countEl) return;
+        const total = catEligible.size;
+        const noun = count === 1 ? 'walk' : 'walks';
+        countEl.textContent = (boundsSync && count < total)
+            ? 'Showing ' + count + ' ' + noun + ' in this area'
+            : 'Showing all ' + count + ' ' + noun;
+    }
+
+    // Show/hide list cards by whether their marker is within the map's view
+    // (among the category-eligible ones); keeps map markers and list in sync.
+    function applyBounds() {
+        const b = (boundsSync && walksMap) ? walksMap.getBounds() : null;
+        const showDist = sortSelect && sortSelect.value === 'nearest' && userPos;
+        let count = 0;
+        cards.forEach((c, i) => {
+            if (!catEligible.has(c)) { c.style.display = 'none'; return; }
+            const m = walkMarkers[i];
+            const inView = !b || !m || b.contains(m.getLatLng());
+            c.style.display = inView ? '' : 'none';
+            if (inView) count++;
+            const distEl = c.querySelector('.walk-card-distance');
+            if (distEl) {
+                if (showDist && inView) { distEl.innerHTML = CAR_SVG + '<span>' + distTo(c).toFixed(1) + ' miles away</span>'; distEl.hidden = false; }
+                else { distEl.hidden = true; distEl.innerHTML = ''; }
+            }
+        });
+        if (noResults) noResults.hidden = count > 0;
+        updateCount(count);
+    }
+
+    // Apply the category filters + sort: sets which walks are eligible, orders
+    // the list, shows/hides markers, then re-applies the map-bounds filter.
+    function applyFilters() {
         const keys = [...selected];
-        const visible = [];
-        cards.forEach((c) => {
+        catEligible.clear();
+        const eligible = [];
+        cards.forEach((c, i) => {
             const ok = !keys.length || keys.every((k) => { const s = score(c, k); return s != null && s >= 3; });
             const starsEl = c.querySelector('.walk-card-stars');
             if (ok) {
-                visible.push(c);
-                c.style.display = '';
-                if (keys.length) {
+                catEligible.add(c);
+                eligible.push(c);
+                if (keys.length && starsEl) {
                     starsEl.hidden = false;
                     starsEl.innerHTML = keys.map((k) =>
                         `<span class="wc-row"><span class="wc-label">${LABELS[k]}</span><span class="wc-stars">${starHTML(score(c, k))}</span></span>`
                     ).join('');
-                } else {
-                    starsEl.hidden = true; starsEl.innerHTML = '';
-                }
-            } else {
-                c.style.display = 'none';
-                starsEl.hidden = true; starsEl.innerHTML = '';
+                } else if (starsEl) { starsEl.hidden = true; starsEl.innerHTML = ''; }
+            } else if (starsEl) { starsEl.hidden = true; starsEl.innerHTML = ''; }
+            const m = walkMarkers[i];
+            if (m && walksMap) {
+                if (ok && !walksMap.hasLayer(m)) m.addTo(walksMap);
+                else if (!ok && walksMap.hasLayer(m)) walksMap.removeLayer(m);
             }
         });
-        sortCards(visible, keys).forEach((c) => grid.appendChild(c));
-        // When sorting by nearest, show each walk's straight-line distance.
-        const showDist = sortSelect && sortSelect.value === 'nearest' && userPos;
-        cards.forEach((c) => {
-            const distEl = c.querySelector('.walk-card-distance');
-            if (!distEl) return;
-            if (showDist && c.style.display !== 'none') {
-                distEl.innerHTML = CAR_SVG + '<span>' + distTo(c).toFixed(1) + ' miles away</span>';
-                distEl.hidden = false;
-            } else {
-                distEl.hidden = true;
-                distEl.innerHTML = '';
-            }
-        });
-        if (noResults) noResults.hidden = visible.length > 0;
-        updateMapMarkers();
+        sortCards(eligible, keys).forEach((c) => grid.appendChild(c));
+        applyBounds();
     }
 
     pills.forEach((btn) => {
@@ -174,7 +209,7 @@ if (form) {
             if (on) selected.add(key); else selected.delete(key);
             btn.classList.toggle('is-active', on);
             btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-            apply();
+            applyFilters();
         });
     });
 
@@ -182,13 +217,15 @@ if (form) {
         sortSelect.addEventListener('change', () => {
             if (sortSelect.value === 'nearest' && !userPos && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (pos) => { userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude }; apply(); },
+                    (pos) => { userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude }; applyFilters(); },
                     () => { /* denied — keeps current order */ }
                 );
             }
-            apply();
+            applyFilters();
         });
     }
+
+    applyFilters();
 })();
 
 // Places category — filter venues by type (All / Cafés / Pubs / Restaurants)

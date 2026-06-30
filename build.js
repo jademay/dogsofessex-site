@@ -1214,18 +1214,20 @@ function walksIndexPage(walks) {
                 </div>
             </section>
 
-            <section class="walk-section walks-map-section">
+            <section class="walk-section section-alt walks-explorer-section">
                 <div class="container">
-                    <div id="walks-map" class="walks-map" aria-label="Map of all walks in Essex"></div>
-                    <p class="walks-map-hint">${icon('map-pin')} Tap a pin to open that walk.</p>
-                </div>
-            </section>
-
-            <section class="walk-section section-alt walk-index-grid">
-                <div class="container">
-                    <div class="walk-grid walks-index-grid">${walks.map((w, i) => indexWalkCard(w, i)).join('')}
+                    <div class="walks-explorer">
+                        <div class="walks-list-col">
+                            <p class="walks-count" id="walks-count" aria-live="polite"></p>
+                            <div class="walk-grid walks-index-grid">${walks.map((w, i) => indexWalkCard(w, i)).join('')}
+                            </div>
+                            <p class="no-results" hidden>No walks match those filters yet - try fewer.</p>
+                        </div>
+                        <aside class="walks-map-col">
+                            <div id="walks-map" class="walks-map" aria-label="Map of all walks in Essex"></div>
+                            <p class="walks-map-hint">${icon('map-pin')} Hover or tap a pin. Zoom and pan to explore by area.</p>
+                        </aside>
                     </div>
-                    <p class="no-results" hidden>No walks match those filters yet - try fewer.</p>
                 </div>
             </section>`;
 
