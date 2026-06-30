@@ -35,11 +35,12 @@
         // Numbered circular markers matching the car park cards above; the name
         // shows on hover/tap. Compact so close-together car parks stay distinct.
         const latlngs = [];
+        const markers = [];
         carParks.forEach((cp, i) => {
             const m = L.marker([cp.lat, cp.lng], {
                 icon: L.divIcon({
                     className: 'cp-pin' + (cp.recommended ? ' cp-pin--rec' : ''),
-                    html: String(i + 1),
+                    html: '<span class="cp-pin-inner">' + (i + 1) + '</span>',
                     iconSize: [30, 30], iconAnchor: [15, 15]
                 }),
                 title: cp.name,
@@ -51,11 +52,39 @@
             m.on('click', () => {
                 window.open('https://www.google.com/maps/search/?api=1&query=' + cp.lat + ',' + cp.lng, '_blank', 'noopener');
             });
+            markers.push(m);
             latlngs.push([cp.lat, cp.lng]);
         });
         if (latlngs.length === 1) map.setView(latlngs[0], 15);
         else map.fitBounds(latlngs, { padding: [45, 45] });
         setTimeout(() => map.invalidateSize(), 60);
+
+        // Link cards and markers: hovering/tapping one highlights the other.
+        const cardByName = {};
+        document.querySelectorAll('.cp-card[data-cp-name]').forEach((card) => {
+            cardByName[card.getAttribute('data-cp-name')] = card;
+        });
+        const setActive = (i, on) => {
+            const m = markers[i];
+            const card = cardByName[carParks[i].name];
+            if (m && m._icon) m._icon.classList.toggle('cp-pin--active', on);
+            if (m) m.setZIndexOffset(on ? 2000 : (carParks[i].recommended ? 1000 : 0));
+            if (card) card.classList.toggle('is-active', on);
+            if (on && m) map.panInside(m.getLatLng(), { padding: [50, 50] });
+        };
+        carParks.forEach((cp, i) => {
+            const card = cardByName[cp.name];
+            if (card) {
+                card.addEventListener('mouseenter', () => setActive(i, true));
+                card.addEventListener('mouseleave', () => setActive(i, false));
+                card.addEventListener('click', () => setActive(i, true));
+            }
+            const m = markers[i];
+            if (m) {
+                m.on('mouseover', () => setActive(i, true));
+                m.on('mouseout', () => setActive(i, false));
+            }
+        });
     }
 
     // --- Help improve this walk ---

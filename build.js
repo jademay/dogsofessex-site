@@ -647,7 +647,7 @@ function gettingThereInner(walk) {
     if (carParks.length) {
         parts.push(`<p><strong>Parking &amp; directions.</strong>${r.parking ? ' ' + esc(r.parking) : ''}</p>`);
         parts.push(`<div class="car-park-cards">${carParks.map((cp, i) =>
-            `<div class="cp-card${cp.recommended ? ' is-recommended' : ''}">
+            `<div class="cp-card${cp.recommended ? ' is-recommended' : ''}" data-cp-name="${esc(cp.name)}">
                         <div class="cp-card-head">
                             <span class="cp-num">${i + 1}</span>
                             ${icon('square-parking')}
@@ -660,7 +660,6 @@ function gettingThereInner(walk) {
     } else if (r.parking) {
         parts.push(`<p><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
     }
-    if (r.localTip) parts.push(`<p class="local-tip">${icon('lightbulb')} <strong>Local tip:</strong> ${esc(r.localTip)}</p>`);
     // If car parks have coordinates, show them all on an interactive map (the
     // Google embed can't plot multiple pins); otherwise fall back to the embed.
     const mappedCarParks = carParks.filter((cp) => cp.lat != null && cp.lng != null);
@@ -1040,9 +1039,11 @@ function page(walk, walks, places, tips) {
     // Content bands - rendered in order, alternating background like the homepage.
     // Optional bands (gallery, what-to-expect, official) drop out when empty, and
     // the alternation re-computes so the stripes stay consistent.
+    const localTip = (walk.route && walk.route.localTip)
+        ? `<p class="local-tip">${icon('lightbulb')} <strong>Local tip:</strong> ${esc(walk.route.localTip)}</p>\n                    ` : '';
     const bands = [
         { narrow: true, html: `<p class="lead-intro" id="walk-intro">${esc(walk.intro || '')}</p>
-                    <h2>At a glance</h2>
+                    ${localTip}<h2>At a glance</h2>
                     <p class="section-lead">Honest ratings, so you can decide in seconds whether it suits your dog.</p>
                     <button type="button" class="glance-explain-all" aria-expanded="false">How are these ratings decided?</button>
                     <div id="glance" class="glance">${glanceHTML(walk.glance, true)}
