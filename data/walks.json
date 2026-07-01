@@ -1268,6 +1268,27 @@
         "score": 3
       }
     ],
+    "gallery": [
+      { "image": "", "caption": "Poppy on the woodland path" },
+      { "image": "", "caption": "Lakeside fishing spot" },
+      { "image": "", "caption": "Peter Rabbit sculpture" },
+      { "image": "", "caption": "Path through the nature reserve" },
+      { "image": "", "caption": "Open views across the lake" },
+      { "image": "", "caption": "The lake framed by trees" },
+      { "image": "", "caption": "Wide, flat pathway" },
+      { "image": "", "caption": "Jemima Puddle-Duck" },
+      { "image": "", "caption": "Picnic benches by the lake" },
+      { "image": "", "caption": "Benches to stop and rest" },
+      { "image": "", "caption": "Woodland path" },
+      { "image": "", "caption": "Poppy beside a rockery table" },
+      { "image": "", "caption": "The rockery garden" },
+      { "image": "", "caption": "Sun sculpture" },
+      { "image": "", "caption": "Path back to the visitor centre" },
+      { "image": "", "caption": "Water bowls for dogs" },
+      { "image": "", "caption": "Essex Wildlife Trust sign" },
+      { "image": "", "caption": "Car park donation request" },
+      { "image": "", "caption": "Main car park" }
+    ],
     "route": {
       "parking": "Parking is free in their eco-friendly living car park, but they welcome donations of £2 per car, which you can pay in the centre.",
       "localTip": "For the best views, head towards the higher meadows on a clear day. The reserve is particularly beautiful in spring and summer when the wildflowers are in bloom, and early mornings are often the quietest time to visit.",
