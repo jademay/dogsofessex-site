@@ -476,7 +476,7 @@
             lbImg.alt = s.caption;
             lbCap.textContent = s.caption;
             lbCap.style.display = s.caption ? '' : 'none';
-            lbCount.textContent = many ? (idx + 1) + ' / ' + slides.length : '';
+            lbCount.textContent = many ? (idx + 1) + ' of ' + slides.length : '';
         };
         const open = (i) => {
             show(i);

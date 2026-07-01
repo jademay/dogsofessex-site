@@ -722,7 +722,8 @@ function galleryInner(walk) {
                         <div class="carousel-track">${galleryHTML(items)}
                         </div>
                         <button class="carousel-btn next" type="button" aria-label="More photos">›</button>
-                    </div>`;
+                    </div>
+                    <hr class="section-divider">`;
 }
 
 function whatToExpectInner(walk) {
