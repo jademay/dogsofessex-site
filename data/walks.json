@@ -1203,8 +1203,17 @@
     "town": "Basildon",
     "emoji": "🌿",
     "timeShort": "30 mins",
-    "distance": "1.3 miles",
+    "distance": "1.6 miles",
     "routeType": "Circular",
+    "routes": [
+      {
+        "name": "Nature Discovery Park Circular",
+        "distance": "1.6 miles",
+        "time": "30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/langdon-nature-discovery-park-circular.gpx"
+      }
+    ],
     "terrain": "Woodland trails, wildflower meadows & gentle hillside paths",
     "mud": "Moderate",
     "summary": "A peaceful Essex Wildlife Trust reserve with woodland, meadows and some of the best views in south Essex.",
@@ -1283,6 +1292,22 @@
     "timeShort": "2hrs",
     "distance": "2.8 miles",
     "routeType": "Circular",
+    "routes": [
+      {
+        "name": "Westley Heights Circular",
+        "distance": "1.5 miles",
+        "time": "1hr",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/langdon-hills-westley-heights-circular.gpx"
+      },
+      {
+        "name": "Westley Heights & Langdon Hills Circular",
+        "distance": "2.8 miles",
+        "time": "2hrs",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/langdon-hills-westley-heights-and-langdon-hills-circular.gpx"
+      }
+    ],
     "terrain": "Woodland trails, open glades & gently rolling countryside",
     "mud": "Moderate",
     "summary": "A spacious woodland walk with wide trails, varied routes and excellent off-lead opportunities.",
