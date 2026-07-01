@@ -821,6 +821,9 @@ h1, h2, h3 {
     gap: 0.6rem;
 }
 .hero-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
     background-color: rgba(255, 255, 255, 0.95);
     color: var(--color-forest-dark);
     border-color: rgba(255, 255, 255, 0.95);
