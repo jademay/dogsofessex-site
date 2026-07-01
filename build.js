@@ -1138,8 +1138,8 @@ function page(walk, walks, places, tips) {
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
             </div>
             <div class="hero-actions">
-                <a href="#" id="save-walk" class="btn btn-secondary">${icon('bookmark')}<span class="action-label">Save this walk</span></a>
-                <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email this walk</span></a>
+                <a href="#" id="save-walk" class="btn btn-secondary">${icon('bookmark')}<span class="action-label">Save</span></a>
+                <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email</span></a>
                 <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
             </div>
         </section>${routeOverviewHTML(walk)}

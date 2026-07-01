@@ -563,7 +563,7 @@
                 const saved = read().includes(WALK_ID);
                 saveBtn.classList.toggle('is-saved', saved);
                 const label = saveBtn.querySelector('.action-label');
-                if (label) label.textContent = saved ? 'Saved' : 'Save this walk';
+                if (label) label.textContent = saved ? 'Saved' : 'Save';
             };
             saveBtn.addEventListener('click', (e) => {
                 e.preventDefault();
