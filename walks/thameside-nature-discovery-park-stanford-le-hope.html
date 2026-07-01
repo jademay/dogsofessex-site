@@ -26,6 +26,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css?v=fe7b13fb">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script>window.WALK_ID = "thameside-nature-discovery-park-stanford-le-hope";</script>
 </head>
 <body>
@@ -59,7 +60,7 @@
                     <span class="rating-score">4.8</span>
                     <span class="rating-count">(1 reviews)</span>
                 </div>
-                <p class="meta-line">Coastal • Mud: Low</p>
+                <p class="meta-line">Coastal • 10 mins–30 mins • Mud: Low</p>
                 <div class="walk-chips"><span class="chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Stanford-le-Hope</span><span class="chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /></svg> Estuary views</span><span class="chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M16 7h.01" /><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" /><path d="m20 7 2 .5-2 .5" /><path d="M10 18v3" /><path d="M14 17.75V21" /><path d="M7 18a6 6 0 0 0 3.84-10.61" /></svg> Wildlife rich</span><span class="chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Visitor centre café</span><span class="chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5" /><path d="M15 12h.01" /><path d="M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1" /><path d="M9 12h.01" /></svg> Accessible paths</span></div>
             </div>
             <div class="hero-actions">
@@ -275,17 +276,28 @@
             </section>
             <section class="walk-section">
                 <div class="container narrow">
-                    <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /><path d="M15 5.764v15" /><path d="M9 3.236v15" /></svg> Walk Route</h2>
+                    <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /><path d="M15 5.764v15" /><path d="M9 3.236v15" /></svg> Walk Routes</h2>
                     <div class="route-carousel">
                         <article class="route-card">
-                            <div class="route-card-preview is-empty"><svg class="route-line route-line-ph" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M12 46 Q32 14 52 34 T90 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-dasharray="3 5" stroke-linecap="round"/></svg></div>
+                            <div class="route-card-preview route-card-map" data-gpx="../data/gpx/thameside-regular-circular.gpx" data-name="Circular Walk"><svg class="route-line" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><polyline points="66.9,30.4 65.7,33.1 64.5,35.0 63.7,36.0 60.1,39.0 44.1,51.6 43.6,52.0 37.5,50.1 32.3,47.9 25.6,43.7 18.4,38.9 16.6,37.8 16.8,37.4 21.1,29.4 21.7,28.0 22.1,20.7 22.3,17.2 22.4,17.2 24.0,17.4 25.7,17.5 28.8,17.0 32.4,16.3 34.7,15.7 38.9,13.6 42.5,10.8 45.8,8.8 46.8,8.3 47.6,8.0 49.3,8.0 51.3,8.2 55.0,8.9 58.8,9.4 60.2,9.4 60.9,9.7 61.4,10.8 63.5,14.7 67.6,19.2 67.8,19.6 67.9,19.5 68.5,19.2 68.8,19.2 69.7,19.3 76.4,21.3 77.5,21.7 78.1,22.0 79.3,22.7 80.3,23.5 81.9,25.1 82.4,25.8 82.7,26.4 83.4,28.3 83.3,29.2 82.9,30.8 82.8,30.8 82.2,30.0 81.1,32.0 76.5,31.0 75.1,30.5 72.4,29.9 68.7,28.4 68.0,27.9 67.4,29.4" fill="none" stroke="#1F5A44" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
                             <div class="route-card-body">
+                                <h3 class="route-card-name"><span class="route-dot" style="background:#1F5A44"></span>Circular Walk</h3>
+                                <p class="route-card-meta">1.2 miles • 30 mins</p>
+                                <p class="route-card-type">Circular</p>
                                 
                                 
+                                <button type="button" class="route-card-link" data-gpx="../data/gpx/thameside-regular-circular.gpx" data-name="Circular Walk">View route →</button>
+                            </div>
+                        </article>
+                        <article class="route-card">
+                            <div class="route-card-preview route-card-map" data-gpx="../data/gpx/thameside-tiny-circular.gpx" data-name="Short Circular"><svg class="route-line" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><polyline points="24.7,38.4 26.5,39.7 39.2,45.0 48.6,47.0 53.6,48.8 69.3,52.0 73.3,45.3 75.1,48.2 75.6,48.1 75.8,47.1 77.0,42.4 77.3,39.4 75.0,33.0 74.0,30.7 72.2,28.2 66.5,22.9 63.0,20.2 59.0,17.6 57.0,16.5 53.1,15.1 30.0,8.5 26.9,8.0 25.8,8.1 23.5,9.3 23.6,9.7 24.5,12.6 24.9,15.1 24.5,19.3 22.7,22.7 27.1,29.3 29.8,31.6 32.0,32.6 32.1,32.7 25.2,35.7" fill="none" stroke="#1F5A44" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+                            <div class="route-card-body">
+                                <h3 class="route-card-name"><span class="route-dot" style="background:#BC6A48"></span>Short Circular</h3>
+                                <p class="route-card-meta">0.3 miles • 10 mins</p>
+                                <p class="route-card-type">Circular</p>
                                 
                                 
-                                
-                                <a class="route-card-link" href="https://www.google.com/maps?q=51.49924583,0.4429606702" target="_blank" rel="noopener">View location →</a>
+                                <button type="button" class="route-card-link" data-gpx="../data/gpx/thameside-tiny-circular.gpx" data-name="Short Circular">View route →</button>
                             </div>
                         </article>
                     </div>
@@ -501,5 +513,7 @@
 
     <script src="../script.js?v=93d09ad2"></script>
     <script src="../walk.js?v=be0d1d5f"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>
 </body>
 </html>

@@ -1988,6 +1988,22 @@
       { "image": "", "caption": "Accessible parking" },
       { "image": "", "caption": "Main car park" }
     ],
+    "routes": [
+      {
+        "name": "Circular Walk",
+        "distance": "1.2 miles",
+        "time": "30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/thameside-regular-circular.gpx"
+      },
+      {
+        "name": "Short Circular",
+        "distance": "0.3 miles",
+        "time": "10 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/thameside-tiny-circular.gpx"
+      }
+    ],
     "route": {
       "parking": "The car park at the Nature Discovery Centre suggests a donation of £5 per car.",
       "localTip": "Bring binoculars if you have them. The estuary attracts a huge variety of birds throughout the year, and the higher viewpoints offer some of the best wildlife watching opportunities in Essex.",
