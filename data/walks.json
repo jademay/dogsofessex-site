@@ -1469,6 +1469,17 @@
         "score": 3
       }
     ],
+    "gallery": [
+      { "image": "", "caption": "Poppy exploring the grassland" },
+      { "image": "", "caption": "Woodland path" },
+      { "image": "", "caption": "Path leading from woodland to grassland" },
+      { "image": "", "caption": "Langdon Hills – One Tree Hill sign" },
+      { "image": "", "caption": "Fallen tree in the woodland" },
+      { "image": "", "caption": "Walking through the woodland" },
+      { "image": "", "caption": "Open grassland" },
+      { "image": "", "caption": "One Tree Hill car park entrance" },
+      { "image": "", "caption": "One Tree Hill car park sign" }
+    ],
     "route": {
       "parking": "There are two main car parks on One Tree Hill Road - both free.",
       "localTip": "Don't miss the viewpoint near the summit. On a clear day you can see across much of south Essex, making it one of the best reward-to-effort walks in the county.",
