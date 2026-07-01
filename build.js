@@ -943,7 +943,7 @@ function navHTML(prefix) {
         <div class="container">
             <nav class="nav">
                 <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
-                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">${icon('menu')}</button>
+                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span class="nav-toggle-open">${icon('menu')}</span><span class="nav-toggle-close">${icon('x')}</span></button>
                 <ul class="nav-links">
                     <li><a href="${prefix}walks/index.html">Walks</a></li>
                     <li><a href="${prefix}best-for/index.html">Best For</a></li>

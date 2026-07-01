@@ -8,17 +8,17 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 const toggle = document.querySelector('.nav-toggle');
 const links = document.querySelector('.nav-links');
 if (toggle && links) {
-    toggle.addEventListener('click', () => {
-        const open = links.classList.toggle('open');
+    const setMenu = (open) => {
+        links.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
+        // Lock page scroll behind the full-screen menu on mobile.
+        document.body.style.overflow = open ? 'hidden' : '';
+    };
+    toggle.addEventListener('click', () => setMenu(!links.classList.contains('open')));
     // Close menu when a link is tapped
-    links.querySelectorAll('a').forEach((a) => {
-        a.addEventListener('click', () => {
-            links.classList.remove('open');
-            toggle.setAttribute('aria-expanded', 'false');
-        });
-    });
+    links.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    // Reset if the viewport grows back to desktop
+    window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
 }
 
 // Newsletter form — placeholder handler until a provider is connected
