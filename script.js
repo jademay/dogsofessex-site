@@ -97,12 +97,24 @@ if (form) {
 
     const highlightMarker = (i, on) => { const m = walkMarkers[i]; if (m && m._icon) m._icon.classList.toggle('walk-map-pin--active', on); if (m && on) m.setZIndexOffset(1000); else if (m) m.setZIndexOffset(0); };
     const highlightCard = (i, on) => { const c = cards[i]; if (c) c.classList.toggle('is-map-active', on); };
+    // Keep the sticky offsets in sync with the header + toolbar heights (which
+    // vary as the filters wrap), and expose them as CSS variables the layout
+    // uses for the sticky toolbar and map column.
+    const headerEl = document.querySelector('.site-header');
+    const toolbarEl = document.querySelector('.walks-toolbar');
+    const stickyOffset = () => (headerEl ? headerEl.offsetHeight : 64) + (toolbarEl ? toolbarEl.offsetHeight : 0);
+    const updateStickyVars = () => {
+        document.documentElement.style.setProperty('--toolbar-top', (headerEl ? headerEl.offsetHeight : 64) + 'px');
+        document.documentElement.style.setProperty('--content-top', stickyOffset() + 'px');
+    };
+    updateStickyVars();
+    window.addEventListener('resize', updateStickyVars);
+
     // Scroll a card so its centre lines up with the vertical centre of the
     // sticky map. Because the map is sticky, target the position it occupies
     // once stuck (CSS top) rather than its current on-screen spot. force=true
     // always recentres (click); otherwise only scrolls when the card is
     // outside the map's vertical band (hover).
-    const STICKY_TOP = 84; // matches .walks-map-col { top: 84px }
     const scrollToCard = (i, force) => {
         const c = cards[i];
         if (!c || c.style.display === 'none') return;
@@ -117,8 +129,10 @@ if (form) {
             if (!offBand) return;
         }
         // The map sits below its heading inside the sticky column, so its stuck
-        // top is the column's CSS top plus the map's offset within the column.
-        const stuckMapTop = STICKY_TOP + (mapEl.offsetTop || 0);
+        // top is the column's CSS top (header + toolbar) plus the map's offset
+        // within the column.
+        const stickTop = stickyOffset();
+        const stuckMapTop = stickTop + (mapEl.offsetTop || 0);
         const cardDocCentre = card.top + window.scrollY + card.height / 2;
         let targetY = cardDocCentre - (stuckMapTop + map.height / 2);
         // Keep the scroll within the range where the map stays stuck, so the
@@ -131,8 +145,8 @@ if (form) {
             const refRect = ref.getBoundingClientRect();
             const refTop = refRect.top + window.scrollY;
             const colH = colEl.getBoundingClientRect().height;
-            const minStick = refTop - STICKY_TOP;
-            const maxStick = refTop + refRect.height - colH - STICKY_TOP;
+            const minStick = refTop - stickTop;
+            const maxStick = refTop + refRect.height - colH - stickTop;
             targetY = (maxStick > minStick)
                 ? Math.min(maxStick, Math.max(minStick, targetY))
                 : Math.max(minStick, targetY);

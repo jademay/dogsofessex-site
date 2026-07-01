@@ -1197,6 +1197,11 @@ function walksIndexPage(walks) {
                 <div class="container">
                     <h1 class="index-title">Dog walks in Essex</h1>
                     <p class="index-sub">Discover ${walks.length} dog-tested walk${walks.length === 1 ? '' : 's'} across Essex - with more added every month.</p>
+                </div>
+            </section>
+
+            <div class="walks-toolbar">
+                <div class="container">
                     <h2 class="controls-title">Find the perfect walk</h2>
                     <div class="controls-row">
                         <div class="walk-filters" aria-label="Filter walks by what they're best for">
@@ -1212,7 +1217,7 @@ function walksIndexPage(walks) {
                         </select>
                     </div>
                 </div>
-            </section>
+            </div>
 
             <section class="walk-section section-alt walks-explorer-section">
                 <div class="container">

@@ -1608,6 +1608,21 @@ h2 .lucide { vertical-align: -0.1em; }
 .walk-actions .btn { display: inline-flex; align-items: center; gap: 0.45em; }
 #save-walk.is-saved .lucide { fill: currentColor; }
 
+/* Sticky toolbar: "Find the perfect walk" heading + filters + sort, pinned
+   below the site header so it stays above the cards and map while scrolling.
+   --toolbar-top / --content-top are set in script.js from the measured header
+   and toolbar heights. */
+.walks-toolbar {
+    position: sticky;
+    top: var(--toolbar-top, 73px);
+    z-index: 40;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 4px 14px rgba(42, 40, 35, 0.06);
+    padding: 0.9rem 0;
+}
+.walks-toolbar .controls-title { margin: 0 0 0.65rem; font-size: 1.15rem; }
+
 /* Walks explorer: scrolling card list (left) + sticky map (right) */
 .walks-explorer {
     display: grid;
@@ -1626,7 +1641,7 @@ h2 .lucide { vertical-align: -0.1em; }
 .walks-index-grid .walk-card .photo-ph { aspect-ratio: 7 / 2; }
 .walks-map-col {
     position: sticky;
-    top: 84px;
+    top: var(--content-top, 107px);
     align-self: start;
     height: 80vh;
     display: flex;
