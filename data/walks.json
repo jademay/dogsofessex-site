@@ -1383,6 +1383,21 @@
         "score": 3
       }
     ],
+    "gallery": [
+      { "image": "", "caption": "Mown paths through the grassland" },
+      { "image": "", "caption": "Poppy exploring the woodland" },
+      { "image": "", "caption": "Statue and information board" },
+      { "image": "", "caption": "Open green by the car park" },
+      { "image": "", "caption": "Langdon Hills Country Park sign" },
+      { "image": "", "caption": "Woodland entrance from the car park" },
+      { "image": "", "caption": "Woodland path" },
+      { "image": "", "caption": "Bench beside the playground" },
+      { "image": "", "caption": "Deeper into the woodland" },
+      { "image": "", "caption": "Mown grassland paths" },
+      { "image": "", "caption": "Horse grazing in the nearby field" },
+      { "image": "", "caption": "Free car park" },
+      { "image": "", "caption": "Car park and public toilets" }
+    ],
     "route": {
       "parking": "There's a free car park behind the Miller & Carter restaurant.",
       "localTip": "The further you venture from the main car park, the quieter the trails become. Dogs with reliable recall will find some excellent off-lead opportunities throughout the woodland.",
