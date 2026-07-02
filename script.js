@@ -100,7 +100,10 @@ if (form) {
 
     // --- Mobile (<=900px): sticky map on top, horizontal swipe carousel below.
     const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
-    const panToWalk = (i) => { const m = walkMarkers[i]; if (m && walksMap) walksMap.panTo(m.getLatLng(), { animate: true }); };
+    // Pan only enough to bring the active walk's marker into view, keeping the
+    // current zoom. If the marker is already on-screen this is a no-op, so the
+    // map stays put and only the highlight changes.
+    const panToWalk = (i) => { const m = walkMarkers[i]; if (m && walksMap) walksMap.panInside(m.getLatLng(), { padding: [40, 40], animate: true }); };
     const centreCardInCarousel = (i) => { const c = cards[i]; if (c && c.style.display !== 'none') c.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); };
     // The card nearest the carousel's centre is the "active" one: highlight its
     // marker and pan the map to it.
