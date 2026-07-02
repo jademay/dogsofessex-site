@@ -97,6 +97,32 @@ if (form) {
 
     const highlightMarker = (i, on) => { const m = walkMarkers[i]; if (m && m._icon) m._icon.classList.toggle('walk-map-pin--active', on); if (m && on) m.setZIndexOffset(1000); else if (m) m.setZIndexOffset(0); };
     const highlightCard = (i, on) => { const c = cards[i]; if (c) c.classList.toggle('is-map-active', on); };
+
+    // --- Mobile (<=900px): sticky map on top, horizontal swipe carousel below.
+    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+    const panToWalk = (i) => { const m = walkMarkers[i]; if (m && walksMap) walksMap.panTo(m.getLatLng(), { animate: true }); };
+    const centreCardInCarousel = (i) => { const c = cards[i]; if (c && c.style.display !== 'none') c.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); };
+    // The card nearest the carousel's centre is the "active" one: highlight its
+    // marker and pan the map to it.
+    let activeCarouselCard = -1;
+    const syncActiveFromCarousel = () => {
+        if (!isMobile()) return;
+        const gRect = grid.getBoundingClientRect();
+        const mid = gRect.left + gRect.width / 2;
+        let best = -1, bestDist = Infinity;
+        cards.forEach((c, i) => {
+            if (c.style.display === 'none' || !walkMarkers[i]) return;
+            const r = c.getBoundingClientRect();
+            const d = Math.abs((r.left + r.width / 2) - mid);
+            if (d < bestDist) { bestDist = d; best = i; }
+        });
+        if (best < 0 || best === activeCarouselCard) return;
+        if (activeCarouselCard >= 0) { highlightMarker(activeCarouselCard, false); highlightCard(activeCarouselCard, false); }
+        activeCarouselCard = best;
+        highlightMarker(best, true);
+        highlightCard(best, true);
+        panToWalk(best);
+    };
     // Keep the sticky offsets in sync with the header + toolbar heights (which
     // vary as the filters wrap), and expose them as CSS variables the layout
     // uses for the sticky toolbar and map column.
@@ -173,16 +199,33 @@ if (form) {
             m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
             m.on('mouseover', () => highlightCard(i, true));
             m.on('mouseout', () => highlightCard(i, false));
-            // Only recentre the card list on click/tap, not on hover.
-            m.on('click', () => { scrollToCard(i, true); });
+            // Tapping a marker jumps to its card: swipe the carousel on mobile,
+            // recentre the vertical list on desktop. (Not on hover.)
+            m.on('click', () => { if (isMobile()) centreCardInCarousel(i); else scrollToCard(i, true); });
             walkMarkers.push(m);
         });
-        // Hovering a card grows/colours its marker.
         cards.forEach((card, i) => {
             if (!walkMarkers[i]) return;
+            // Desktop: hovering a card grows/colours its marker.
             card.addEventListener('mouseenter', () => highlightMarker(i, true));
             card.addEventListener('mouseleave', () => highlightMarker(i, false));
+            // Mobile: tapping the card pans the map to its marker; only the
+            // "Explore Walk" arrow follows through to the walk page.
+            card.addEventListener('click', (e) => {
+                if (!isMobile()) return;
+                if (e.target.closest('.link-arrow')) return;
+                e.preventDefault();
+                centreCardInCarousel(i);
+                panToWalk(i);
+            });
         });
+        // Mobile: swiping the carousel highlights + pans to the centred card.
+        let carouselRaf = 0;
+        grid.addEventListener('scroll', () => {
+            if (carouselRaf) return;
+            carouselRaf = requestAnimationFrame(() => { carouselRaf = 0; syncActiveFromCarousel(); });
+        }, { passive: true });
+        window.addEventListener('resize', () => { if (walksMap) walksMap.invalidateSize(); });
         const fit = () => {
             const pts = walkMarkers.filter(Boolean).map((m) => m.getLatLng());
             if (pts.length) walksMap.fitBounds(pts, { padding: [22, 22] });
@@ -193,6 +236,7 @@ if (form) {
         setTimeout(() => {
             walksMap.invalidateSize();
             fit();
+            syncActiveFromCarousel();
             setTimeout(() => {
                 walksMap.on('moveend', () => { boundsSync = true; applyBounds(); });
             }, 300);
@@ -282,6 +326,17 @@ if (form) {
                 );
             }
             applyFilters();
+        });
+    }
+
+    // Mobile: collapse/expand the filters + sort behind the toggle arrow.
+    const filterToggle = document.querySelector('.walks-filter-toggle');
+    if (filterToggle && toolbarEl) {
+        filterToggle.addEventListener('click', () => {
+            const open = toolbarEl.classList.toggle('is-open');
+            filterToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            updateStickyVars();
+            if (walksMap) requestAnimationFrame(() => walksMap.invalidateSize());
         });
     }
 

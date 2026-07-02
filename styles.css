@@ -1670,6 +1670,8 @@ h2 .lucide { vertical-align: -0.1em; }
     padding: 0.9rem 0;
 }
 .walks-toolbar .controls-title { margin: 0 0 0.65rem; font-size: 1.15rem; }
+/* The filter/sort toggle is mobile-only; on desktop the controls are always shown. */
+.walks-filter-toggle { display: none; }
 
 /* Walks explorer: scrolling card list (left) + sticky map (right) */
 .walks-explorer {
@@ -1730,12 +1732,75 @@ h2 .lucide { vertical-align: -0.1em; }
 .walk-pop a { color: var(--color-forest-dark); font-weight: 600; }
 @media (max-width: 900px) {
     .walks-explorer { grid-template-columns: 1fr; }
+
+    /* Map pins to the top (just under the sticky site header) while the cards
+       swipe horizontally underneath it. */
     .walks-map-col {
-        position: static;
-        height: 320px;
+        position: sticky;
+        top: var(--toolbar-top, 64px);
+        height: 42vh;
         order: -1;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
+        z-index: 1;
+        background: var(--color-bg-alt);
     }
+    .walks-count { margin: 0 0 0.5rem; font-size: 0.95rem; }
+
+    /* Horizontal, snap-to-centre carousel: one card at a time with the next
+       peeking through on each side. */
+    .walks-explorer .walks-index-grid {
+        display: flex;
+        grid-template-columns: none;
+        gap: 0.75rem;
+        overflow-x: auto;
+        overflow-y: visible;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 7.5%;
+        padding: 0.5rem 7.5%;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .walks-explorer .walks-index-grid::-webkit-scrollbar { display: none; }
+    .walks-explorer .walks-index-grid .walk-card {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+    }
+    /* Restore a normal card photo in the carousel (the short list photo is a
+       desktop-only treatment). */
+    .walks-index-grid .walk-card .photo-ph { aspect-ratio: 16 / 10; }
+    /* The active (centred) card + its "Explore Walk" call to action. */
+    .walks-index-grid .walk-card.is-map-active {
+        border-color: var(--color-terracotta);
+        transform: none;
+        box-shadow: none;
+    }
+    .walks-index-grid .walk-card .link-arrow {
+        display: inline-block;
+        margin-top: 0.25rem;
+        padding: 0.5rem 0.9rem;
+        border: 1px solid var(--color-terracotta);
+        border-radius: 999px;
+    }
+
+    /* Collapse the filters + sort behind the toggle arrow. */
+    .walks-toolbar { position: static; box-shadow: none; }
+    .walks-toolbar .controls-title { display: none; }
+    .walks-filter-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.5rem 0.9rem;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 999px;
+        font: 600 0.95rem 'Inter', system-ui, sans-serif;
+        color: var(--color-forest);
+        cursor: pointer;
+    }
+    .walks-filter-toggle .chevron { transition: transform 0.2s ease; }
+    .walks-toolbar.is-open .walks-filter-toggle .chevron { transform: rotate(180deg); }
+    .controls-row { display: none; margin-top: 0.85rem; }
+    .walks-toolbar.is-open .controls-row { display: flex; }
 }
 
 /* Section rhythm on walk pages */
