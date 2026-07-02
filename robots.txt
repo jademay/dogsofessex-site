@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dogsofessex.co.uk/sitemap.xml

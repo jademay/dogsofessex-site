@@ -531,10 +531,13 @@ function galleryHTML(items) {
     return items.map((g, i) => {
         const big = i === 0 ? ' g-big' : '';
         const c = esc(g.caption || '');
+        // Always give the image descriptive alt text, even when the (optional)
+        // visible caption is blank.
+        const alt = esc(g.caption || g.alt || '');
         if (g.image) {
             return `
                         <figure class="photo-ph g-item${big}">
-                            <img src="${esc(g.image)}" alt="${c}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">
+                            <img src="${esc(g.image)}" alt="${alt}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">
                             <figcaption>${c}</figcaption>
                         </figure>`;
         }
@@ -714,7 +717,7 @@ function galleryInner(walk) {
     if (!imgs.length) return '';
     // Optional captions, matched by order to walk.gallery[i].caption.
     const captions = (walk.gallery || []).map((g) => g.caption || '');
-    const items = imgs.map((img, i) => ({ image: `../${img}`, caption: captions[i] || '' }));
+    const items = imgs.map((img, i) => ({ image: `../${img}`, caption: captions[i] || '', alt: captions[i] || `${walk.name} - photo ${i + 1}` }));
     return `<h2>${icon('camera')} Photo gallery</h2>
                     <p class="section-lead">See what it actually looks like before you go.</p>
                     <div id="gallery" class="carousel gallery-mosaic">
@@ -918,7 +921,82 @@ function tipsHTML(walkId, tips) {
 
 // --- shared chrome (parameterized by `prefix` = relative path to site root) ---
 
-function headHTML(prefix, title, description, extra) {
+const BASE_URL = 'https://dogsofessex.co.uk';
+const DEFAULT_OG_IMAGE = 'images/about/poppy.webp';
+
+// Turn a path or URL into an absolute URL on the live domain.
+function absUrl(u) {
+    if (!u) return '';
+    return /^https?:\/\//.test(u) ? u : BASE_URL + '/' + String(u).replace(/^\/+/, '');
+}
+
+// Canonical link + Open Graph + Twitter Card tags shared by every page.
+// opts: { canonical (path), title, description, image (path/url), type }
+function seoHead(opts) {
+    opts = opts || {};
+    const canonical = opts.canonical != null ? absUrl(opts.canonical) : '';
+    const image = absUrl(opts.image) || absUrl(DEFAULT_OG_IMAGE);
+    const type = opts.type || 'website';
+    const t = esc(opts.title || '');
+    const d = opts.description ? esc(opts.description) : '';
+    return [
+        canonical ? `<link rel="canonical" href="${canonical}">` : '',
+        `<meta property="og:site_name" content="Dogs of Essex">`,
+        `<meta property="og:locale" content="en_GB">`,
+        `<meta property="og:type" content="${type}">`,
+        `<meta property="og:title" content="${t}">`,
+        d ? `<meta property="og:description" content="${d}">` : '',
+        canonical ? `<meta property="og:url" content="${canonical}">` : '',
+        `<meta property="og:image" content="${esc(image)}">`,
+        `<meta name="twitter:card" content="summary_large_image">`,
+        `<meta name="twitter:title" content="${t}">`,
+        d ? `<meta name="twitter:description" content="${d}">` : '',
+        `<meta name="twitter:image" content="${esc(image)}">`
+    ].filter(Boolean).join('\n    ');
+}
+
+// Schema.org structured data for a walk page: the place itself + breadcrumbs.
+function walkJsonLd(walk, description, imageUrl, pageUrl) {
+    const place = {
+        '@context': 'https://schema.org',
+        '@type': 'TouristAttraction',
+        name: walk.name,
+        description: description || walk.summary || '',
+        url: pageUrl
+    };
+    if (imageUrl) place.image = imageUrl;
+    if (walk.lat != null && walk.lng != null) {
+        place.geo = { '@type': 'GeoCoordinates', latitude: walk.lat, longitude: walk.lng };
+    }
+    place.address = {
+        '@type': 'PostalAddress',
+        addressLocality: walk.town || '',
+        addressRegion: 'Essex',
+        addressCountry: 'GB'
+    };
+    if (walk.rating && walk.rating.value) {
+        place.aggregateRating = {
+            '@type': 'AggregateRating',
+            ratingValue: walk.rating.value,
+            reviewCount: walk.rating.count || 1,
+            bestRating: 5
+        };
+    }
+    const crumbs = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: BASE_URL + '/' },
+            { '@type': 'ListItem', position: 2, name: 'Walks', item: BASE_URL + '/walks/' },
+            { '@type': 'ListItem', position: 3, name: walk.name, item: pageUrl }
+        ]
+    };
+    const ld = (o) => '<script type="application/ld+json">' + JSON.stringify(o).replace(/</g, '\\u003c') + '</script>';
+    return ld(place) + '\n    ' + ld(crumbs);
+}
+
+function headHTML(prefix, title, description, opts) {
+    opts = opts || {};
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -934,7 +1012,8 @@ function headHTML(prefix, title, description, extra) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${esc(title)}</title>
-    <meta name="description" content="${esc(description)}">${extra ? '\n    ' + extra : ''}
+    <meta name="description" content="${esc(description)}">
+    ${seoHead({ canonical: opts.canonical, title: title, description: description, image: opts.image, type: opts.type })}${opts.extra ? '\n    ' + opts.extra : ''}
     <!-- This page is generated by build.js - do not edit by hand. -->
     <link rel="icon" href="${prefix}favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="${prefix}favicon-32x32.png">
@@ -1021,18 +1100,12 @@ function page(walk, walks, places, tips) {
     const title = seo.title || `${walk.name} | Dogs of Essex`;
     const description = seo.description || walk.intro || '';
     const tipSubject = encodeURIComponent(`Walk tip: ${walk.name}`);
-    // Prefer an explicit SEO image; otherwise share the route-overview image.
-    // Social platforms need an absolute URL, so resolve against the domain.
-    const ogImage = seo.image
-        || (walk.routeImage ? `https://dogsofessex.co.uk/${walk.routeImage}` : '');
-    const og = [
-        `<meta property="og:type" content="article">`,
-        `<meta property="og:title" content="${esc(title)}">`,
-        description ? `<meta property="og:description" content="${esc(description)}">` : '',
-        ogImage ? `<meta property="og:image" content="${esc(ogImage)}">` : '',
-        ogImage ? `<meta name="twitter:card" content="summary_large_image">` : '',
-        ogImage ? `<meta name="twitter:image" content="${esc(ogImage)}">` : ''
-    ].filter(Boolean).join('\n    ');
+    // Prefer an explicit SEO image, then the first walk photo, then the route
+    // overview image. Social platforms need an absolute URL.
+    const ogImage = seo.image || (heroImgs.length ? heroImgs[0] : (walk.routeImage || ''));
+    const canonicalPath = `walks/${walk.id}.html`;
+    const og = seoHead({ canonical: canonicalPath, title: title, description: description, image: ogImage, type: 'article' })
+        + '\n    ' + walkJsonLd(walk, description, absUrl(ogImage), absUrl(canonicalPath));
     // Leaflet + leaflet-gpx are only loaded on pages that have a GPX track.
     const needsMap = !!walk.gpxFile || (walk.routes || []).some(function (r) { return r.gpxFile; })
         || ((walk.route && walk.route.carParks) || []).some(function (cp) { return cp && cp.lat != null && cp.lng != null; });
@@ -1260,6 +1333,7 @@ function walksIndexPage(walks) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dog Walks in Essex | Dogs of Essex</title>
     <meta name="description" content="Browse honest, dog-tested walks across Essex - woodland, heathland, parkland and coastal routes for you and your dog.">
+    ${seoHead({ canonical: 'walks/', title: 'Dog Walks in Essex | Dogs of Essex', description: 'Browse honest, dog-tested walks across Essex - woodland, heathland, parkland and coastal routes for you and your dog.' })}
     <!-- This page is generated by build.js - do not edit by hand. -->
     <link rel="icon" href="../favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -1391,7 +1465,8 @@ function bestForIndexPage() {
                 </div>
             </section>`;
     return `${headHTML('../', 'Best For - Find the right walk for your dog | Dogs of Essex',
-        'Find the perfect Essex walk for your dog - reactive dogs, puppies, senior dogs, swimming, low mud, hot weather, off lead and high-energy dogs.')}
+        'Find the perfect Essex walk for your dog - reactive dogs, puppies, senior dogs, swimming, low mud, hot weather, off lead and high-energy dogs.',
+        { canonical: 'best-for/' })}
 </head>
 <body>${navHTML('../')}
 
@@ -1464,7 +1539,7 @@ function bestForCategoryPage(cat, walks) {
             </section>${othersBlock}${scaleBlock}`;
 
     const title = `Best Essex walks for ${lower} | Dogs of Essex`;
-    return `${headHTML(prefix, title, cat.intro)}
+    return `${headHTML(prefix, title, cat.intro, { canonical: 'best-for/' + cat.slug + '/' })}
 </head>
 <body>${navHTML(prefix)}
 
@@ -1595,7 +1670,7 @@ function placesIndexPage() {
                     </div>
                 </div>
             </section>`;
-    return `${headHTML('../', 'Dog-friendly places in Essex | Dogs of Essex', 'Cafés, pubs, days out and beaches worth visiting with your dog across Essex.')}
+    return `${headHTML('../', 'Dog-friendly places in Essex | Dogs of Essex', 'Cafés, pubs, days out and beaches worth visiting with your dog across Essex.', { canonical: 'places/' })}
 </head>
 <body>${navHTML('../')}
 
@@ -1676,7 +1751,7 @@ function placesCategoryPage(cat, places, walks) {
             </section>${content}`;
 
     const title = `Dog-friendly ${cat.plural} in Essex | Dogs of Essex`;
-    return `${headHTML(prefix, title, cat.intro)}
+    return `${headHTML(prefix, title, cat.intro, { canonical: 'places/' + cat.slug + '/' })}
 </head>
 <body>${navHTML(prefix)}
 
@@ -1747,7 +1822,7 @@ function venuePage(p, cat, walks) {
 
     const title = `${p.name} - dog-friendly ${(meta.label || '').toLowerCase()} in Essex | Dogs of Essex`;
     const description = p.notes || p.dogFriendlyNotes || `${p.name}, a dog-friendly ${(meta.label || '').toLowerCase()} in Essex.`;
-    return `${headHTML(prefix, title, description)}
+    return `${headHTML(prefix, title, description, { canonical: 'places/' + cat.slug + '/' + p.id + '/', image: p.image || undefined, type: 'article' })}
 </head>
 <body>${navHTML(prefix)}
 
@@ -1821,7 +1896,7 @@ function aboutPage() {
                     </div>
                 </div>
             </section>`;
-    return `${headHTML('', 'About | Dogs of Essex', 'Why Dogs of Essex exists, how every walk is reviewed, and the Labrador who started it all.')}
+    return `${headHTML('', 'About | Dogs of Essex', 'Why Dogs of Essex exists, how every walk is reviewed, and the Labrador who started it all.', { canonical: 'about.html' })}
 </head>
 <body>${navHTML('')}
 
@@ -1939,7 +2014,7 @@ function privacyPage() {
                     </div>
                 </div>
             </section>`;
-    return `${headHTML('', 'Privacy Policy | Dogs of Essex', 'How Dogs of Essex collects, uses and protects your information when you use the site or submit a community contribution.')}
+    return `${headHTML('', 'Privacy Policy | Dogs of Essex', 'How Dogs of Essex collects, uses and protects your information when you use the site or submit a community contribution.', { canonical: 'privacy.html' })}
 </head>
 <body>${navHTML('')}
 
@@ -2020,6 +2095,38 @@ function build() {
                 venueCount++;
             });
     });
+
+    // --- sitemap.xml + robots.txt (regenerated every build, so new pages are
+    // picked up automatically) ---
+    const urls = [];
+    urls.push({ loc: '' });                 // homepage
+    urls.push({ loc: 'walks/' });
+    pages.forEach((w) => urls.push({ loc: `walks/${w.id}.html`, lastmod: w.added }));
+    urls.push({ loc: 'best-for/' });
+    BEST_FOR.forEach((cat) => urls.push({ loc: `best-for/${cat.slug}/` }));
+    urls.push({ loc: 'places/' });
+    PLACE_CATEGORIES.forEach((cat) => {
+        if (cat.comingSoon) return;
+        urls.push({ loc: `places/${cat.slug}/` });
+        placesInCategory(cat, places)
+            .filter((p) => effectiveTier(p) === 'partner')
+            .forEach((p) => urls.push({ loc: `places/${cat.slug}/${p.id}/` }));
+    });
+    urls.push({ loc: 'about.html' });
+    urls.push({ loc: 'privacy.html' });
+
+    const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
+        + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + urls.map((u) => '  <url>\n    <loc>' + BASE_URL + '/' + u.loc + '</loc>'
+            + (u.lastmod ? '\n    <lastmod>' + u.lastmod + '</lastmod>' : '')
+            + '\n  </url>').join('\n')
+        + '\n</urlset>\n';
+    fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
+    console.log(`  ✓ sitemap.xml (${urls.length} urls)`);
+
+    const robots = `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`;
+    fs.writeFileSync(path.join(ROOT, 'robots.txt'), robots);
+    console.log('  ✓ robots.txt');
 
     console.log(`\nBuilt ${pages.length} walk page(s) + walks index + ${BEST_FOR.length} Best For pages + Places hub/${PLACE_CATEGORIES.length} categories/${venueCount} venues from ${walks.length} walks, ${places.length} places, ${tips.length} tips.`);
 }
