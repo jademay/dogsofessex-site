@@ -108,7 +108,7 @@ if (form) {
     // The card nearest the carousel's centre is the "active" one: highlight its
     // marker and pan the map to it.
     let activeCarouselCard = -1;
-    const syncActiveFromCarousel = () => {
+    const syncActiveFromCarousel = (pan = true) => {
         if (!isMobile()) return;
         const gRect = grid.getBoundingClientRect();
         const mid = gRect.left + gRect.width / 2;
@@ -124,7 +124,7 @@ if (form) {
         activeCarouselCard = best;
         highlightMarker(best, true);
         highlightCard(best, true);
-        panToWalk(best);
+        if (pan) panToWalk(best);
     };
     // Keep the sticky offsets in sync with the header + toolbar heights (which
     // vary as the filters wrap), and expose them as CSS variables the layout
@@ -239,7 +239,9 @@ if (form) {
         setTimeout(() => {
             walksMap.invalidateSize();
             fit();
-            syncActiveFromCarousel();
+            // First load: keep the fitted view of all (filtered) walks — just
+            // highlight the leading card, don't pan.
+            syncActiveFromCarousel(false);
             setTimeout(() => {
                 walksMap.on('moveend', () => { boundsSync = true; applyBounds(); });
             }, 300);

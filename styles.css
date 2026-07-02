@@ -1731,7 +1731,11 @@ h2 .lucide { vertical-align: -0.1em; }
 .walk-pop { text-align: center; font-size: 0.9rem; }
 .walk-pop a { color: var(--color-forest-dark); font-weight: 600; }
 @media (max-width: 900px) {
-    .walks-explorer { grid-template-columns: 1fr; }
+    /* Single column that can shrink below its content, so the horizontal
+       carousel scrolls inside the column instead of stretching it (which was
+       pushing the map off the right edge). */
+    .walks-explorer { grid-template-columns: minmax(0, 1fr); }
+    .walks-list-col, .walks-map-col { min-width: 0; }
 
     /* Map pins to the top (just under the sticky site header) while the cards
        swipe horizontally underneath it. */
@@ -1744,7 +1748,12 @@ h2 .lucide { vertical-align: -0.1em; }
         z-index: 1;
         background: var(--color-bg-alt);
     }
+    .walks-map-col .walks-map { width: 100%; }
     .walks-count { margin: 0 0 0.5rem; font-size: 0.95rem; }
+
+    /* Tighten vertical rhythm so the map + first cards fit the screen together. */
+    .walk-index-head { padding: 1.25rem 0 0.5rem; }
+    .walks-explorer-section { padding: 1rem 0 2.5rem; }
 
     /* Horizontal, snap-to-centre carousel: one card at a time with the next
        peeking through on each side. */
