@@ -171,8 +171,9 @@ if (form) {
                 keyboard: false // don't focus on click (avoids the browser scrolling it into view)
             });
             m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
-            m.on('mouseover', () => { highlightCard(i, true); scrollToCard(i, false); });
+            m.on('mouseover', () => highlightCard(i, true));
             m.on('mouseout', () => highlightCard(i, false));
+            // Only recentre the card list on click/tap, not on hover.
             m.on('click', () => { scrollToCard(i, true); });
             walkMarkers.push(m);
         });
