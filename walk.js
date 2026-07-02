@@ -105,6 +105,17 @@
         const walkName = section.dataset.walk || '';
         const walkId = section.dataset.walkid || '';
 
+        // Single primary action reveals the specific contribution options.
+        const improveToggle = section.querySelector('.improve-toggle');
+        const improveOptions = section.querySelector('#improve-options');
+        if (improveToggle && improveOptions) {
+            improveToggle.addEventListener('click', () => {
+                const willOpen = improveOptions.hasAttribute('hidden');
+                improveOptions.toggleAttribute('hidden', !willOpen);
+                improveToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            });
+        }
+
         const modal = document.createElement('div');
         modal.className = 'tip-modal';
         modal.setAttribute('aria-hidden', 'true');

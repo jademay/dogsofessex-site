@@ -841,6 +841,9 @@ h1, h2, h3 {
 }
 .hero-actions .btn.is-saved .lucide { fill: currentColor; }
 @media (max-width: 600px) {
+    /* Roomier section spacing on mobile (~56-60px) so sections breathe */
+    .walk-section { padding: 3.5rem 0; }
+    .walk-section.section-alt { padding: 3.75rem 0; }
     /* Shorter hero so a glimpse of the content below shows, hinting to scroll */
     .walk-hero { min-height: 50vh; }
     /* Stack the actions below the hero text instead of overlapping the chips */
@@ -1743,6 +1746,31 @@ h2 .lucide { vertical-align: -0.1em; }
 .walk-section h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); margin-bottom: 0.4rem; }
 .section-lead { color: var(--color-muted); margin-bottom: 1.6rem; }
 .section-divider { border: 0; border-top: 1px solid var(--color-border); margin: 2.25rem 0 0; }
+
+/* "Next up" cue at the end of a long section, hinting to keep scrolling */
+.next-up {
+    margin-top: 2.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.2rem;
+    /* soft fade rising into the cue */
+    background: linear-gradient(to bottom, transparent, rgba(42, 40, 35, 0.03));
+}
+.next-up-eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+.next-up-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    color: var(--color-forest);
+}
 .walk-section.section-alt { padding: 4.5rem 0; }
 
 /* A little breathing room around the "Parking & directions" line */
@@ -2537,12 +2565,14 @@ h2 .lucide { vertical-align: -0.1em; }
 html { scroll-behavior: smooth; }
 .improve { scroll-margin-top: 90px; }
 .improve p { margin: 0 0 0.5rem; }
+.improve-toggle { margin-top: 1.25rem; display: inline-flex; align-items: center; gap: 0.45rem; }
 .improve-actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 1.25rem;
+    margin-top: 1rem;
 }
+.improve-actions[hidden] { display: none; }
 .improve-actions .btn { flex: 0 1 auto; }
 
 /* Save / share actions */

@@ -726,11 +726,19 @@ function galleryInner(walk) {
                     <hr class="section-divider">`;
 }
 
+function nextUpHTML(title) {
+    return `<div class="next-up">
+                        <span class="next-up-eyebrow">↓ Next up</span>
+                        <span class="next-up-title">${esc(title)}</span>
+                    </div>`;
+}
+
 function whatToExpectInner(walk) {
     if (!walk.whatToExpect || !walk.whatToExpect.length) return '';
     return `<h2>What to expect</h2>
                     <div id="what-to-expect">${whatToExpectHTML(walk.whatToExpect)}
-                    </div>`;
+                    </div>
+                    ${nextUpHTML('Make a Day of It')}`;
 }
 
 // The walk's single editorial "Dogs of Essex Pick" - the big card.
@@ -1079,13 +1087,13 @@ function page(walk, walks, places, tips) {
                     </div>` },
         { narrow: true, html: `<div id="improve" class="improve" data-walk="${esc(walk.name)}" data-walkid="${esc(walk.id)}">
                     <h2>${icon('lightbulb')} Help Improve This Walk</h2>
-                    <p>Have you spotted something we've missed?</p>
                     <p class="section-lead">We'd love your help keeping Dogs of Essex accurate and up to date.</p>
-                    <div class="improve-actions">
+                    <button type="button" class="btn btn-primary improve-toggle" aria-expanded="false" aria-controls="improve-options">${icon('message-circle')} Share something about this walk</button>
+                    <div class="improve-actions" id="improve-options" hidden>
                         <button type="button" class="btn btn-secondary improve-btn" data-tiptype="walkingTip">Submit a tip</button>
-                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">Suggest a new walk</button>
-                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newPlaceSuggestion">Recommend a nearby place</button>
                         <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">Report an issue</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newPlaceSuggestion">Recommend a place</button>
+                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">Suggest a walk</button>
                     </div>
                 </div>` },
         (walk.official && walk.official.managedBy) && { narrow: true, html: officialInner(walk) }
