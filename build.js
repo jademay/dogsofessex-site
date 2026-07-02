@@ -407,7 +407,7 @@ function starsHTML(score) {
     const s = Math.max(0, Math.min(5, Math.round(score) || 0));
     return `<span class="on">${'★'.repeat(s)}</span><span class="off">${'☆'.repeat(5 - s)}</span>`;
 }
-const walkHref = (w) => (w.hasPage ? `${w.id}.html` : '../index.html#walks');
+const walkHref = (w) => (w.hasPage ? `/walks/${w.id}.html` : '/#walks');
 
 // --- section renderers (return HTML strings) ---
 
@@ -1033,7 +1033,7 @@ function navHTML(prefix) {
                 <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
                 <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span class="nav-toggle-open">${icon('menu')}</span><span class="nav-toggle-close">${icon('x')}</span></button>
                 <ul class="nav-links">
-                    <li><a href="${prefix}walks/index.html">Walks</a></li>
+                    <li><a href="/walks/">Walks</a></li>
                     <li><a href="${prefix}best-for/index.html">Best For</a></li>
                     <li><a href="${prefix}places/index.html">Places</a></li>
                     <li><a href="${prefix}index.html#meetups">Meetups</a></li>
@@ -1056,7 +1056,7 @@ function footerHTML(prefix) {
                 <div class="footer-col">
                     <h4>Explore</h4>
                     <ul>
-                        <li><a href="${prefix}walks/index.html">Walks</a></li>
+                        <li><a href="/walks/">Walks</a></li>
                         <li><a href="${prefix}best-for/index.html">Best For</a></li>
                         <li><a href="${prefix}places/index.html">Places</a></li>
                         <li><a href="${prefix}index.html#meetups">Meetups</a></li>
@@ -1213,7 +1213,7 @@ function page(walk, walks, places, tips) {
         <section class="walk-hero${heroAttrs}>
             <div class="walk-hero-top">
                 <div class="container">
-                    <p class="breadcrumb"><a href="../index.html">Home</a> · <a href="index.html">Walks</a> · ${esc(walk.name)}</p>
+                    <p class="breadcrumb"><a href="../index.html">Home</a> · <a href="/walks/">Walks</a> · ${esc(walk.name)}</p>
                 </div>
             </div>
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
@@ -1263,7 +1263,7 @@ function indexWalkCard(w, i) {
                                 <span class="link-arrow">${w.hasPage ? 'Explore Walk →' : 'Basic details available now. Full review coming soon.'}</span>
                             </div>`;
     return w.hasPage
-        ? `\n                        <a href="${esc(w.id)}.html" class="walk-card"${data}>${inner}
+        ? `\n                        <a href="/walks/${esc(w.id)}.html" class="walk-card"${data}>${inner}
                         </a>`
         : `\n                        <div class="walk-card walk-card-soon"${data}>${inner}
                         </div>`;
@@ -1395,7 +1395,7 @@ function walkPhotoHTML(w, prefix) {
 
 // The category's strongest walk - reuses the "Dogs of Essex Pick" premium styling.
 function walkPickCardHTML(w, cat, prefix) {
-    const href = `${prefix}walks/${esc(w.id)}.html`;
+    const href = `/walks/${esc(w.id)}.html`;
     const chips = [w.distance ? `${icon('ruler')} ${esc(w.distance)}` : '', w.time ? `${icon('clock')} ${esc(w.time)}` : '']
         .filter(Boolean).map((c) => `<span class="access-chip">${c}</span>`).join('');
     return `
@@ -1427,7 +1427,7 @@ function bestForWalkCardHTML(w, prefix) {
     const meta = [milesLabel(w), timeLabel(w, true), w.mud ? 'Mud: ' + w.mud : ''].filter(Boolean).join(' • ');
     const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
     return `
-                        <a href="${prefix}walks/${esc(w.id)}.html" class="walk-card">
+                        <a href="/walks/${esc(w.id)}.html" class="walk-card">
                             <div class="photo-ph">${walkPhotoHTML(w, prefix)}</div>
                             <div class="walk-card-body">
                                 <h3>${esc(w.name)}</h3>
