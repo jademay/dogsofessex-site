@@ -1742,13 +1742,14 @@ h2 .lucide { vertical-align: -0.1em; }
     .walks-map-col {
         position: sticky;
         top: var(--toolbar-top, 64px);
-        height: 42vh;
         order: -1;
         margin-bottom: 1rem;
         z-index: 1;
         background: var(--color-bg-alt);
     }
-    .walks-map-col .walks-map { width: 100%; }
+    /* Explicit height (not flex:1) — iOS Safari can collapse a flex-sized map
+       inside a sticky flex column, which broke fitBounds. */
+    .walks-map-col .walks-map { flex: 0 0 auto; height: 42vh; width: 100%; }
     .walks-count { margin: 0 0 0.5rem; font-size: 0.95rem; }
 
     /* Tighten vertical rhythm so the map + first cards fit the screen together. */
@@ -1772,6 +1773,7 @@ h2 .lucide { vertical-align: -0.1em; }
     .walks-explorer .walks-index-grid::-webkit-scrollbar { display: none; }
     .walks-explorer .walks-index-grid .walk-card {
         flex: 0 0 85%;
+        min-width: 0;
         scroll-snap-align: center;
     }
     /* Restore a normal card photo in the carousel (the short list photo is a

@@ -242,9 +242,13 @@ if (form) {
             // First load: keep the fitted view of all (filtered) walks — just
             // highlight the leading card, don't pan.
             syncActiveFromCarousel(false);
+            // iOS Safari can report the sticky map's size late, leaving the
+            // first fit wrong; re-measure and re-fit before wiring bounds-sync.
             setTimeout(() => {
+                walksMap.invalidateSize();
+                fit();
                 walksMap.on('moveend', () => { boundsSync = true; applyBounds(); });
-            }, 300);
+            }, 350);
         }, 90);
     }
 
