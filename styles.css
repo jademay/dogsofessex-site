@@ -1734,7 +1734,7 @@ h2 .lucide { vertical-align: -0.1em; }
     /* Single column that can shrink below its content, so the horizontal
        carousel scrolls inside the column instead of stretching it (which was
        pushing the map off the right edge). */
-    .walks-explorer { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+    .walks-explorer { grid-template-columns: minmax(0, 1fr); gap: 0.5rem; }
     .walks-list-col, .walks-map-col { min-width: 0; }
 
     /* Map pins just below the sticky header + filter bar while the cards swipe
@@ -1743,6 +1743,9 @@ h2 .lucide { vertical-align: -0.1em; }
         position: sticky;
         top: var(--content-top, 110px);
         order: -1;
+        /* Override the desktop height:70vh so the column hugs the count + map
+           instead of reserving ~28vh of blank space below the map. */
+        height: auto;
         margin-bottom: 0;
         z-index: 1;
         background: var(--color-bg-alt);
@@ -1768,7 +1771,7 @@ h2 .lucide { vertical-align: -0.1em; }
         overflow-y: visible;
         scroll-snap-type: x mandatory;
         scroll-padding-inline: 7.5%;
-        padding: 0.25rem 7.5% 0.5rem;
+        padding: 0.5rem 7.5%;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
