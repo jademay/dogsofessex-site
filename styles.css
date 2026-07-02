@@ -1679,7 +1679,7 @@ h2 .lucide { vertical-align: -0.1em; }
     align-items: start;
 }
 .walks-count {
-    margin: 0 0 0.65rem;
+    margin: 1rem 0 0.65rem;
     font: 600 1.05rem/1.4 'Inter', system-ui, sans-serif;
     color: var(--color-forest);
 }
@@ -1691,7 +1691,7 @@ h2 .lucide { vertical-align: -0.1em; }
     position: sticky;
     top: var(--content-top, 107px);
     align-self: start;
-    height: 80vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
 }
