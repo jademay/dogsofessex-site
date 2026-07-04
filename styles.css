@@ -1633,19 +1633,28 @@ h1, h2, h3 {
 
 /* --- Mobile footer: compact, two link columns, icon-only socials --- */
 @media (max-width: 600px) {
-    .site-footer { padding: 2rem 0 1.5rem; }          /* ~32px */
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; } /* 24px section gap */
-    .footer-brand { grid-column: 1 / -1; }
-    .footer-brand p { display: none; }                /* drop the intro line on mobile */
+    .site-footer { padding: 1.7rem 0 1.3rem; }        /* ~15% tighter */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .footer-brand { display: none; }                  /* wordmark is already in the header */
     .footer-follow { grid-column: 1 / -1; }           /* Follow spans full width */
-    .footer-col h4 { margin-bottom: 0.6rem; }
-    .footer-col li { margin-bottom: 0.7rem; }         /* ~11px link spacing */
+    .footer-col h4 { font-size: 0.7rem; margin-bottom: 0.5rem; } /* ~10% smaller heading */
+    .footer-col li { margin-bottom: 0.6rem; }
 
     /* Instagram + Facebook as icons on one row. */
-    .footer-follow ul { display: flex; flex-direction: row; align-items: center; gap: 0.75rem; }
+    .footer-follow ul { display: flex; flex-direction: row; align-items: center; gap: 1.25rem; }
     .footer-follow li { margin-bottom: 0; }
-    .footer-follow a { display: inline-flex; padding: 0.4rem; }
+    .footer-follow a { position: relative; display: inline-flex; padding: 0; }
     .footer-follow svg { display: block; width: 24px; height: 24px; }
+    /* Keep the icon size but give it a 44x44 invisible tap target. */
+    .footer-follow a::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 44px;
+        height: 44px;
+        transform: translate(-50%, -50%);
+    }
     .footer-social-label {
         position: absolute; width: 1px; height: 1px;
         margin: -1px; padding: 0; border: 0;
@@ -1653,8 +1662,8 @@ h1, h2, h3 {
     }
 
     .footer-bottom {
-        margin-top: 1.5rem;
-        padding-top: 1rem;
+        margin-top: 1.25rem;
+        padding-top: 0.9rem;
         flex-direction: column;
         align-items: flex-start;
         gap: 0.2rem;
@@ -1695,6 +1704,30 @@ h1, h2, h3 {
         max-width: 220px;
         min-width: 0;
         scroll-snap-align: center;
+    }
+}
+
+/* Homepage "Best walks for…": two columns of square tiles on phones; if the
+   count is odd, the last tile is centred. */
+@media (max-width: 600px) {
+    #bestfor .bestfor-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    #bestfor .bestfor-pill {
+        aspect-ratio: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 0.6rem;
+        padding: 1rem;
+    }
+    #bestfor .bestfor-pill .dot { width: 10px; height: 10px; }
+    #bestfor .bestfor-pill:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(50% - 0.375rem); /* match one column (gap is 0.75rem) */
     }
 }
 
