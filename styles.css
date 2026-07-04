@@ -1741,10 +1741,18 @@ h2 .lucide { vertical-align: -0.1em; }
     cursor: pointer;
     transition: transform 0.12s ease, background-color 0.12s ease;
 }
-.walk-map-pin span:hover,
 .walk-map-pin--active span {
     background: var(--color-terracotta);
     transform: scale(1.5);
+}
+/* Only colour on hover where hovering is real — on touch, :hover "sticks" after
+   a tap, which would leave a second orange pin behind when you swipe to another
+   card. There, only the active card's pin should be orange. */
+@media (hover: hover) {
+    .walk-map-pin span:hover {
+        background: var(--color-terracotta);
+        transform: scale(1.5);
+    }
 }
 .walks-index-grid .walk-card.is-map-active {
     border-color: var(--color-terracotta);

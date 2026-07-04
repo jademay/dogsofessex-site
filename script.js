@@ -200,6 +200,11 @@ if (form) {
                 keyboard: false // don't focus on click (avoids the browser scrolling it into view)
             });
             m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
+            // On phones the card sits right below the map, so the name tag is
+            // redundant (and lingers after a tap) — suppress it there. Closing
+            // it inside tooltipopen happens before paint, so no flash. Desktop
+            // hover tooltips are unaffected.
+            m.on('tooltipopen', () => { if (isMobile()) m.closeTooltip(); });
             m.on('mouseover', () => highlightCard(i, true));
             m.on('mouseout', () => highlightCard(i, false));
             // Tapping a marker jumps to its card: swipe the carousel on mobile,
