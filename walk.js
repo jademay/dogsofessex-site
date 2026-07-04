@@ -129,6 +129,7 @@
             '<label>Email <span class="opt">(optional, never shown)</span><input name="email" type="email" maxlength="120"></label>' +
             '<button type="submit" class="btn btn-primary tip-submit">Submit</button>' +
             '<p class="tip-form-msg" role="status"></p>' +
+            '<p class="form-consent">By submitting this form, you agree to our <a href="/privacy.html">Privacy Policy</a> and <a href="/terms.html">Terms of Use</a>.</p>' +
             '</form></div>';
         document.body.appendChild(modal);
 
@@ -214,6 +215,7 @@
             '<h3 class="route-popup-title"></h3>' +
             '<div class="route-popup-map"></div>' +
             '<a class="route-popup-download btn btn-secondary" download>⬇ Download GPX</a>' +
+            '<p class="route-popup-note">GPX routes are provided as a guide only. Please follow local signage and use your own judgement. See our <a href="/terms.html">Terms of Use</a>.</p>' +
             '</div>';
         document.body.appendChild(pop);
 

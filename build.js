@@ -1068,6 +1068,7 @@ function footerHTML(prefix) {
                         <li><a href="${prefix}about.html">About</a></li>
                         <li><a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Contact</a></li>
                         <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
+                        <li><a href="${prefix}terms.html">Terms of Use</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -2035,6 +2036,126 @@ ${footerHTML('')}
 `;
 }
 
+function termsPage() {
+    const updated = 'Last updated: July 2026';
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container">
+                    <h1 class="index-title">Terms of Use</h1>
+                    <p class="index-sub">${updated}</p>
+                </div>
+            </section>
+
+            <section class="walk-section section-alt">
+                <div class="container">
+                    <div class="legal">
+                        <p class="legal-lead">Dogs of Essex is an independent guide created by local dog owners. We visit every walk ourselves, take our own photographs and aim to keep our information as accurate and helpful as possible.</p>
+                        <p>Welcome to Dogs of Essex. By using this website, you agree to these terms.</p>
+
+                        <h2>1. Using Dogs of Essex</h2>
+                        <p>Dogs of Essex is a guide to dog-friendly walks, places and information across Essex.</p>
+                        <p>You may browse, share and use the information for your own personal, non-commercial use.</p>
+                        <p>Please don't copy large parts of the website or republish our content without permission.</p>
+
+                        <h2>2. Walk Information</h2>
+                        <p>We do our best to keep every walk accurate and up to date, but things change. This includes:</p>
+                        <ul>
+                            <li>parking arrangements</li>
+                            <li>livestock</li>
+                            <li>seasonal closures</li>
+                            <li>flooding</li>
+                            <li>access restrictions</li>
+                            <li>facilities</li>
+                            <li>cafés</li>
+                            <li>toilets</li>
+                            <li>opening times</li>
+                        </ul>
+                        <p>Always use your own judgement when visiting a walk.</p>
+
+                        <h2>3. Walking is at Your Own Risk</h2>
+                        <p>You are responsible for your own safety and your dog's safety.</p>
+                        <p>Dogs of Essex cannot accept responsibility for:</p>
+                        <ul>
+                            <li>injuries</li>
+                            <li>accidents</li>
+                            <li>lost dogs</li>
+                            <li>damaged property</li>
+                            <li>parking fines</li>
+                            <li>changes to routes</li>
+                            <li>weather conditions</li>
+                            <li>tides</li>
+                            <li>livestock encounters</li>
+                        </ul>
+
+                        <h2>4. Ratings &amp; Recommendations</h2>
+                        <p>Our ratings and recommendations reflect our own experience and opinion and are intended as a guide only. Every dog is different, so what suits one may not suit another.</p>
+
+                        <h2>5. GPX Routes</h2>
+                        <p>If you download a GPX file:</p>
+                        <ul>
+                            <li>it is provided as a guide only</li>
+                            <li>GPS accuracy isn't guaranteed</li>
+                            <li>routes may change over time</li>
+                            <li>always follow local signs and rights of way</li>
+                        </ul>
+
+                        <h2>6. Community Contributions</h2>
+                        <p>If you submit:</p>
+                        <ul>
+                            <li>tips</li>
+                            <li>corrections</li>
+                            <li>new walks</li>
+                            <li>photographs</li>
+                            <li>comments</li>
+                        </ul>
+                        <p>you confirm:</p>
+                        <ul>
+                            <li>the information is accurate to the best of your knowledge</li>
+                            <li>you own any photos you upload</li>
+                            <li>you give Dogs of Essex permission to display and edit your submission.</li>
+                        </ul>
+
+                        <h2>7. External Websites</h2>
+                        <p>We sometimes link to:</p>
+                        <ul>
+                            <li>Google Maps</li>
+                            <li>cafés</li>
+                            <li>pubs</li>
+                            <li>official organisations</li>
+                            <li>local councils</li>
+                        </ul>
+                        <p>We're not responsible for the content or availability of those websites.</p>
+
+                        <h2>8. Copyright</h2>
+                        <p>Unless stated otherwise, all text, photographs, ratings and website content belong to Dogs of Essex.</p>
+                        <p>Please don't reproduce or republish our content without permission.</p>
+                        <p>Sharing links to our website is always welcome.</p>
+
+                        <h2>9. Changes</h2>
+                        <p>We may update these terms from time to time. The latest version will always be available on this page.</p>
+
+                        <h2>10. Contact</h2>
+                        <p>If you have any questions about these Terms of Use, please contact us at:</p>
+                        <p><a href="mailto:hello@dogsofessex.co.uk">hello@dogsofessex.co.uk</a></p>
+                    </div>
+                </div>
+            </section>`;
+    return `${headHTML('', 'Terms of Use | Dogs of Essex', 'The plain-English terms for using Dogs of Essex - walk information, GPX routes, community contributions, ratings and copyright.', { canonical: 'terms.html' })}
+</head>
+<body>${navHTML('')}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML('')}
+
+    <script src="script.js?v=${V_JS}"></script>
+</body>
+</html>
+`;
+}
+
 // --- run ---
 
 function readJSON(file) {
@@ -2062,6 +2183,9 @@ function build() {
 
     fs.writeFileSync(path.join(ROOT, 'privacy.html'), privacyPage());
     console.log('  ✓ privacy.html');
+
+    fs.writeFileSync(path.join(ROOT, 'terms.html'), termsPage());
+    console.log('  ✓ terms.html');
 
     fs.writeFileSync(path.join(ROOT, 'about.html'), aboutPage());
     console.log('  ✓ about.html');
@@ -2119,6 +2243,7 @@ function build() {
     });
     urls.push({ loc: 'about.html' });
     urls.push({ loc: 'privacy.html' });
+    urls.push({ loc: 'terms.html' });
 
     const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
         + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
