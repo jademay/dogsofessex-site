@@ -1604,17 +1604,19 @@ function accessBadgesHTML(p) {
 // A partner venue - the same compact partner card used on walk pages, plus a
 // "View details" link to its venue page. The badge bar / large photo (the
 // "Dogs of Essex Pick" look) is intentionally not used here.
-function placePartnerCardHTML(p, walks) {
+function placePartnerCardHTML(p, walks, opts) {
+    opts = opts || {};
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const near = nearestWalk(p, walks);
     const web = placeUrl(p);
+    const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
     return `
-                        <article class="day-card partner-card venue-card" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
+                        <article class="day-card partner-card venue-card" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}">
                             <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
                             <span class="pc-dist place-dist">${near ? `${near.mi.toFixed(1)} mi from ${esc(near.walk.name)}` : ''}</span>
                             ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
                             <div class="pc-actions">
-                                <a class="pc-cta" href="${esc(p.id)}/index.html">View details →</a>
+                                <a class="pc-cta" href="${esc(opts.pathPrefix || '')}${esc(p.id)}/index.html">View details →</a>
                                 ${web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
                                 <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>
                             </div>
@@ -1622,13 +1624,15 @@ function placePartnerCardHTML(p, walks) {
 }
 
 // A free venue - a pill linking straight to its own website (or map).
-function placeFreePillHTML(p, walks) {
+function placeFreePillHTML(p, walks, opts) {
+    opts = opts || {};
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const near = nearestWalk(p, walks);
     const url = placeUrl(p) || mapsUrl(p);
     const dist = near ? `${near.mi.toFixed(1)} mi • ${driveMins(near.mi)} mins` : '';
+    const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
     return `
-                            <a class="free-pill" href="${esc(url)}" target="_blank" rel="noopener" data-place-type="${esc(p.type)}" data-lat="${p.lat}" data-lng="${p.lng}">
+                            <a class="free-pill" href="${esc(url)}" target="_blank" rel="noopener" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}">
                                 <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
                                 <span class="fp-dist place-dist">${dist}</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
@@ -1656,23 +1660,47 @@ function placeCatCardHTML(cat) {
         : `\n                        <a href="${esc(cat.slug)}/index.html" class="bestfor-card place-cat-card">${inner}\n                        </a>`;
 }
 
-function placesIndexPage() {
-    const cards = PLACE_CATEGORIES.map(placeCatCardHTML).join('');
+function placesIndexPage(places, walks) {
+    const cats = PLACE_CATEGORIES;
+    const pills = `<button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>\n                        `
+        + cats.map((c) => `<button type="button" class="filter-pill" data-cat="${esc(c.slug)}" aria-pressed="false">${esc(c.title)}</button>`).join('\n                        ');
+
+    // Every venue, tagged with its category and sorted by nearest walk.
+    const tagged = cats.flatMap((cat) => placesInCategory(cat, places).map((p) => ({ p, cat })));
+    tagged.sort((a, b) => {
+        const na = nearestWalk(a.p, walks), nb = nearestWalk(b.p, walks);
+        return (na ? na.mi : 1e9) - (nb ? nb.mi : 1e9);
+    });
+    const list = tagged.map(({ p, cat }) => effectiveTier(p) === 'partner'
+        ? placePartnerCardHTML(p, walks, { pathPrefix: cat.slug + '/', cat: cat.slug })
+        : placeFreePillHTML(p, walks, { cat: cat.slug })).join('');
+
+    // Coming-soon empty state for categories with no venues yet (shown by the
+    // filter JS when that category is selected).
+    const empties = cats.filter((c) => !placesInCategory(c, places).length).map((c) => `
+                    <div class="places-empty" data-cat="${esc(c.slug)}" hidden>
+                        <p class="section-lead">${esc(c.title)} is coming soon - we're still adding great spots.</p>
+                        <p class="tip-cta">Know a great one? <a href="mailto:hello@dogsofessex.co.uk?subject=${encodeURIComponent('Place suggestion: ' + c.title)}">Tell us →</a></p>
+                    </div>`).join('');
+
     const body = `
             <section class="walk-section walk-index-head">
                 <div class="container">
                     <h1 class="index-title">Dog-friendly places in Essex</h1>
-                    <p class="index-sub">Cafés, pubs and days out worth visiting with your dog.</p>
+                    <p class="index-sub">Cafés, pubs, days out and beaches worth visiting with your dog.</p>
+                    <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
+                        ${pills}
+                    </div>
                 </div>
             </section>
 
-            <section class="walk-section section-alt">
+            <section class="walk-section section-alt places-section">
                 <div class="container">
-                    <div class="places-hub-grid">${cards}
-                    </div>
+                    <div class="places-list places-hub-list">${list}
+                    </div>${empties}
                 </div>
             </section>`;
-    return `${headHTML('../', 'Dog-friendly places in Essex | Dogs of Essex', 'Cafés, pubs, days out and beaches worth visiting with your dog across Essex.', { canonical: 'places/' })}
+    return `${headHTML('../', 'Dog-friendly places in Essex | Dogs of Essex', 'Browse dog-friendly cafés, pubs, days out and beaches across Essex - filter by category and find your nearest.', { canonical: 'places/' })}
 </head>
 <body>${navHTML('../')}
 
@@ -2259,7 +2287,7 @@ function build() {
     // Places hub + category pages + venue pages (partner/featured venues only).
     const PL_OUT = path.join(ROOT, 'places');
     if (!fs.existsSync(PL_OUT)) fs.mkdirSync(PL_OUT, { recursive: true });
-    fs.writeFileSync(path.join(PL_OUT, 'index.html'), placesIndexPage());
+    fs.writeFileSync(path.join(PL_OUT, 'index.html'), placesIndexPage(places, walks));
     console.log('  ✓ places/index.html');
     let venueCount = 0;
     PLACE_CATEGORIES.forEach((cat) => {

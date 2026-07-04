@@ -463,3 +463,34 @@ if (form) {
         });
     }
 })();
+
+// Places hub — filter venues by category. Deep-linkable via #<category-slug>
+// (e.g. .../places/#eat-drink); "All" clears the hash.
+(function () {
+    const bar = document.querySelector('.places-cat-filter');
+    if (!bar) return;
+    const pills = Array.from(bar.querySelectorAll('.filter-pill'));
+    const cards = Array.from(document.querySelectorAll('.places-hub-list > [data-cat]'));
+    const empties = Array.from(document.querySelectorAll('.places-empty'));
+    const valid = new Set(pills.map((p) => p.dataset.cat));
+
+    const applyCat = (cat) => {
+        if (!valid.has(cat)) cat = 'all';
+        pills.forEach((p) => {
+            const on = p.dataset.cat === cat;
+            p.classList.toggle('is-active', on);
+            p.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        cards.forEach((c) => { c.hidden = !(cat === 'all' || c.dataset.cat === cat); });
+        // Show a "coming soon" state only when the chosen category has none.
+        empties.forEach((e) => { e.hidden = !(cat !== 'all' && e.dataset.cat === cat); });
+    };
+
+    pills.forEach((p) => p.addEventListener('click', () => {
+        applyCat(p.dataset.cat);
+        history.replaceState(null, '', p.dataset.cat === 'all' ? location.pathname : '#' + p.dataset.cat);
+    }));
+
+    const initial = (location.hash || '').replace('#', '');
+    applyCat(valid.has(initial) ? initial : 'all');
+})();

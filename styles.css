@@ -548,6 +548,19 @@ h1, h2, h3 {
     margin: 0 auto;
 }
 
+/* Places hub: category filter bar + coming-soon empty state */
+.places-cat-filter { margin-top: 1.25rem; }
+/* The venue cards set their own display, which would beat the [hidden]
+   attribute — force filtered-out cards to actually hide. */
+.places-hub-list > [hidden] { display: none !important; }
+.places-empty {
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2.5rem 1rem 1rem;
+}
+.places-empty .section-lead { margin-bottom: 0.5rem; }
+
 /* Partner venue card — same compact card as walk pages; let its description
    breathe a little more in the wider single-column list. */
 .venue-card.partner-card .pc-desc { -webkit-line-clamp: 3; }
