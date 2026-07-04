@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=bc393273">
+    <link rel="stylesheet" href="../styles.css?v=fe9d2b9b">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
@@ -60,6 +60,11 @@
                 <div class="container">
                     <h1 class="index-title">Dog-friendly places in Essex</h1>
                     <p class="index-sub">Cafés, pubs, days out and beaches worth visiting with your dog.</p>
+                </div>
+            </section>
+
+            <div class="places-toolbar">
+                <div class="container">
                     <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
                         <button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>
                         <button type="button" class="filter-pill" data-cat="eat-drink" aria-pressed="false">Eat &amp; Drink</button>
@@ -67,39 +72,40 @@
                         <button type="button" class="filter-pill" data-cat="beaches" aria-pressed="false">Beaches</button>
                         <button type="button" class="filter-pill" data-cat="stay" aria-pressed="false">Stay</button>
                     </div>
+                    <p class="places-count" aria-live="polite"></p>
                 </div>
-            </section>
+            </div>
 
             <section class="walk-section section-alt places-section">
                 <div class="container">
                     <div class="places-explorer">
                         <div class="places-list-col">
                             <div class="places-list places-hub-list">
-                            <a class="free-pill" href="https://www.thejollysailorheybridgebasin.co.uk/index" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.72968816" data-lng="0.7097124789">
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.72968816" data-lng="0.7097124789" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Jolly Sailor</span>
                                 <span class="fp-dist place-dist">0.1 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/Dtb3XD7L7LzyGUM46" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.7291978" data-lng="0.7094237209">
+                                <a class="fp-visit" href="https://www.thejollysailorheybridgebasin.co.uk/index" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.7291978" data-lng="0.7094237209" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Old Ship</span>
                                 <span class="fp-dist place-dist">0.1 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.farmcafebyblackpig.co.uk/home" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.74227113" data-lng="0.7188308716">
+                                <a class="fp-visit" href="https://maps.app.goo.gl/Dtb3XD7L7LzyGUM46" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.74227113" data-lng="0.7188308716" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Farm Cafe by Black Pig</span>
                                 <span class="fp-dist place-dist">0.2 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://thequeensheadmaldon.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.72958925" data-lng="0.6878901803">
+                                <a class="fp-visit" href="https://www.farmcafebyblackpig.co.uk/home" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.72958925" data-lng="0.6878901803" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Queen's Head, Maldon</span>
                                 <span class="fp-dist place-dist">0.4 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://hylandsestate.co.uk/explore/thedelihylands/" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.71180005" data-lng="0.4356048987">
+                                <a class="fp-visit" href="https://thequeensheadmaldon.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.71180005" data-lng="0.4356048987" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Deli Hylands</span>
                                 <span class="fp-dist place-dist">0.4 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
+                                <a class="fp-visit" href="https://hylandsestate.co.uk/explore/thedelihylands/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
                         <article class="day-card partner-card venue-card" data-place-type="cafe" data-cat="eat-drink" data-lat="51.80668208" data-lng="0.7547003025">
                             <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Tiptree Tea Rooms</h4>
                             <span class="pc-dist place-dist">0.7 mi from Tiptree Heath Nature Reserve</span>
@@ -111,41 +117,41 @@
                                 <a class="pc-map" href="https://maps.app.goo.gl/r3RJHmsH4M2sJiUd6" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                             </div>
                         </article>
-                            <a class="free-pill" href="https://mrssalisburys.co.uk/locations/maldon/" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.73166539" data-lng="0.6792161088">
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.73166539" data-lng="0.6792161088" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Mrs Salisbury's</span>
                                 <span class="fp-dist place-dist">0.7 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://whitehartinnmersea.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.77590229" data-lng="0.9110190922">
+                                <a class="fp-visit" href="https://mrssalisburys.co.uk/locations/maldon/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.77590229" data-lng="0.9110190922" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The White Hart Inn</span>
                                 <span class="fp-dist place-dist">0.8 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/a7TdmhNvHhPQFFQcA" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.77590662" data-lng="0.9099679">
+                                <a class="fp-visit" href="https://whitehartinnmersea.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.77590662" data-lng="0.9099679" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Valeries Tea Room</span>
                                 <span class="fp-dist place-dist">0.8 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://oseaview.com/" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.73401382" data-lng="0.7275340697">
+                                <a class="fp-visit" href="https://maps.app.goo.gl/a7TdmhNvHhPQFFQcA" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.73401382" data-lng="0.7275340697" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Osea View Cafe</span>
                                 <span class="fp-dist place-dist">0.9 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://goodeats.io/TheCoffeeCrate" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.82089003" data-lng="0.7351308822">
+                                <a class="fp-visit" href="https://oseaview.com/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.82089003" data-lng="0.7351308822" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Coffee Crate</span>
                                 <span class="fp-dist place-dist">0.9 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://woodmans-arms.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.56976195" data-lng="0.5953293124">
+                                <a class="fp-visit" href="https://goodeats.io/TheCoffeeCrate" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.56976195" data-lng="0.5953293124" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Woodmans Arms</span>
                                 <span class="fp-dist place-dist">1.2 mi • 4 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://thecoastinn.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.77827969" data-lng="0.8997088204">
+                                <a class="fp-visit" href="https://woodmans-arms.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.77827969" data-lng="0.8997088204" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Coast Inn</span>
                                 <span class="fp-dist place-dist">1.3 mi • 4 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
+                                <a class="fp-visit" href="https://thecoastinn.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
                         <article class="day-card partner-card venue-card" data-place-type="cafe" data-cat="eat-drink" data-lat="51.79406522" data-lng="0.7152051423">
                             <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Claire's Cabin, Cafe &amp; Smokehouse</h4>
                             <span class="pc-dist place-dist">1.4 mi from Tiptree Heath Nature Reserve</span>
@@ -168,31 +174,31 @@
                                 <a class="pc-map" href="https://maps.app.goo.gl/f2gZsokJwfHpyLuv8" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                             </div>
                         </article>
-                            <a class="free-pill" href="https://www.chefandbrewer.com/pubs/essex/horse-and-groom" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.74099994" data-lng="0.4347898225">
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.74099994" data-lng="0.4347898225" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Horse &amp; Groom</span>
                                 <span class="fp-dist place-dist">1.7 mi • 5 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.whitehartinnessex.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.68438316" data-lng="0.4341096752">
+                                <a class="fp-visit" href="https://www.chefandbrewer.com/pubs/essex/horse-and-groom" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.68438316" data-lng="0.4341096752" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> White Hart Inn</span>
                                 <span class="fp-dist place-dist">2.2 mi • 6 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.bakersarms.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.66517201" data-lng="0.4480242808">
+                                <a class="fp-visit" href="https://www.whitehartinnessex.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.66517201" data-lng="0.4480242808" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Bakers Arms</span>
                                 <span class="fp-dist place-dist">2.5 mi • 7 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.angelkelvedon.com/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.83333273" data-lng="0.6974243348">
+                                <a class="fp-visit" href="https://www.bakersarms.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.83333273" data-lng="0.6974243348" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Angel</span>
                                 <span class="fp-dist place-dist">2.5 mi • 7 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.thehoop.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.66460805" data-lng="0.4454134674">
+                                <a class="fp-visit" href="https://www.angelkelvedon.com/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.66460805" data-lng="0.4454134674" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Hoop</span>
                                 <span class="fp-dist place-dist">2.5 mi • 7 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
+                                <a class="fp-visit" href="https://www.thehoop.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
                         <article class="day-card partner-card venue-card" data-place-type="pub" data-cat="eat-drink" data-lat="51.84016329" data-lng="0.7060277983">
                             <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Tavern Kelvedon</h4>
                             <span class="pc-dist place-dist">2.6 mi from Tiptree Heath Nature Reserve</span>
@@ -215,71 +221,71 @@
                                 <a class="pc-map" href="https://maps.app.goo.gl/pHBUWEecWFM4qkJW7" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                             </div>
                         </article>
-                            <a class="free-pill" href="https://theshepherd.pub/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.60356691" data-lng="0.4754051531">
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.60356691" data-lng="0.4754051531" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Shepherd &amp; Dog</span>
                                 <span class="fp-dist place-dist">2.7 mi • 8 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="http://greenmanlittlebraxted.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.78735969" data-lng="0.6800548041">
+                                <a class="fp-visit" href="https://theshepherd.pub/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.78735969" data-lng="0.6800548041" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Green Man</span>
                                 <span class="fp-dist place-dist">2.9 mi • 8 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.teaatthequay.co.uk/" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.94526713" data-lng="1.079289878">
+                                <a class="fp-visit" href="http://greenmanlittlebraxted.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.94526713" data-lng="1.079289878" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Tea At The Quay</span>
                                 <span class="fp-dist place-dist">3.1 mi • 9 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.mistleythorn.co.uk/" target="_blank" rel="noopener" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.94487992" data-lng="1.07901632">
+                                <a class="fp-visit" href="https://www.teaatthequay.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.94487992" data-lng="1.07901632" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> The Mistley Thorn</span>
                                 <span class="fp-dist place-dist">3.1 mi • 9 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://royalforesteppingforest.com/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.634442" data-lng="0.01689430885">
+                                <a class="fp-visit" href="https://www.mistleythorn.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.634442" data-lng="0.01689430885" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Royal Forest</span>
                                 <span class="fp-dist place-dist">3.2 mi • 9 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.luccafoods.co.uk/" target="_blank" rel="noopener" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.94565136" data-lng="1.064943238">
+                                <a class="fp-visit" href="https://royalforesteppingforest.com/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.94565136" data-lng="1.064943238" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> Lucca Enoteca</span>
                                 <span class="fp-dist place-dist">3.2 mi • 9 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://thecrownmanningtree.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.94560894" data-lng="1.065685046">
+                                <a class="fp-visit" href="https://www.luccafoods.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.94560894" data-lng="1.065685046" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Crown</span>
                                 <span class="fp-dist place-dist">3.2 mi • 9 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.lobstersmackcanveyisland.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.51124901" data-lng="0.5530137556">
+                                <a class="fp-visit" href="https://thecrownmanningtree.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.51124901" data-lng="0.5530137556" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Lobster Smack</span>
                                 <span class="fp-dist place-dist">3.3 mi • 10 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.compasseslittleygreen.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.82798199" data-lng="0.4637777486">
+                                <a class="fp-visit" href="https://www.lobstersmackcanveyisland.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.82798199" data-lng="0.4637777486" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> Compasses Inn</span>
                                 <span class="fp-dist place-dist">3.4 mi • 10 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://thecricketersmillgreen.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.68556217" data-lng="0.3692991685">
+                                <a class="fp-visit" href="https://www.compasseslittleygreen.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.68556217" data-lng="0.3692991685" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Cricketers Mill Green</span>
                                 <span class="fp-dist place-dist">3.4 mi • 10 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://acornvillages.com/cafe" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.93736069" data-lng="1.06584863">
+                                <a class="fp-visit" href="https://thecricketersmillgreen.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.93736069" data-lng="1.06584863" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Walled Garden Café</span>
                                 <span class="fp-dist place-dist">3.4 mi • 10 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://cafecasabar.co.uk/" target="_blank" rel="noopener" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.63314559" data-lng="0.007852301271">
+                                <a class="fp-visit" href="https://acornvillages.com/cafe" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.63314559" data-lng="0.007852301271" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> Cafe Casa Bar</span>
                                 <span class="fp-dist place-dist">3.5 mi • 10 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/C8RZZ75fAipgxPT49" target="_blank" rel="noopener" data-place-type="cafe" data-cat="eat-drink" data-lat="51.86797802" data-lng="0.1606918325">
+                                <a class="fp-visit" href="https://cafecasabar.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="cafe" data-cat="eat-drink" data-lat="51.86797802" data-lng="0.1606918325" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Toaster</span>
                                 <span class="fp-dist place-dist">3.7 mi • 11 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
+                                <a class="fp-visit" href="https://maps.app.goo.gl/C8RZZ75fAipgxPT49" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
                         <article class="day-card partner-card venue-card" data-place-type="pub" data-cat="eat-drink" data-lat="51.83416266" data-lng="0.8200812854">
                             <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Hare &amp; Hounds Pub &amp; Restaurant</h4>
                             <span class="pc-dist place-dist">3.9 mi from Tiptree Heath Nature Reserve</span>
@@ -291,21 +297,21 @@
                                 <a class="pc-map" href="https://maps.app.goo.gl/xZcGqVGwCaPwyB5h6" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                             </div>
                         </article>
-                            <a class="free-pill" href="https://www.chefandbrewer.com/pubs/hertfordshire/three-horse-shoes" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.83903122" data-lng="0.1579681576">
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.83903122" data-lng="0.1579681576" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Three Horseshoes</span>
                                 <span class="fp-dist place-dist">4.0 mi • 12 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.therayleigharms.co.uk/" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.80632901" data-lng="0.566685373">
+                                <a class="fp-visit" href="https://www.chefandbrewer.com/pubs/hertfordshire/three-horse-shoes" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="pub" data-cat="eat-drink" data-lat="51.80632901" data-lng="0.566685373" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Rayleigh Arms</span>
                                 <span class="fp-dist place-dist">4.5 mi • 13 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://www.leatherbottle.pub/" target="_blank" rel="noopener" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.69309037" data-lng="0.3187360942">
+                                <a class="fp-visit" href="https://www.therayleigharms.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
+                            <div class="free-pill" data-place-type="restaurant" data-cat="eat-drink" data-lat="51.69309037" data-lng="0.3187360942" role="button" tabindex="0">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> The Leather Bottle</span>
                                 <span class="fp-dist place-dist">5.1 mi • 15 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
+                                <a class="fp-visit" href="https://www.leatherbottle.pub/" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>
                             </div>
                     <div class="places-empty" data-cat="things-to-do" hidden>
                         <p class="section-lead">Things to Do is coming soon - we're still adding great spots.</p>
@@ -370,6 +376,6 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="../script.js?v=18198d9a"></script>
+    <script src="../script.js?v=fd498882"></script>
 </body>
 </html>

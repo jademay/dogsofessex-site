@@ -1632,11 +1632,11 @@ function placeFreePillHTML(p, walks, opts) {
     const dist = near ? `${near.mi.toFixed(1)} mi • ${driveMins(near.mi)} mins` : '';
     const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
     return `
-                            <a class="free-pill" href="${esc(url)}" target="_blank" rel="noopener" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}">
+                            <div class="free-pill" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}" role="button" tabindex="0">
                                 <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
                                 <span class="fp-dist place-dist">${dist}</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>`;
+                                <a class="fp-visit" href="${esc(url)}" target="_blank" rel="noopener">Visit website ↗</a>
+                            </div>`;
 }
 
 function placesIndexPage(places, walks) {
@@ -1667,11 +1667,17 @@ function placesIndexPage(places, walks) {
                 <div class="container">
                     <h1 class="index-title">Dog-friendly places in Essex</h1>
                     <p class="index-sub">Cafés, pubs, days out and beaches worth visiting with your dog.</p>
+                </div>
+            </section>
+
+            <div class="places-toolbar">
+                <div class="container">
                     <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
                         ${pills}
                     </div>
+                    <p class="places-count" aria-live="polite"></p>
                 </div>
-            </section>
+            </div>
 
             <section class="walk-section section-alt places-section">
                 <div class="container">

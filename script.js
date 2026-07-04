@@ -473,17 +473,43 @@ if (form) {
     const pills = Array.from(bar.querySelectorAll('.filter-pill'));
     const cards = Array.from(document.querySelectorAll('.places-hub-list > [data-cat]'));
     const empties = Array.from(document.querySelectorAll('.places-empty'));
+    const countEl = document.querySelector('.places-count');
     const valid = new Set(pills.map((p) => p.dataset.cat));
 
-    const flash = (card) => {
-        card.classList.add('is-map-active');
-        setTimeout(() => card.classList.remove('is-map-active'), 1600);
+    // Freeze the filter bar below the sticky header, and park the sticky map
+    // below both.
+    const header = document.querySelector('.site-header');
+    const toolbar = document.querySelector('.places-toolbar');
+    const setTop = () => {
+        const hh = header ? header.offsetHeight : 72;
+        document.documentElement.style.setProperty('--toolbar-top', hh + 'px');
+        document.documentElement.style.setProperty('--places-content-top', (hh + (toolbar ? toolbar.offsetHeight : 80)) + 'px');
     };
+    setTop();
+    window.addEventListener('resize', setTop);
 
     // Map is optional — only build it if Leaflet loaded and the element exists.
     const mapEl = document.getElementById('places-map');
     let map = null;
-    const markers = [];
+    const entries = []; // { card, marker }
+    let active = null;
+
+    const highlightMarker = (marker, on) => {
+        if (marker && marker._icon) marker._icon.classList.toggle('walk-map-pin--active', on);
+        if (marker) marker.setZIndexOffset(on ? 1000 : 0);
+    };
+    // Select a venue: colour its pin, highlight its card and pan the map to it
+    // (instead of following its link).
+    const select = (entry, scrollCard) => {
+        if (active) { highlightMarker(active.marker, false); active.card.classList.remove('is-map-active'); }
+        active = entry;
+        if (!entry) return;
+        highlightMarker(entry.marker, true);
+        entry.card.classList.add('is-map-active');
+        if (map && entry.marker) map.panTo(entry.marker.getLatLng(), { animate: true });
+        if (scrollCard) entry.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
+
     if (mapEl && typeof L !== 'undefined') {
         map = L.map(mapEl, { scrollWheelZoom: false });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -499,19 +525,31 @@ if (form) {
                 icon: L.divIcon({ className: 'walk-map-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] })
             });
             if (name) m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
-            m.on('click', () => { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); flash(card); });
-            markers.push({ card, marker: m });
+            const entry = { card, marker: m };
+            m.on('click', () => select(entry, true));
+            entries.push(entry);
         });
     }
+
+    // Clicking a card selects it (pan + highlight) rather than navigating —
+    // unless the click was on a link/button inside it (e.g. "Visit website").
+    cards.forEach((card) => {
+        const entry = entries.find((e) => e.card === card);
+        if (!entry) return;
+        card.addEventListener('click', (e) => { if (!e.target.closest('a, button')) select(entry); });
+        card.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a, button')) { e.preventDefault(); select(entry); }
+        });
+    });
 
     const fitVisible = () => {
         if (!map) return;
         const pts = [];
-        markers.forEach(({ card, marker }) => {
+        entries.forEach(({ card, marker }) => {
             if (card.hidden) { map.removeLayer(marker); }
             else { marker.addTo(map); pts.push(marker.getLatLng()); }
         });
-        if (pts.length) map.fitBounds(pts, { padding: [30, 30], maxZoom: 14 });
+        if (pts.length) map.fitBounds(pts, { padding: [18, 18], maxZoom: 13 });
     };
 
     const applyCat = (cat) => {
@@ -524,6 +562,9 @@ if (form) {
         cards.forEach((c) => { c.hidden = !(cat === 'all' || c.dataset.cat === cat); });
         // Show a "coming soon" state only when the chosen category has none.
         empties.forEach((e) => { e.hidden = !(cat !== 'all' && e.dataset.cat === cat); });
+        if (active && active.card.hidden) select(null);
+        const n = cards.filter((c) => !c.hidden).length;
+        if (countEl) countEl.textContent = n ? ('Showing ' + n + ' place' + (n === 1 ? '' : 's')) : '';
         fitVisible();
     };
 
@@ -534,5 +575,6 @@ if (form) {
 
     const initial = (location.hash || '').replace('#', '');
     applyCat(valid.has(initial) ? initial : 'all');
-    if (map) setTimeout(() => map.invalidateSize(), 200);
+    // Re-fit once the map has its real size, to keep the view tight.
+    if (map) setTimeout(() => { map.invalidateSize(); fitVisible(); }, 250);
 })();

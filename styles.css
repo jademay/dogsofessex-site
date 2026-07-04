@@ -495,7 +495,7 @@ h1, h2, h3 {
 .places-explorer .places-empty { max-width: none; }
 .places-map-col {
     position: sticky;
-    top: 88px;
+    top: calc(var(--places-content-top, 160px) + 12px);
     align-self: start;
     height: 72vh;
 }
@@ -541,11 +541,37 @@ h1, h2, h3 {
     margin: 0 auto;
 }
 
-/* Places hub: category filter bar + coming-soon empty state */
-.places-cat-filter { margin-top: 1.25rem; }
+/* Places hub: sticky category filter bar (frozen below the header) + count */
+.places-toolbar {
+    position: sticky;
+    top: var(--toolbar-top, 72px);
+    z-index: 40;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 4px 14px rgba(42, 40, 35, 0.06);
+    padding: 0.85rem 0;
+}
+.places-count {
+    margin: 0.6rem 0 0;
+    font: 600 0.95rem/1.4 'Inter', system-ui, sans-serif;
+    color: var(--color-forest);
+}
 /* The venue cards set their own display, which would beat the [hidden]
    attribute — force filtered-out cards to actually hide. */
 .places-hub-list > [hidden] { display: none !important; }
+/* Card is clickable to select on the map (not a link). */
+.places-hub-list > .free-pill,
+.places-hub-list > .day-card { cursor: pointer; }
+/* "Visit website" button at the end of a free venue row. */
+.fp-visit {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    color: var(--color-terracotta);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.fp-visit:hover { text-decoration: underline; }
 .places-empty {
     max-width: 880px;
     margin: 0 auto;
@@ -569,7 +595,14 @@ h1, h2, h3 {
 }
 
 .places-list .free-pill .fp-name { font-weight: 500; }
-.places-list .free-pill .fp-dist { margin-left: auto; color: var(--color-muted); font-size: 0.9rem; }
+.places-list .free-pill .fp-dist { margin-left: auto; color: var(--color-muted); font-size: 0.9rem; white-space: nowrap; }
+/* On narrow screens stack the name over a distance + "Visit website" row. */
+@media (max-width: 560px) {
+    .places-list .free-pill { flex-wrap: wrap; align-items: baseline; }
+    .places-list .free-pill .fp-name { flex: 1 1 100%; }
+    .places-list .free-pill .fp-dist { margin-left: 0; }
+    .fp-visit { margin-left: auto; }
+}
 
 /* Venue page essential-information list */
 .venue-info {
