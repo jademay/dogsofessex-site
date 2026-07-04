@@ -1746,9 +1746,16 @@ h2 .lucide { vertical-align: -0.1em; }
         /* Override the desktop height:70vh so the column hugs the count + map
            instead of reserving ~28vh of blank space below the map. */
         height: auto;
-        margin-bottom: 0;
         z-index: 1;
         background: var(--color-bg-alt);
+        /* Full-bleed to match the carousel below so its solid background covers
+           the gutters (no card photos peeking beside the map) and the map lines
+           up to the same 16px screen margins as the cards. */
+        width: 100vw;
+        margin-inline: calc(50% - 50vw);
+        margin-bottom: 0;
+        padding: 0 16px 0.25rem;
+        box-sizing: border-box;
     }
     /* Explicit height (not flex:1) — iOS Safari can collapse a flex-sized map
        inside a sticky flex column, which broke fitBounds. */
@@ -1761,29 +1768,69 @@ h2 .lucide { vertical-align: -0.1em; }
     .walk-index-head .index-sub { margin-bottom: 0; }
     .walks-explorer-section { padding: 0.4rem 0 2rem; }
 
-    /* Horizontal, snap-to-centre carousel: one card at a time with the next
-       peeking through on each side. */
+    /* Horizontal, snap-to-centre carousel. The active card is sized against the
+       viewport so it is always 100% visible with a true 16px margin on each
+       side, from 320px up to large phones — never wider than the screen, never
+       needing a horizontal (or vertical) scroll to see the whole card. */
     .walks-explorer .walks-index-grid {
         display: flex;
         grid-template-columns: none;
-        gap: 0.75rem;
+        /* Full-bleed out of the .container's 1.5rem padding so the card width
+           can be measured against the viewport and the margins stay a real
+           16px rather than the container's padding. */
+        width: 100vw;
+        margin-inline: calc(50% - 50vw);
+        gap: 16px;
         overflow-x: auto;
         overflow-y: visible;
         scroll-snap-type: x mandatory;
-        scroll-padding-inline: 7.5%;
-        padding: 0.5rem 7.5%;
+        scroll-padding-inline: 16px;
+        padding: 0.5rem 16px;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
     .walks-explorer .walks-index-grid::-webkit-scrollbar { display: none; }
     .walks-explorer .walks-index-grid .walk-card {
-        flex: 0 0 85%;
+        flex: 0 0 calc(100vw - 32px); /* 16px margin each side */
+        width: calc(100vw - 32px);
+        max-width: 420px;
         min-width: 0;
         scroll-snap-align: center;
     }
-    /* Restore a normal card photo in the carousel (the short list photo is a
-       desktop-only treatment). */
-    .walks-index-grid .walk-card .photo-ph { aspect-ratio: 16 / 10; }
+
+    /* Consistent card anatomy so nothing shifts as you swipe: a fixed photo,
+       a reserved 3-line title area, a fixed metadata row, tags that wrap, and
+       the "Explore Walk" CTA always pinned to the bottom. */
+    .walks-index-grid .walk-card .photo-ph {
+        aspect-ratio: auto;
+        height: 180px;
+    }
+    .walks-index-grid .walk-card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.1rem 1.15rem 1.25rem;
+    }
+    .walks-index-grid .walk-card h3 {
+        font-size: 1.2rem;
+        line-height: 1.3;
+        /* Reserve room for up to 3 lines so 1-line and 3-line titles keep the
+           rows beneath them (meta, tags, button) in the same place. */
+        min-height: calc(1.2rem * 1.3 * 3);
+        margin-bottom: 0.55rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .walks-index-grid .walk-card .walk-card-meta {
+        min-height: 1.4em;
+        margin-bottom: 0.6rem;
+    }
+    .walks-index-grid .walk-card .tag-row {
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
     /* The active (centred) card + its "Explore Walk" call to action. */
     .walks-index-grid .walk-card.is-map-active {
         border-color: var(--color-terracotta);
@@ -1791,8 +1838,9 @@ h2 .lucide { vertical-align: -0.1em; }
         box-shadow: none;
     }
     .walks-index-grid .walk-card .link-arrow {
+        margin-top: auto; /* push the CTA to the bottom of every card */
+        align-self: flex-start;
         display: inline-block;
-        margin-top: 0.25rem;
         padding: 0.5rem 0.9rem;
         border: 1px solid var(--color-terracotta);
         border-radius: 999px;
