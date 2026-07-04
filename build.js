@@ -1691,7 +1691,6 @@ function placesIndexPage(places, walks) {
                         <select class="places-sort" aria-label="Sort places">
                             <option value="recommended">Recommended</option>
                             <option value="distance">Distance</option>
-                            <option value="rated">Highest rated</option>
                             <option value="added">Recently added</option>
                             <option value="az">A–Z</option>
                         </select>

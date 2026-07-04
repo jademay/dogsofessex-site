@@ -565,7 +565,7 @@ if (form) {
             if (card.hidden) { map.removeLayer(marker); }
             else { marker.addTo(map); pts.push(marker.getLatLng()); }
         });
-        if (pts.length) map.fitBounds(pts, { padding: [18, 18], maxZoom: 13 });
+        if (pts.length) map.fitBounds(pts, { padding: [6, 6], maxZoom: 15 });
     };
 
     const applyCat = (cat) => {
