@@ -93,10 +93,19 @@
     // tips are then added manually to data/tips.json and baked in on rebuild.
     const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/tips@dogsofessex.co.uk';
     const TIP_TYPES = {
-        'walkingTip': { title: 'Submit a tip', label: 'Your tip', placeholder: 'e.g. The back field gets muddy after rain.' },
-        'newWalkSuggestion': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' },
-        'newPlaceSuggestion': { title: 'Recommend a nearby place', label: 'Which place, and why?', placeholder: 'Name of the café, pub or restaurant — and what makes it dog-friendly.' },
-        'report': { title: 'Report an issue', label: 'What needs fixing?', placeholder: 'Tell us what looks wrong or out of date.' }
+        'walkingTip': {
+            title: 'Share a tip', label: 'Your tip',
+            placeholder: 'e.g. The north path is very muddy after rain.',
+            examples: [
+                'Parking is free after 6pm.',
+                'The stream has dried up.',
+                'The north path is very muddy after rain.',
+                'There are cattle in the fields during the summer.'
+            ]
+        },
+        'report': { title: 'Report an issue', label: 'What needs fixing?', placeholder: 'Tell us what looks wrong or out of date.' },
+        'newPlaceSuggestion': { title: 'Recommend somewhere nearby', label: 'Which place, and why?', placeholder: 'Name of the café, pub or restaurant — and what makes it dog-friendly.' },
+        'newWalkSuggestion': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' }
     };
 
     function wireImprove() {
@@ -105,49 +114,64 @@
         const walkName = section.dataset.walk || '';
         const walkId = section.dataset.walkid || '';
 
-        // Single primary action reveals the specific contribution options.
-        const improveToggle = section.querySelector('.improve-toggle');
-        const improveOptions = section.querySelector('#improve-options');
-        if (improveToggle && improveOptions) {
-            improveToggle.addEventListener('click', () => {
-                const willOpen = improveOptions.hasAttribute('hidden');
-                improveOptions.toggleAttribute('hidden', !willOpen);
-                improveToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-            });
-        }
-
+        // One primary action opens the form straight away; the first field lets
+        // people pick what they want to share (no intermediate button step).
         const modal = document.createElement('div');
         modal.className = 'tip-modal';
         modal.setAttribute('aria-hidden', 'true');
         modal.innerHTML =
             '<div class="tip-modal-inner">' +
             '<button class="tip-modal-close" type="button" aria-label="Close">×</button>' +
-            '<h3 class="tip-modal-title">Share a tip</h3>' +
+            '<h3 class="tip-modal-title">Share something about this walk</h3>' +
             '<form class="tip-form">' +
+            '<label><span>What would you like to share?</span>' +
+            '<select name="tiptype" class="tip-type-select">' +
+            '<option value="walkingTip">Share a tip</option>' +
+            '<option value="report">Report an issue</option>' +
+            '<option value="newPlaceSuggestion">Recommend somewhere nearby</option>' +
+            '<option value="newWalkSuggestion">Suggest a new walk</option>' +
+            '</select></label>' +
             '<label><span class="tip-field-label">Your tip</span><textarea name="tip" rows="4" required maxlength="1000"></textarea></label>' +
+            '<div class="tip-examples" hidden></div>' +
             '<label>Name <span class="opt">(optional)</span><input name="name" type="text" maxlength="80" placeholder="Sarah & Luna"></label>' +
             '<label>Email <span class="opt">(optional, never shown)</span><input name="email" type="email" maxlength="120"></label>' +
             '<button type="submit" class="btn btn-primary tip-submit">Submit</button>' +
             '<p class="tip-form-msg" role="status"></p>' +
-            '<p class="form-consent">By submitting this form, you agree to our <a href="/privacy.html">Privacy Policy</a> and <a href="/terms.html">Terms of Use</a>.</p>' +
+            '<p class="form-consent">By submitting this form, you agree to our <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and <a href="/terms.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>.</p>' +
             '</form></div>';
         document.body.appendChild(modal);
 
         const form = modal.querySelector('.tip-form');
         const msg = modal.querySelector('.tip-form-msg');
-        const titleEl = modal.querySelector('.tip-modal-title');
         const fieldLabel = modal.querySelector('.tip-field-label');
+        const typeSelect = form.querySelector('.tip-type-select');
+        const examplesEl = modal.querySelector('.tip-examples');
         const textarea = form.querySelector('textarea');
-        let currentType = 'walkingTip';
+
+        // Reflect the chosen type in the field label, placeholder and (for tips)
+        // a few example prompts so people don't get stuck on what to write.
+        const applyType = (type) => {
+            const cfg = TIP_TYPES[type] || TIP_TYPES.walkingTip;
+            fieldLabel.textContent = cfg.label;
+            textarea.placeholder = cfg.placeholder;
+            if (cfg.examples && cfg.examples.length) {
+                examplesEl.innerHTML = '<span class="tip-examples-lead">For example:</span><ul>'
+                    + cfg.examples.map((e) => '<li>' + e + '</li>').join('') + '</ul>';
+                examplesEl.hidden = false;
+            } else {
+                examplesEl.innerHTML = '';
+                examplesEl.hidden = true;
+            }
+        };
+        typeSelect.addEventListener('change', () => applyType(typeSelect.value));
 
         const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
         const openModal = (type) => {
-            currentType = TIP_TYPES[type] ? type : 'walkingTip';
-            const cfg = TIP_TYPES[currentType];
-            titleEl.textContent = cfg.title;
-            fieldLabel.textContent = cfg.label;
-            textarea.placeholder = cfg.placeholder;
-            msg.textContent = ''; form.reset();
+            const t = TIP_TYPES[type] ? type : 'walkingTip';
+            form.reset();
+            typeSelect.value = t;
+            applyType(t);
+            msg.textContent = '';
             modal.classList.add('open'); document.body.style.overflow = 'hidden';
             textarea.focus();
         };
@@ -168,6 +192,7 @@
             // to it directly). Place fields are left blank here
             // (filled in when the same form is used on a place page later).
             const carryWalk = true;
+            const currentType = TIP_TYPES[typeSelect.value] ? typeSelect.value : 'walkingTip';
             const btn = form.querySelector('.tip-submit');
             btn.disabled = true; msg.textContent = 'Sending…';
             fetch(FORMSUBMIT_ENDPOINT, {

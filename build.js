@@ -1157,15 +1157,9 @@ function page(walk, walks, places, tips) {
                         <button type="button" class="btn btn-primary improve-btn" data-tiptype="walkingTip">${icon('message-circle')} Share a tip</button>
                     </div>` },
         { narrow: true, html: `<div id="improve" class="improve" data-walk="${esc(walk.name)}" data-walkid="${esc(walk.id)}">
-                    <h2>${icon('lightbulb')} Help Improve This Walk</h2>
+                    <h2>${icon('lightbulb')} Help keep this guide up to date</h2>
                     <p class="section-lead">We'd love your help keeping Dogs of Essex accurate and up to date.</p>
-                    <button type="button" class="btn btn-primary improve-toggle" aria-expanded="false" aria-controls="improve-options">${icon('message-circle')} Share something about this walk</button>
-                    <div class="improve-actions" id="improve-options" hidden>
-                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="walkingTip">Submit a tip</button>
-                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">Report an issue</button>
-                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newPlaceSuggestion">Recommend a place</button>
-                        <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">Suggest a walk</button>
-                    </div>
+                    <button type="button" class="btn btn-primary improve-btn" data-tiptype="walkingTip">${icon('message-circle')} Share something about this walk</button>
                 </div>` },
         (walk.official && walk.official.managedBy) && { narrow: true, html: officialInner(walk) }
     ].filter(Boolean);
@@ -1890,7 +1884,7 @@ function aboutPage() {
                         <p>Want to help shape Dogs of Essex? Pick whichever fits:</p>
                         <div id="improve" class="improve" data-walk="" data-walkid="">
                             <div class="improve-actions">
-                                <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">${icon('map-pin')} Suggest a walk</button>
+                                <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">${icon('map-pin')} Suggest a new walk</button>
                                 <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">${icon('triangle-alert')} Report an issue</button>
                                 <a class="btn btn-secondary" href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">${icon('mail')} Contact Dogs of Essex</a>
                             </div>
