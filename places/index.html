@@ -34,7 +34,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=8a8c6691">
+    <link rel="stylesheet" href="../styles.css?v=bc393273">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
     <header class="site-header">
@@ -71,7 +72,9 @@
 
             <section class="walk-section section-alt places-section">
                 <div class="container">
-                    <div class="places-list places-hub-list">
+                    <div class="places-explorer">
+                        <div class="places-list-col">
+                            <div class="places-list places-hub-list">
                             <a class="free-pill" href="https://www.thejollysailorheybridgebasin.co.uk/index" target="_blank" rel="noopener" data-place-type="pub" data-cat="eat-drink" data-lat="51.72968816" data-lng="0.7097124789">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Jolly Sailor</span>
                                 <span class="fp-dist place-dist">0.1 mi • 3 mins</span>
@@ -303,7 +306,7 @@
                                 <span class="fp-dist place-dist">5.1 mi • 15 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                    </div>
+                            </div>
                     <div class="places-empty" data-cat="things-to-do" hidden>
                         <p class="section-lead">Things to Do is coming soon - we're still adding great spots.</p>
                         <p class="tip-cta">Know a great one? <a href="mailto:hello@dogsofessex.co.uk?subject=Place%20suggestion%3A%20Things%20to%20Do">Tell us →</a></p>
@@ -315,6 +318,11 @@
                     <div class="places-empty" data-cat="stay" hidden>
                         <p class="section-lead">Stay is coming soon - we're still adding great spots.</p>
                         <p class="tip-cta">Know a great one? <a href="mailto:hello@dogsofessex.co.uk?subject=Place%20suggestion%3A%20Stay">Tell us →</a></p>
+                    </div>
+                        </div>
+                        <aside class="places-map-col">
+                            <div id="places-map" class="places-map" aria-label="Map of dog-friendly places in Essex"></div>
+                        </aside>
                     </div>
                 </div>
             </section>
@@ -361,6 +369,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=57ac19f9"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="../script.js?v=18198d9a"></script>
 </body>
 </html>

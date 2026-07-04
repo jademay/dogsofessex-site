@@ -1639,27 +1639,6 @@ function placeFreePillHTML(p, walks, opts) {
                             </a>`;
 }
 
-function placeCatCardHTML(cat) {
-    const photo = cat.image
-        ? `<div class="place-cat-photo"><img src="../images/places/${esc(cat.image)}" alt="" loading="lazy"${cat.imgPos ? ` style="object-position:${cat.imgPos}"` : ''} onerror="this.closest('.place-cat-photo').remove()"></div>`
-        : '';
-    const label = (cat.comingSoon || cat.soon)
-        ? '<span class="bf-soon">Coming soon</span>'
-        : `<span class="link-arrow">${esc(cat.cta)}</span>`;
-    const inner = `
-                            <div class="place-cat-text">
-                                <span class="bf-emoji" aria-hidden="true">${cat.emoji}</span>
-                                <h3 class="bf-title">${esc(cat.title)}</h3>
-                                <p class="bf-desc">${esc(cat.blurb)}</p>
-                                ${label}
-                            </div>${photo}`;
-    // Stay has no page yet (comingSoon) so it's a plain card; Things to Do and
-    // Beaches keep their links but read "Coming soon" until they're populated.
-    return cat.comingSoon
-        ? `\n                        <div class="bestfor-card place-cat-card is-soon">${inner}\n                        </div>`
-        : `\n                        <a href="${esc(cat.slug)}/index.html" class="bestfor-card place-cat-card">${inner}\n                        </a>`;
-}
-
 function placesIndexPage(places, walks) {
     const cats = PLACE_CATEGORIES;
     const pills = `<button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>\n                        `
@@ -1696,11 +1675,19 @@ function placesIndexPage(places, walks) {
 
             <section class="walk-section section-alt places-section">
                 <div class="container">
-                    <div class="places-list places-hub-list">${list}
-                    </div>${empties}
+                    <div class="places-explorer">
+                        <div class="places-list-col">
+                            <div class="places-list places-hub-list">${list}
+                            </div>${empties}
+                        </div>
+                        <aside class="places-map-col">
+                            <div id="places-map" class="places-map" aria-label="Map of dog-friendly places in Essex"></div>
+                        </aside>
+                    </div>
                 </div>
             </section>`;
     return `${headHTML('../', 'Dog-friendly places in Essex | Dogs of Essex', 'Browse dog-friendly cafés, pubs, days out and beaches across Essex - filter by category and find your nearest.', { canonical: 'places/' })}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>${navHTML('../')}
 
@@ -1710,6 +1697,7 @@ function placesIndexPage(places, walks) {
     </main>
 ${footerHTML('../')}
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="../script.js?v=${V_JS}"></script>
 </body>
 </html>

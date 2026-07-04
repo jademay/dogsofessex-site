@@ -464,8 +464,9 @@ if (form) {
     }
 })();
 
-// Places hub — filter venues by category. Deep-linkable via #<category-slug>
-// (e.g. .../places/#eat-drink); "All" clears the hash.
+// Places hub — filtered card list + map (like the walks page). Category filter
+// is deep-linkable via #<category-slug> (e.g. .../places/#eat-drink); "All"
+// clears the hash. The map re-fits to whichever venues are showing.
 (function () {
     const bar = document.querySelector('.places-cat-filter');
     if (!bar) return;
@@ -473,6 +474,45 @@ if (form) {
     const cards = Array.from(document.querySelectorAll('.places-hub-list > [data-cat]'));
     const empties = Array.from(document.querySelectorAll('.places-empty'));
     const valid = new Set(pills.map((p) => p.dataset.cat));
+
+    const flash = (card) => {
+        card.classList.add('is-map-active');
+        setTimeout(() => card.classList.remove('is-map-active'), 1600);
+    };
+
+    // Map is optional — only build it if Leaflet loaded and the element exists.
+    const mapEl = document.getElementById('places-map');
+    let map = null;
+    const markers = [];
+    if (mapEl && typeof L !== 'undefined') {
+        map = L.map(mapEl, { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        cards.forEach((card) => {
+            const lat = parseFloat(card.dataset.lat), lng = parseFloat(card.dataset.lng);
+            if (!isFinite(lat) || !isFinite(lng)) return;
+            const nameEl = card.querySelector('.pc-name, .fp-name');
+            const name = nameEl ? nameEl.textContent.trim() : '';
+            const m = L.marker([lat, lng], {
+                icon: L.divIcon({ className: 'walk-map-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] })
+            });
+            if (name) m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
+            m.on('click', () => { card.scrollIntoView({ behavior: 'smooth', block: 'center' }); flash(card); });
+            markers.push({ card, marker: m });
+        });
+    }
+
+    const fitVisible = () => {
+        if (!map) return;
+        const pts = [];
+        markers.forEach(({ card, marker }) => {
+            if (card.hidden) { map.removeLayer(marker); }
+            else { marker.addTo(map); pts.push(marker.getLatLng()); }
+        });
+        if (pts.length) map.fitBounds(pts, { padding: [30, 30], maxZoom: 14 });
+    };
 
     const applyCat = (cat) => {
         if (!valid.has(cat)) cat = 'all';
@@ -484,6 +524,7 @@ if (form) {
         cards.forEach((c) => { c.hidden = !(cat === 'all' || c.dataset.cat === cat); });
         // Show a "coming soon" state only when the chosen category has none.
         empties.forEach((e) => { e.hidden = !(cat !== 'all' && e.dataset.cat === cat); });
+        fitVisible();
     };
 
     pills.forEach((p) => p.addEventListener('click', () => {
@@ -493,4 +534,5 @@ if (form) {
 
     const initial = (location.hash || '').replace('#', '');
     applyCat(valid.has(initial) ? initial : 'all');
+    if (map) setTimeout(() => map.invalidateSize(), 200);
 })();
