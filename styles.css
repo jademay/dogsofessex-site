@@ -490,16 +490,22 @@ h1, h2, h3 {
 .places-controls .places-cat-filter { flex: 1 1 auto; }
 .places-sort {
     flex: 0 0 auto;
-    font: inherit;
-    font-size: 0.9rem;
-    padding: 0.5rem 0.85rem;
-    border: 1px solid var(--color-border);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    padding: 0.5rem 2.3rem 0.5rem 0.95rem;
     border-radius: 999px;
-    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-card);
     color: var(--color-text);
     cursor: pointer;
+    /* Custom chevron so it isn't jammed against the right edge (same as walks). */
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%232A2823' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
 }
-.places-sort:focus { outline: 2px solid var(--color-moss); outline-offset: 1px; }
+.places-sort:hover { border-color: var(--color-moss); }
 
 /* Hub: cards on the left, sticky map on the right — same proportions as the
    walks page (50/50, 70vh). */
@@ -516,7 +522,7 @@ h1, h2, h3 {
     position: sticky;
     top: calc(var(--places-content-top, 160px) + 12px);
     align-self: start;
-    height: 70vh;
+    height: 56vh;
     display: flex;
     flex-direction: column;
 }
