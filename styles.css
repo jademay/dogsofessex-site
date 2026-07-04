@@ -393,7 +393,7 @@ h1, h2, h3 {
 
 .bestfor-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
 }
 
@@ -653,7 +653,9 @@ h1, h2, h3 {
 
 .places-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    /* Four categories filling the row evenly (was 5 cols, which left them
+       looking left-aligned with a gap on the right). */
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
 }
 
