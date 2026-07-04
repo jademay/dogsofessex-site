@@ -1630,6 +1630,42 @@ h1, h2, h3 {
     .footer-grid { grid-template-columns: 1fr; }
 }
 
+/* Homepage: turn the Featured Walks and Dog-Friendly Essex card grids into
+   horizontal, snap-to-centre swipe carousels on phones (id-scoped so only the
+   home page is affected). Full-bleed so cards start at the screen edge and the
+   next one peeks; the section headings stay within the container. */
+@media (max-width: 700px) {
+    #walks .walk-grid,
+    #places .places-grid {
+        display: flex;
+        grid-template-columns: none;
+        gap: 1rem;
+        width: 100vw;
+        margin-inline: calc(50% - 50vw);
+        padding: 0.25rem 16px 0.5rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 16px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    #walks .walk-grid::-webkit-scrollbar,
+    #places .places-grid::-webkit-scrollbar { display: none; }
+
+    #walks .walk-card {
+        flex: 0 0 84%;
+        max-width: 340px;
+        min-width: 0;
+        scroll-snap-align: center;
+    }
+    #places .place-card {
+        flex: 0 0 46%;
+        max-width: 220px;
+        min-width: 0;
+        scroll-snap-align: center;
+    }
+}
+
 /* ===========================================================
    Rich walk page — rating, chips, at-a-glance, gallery,
    route, data-driven nearby sections, community tips, actions
