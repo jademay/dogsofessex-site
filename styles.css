@@ -780,6 +780,8 @@ h1, h2, h3 {
     transition: color 0.2s ease;
 }
 .footer-col a:hover { color: var(--color-terracotta); }
+/* Follow socials read as text on desktop; the icons only appear on mobile. */
+.footer-follow svg { display: none; }
 
 .footer-bottom {
     margin-top: 3rem;
@@ -1627,7 +1629,37 @@ h1, h2, h3 {
     .places-hub-grid { grid-template-columns: 1fr; }
     .route-photos { grid-template-columns: 1fr 1fr; }
     .signup-form { flex-direction: column; border-radius: 16px; }
-    .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* --- Mobile footer: compact, two link columns, icon-only socials --- */
+@media (max-width: 600px) {
+    .site-footer { padding: 2rem 0 1.5rem; }          /* ~32px */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; } /* 24px section gap */
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-brand p { display: none; }                /* drop the intro line on mobile */
+    .footer-follow { grid-column: 1 / -1; }           /* Follow spans full width */
+    .footer-col h4 { margin-bottom: 0.6rem; }
+    .footer-col li { margin-bottom: 0.7rem; }         /* ~11px link spacing */
+
+    /* Instagram + Facebook as icons on one row. */
+    .footer-follow ul { display: flex; flex-direction: row; align-items: center; gap: 0.75rem; }
+    .footer-follow li { margin-bottom: 0; }
+    .footer-follow a { display: inline-flex; padding: 0.4rem; }
+    .footer-follow svg { display: block; width: 24px; height: 24px; }
+    .footer-social-label {
+        position: absolute; width: 1px; height: 1px;
+        margin: -1px; padding: 0; border: 0;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+    }
+
+    .footer-bottom {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+        font-size: 0.75rem;
+    }
 }
 
 /* Homepage: turn the Featured Walks and Dog-Friendly Essex card grids into

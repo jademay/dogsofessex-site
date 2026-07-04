@@ -1067,11 +1067,11 @@ function footerHTML(prefix) {
                         <li><a href="${prefix}terms.html">Terms of Use</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
+                <div class="footer-col footer-follow">
                     <h4>Follow</h4>
                     <ul>
-                        <li><a href="https://instagram.com/dogsofessexuk" target="_blank" rel="noopener">Instagram</a></li>
-                        <li><a href="https://facebook.com/dogsofessex" target="_blank" rel="noopener">Facebook</a></li>
+                        <li><a href="https://instagram.com/dogsofessexuk" target="_blank" rel="noopener" aria-label="Instagram">${SOCIAL_ICONS.instagram}<span class="footer-social-label">Instagram</span></a></li>
+                        <li><a href="https://facebook.com/dogsofessex" target="_blank" rel="noopener" aria-label="Facebook">${SOCIAL_ICONS.facebook}<span class="footer-social-label">Facebook</span></a></li>
                     </ul>
                 </div>
             </div>
