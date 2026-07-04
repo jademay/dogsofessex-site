@@ -95,13 +95,7 @@
     const TIP_TYPES = {
         'walkingTip': {
             title: 'Share a tip', label: 'Your tip',
-            placeholder: 'e.g. The north path is very muddy after rain.',
-            examples: [
-                'Parking is free after 6pm.',
-                'The stream has dried up.',
-                'The north path is very muddy after rain.',
-                'There are cattle in the fields during the summer.'
-            ]
+            placeholder: 'e.g. Parking is free after 6pm.\nThe stream has dried up.\nThe north path is very muddy after rain.\nThere are cattle in the fields during the summer.'
         },
         'report': { title: 'Report an issue', label: 'What needs fixing?', placeholder: 'Tell us what looks wrong or out of date.' },
         'newPlaceSuggestion': { title: 'Recommend a place', label: 'Which place, and why?', placeholder: 'Name of the café, pub or restaurant — and what makes it dog-friendly.' },
@@ -133,8 +127,7 @@
             '<option value="newWalkSuggestion">Suggest a new walk</option>' +
             '<option value="question">Ask a question / Something else</option>' +
             '</select></label>' +
-            '<label><span class="tip-field-label">Your tip</span><textarea name="tip" rows="4" required maxlength="1000"></textarea></label>' +
-            '<div class="tip-examples" hidden></div>' +
+            '<label><span class="tip-field-label">Your tip</span><textarea name="tip" rows="6" required maxlength="1000"></textarea></label>' +
             '<label>Name <span class="opt">(optional)</span><input name="name" type="text" maxlength="80" placeholder="Sarah & Luna"></label>' +
             '<label>Email <span class="opt">(optional, never shown)</span><input name="email" type="email" maxlength="120"></label>' +
             '<button type="submit" class="btn btn-primary tip-submit">Submit</button>' +
@@ -148,23 +141,14 @@
         const titleEl = modal.querySelector('.tip-modal-title');
         const fieldLabel = modal.querySelector('.tip-field-label');
         const typeSelect = form.querySelector('.tip-type-select');
-        const examplesEl = modal.querySelector('.tip-examples');
         const textarea = form.querySelector('textarea');
 
-        // Reflect the chosen type in the field label, placeholder and (for tips)
-        // a few example prompts so people don't get stuck on what to write.
+        // Reflect the chosen type in the field label and placeholder (the tip
+        // placeholder itself lists a few examples so people don't get stuck).
         const applyType = (type) => {
             const cfg = TIP_TYPES[type] || TIP_TYPES.walkingTip;
             fieldLabel.textContent = cfg.label;
             textarea.placeholder = cfg.placeholder;
-            if (cfg.examples && cfg.examples.length) {
-                examplesEl.innerHTML = '<span class="tip-examples-lead">For example:</span><ul>'
-                    + cfg.examples.map((e) => '<li>' + e + '</li>').join('') + '</ul>';
-                examplesEl.hidden = false;
-            } else {
-                examplesEl.innerHTML = '';
-                examplesEl.hidden = true;
-            }
         };
         typeSelect.addEventListener('change', () => applyType(typeSelect.value));
 

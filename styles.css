@@ -2780,11 +2780,6 @@ h2 .lucide { vertical-align: -0.1em; }
     color: var(--color-text);
 }
 .tip-form select:focus { outline: 2px solid var(--color-moss); outline-offset: 1px; }
-/* A few example prompts under the tip field so people don't get stuck. */
-.tip-examples { margin: -0.4rem 0 0; font-size: 0.82rem; color: var(--color-muted); }
-.tip-examples-lead { display: block; margin-bottom: 0.2rem; }
-.tip-examples ul { margin: 0; padding-left: 1.15rem; }
-.tip-examples li { margin-bottom: 0.15rem; }
 .tip-submit { align-self: flex-start; }
 .tip-form-msg { margin: 0; font-size: 0.9rem; color: var(--color-forest); }
 
