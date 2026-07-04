@@ -488,6 +488,22 @@ if (form) {
     setTop();
     window.addEventListener('resize', setTop);
 
+    // Sort the list in place (re-orders the DOM; hidden cards keep their filter).
+    const listEl = document.querySelector('.places-hub-list');
+    const sortSel = document.querySelector('.places-sort');
+    const numAttr = (c, a) => parseFloat(c.dataset[a]) || 0;
+    const sortCards = () => {
+        const s = sortSel ? sortSel.value : 'recommended';
+        const arr = cards.slice();
+        if (s === 'distance') arr.sort((a, b) => numAttr(a, 'dist') - numAttr(b, 'dist'));
+        else if (s === 'rated') arr.sort((a, b) => numAttr(b, 'rating') - numAttr(a, 'rating') || numAttr(a, 'order') - numAttr(b, 'order'));
+        else if (s === 'added') { const t = (c) => c.dataset.added ? Date.parse(c.dataset.added) : 0; arr.sort((a, b) => t(b) - t(a)); }
+        else if (s === 'az') arr.sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || ''));
+        else arr.sort((a, b) => numAttr(a, 'order') - numAttr(b, 'order'));
+        if (listEl) arr.forEach((c) => listEl.appendChild(c));
+    };
+    if (sortSel) sortSel.addEventListener('change', sortCards);
+
     // Map is optional — only build it if Leaflet loaded and the element exists.
     const mapEl = document.getElementById('places-map');
     let map = null;
@@ -576,6 +592,11 @@ if (form) {
 
     const initial = (location.hash || '').replace('#', '');
     applyCat(valid.has(initial) ? initial : 'all');
-    // Re-fit once the map has its real size, to keep the view tight.
-    if (map) setTimeout(() => { map.invalidateSize(); fitVisible(); }, 250);
+    // Nudge the map once it has its real size — Leaflet mis-sizes (loads too few
+    // tiles) if its container wasn't fully laid out at init, notably the mobile
+    // sticky map. Re-measure the sticky offsets at the same time.
+    const refresh = () => { setTop(); if (map) { map.invalidateSize(); fitVisible(); } };
+    setTimeout(refresh, 300);
+    setTimeout(refresh, 900);
+    window.addEventListener('load', refresh);
 })();

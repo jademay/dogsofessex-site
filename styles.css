@@ -483,11 +483,28 @@ h1, h2, h3 {
 
 /* ---------- Places page (/places/) ---------- */
 
-/* Hub: cards on the left, sticky map on the right (like the walks page). */
+/* Filter pills + sort dropdown row in the sticky toolbar. */
+.places-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.places-controls .places-cat-filter { flex: 1 1 auto; }
+.places-sort {
+    flex: 0 0 auto;
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-card);
+    color: var(--color-text);
+    cursor: pointer;
+}
+.places-sort:focus { outline: 2px solid var(--color-moss); outline-offset: 1px; }
+
+/* Hub: cards on the left, sticky map on the right — same proportions as the
+   walks page (50/50, 70vh). */
 .places-explorer {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.75rem;
     align-items: start;
 }
 .places-list-col { min-width: 0; }
@@ -497,7 +514,7 @@ h1, h2, h3 {
     position: sticky;
     top: calc(var(--places-content-top, 160px) + 12px);
     align-self: start;
-    height: 72vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
 }
@@ -517,8 +534,17 @@ h1, h2, h3 {
 /* Card briefly highlighted when its map pin is tapped. */
 .places-hub-list > .is-map-active { outline: 2px solid var(--color-terracotta); outline-offset: 2px; }
 @media (max-width: 900px) {
-    .places-explorer { grid-template-columns: 1fr; gap: 1rem; }
-    .places-map-col { position: static; height: 320px; order: -1; }
+    /* Airbnb-style: the map sticks to the top while the list scrolls under it,
+       matching the walks page. */
+    .places-explorer { display: flex; flex-direction: column; gap: 1rem; }
+    .places-map-col {
+        order: -1;
+        position: sticky;
+        top: var(--places-content-top, 150px);
+        height: 42vh;
+        z-index: 1;
+        background: var(--color-bg-alt);
+    }
     .places-count-map { display: none; }
     .places-count-bar { display: block; }
 }

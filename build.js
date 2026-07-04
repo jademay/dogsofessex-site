@@ -1604,6 +1604,14 @@ function accessBadgesHTML(p) {
 // A partner venue - the same compact partner card used on walk pages, plus a
 // "View details" link to its venue page. The badge bar / large photo (the
 // "Dogs of Essex Pick" look) is intentionally not used here.
+// Sort data used by the places hub: original (recommended) order, distance to
+// nearest walk, Google rating (0 until added to data), added/checked date, name.
+function placeSortAttrs(p, near, opts) {
+    return ` data-order="${opts.order || 0}" data-dist="${near ? near.mi.toFixed(2) : 9999}"`
+        + ` data-rating="${p.rating || 0}" data-added="${esc(p.added || p.lastChecked || '')}"`
+        + ` data-name="${esc((p.name || '').toLowerCase())}"`;
+}
+
 function placePartnerCardHTML(p, walks, opts) {
     opts = opts || {};
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
@@ -1611,7 +1619,7 @@ function placePartnerCardHTML(p, walks, opts) {
     const web = placeUrl(p);
     const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
     return `
-                        <article class="day-card partner-card venue-card" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}">
+                        <article class="day-card partner-card venue-card" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${placeSortAttrs(p, near, opts)}>
                             <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
                             <span class="pc-dist place-dist">${near ? `${near.mi.toFixed(1)} mi from ${esc(near.walk.name)}` : ''}</span>
                             ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
@@ -1632,7 +1640,7 @@ function placeFreePillHTML(p, walks, opts) {
     const dist = near ? `${near.mi.toFixed(1)} mi • ${driveMins(near.mi)} mins` : '';
     const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
     return `
-                            <div class="free-pill" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}" role="button" tabindex="0">
+                            <div class="free-pill" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${placeSortAttrs(p, near, opts)} role="button" tabindex="0">
                                 <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
                                 <span class="fp-dist place-dist">${dist}</span>
                                 <a class="fp-visit" href="${esc(url)}" target="_blank" rel="noopener">Visit website ↗</a>
@@ -1644,15 +1652,19 @@ function placesIndexPage(places, walks) {
     const pills = `<button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>\n                        `
         + cats.map((c) => `<button type="button" class="filter-pill" data-cat="${esc(c.slug)}" aria-pressed="false">${esc(c.title)}</button>`).join('\n                        ');
 
-    // Every venue, tagged with its category and sorted by nearest walk.
+    // "Recommended" default order: reviewed (partner) venues first, then by
+    // distance to the nearest walk. The index becomes data-order for re-sorting.
     const tagged = cats.flatMap((cat) => placesInCategory(cat, places).map((p) => ({ p, cat })));
     tagged.sort((a, b) => {
+        const ta = effectiveTier(a.p) === 'partner' ? 0 : 1;
+        const tb = effectiveTier(b.p) === 'partner' ? 0 : 1;
+        if (ta !== tb) return ta - tb;
         const na = nearestWalk(a.p, walks), nb = nearestWalk(b.p, walks);
         return (na ? na.mi : 1e9) - (nb ? nb.mi : 1e9);
     });
-    const list = tagged.map(({ p, cat }) => effectiveTier(p) === 'partner'
-        ? placePartnerCardHTML(p, walks, { pathPrefix: cat.slug + '/', cat: cat.slug })
-        : placeFreePillHTML(p, walks, { cat: cat.slug })).join('');
+    const list = tagged.map(({ p, cat }, i) => effectiveTier(p) === 'partner'
+        ? placePartnerCardHTML(p, walks, { pathPrefix: cat.slug + '/', cat: cat.slug, order: i })
+        : placeFreePillHTML(p, walks, { cat: cat.slug, order: i })).join('');
 
     // Coming-soon empty state for categories with no venues yet (shown by the
     // filter JS when that category is selected).
@@ -1672,8 +1684,17 @@ function placesIndexPage(places, walks) {
 
             <div class="places-toolbar">
                 <div class="container">
-                    <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
-                        ${pills}
+                    <div class="places-controls">
+                        <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
+                            ${pills}
+                        </div>
+                        <select class="places-sort" aria-label="Sort places">
+                            <option value="recommended">Recommended</option>
+                            <option value="distance">Distance</option>
+                            <option value="rated">Highest rated</option>
+                            <option value="added">Recently added</option>
+                            <option value="az">A–Z</option>
+                        </select>
                     </div>
                     <p class="places-count places-count-bar" aria-live="polite"></p>
                 </div>
