@@ -483,7 +483,9 @@ h1, h2, h3 {
 
 /* ---------- Places page (/places/) ---------- */
 
-/* Filter pills + sort dropdown row in the sticky toolbar. */
+/* Heading + filter pills + sort dropdown in the sticky toolbar (matches the
+   walks page's "Find the perfect walk"). */
+.places-toolbar .controls-title { margin: 0 0 0.65rem; font-size: 1.15rem; }
 .places-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
 .places-controls .places-cat-filter { flex: 1 1 auto; }
 .places-sort {

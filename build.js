@@ -1684,6 +1684,7 @@ function placesIndexPage(places, walks) {
 
             <div class="places-toolbar">
                 <div class="container">
+                    <h2 class="controls-title">Find the perfect place to go</h2>
                     <div class="places-controls">
                         <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
                             ${pills}
