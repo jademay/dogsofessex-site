@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+# Publishes the site (served from the repo root) to GitHub Pages via the Actions
+# deployment path. This is more reliable than the legacy branch-based
+# "pages build and deployment", and the deploy step is retried up to three times
+# with backoff so the occasional transient "Deployment failed, try again later"
+# self-heals instead of needing a manual re-trigger.
+#
+# ONE-TIME SETUP (required): in the repo, Settings > Pages > Build and deployment
+# > Source, choose "GitHub Actions". That switches Pages off the legacy branch
+# build and onto this workflow.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least-privilege token scopes the Pages deployment needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never cancel an in-flight deploy; queue instead.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # The pages are already built and committed (npm run build), so CI just
+  # packages the repo root as the Pages artifact — no rebuild needed.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy3.outputs.page_url || steps.deploy2.outputs.page_url || steps.deploy1.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages (attempt 1)
+        id: deploy1
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Back off before retry
+        if: steps.deploy1.outcome == 'failure'
+        run: sleep 30
+
+      - name: Deploy to GitHub Pages (attempt 2)
+        id: deploy2
+        if: steps.deploy1.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      - name: Back off before final attempt
+        if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
+        run: sleep 60
+
+      # Final attempt is not continue-on-error, so if Pages is genuinely down
+      # the workflow still surfaces a failure rather than passing silently.
+      - name: Deploy to GitHub Pages (attempt 3)
+        id: deploy3
+        if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
+        uses: actions/deploy-pages@v4
