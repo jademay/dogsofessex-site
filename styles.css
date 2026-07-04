@@ -504,11 +504,22 @@ h1, h2, h3 {
 }
 .place-cat-photo {
     flex: 0 0 40%;
-    max-width: 210px;
+    max-width: 230px;
     align-self: stretch;
     overflow: hidden;
 }
 .place-cat-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Compact text so the card stays short and the photo crops to a landscape
+   shape (zoomed into the subject) rather than showing the whole tall image. */
+.place-cat-text { padding: 1.2rem 1.4rem; }
+.place-cat-card .bf-emoji { font-size: 1.5rem; margin-bottom: 0.4rem; }
+.place-cat-card .bf-title { margin-bottom: 0.35rem; }
+.place-cat-card .bf-desc { margin-bottom: 0.65rem; }
+/* On the "coming soon" (is-soon) places card, mute only the text — not the
+   photo — so the image stays crisp (whole-card opacity washed it out). The
+   extra .places-hub-grid keeps this above the generic .bestfor-card.is-soon. */
+.places-hub-grid .place-cat-card.is-soon { opacity: 1; }
+.places-hub-grid .place-cat-card.is-soon .place-cat-text { opacity: 0.72; }
 
 .bestfor-card.is-soon {
     opacity: 0.75;
