@@ -951,6 +951,11 @@ h1, h2, h3 {
     margin: 2rem 0 0.5rem;
 }
 .legal h2:first-child { margin-top: 0; }
+/* Contact page: the email address line + the small "opens your email app" note. */
+.contact-email { font-weight: 500; }
+.contact-email .lucide { color: var(--color-moss); position: relative; top: 0.15em; }
+.contact-note { margin-top: 0.4rem; font-size: 0.85rem; color: var(--color-muted); }
+.contact-page .btn { text-decoration: none; }
 .legal-lead {
     font-size: 1.05rem;
     font-weight: 500;

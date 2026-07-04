@@ -143,6 +143,7 @@
 
         const form = modal.querySelector('.tip-form');
         const msg = modal.querySelector('.tip-form-msg');
+        const titleEl = modal.querySelector('.tip-modal-title');
         const fieldLabel = modal.querySelector('.tip-field-label');
         const typeSelect = form.querySelector('.tip-type-select');
         const examplesEl = modal.querySelector('.tip-examples');
@@ -168,6 +169,9 @@
         const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
         const openModal = (type) => {
             const t = TIP_TYPES[type] ? type : 'walkingTip';
+            // "about this walk" only makes sense on a walk page; elsewhere
+            // (Contact, About) use a neutral title.
+            titleEl.textContent = walkName ? 'Share something about this walk' : 'Get in touch';
             form.reset();
             typeSelect.value = t;
             applyType(t);

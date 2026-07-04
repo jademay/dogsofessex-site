@@ -1062,7 +1062,7 @@ function footerHTML(prefix) {
                     <h4>Information</h4>
                     <ul>
                         <li><a href="${prefix}about.html">About</a></li>
-                        <li><a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Contact</a></li>
+                        <li><a href="${prefix}contact.html">Contact</a></li>
                         <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
                         <li><a href="${prefix}terms.html">Terms of Use</a></li>
                     </ul>
@@ -2146,6 +2146,51 @@ ${footerHTML('')}
 `;
 }
 
+function contactPage() {
+    // id="improve" + an .improve-btn lets walk.js wire up the same contribution
+    // form modal used on every walk page (here the button just says "Contact us").
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container">
+                    <h1 class="index-title">Contact</h1>
+                    <p class="index-sub">Have a question, suggestion or spotted something we've missed about a walk?</p>
+                </div>
+            </section>
+
+            <section class="walk-section section-alt">
+                <div class="container narrow">
+                    <div class="legal contact-page" id="improve" data-walk="" data-walkid="">
+                        <p class="legal-lead">We'd love to hear from you.</p>
+                        <p><button type="button" class="btn btn-primary improve-btn" data-tiptype="walkingTip">${icon('message-circle')} Contact us</button></p>
+
+                        <h2>Couldn't find what you're looking for above?</h2>
+                        <p>Get in touch and we'll get back to you as soon as we can.</p>
+                        <p class="contact-email">${icon('mail')} <a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">hello@dogsofessex.co.uk</a></p>
+                        <p><a class="btn btn-secondary" href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Email us</a></p>
+                        <p class="contact-note">Clicking the button opens your email app.</p>
+
+                        <h2>Follow Dogs of Essex</h2>
+                        <p>Day-to-day walks and photos are on <a href="https://instagram.com/dogsofessexuk" target="_blank" rel="noopener">Instagram</a> and <a href="https://facebook.com/dogsofessex" target="_blank" rel="noopener">Facebook</a>.</p>
+                    </div>
+                </div>
+            </section>`;
+    return `${headHTML('', 'Contact | Dogs of Essex', 'Get in touch with Dogs of Essex - questions, suggestions, or corrections about a walk. Send us a message or email hello@dogsofessex.co.uk.', { canonical: 'contact.html' })}
+</head>
+<body>${navHTML('')}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML('')}
+
+    <script src="script.js?v=${V_JS}"></script>
+    <script src="walk.js?v=${V_WALK}"></script>
+</body>
+</html>
+`;
+}
+
 // --- run ---
 
 function readJSON(file) {
@@ -2176,6 +2221,9 @@ function build() {
 
     fs.writeFileSync(path.join(ROOT, 'terms.html'), termsPage());
     console.log('  ✓ terms.html');
+
+    fs.writeFileSync(path.join(ROOT, 'contact.html'), contactPage());
+    console.log('  ✓ contact.html');
 
     fs.writeFileSync(path.join(ROOT, 'about.html'), aboutPage());
     console.log('  ✓ about.html');
@@ -2234,6 +2282,7 @@ function build() {
     urls.push({ loc: 'about.html' });
     urls.push({ loc: 'privacy.html' });
     urls.push({ loc: 'terms.html' });
+    urls.push({ loc: 'contact.html' });
 
     const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n'
         + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
