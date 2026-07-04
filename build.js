@@ -974,14 +974,10 @@ function walkJsonLd(walk, description, imageUrl, pageUrl) {
         addressRegion: 'Essex',
         addressCountry: 'GB'
     };
-    if (walk.rating && walk.rating.value) {
-        place.aggregateRating = {
-            '@type': 'AggregateRating',
-            ratingValue: walk.rating.value,
-            reviewCount: walk.rating.count || 1,
-            bestRating: 5
-        };
-    }
+    // Note: no aggregateRating here. Google's Review-snippet rich result only
+    // supports a fixed allow-list of parent types and TouristAttraction is not
+    // one of them, so nesting a rating triggers GSC's "Invalid object type for
+    // field parent_node". The rating is still shown visually on the page.
     const crumbs = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
