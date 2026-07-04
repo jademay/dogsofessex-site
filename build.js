@@ -2167,6 +2167,7 @@ function contactPage() {
                             <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">Report an issue</button>
                             <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newPlaceSuggestion">Recommend somewhere nearby</button>
                             <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">Suggest a new walk</button>
+                            <button type="button" class="btn btn-secondary improve-btn" data-tiptype="question">Ask a question</button>
                         </div>
 
                         <h2>Prefer to email us?</h2>
