@@ -105,7 +105,8 @@
         },
         'report': { title: 'Report an issue', label: 'What needs fixing?', placeholder: 'Tell us what looks wrong or out of date.' },
         'newPlaceSuggestion': { title: 'Recommend somewhere nearby', label: 'Which place, and why?', placeholder: 'Name of the café, pub or restaurant — and what makes it dog-friendly.' },
-        'newWalkSuggestion': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' }
+        'newWalkSuggestion': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' },
+        'question': { title: 'Get in touch', label: 'Your message', placeholder: "Ask us anything, or let us know what's on your mind." }
     };
 
     function wireImprove() {
@@ -130,6 +131,7 @@
             '<option value="report">Report an issue</option>' +
             '<option value="newPlaceSuggestion">Recommend somewhere nearby</option>' +
             '<option value="newWalkSuggestion">Suggest a new walk</option>' +
+            '<option value="question">Ask a question / Something else</option>' +
             '</select></label>' +
             '<label><span class="tip-field-label">Your tip</span><textarea name="tip" rows="4" required maxlength="1000"></textarea></label>' +
             '<div class="tip-examples" hidden></div>' +

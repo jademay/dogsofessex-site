@@ -2161,7 +2161,7 @@ function contactPage() {
                 <div class="container narrow">
                     <div class="legal contact-page" id="improve" data-walk="" data-walkid="">
                         <p class="legal-lead">We'd love to hear from you.</p>
-                        <p><button type="button" class="btn btn-primary improve-btn" data-tiptype="walkingTip">${icon('message-circle')} Contact us</button></p>
+                        <p><button type="button" class="btn btn-primary improve-btn" data-tiptype="question">${icon('message-circle')} Contact us</button></p>
 
                         <h2>Couldn't find what you're looking for above?</h2>
                         <p>Get in touch and we'll get back to you as soon as we can.</p>
