@@ -237,7 +237,9 @@ h1, h2, h3 {
     display: flex;
     align-items: flex-end;
     color: #fff;
-    background: linear-gradient(155deg, #5B6B4F 0%, #3C4A3E 55%, #2C382E 100%);
+    /* Dark fallback colour shows while the photo loads; the ::after gradient
+       keeps the white heading readable over it. */
+    background: #2C382E url('images/hero.webp') center / cover no-repeat;
     overflow: hidden;
 }
 
