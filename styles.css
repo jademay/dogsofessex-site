@@ -2728,20 +2728,38 @@ h2 .lucide { vertical-align: -0.1em; }
     inset: 0;
     z-index: 1000;
     display: none;
-    align-items: center;
+    /* flex-start (not center) + margin:auto on the box so a tall form scrolls
+       from the top instead of clipping above the viewport. */
+    align-items: flex-start;
     justify-content: center;
     background: rgba(20, 24, 20, 0.9);
     padding: 4vh 4vw;
+    /* Scroll the modal itself; contain keeps the scroll from chaining to the
+       page behind it. */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 }
 .tip-modal.open { display: flex; }
 .tip-modal-inner {
     position: relative;
     width: 100%;
     max-width: 480px;
+    margin: auto; /* centre when it fits, top-anchored + scrollable when it doesn't */
     background-color: var(--color-card);
     border-radius: var(--radius);
     padding: 1.5rem;
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+}
+/* Freeze the page behind the modal. overflow:hidden alone lets touch scroll
+   bleed through on iOS, so the body is pinned in place (JS stores/restores the
+   scroll position). */
+body.modal-open {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    overflow: hidden;
 }
 .tip-modal-inner h3 { margin: 0 2rem 1rem 0; }
 .tip-modal-close {

@@ -108,6 +108,7 @@
         if (!section) return;
         const walkName = section.dataset.walk || '';
         const walkId = section.dataset.walkid || '';
+        const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
 
         // One primary action opens the form straight away; the first field lets
         // people pick what they want to share (no intermediate button step).
@@ -152,7 +153,29 @@
         };
         typeSelect.addEventListener('change', () => applyType(typeSelect.value));
 
-        const closeModal = () => { modal.classList.remove('open'); document.body.style.overflow = ''; };
+        // Scroll-lock the page while the modal is open. On touch, overflow:hidden
+        // alone bleeds through, so pin the body at its current scroll offset and
+        // restore it on close.
+        let savedScrollY = 0;
+        const lockScroll = () => {
+            savedScrollY = window.scrollY || window.pageYOffset || 0;
+            if (isMobile()) {
+                document.body.style.top = '-' + savedScrollY + 'px';
+                document.body.classList.add('modal-open');
+            } else {
+                document.body.style.overflow = 'hidden';
+            }
+        };
+        const unlockScroll = () => {
+            if (document.body.classList.contains('modal-open')) {
+                document.body.classList.remove('modal-open');
+                document.body.style.top = '';
+                window.scrollTo(0, savedScrollY);
+            }
+            document.body.style.overflow = '';
+        };
+
+        const closeModal = () => { modal.classList.remove('open'); unlockScroll(); };
         const openModal = (type) => {
             const t = TIP_TYPES[type] ? type : 'walkingTip';
             // "about this walk" only makes sense on a walk page; elsewhere
@@ -162,8 +185,12 @@
             typeSelect.value = t;
             applyType(t);
             msg.textContent = '';
-            modal.classList.add('open'); document.body.style.overflow = 'hidden';
-            textarea.focus();
+            lockScroll();
+            modal.classList.add('open');
+            modal.scrollTop = 0;
+            // Focus the field on desktop; on mobile, skip it so the keyboard
+            // doesn't immediately cover the form.
+            if (!isMobile()) textarea.focus();
         };
 
         // Includes the "Share a tip" button up in the Community tips section.
