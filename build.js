@@ -270,6 +270,7 @@ const ACCESS_META = {
 // /places/<slug>/ page (plus venue pages) appear automatically.
 const PLACE_CATEGORIES = [
     { slug: 'eat-drink', emoji: icon('coffee'), title: 'Eat & Drink', plural: 'places to eat & drink',
+        image: 'eat-drink.webp',
         types: ['cafe', 'pub', 'restaurant'],
         blurb: 'Grab lunch, coffee or a pint after your walk.',
         cta: 'Explore eat & drink →',
@@ -281,18 +282,21 @@ const PLACE_CATEGORIES = [
             { type: 'restaurant', label: 'Restaurants' }
         ] },
     { slug: 'things-to-do', emoji: icon('compass'), title: 'Things to Do', plural: 'things to do',
+        soon: true, image: 'thingstodo.webp', imgPos: 'center 20%',
         types: ['attraction', 'garden-centre', 'shop'],
         blurb: 'Make a full day of it.',
         cta: 'Explore things to do →',
         intro: 'Dog-friendly days out beyond a walk - garden centres, National Trust properties, estates, country parks, markets, farm shops and seasonal attractions.' },
     { slug: 'beaches', emoji: icon('parasol'), title: 'Beaches', plural: 'beaches',
+        soon: true, image: 'beaches.webp',
         types: ['beach', 'seaside', 'swim-spot'],
         blurb: 'The best coastal spots for muddy paws.',
         cta: 'Explore beaches →',
         intro: 'Dog-friendly beaches and coastal spots. Check seasonal restrictions, parking and nearby cafés before you set off.',
         note: 'Seasonal restrictions apply on many Essex beaches - dogs are often banned between 1 May and 30 September. Always check local signage before you go.' },
     { slug: 'stay', emoji: icon('bed-double'), title: 'Stay', comingSoon: true,
-        blurb: 'Coming soon.',
+        image: 'stay.webp', imgPos: 'center 68%',
+        blurb: 'Dog-friendly places to stay across Essex.',
         cta: 'Coming soon' }
 ];
 
@@ -1632,22 +1636,24 @@ function placeFreePillHTML(p, walks) {
 }
 
 function placeCatCardHTML(cat) {
-    if (cat.comingSoon) {
-        return `
-                        <div class="bestfor-card is-soon">
-                            <span class="bf-emoji" aria-hidden="true">${cat.emoji}</span>
-                            <h3 class="bf-title">${esc(cat.title)}</h3>
-                            <p class="bf-desc">${esc(cat.blurb)}</p>
-                            <span class="bf-soon">Coming soon</span>
-                        </div>`;
-    }
-    return `
-                        <a href="${esc(cat.slug)}/index.html" class="bestfor-card">
-                            <span class="bf-emoji" aria-hidden="true">${cat.emoji}</span>
-                            <h3 class="bf-title">${esc(cat.title)}</h3>
-                            <p class="bf-desc">${esc(cat.blurb)}</p>
-                            <span class="link-arrow">${esc(cat.cta)}</span>
-                        </a>`;
+    const photo = cat.image
+        ? `<div class="place-cat-photo"><img src="../images/places/${esc(cat.image)}" alt="" loading="lazy"${cat.imgPos ? ` style="object-position:${cat.imgPos}"` : ''} onerror="this.closest('.place-cat-photo').remove()"></div>`
+        : '';
+    const label = (cat.comingSoon || cat.soon)
+        ? '<span class="bf-soon">Coming soon</span>'
+        : `<span class="link-arrow">${esc(cat.cta)}</span>`;
+    const inner = `
+                            <div class="place-cat-text">
+                                <span class="bf-emoji" aria-hidden="true">${cat.emoji}</span>
+                                <h3 class="bf-title">${esc(cat.title)}</h3>
+                                <p class="bf-desc">${esc(cat.blurb)}</p>
+                                ${label}
+                            </div>${photo}`;
+    // Stay has no page yet (comingSoon) so it's a plain card; Things to Do and
+    // Beaches keep their links but read "Coming soon" until they're populated.
+    return cat.comingSoon
+        ? `\n                        <div class="bestfor-card place-cat-card is-soon">${inner}\n                        </div>`
+        : `\n                        <a href="${esc(cat.slug)}/index.html" class="bestfor-card place-cat-card">${inner}\n                        </a>`;
 }
 
 function placesIndexPage() {

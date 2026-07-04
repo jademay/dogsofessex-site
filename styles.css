@@ -239,7 +239,7 @@ h1, h2, h3 {
     color: #fff;
     /* Dark fallback colour shows while the photo loads; the ::after gradient
        keeps the white heading readable over it. */
-    background: #2C382E url('images/hero.webp') center / cover no-repeat;
+    background: #2C382E url('images/hero.webp?v=2') center / cover no-repeat;
     overflow: hidden;
 }
 
@@ -485,9 +485,30 @@ h1, h2, h3 {
 
 .places-hub-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
 }
+/* Places hub cards: content on the left, a category photo filling the right. */
+.place-cat-card {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 0;
+    overflow: hidden;
+}
+.place-cat-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.6rem;
+}
+.place-cat-photo {
+    flex: 0 0 40%;
+    max-width: 210px;
+    align-self: stretch;
+    overflow: hidden;
+}
+.place-cat-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .bestfor-card.is-soon {
     opacity: 0.75;
