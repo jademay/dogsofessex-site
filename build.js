@@ -2153,24 +2153,33 @@ function contactPage() {
             <section class="walk-section walk-index-head">
                 <div class="container">
                     <h1 class="index-title">Contact</h1>
-                    <p class="index-sub">Have a question, suggestion or spotted something we've missed about a walk?</p>
+                    <p class="index-sub">Questions, suggestions, feedback or spotted something we've missed? We'd love to hear from you.</p>
                 </div>
             </section>
 
             <section class="walk-section section-alt">
                 <div class="container narrow">
                     <div class="legal contact-page" id="improve" data-walk="" data-walkid="">
-                        <p class="legal-lead">We'd love to hear from you.</p>
-                        <p><button type="button" class="btn btn-primary improve-btn" data-tiptype="question">${icon('message-circle')} Contact us</button></p>
+                        <h2>Tell us about Dogs of Essex</h2>
+                        <p>Found a hidden gem? Spotted a problem with a walk? Have feedback or a suggestion? We'd love to hear from you.</p>
+                        <div class="improve-actions">
+                            <button type="button" class="btn btn-secondary improve-btn" data-tiptype="walkingTip">Share a tip</button>
+                            <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">Report an issue</button>
+                            <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newPlaceSuggestion">Recommend somewhere nearby</button>
+                            <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">Suggest a new walk</button>
+                        </div>
 
-                        <h2>Couldn't find what you're looking for above?</h2>
-                        <p>Get in touch and we'll get back to you as soon as we can.</p>
+                        <h2>Prefer to email us?</h2>
+                        <p>For anything else, feel free to email us and we'll get back to you as soon as we can.</p>
                         <p class="contact-email">${icon('mail')} <a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">hello@dogsofessex.co.uk</a></p>
                         <p><a class="btn btn-secondary" href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Email us</a></p>
                         <p class="contact-note">Clicking the button opens your email app.</p>
 
                         <h2>Follow Dogs of Essex</h2>
-                        <p>Day-to-day walks and photos are on <a href="https://instagram.com/dogsofessexuk" target="_blank" rel="noopener">Instagram</a> and <a href="https://facebook.com/dogsofessex" target="_blank" rel="noopener">Facebook</a>.</p>
+                        <p class="contact-socials">
+                            <a class="social-icon-link" href="https://instagram.com/dogsofessexuk" target="_blank" rel="noopener">${SOCIAL_ICONS.instagram}<span>Instagram</span></a>
+                            <a class="social-icon-link" href="https://facebook.com/dogsofessex" target="_blank" rel="noopener">${SOCIAL_ICONS.facebook}<span>Facebook</span></a>
+                        </p>
                     </div>
                 </div>
             </section>`;

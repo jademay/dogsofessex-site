@@ -956,6 +956,17 @@ h1, h2, h3 {
 .contact-email .lucide { color: var(--color-moss); position: relative; top: 0.15em; }
 .contact-note { margin-top: 0.4rem; font-size: 0.85rem; color: var(--color-muted); }
 .contact-page .btn { text-decoration: none; }
+.contact-socials { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
+.contact-page .social-icon-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-forest-dark);
+    text-decoration: none;
+    font-weight: 500;
+}
+.contact-page .social-icon-link svg { width: 22px; height: 22px; }
+.contact-page .social-icon-link:hover { color: var(--color-terracotta); }
 .legal-lead {
     font-size: 1.05rem;
     font-weight: 500;
