@@ -527,7 +527,7 @@ if (form) {
     };
 
     if (mapEl && typeof L !== 'undefined') {
-        map = L.map(mapEl, { scrollWheelZoom: false });
+        map = L.map(mapEl, { scrollWheelZoom: false, zoomSnap: 0 });
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -565,7 +565,7 @@ if (form) {
             if (card.hidden) { map.removeLayer(marker); }
             else { marker.addTo(map); pts.push(marker.getLatLng()); }
         });
-        if (pts.length) map.fitBounds(pts, { padding: [0, 0], maxZoom: 15 });
+        if (pts.length) map.fitBounds(pts, { padding: [12, 12], maxZoom: 15 });
     };
 
     const applyCat = (cat) => {
