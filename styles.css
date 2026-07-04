@@ -649,7 +649,10 @@ h1, h2, h3 {
     box-shadow: var(--shadow-soft);
 }
 
-.place-card .photo-ph { aspect-ratio: 4 / 3; }
+.place-card .photo-ph { aspect-ratio: 4 / 3; position: relative; }
+/* When a place card has a real photo, it covers the fallback icon; if the
+   image ever fails to load, onerror removes it and the icon shows through. */
+.place-card .photo-ph img { position: absolute; inset: 0; }
 
 .place-card .place-label {
     padding: 1rem 1.1rem;
