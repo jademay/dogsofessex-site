@@ -2160,12 +2160,12 @@ function contactPage() {
             <section class="walk-section section-alt">
                 <div class="container narrow">
                     <div class="legal contact-page" id="improve" data-walk="" data-walkid="">
-                        <h2>Tell us about Dogs of Essex</h2>
+                        <h2>Help keep Dogs of Essex up to date</h2>
                         <p>Found a hidden gem? Spotted a problem with a walk? Have feedback or a suggestion? We'd love to hear from you.</p>
                         <div class="improve-actions">
                             <button type="button" class="btn btn-secondary improve-btn" data-tiptype="walkingTip">Share a tip</button>
                             <button type="button" class="btn btn-secondary improve-btn" data-tiptype="report">Report an issue</button>
-                            <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newPlaceSuggestion">Recommend somewhere nearby</button>
+                            <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newPlaceSuggestion">Recommend a place</button>
                             <button type="button" class="btn btn-secondary improve-btn" data-tiptype="newWalkSuggestion">Suggest a new walk</button>
                             <button type="button" class="btn btn-secondary improve-btn" data-tiptype="question">Ask a question</button>
                         </div>

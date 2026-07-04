@@ -956,6 +956,15 @@ h1, h2, h3 {
 .contact-email .lucide { color: var(--color-moss); position: relative; top: 0.15em; }
 .contact-note { margin-top: 0.4rem; font-size: 0.85rem; color: var(--color-muted); }
 .contact-page .btn { text-decoration: none; }
+/* Equal-width contact options: a responsive grid so every button shares the
+   same track width (stacks to one column on narrow screens). */
+.contact-page .improve-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 0.6rem;
+    margin-top: 1rem;
+}
+.contact-page .improve-actions .btn { width: 100%; }
 .contact-socials { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem; }
 .contact-page .social-icon-link {
     display: inline-flex;
