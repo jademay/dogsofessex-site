@@ -1675,7 +1675,7 @@ function placesIndexPage(places, walks) {
                     <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
                         ${pills}
                     </div>
-                    <p class="places-count" aria-live="polite"></p>
+                    <p class="places-count places-count-bar" aria-live="polite"></p>
                 </div>
             </div>
 
@@ -1687,6 +1687,7 @@ function placesIndexPage(places, walks) {
                             </div>${empties}
                         </div>
                         <aside class="places-map-col">
+                            <p class="places-count places-count-map" aria-live="polite"></p>
                             <div id="places-map" class="places-map" aria-label="Map of dog-friendly places in Essex"></div>
                         </aside>
                     </div>

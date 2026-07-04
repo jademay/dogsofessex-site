@@ -473,7 +473,7 @@ if (form) {
     const pills = Array.from(bar.querySelectorAll('.filter-pill'));
     const cards = Array.from(document.querySelectorAll('.places-hub-list > [data-cat]'));
     const empties = Array.from(document.querySelectorAll('.places-empty'));
-    const countEl = document.querySelector('.places-count');
+    const countEls = Array.from(document.querySelectorAll('.places-count'));
     const valid = new Set(pills.map((p) => p.dataset.cat));
 
     // Freeze the filter bar below the sticky header, and park the sticky map
@@ -564,7 +564,8 @@ if (form) {
         empties.forEach((e) => { e.hidden = !(cat !== 'all' && e.dataset.cat === cat); });
         if (active && active.card.hidden) select(null);
         const n = cards.filter((c) => !c.hidden).length;
-        if (countEl) countEl.textContent = n ? ('Showing ' + n + ' place' + (n === 1 ? '' : 's')) : '';
+        const text = n ? ('Showing ' + n + ' place' + (n === 1 ? '' : 's')) : '';
+        countEls.forEach((el) => { el.textContent = text; });
         fitVisible();
     };
 

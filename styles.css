@@ -498,9 +498,16 @@ h1, h2, h3 {
     top: calc(var(--places-content-top, 160px) + 12px);
     align-self: start;
     height: 72vh;
+    display: flex;
+    flex-direction: column;
 }
+/* "Showing N places" sits above the map on desktop; on mobile it stays in the
+   filter toolbar instead. */
+.places-count-map { flex: 0 0 auto; margin: 0 0 0.6rem; }
+.places-count-bar { display: none; }
 .places-map {
-    height: 100%;
+    flex: 1;
+    min-height: 0;
     border-radius: var(--radius);
     overflow: hidden;
     border: 1px solid var(--color-border);
@@ -512,6 +519,8 @@ h1, h2, h3 {
 @media (max-width: 900px) {
     .places-explorer { grid-template-columns: 1fr; gap: 1rem; }
     .places-map-col { position: static; height: 320px; order: -1; }
+    .places-count-map { display: none; }
+    .places-count-bar { display: block; }
 }
 
 .bestfor-card.is-soon {
