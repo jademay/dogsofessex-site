@@ -1025,6 +1025,16 @@ function headHTML(prefix, title, description, opts) {
     <link rel="stylesheet" href="${prefix}styles.css?v=${V_CSS}">`;
 }
 
+// The mobile "Filter & sort" toggle button shared by the walks + places
+// toolbars (collapses the controls behind it below 900px). `cls` selects the
+// page's handler/CSS; `controlsId` is the collapsed region it controls.
+function filterToggleHTML(cls, controlsId) {
+    return `<button type="button" class="${cls}" aria-expanded="false" aria-controls="${controlsId}">
+                        <span>Filter &amp; sort</span>
+                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>`;
+}
+
 function navHTML(prefix) {
     return `
     <header class="site-header">
@@ -1281,10 +1291,7 @@ function walksIndexPage(walks) {
             <div class="walks-toolbar">
                 <div class="container">
                     <h2 class="controls-title">Find the perfect walk</h2>
-                    <button type="button" class="walks-filter-toggle" aria-expanded="false" aria-controls="walk-controls">
-                        <span>Filter &amp; sort</span>
-                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </button>
+                    ${filterToggleHTML('walks-filter-toggle', 'walk-controls')}
                     <div class="controls-row" id="walk-controls">
                         <div class="walk-filters" aria-label="Filter walks by what they're best for">
                             ${pills}
@@ -1707,10 +1714,7 @@ function placesIndexPage(places, walks) {
             <div class="places-toolbar">
                 <div class="container">
                     <h2 class="controls-title">Find the perfect place to go</h2>
-                    <button type="button" class="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
-                        <span>Filter &amp; sort</span>
-                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </button>
+                    ${filterToggleHTML('places-filter-toggle', 'places-controls')}
                     <div class="places-controls-wrap" id="places-controls">
                         <div class="places-controls">
                             <div class="walk-filters places-cat-filter" aria-label="Filter places by category">

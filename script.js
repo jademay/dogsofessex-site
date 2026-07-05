@@ -36,6 +36,65 @@ if (form) {
     });
 }
 
+// --- Shared explorer helpers (walks hub + places hub) ------------------------
+// Both index pages use the same Airbnb-style layout — a card list beside a
+// sticky map on desktop, and a pinned map above a horizontal swipe carousel on
+// mobile. These hold the logic that would otherwise be copy-pasted per page.
+
+// The mobile breakpoint for both explorers, read from one cached MediaQueryList
+// so it stays in step with the `@media (max-width: 900px)` block in styles.css.
+const explorerMobileMQ = window.matchMedia('(max-width: 900px)');
+const isMobile = () => explorerMobileMQ.matches;
+
+// Mobile carousel → map sync. Finds the visible card nearest the horizontal
+// centre of `container` and reports it via onCentred, throttled to one call per
+// frame while the carousel scrolls. Returns a `sync(pan)` for manual calls after
+// a filter/sort re-order (which fires no scroll event). Each page owns its own
+// "active" state, so onCentred receives the centred item and decides whether the
+// change is worth acting on.
+//   getItems:  () => items — re-evaluated per call so DOM re-ordering and
+//              show/hide are always reflected
+//   getCard:   (item) => the item's card element (measured for centring)
+//   isVisible: (item) => boolean
+//   onCentred: (item, pan) => void
+function wireCarouselSync(container, getItems, getCard, isVisible, onCentred) {
+    const centred = () => {
+        const rect = container.getBoundingClientRect();
+        const mid = rect.left + rect.width / 2;
+        let best = null, bestDist = Infinity;
+        getItems().forEach((item) => {
+            if (!isVisible(item)) return;
+            const r = getCard(item).getBoundingClientRect();
+            const d = Math.abs((r.left + r.width / 2) - mid);
+            if (d < bestDist) { bestDist = d; best = item; }
+        });
+        return best;
+    };
+    const sync = (pan = true) => {
+        if (!isMobile() || !container) return;
+        const item = centred();
+        if (item != null) onCentred(item, pan);
+    };
+    let raf = 0;
+    if (container) container.addEventListener('scroll', () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => { raf = 0; sync(true); });
+    }, { passive: true });
+    return sync;
+}
+
+// Wire the mobile "Filter & sort" toggle that collapses the toolbar controls.
+// onToggle(open) runs after the class flips — used to recompute sticky offsets
+// and re-measure the map.
+function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
+    if (!toggleEl || !toolbarEl) return;
+    toggleEl.addEventListener('click', () => {
+        const open = toolbarEl.classList.toggle('is-open');
+        toggleEl.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (onToggle) onToggle(open);
+    });
+}
+
 // Walks index — filter by "at a glance" categories (multi-select, 3+ stars) + sort
 (function () {
     const bar = document.querySelector('.walk-filters');
@@ -99,33 +158,30 @@ if (form) {
     const highlightCard = (i, on) => { const c = cards[i]; if (c) c.classList.toggle('is-map-active', on); };
 
     // --- Mobile (<=900px): sticky map on top, horizontal swipe carousel below.
-    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
     // Pan only enough to bring the active walk's marker into view, keeping the
     // current zoom. If the marker is already on-screen this is a no-op, so the
     // map stays put and only the highlight changes.
     const panToWalk = (i) => { const m = walkMarkers[i]; if (m && walksMap) walksMap.panInside(m.getLatLng(), { padding: [40, 40], animate: true }); };
     const centreCardInCarousel = (i) => { const c = cards[i]; if (c && c.style.display !== 'none') c.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }); };
     // The card nearest the carousel's centre is the "active" one: highlight its
-    // marker and pan the map to it.
+    // marker and pan the map to it. wireCarouselSync handles the geometry +
+    // per-frame throttle; this page owns the active index.
     let activeCarouselCard = -1;
-    const syncActiveFromCarousel = (pan = true) => {
-        if (!isMobile()) return;
-        const gRect = grid.getBoundingClientRect();
-        const mid = gRect.left + gRect.width / 2;
-        let best = -1, bestDist = Infinity;
-        cards.forEach((c, i) => {
-            if (c.style.display === 'none' || !walkMarkers[i]) return;
-            const r = c.getBoundingClientRect();
-            const d = Math.abs((r.left + r.width / 2) - mid);
-            if (d < bestDist) { bestDist = d; best = i; }
-        });
-        if (best < 0 || best === activeCarouselCard) return;
-        if (activeCarouselCard >= 0) { highlightMarker(activeCarouselCard, false); highlightCard(activeCarouselCard, false); }
-        activeCarouselCard = best;
-        highlightMarker(best, true);
-        highlightCard(best, true);
-        if (pan) panToWalk(best);
-    };
+    const carItems = cards.map((card, i) => ({ card, i }));
+    const syncActiveFromCarousel = wireCarouselSync(
+        grid,
+        () => carItems,
+        (it) => it.card,
+        (it) => it.card.style.display !== 'none' && !!walkMarkers[it.i],
+        (it, pan) => {
+            if (it.i === activeCarouselCard) return;
+            if (activeCarouselCard >= 0) { highlightMarker(activeCarouselCard, false); highlightCard(activeCarouselCard, false); }
+            activeCarouselCard = it.i;
+            highlightMarker(it.i, true);
+            highlightCard(it.i, true);
+            if (pan) panToWalk(it.i);
+        }
+    );
     // Keep the sticky offsets in sync with the header + toolbar heights (which
     // vary as the filters wrap), and expose them as CSS variables the layout
     // uses for the sticky toolbar and map column.
@@ -227,12 +283,7 @@ if (form) {
                 panToWalk(i);
             });
         });
-        // Mobile: swiping the carousel highlights + pans to the centred card.
-        let carouselRaf = 0;
-        grid.addEventListener('scroll', () => {
-            if (carouselRaf) return;
-            carouselRaf = requestAnimationFrame(() => { carouselRaf = 0; syncActiveFromCarousel(); });
-        }, { passive: true });
+        // (Carousel swipe → highlight/pan sync is wired by wireCarouselSync.)
         window.addEventListener('resize', () => { if (walksMap) walksMap.invalidateSize(); });
         const fit = () => {
             const pts = walkMarkers.filter(Boolean).map((m) => m.getLatLng());
@@ -344,15 +395,10 @@ if (form) {
     }
 
     // Mobile: collapse/expand the filters + sort behind the toggle arrow.
-    const filterToggle = document.querySelector('.walks-filter-toggle');
-    if (filterToggle && toolbarEl) {
-        filterToggle.addEventListener('click', () => {
-            const open = toolbarEl.classList.toggle('is-open');
-            filterToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-            updateStickyVars();
-            if (walksMap) requestAnimationFrame(() => walksMap.invalidateSize());
-        });
-    }
+    wireFilterToggle(document.querySelector('.walks-filter-toggle'), toolbarEl, () => {
+        updateStickyVars();
+        if (walksMap) requestAnimationFrame(() => walksMap.invalidateSize());
+    });
 
     applyFilters();
 })();
@@ -526,8 +572,6 @@ if (form) {
     const entries = []; // { card, marker }
     let active = null;
 
-    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
-
     const highlightMarker = (marker, on) => {
         if (marker && marker._icon) marker._icon.classList.toggle('walk-map-pin--active', on);
         if (marker) marker.setZIndexOffset(on ? 1000 : 0);
@@ -552,26 +596,17 @@ if (form) {
     };
 
     // Mobile: the card nearest the carousel's centre is the "active" one —
-    // highlight its pin as the user swipes. pan=false keeps the current view
-    // (used after a fitBounds, which a pan would cancel mid-animation).
-    const syncActiveFromCarousel = (pan = true) => {
-        if (!isMobile() || !listEl) return;
-        const rect = listEl.getBoundingClientRect();
-        const mid = rect.left + rect.width / 2;
-        let best = null, bestDist = Infinity;
-        entries.forEach((en) => {
-            if (en.card.hidden) return;
-            const r = en.card.getBoundingClientRect();
-            const d = Math.abs((r.left + r.width / 2) - mid);
-            if (d < bestDist) { bestDist = d; best = en; }
-        });
-        if (best && best !== active) select(best, false, pan);
-    };
-    let carouselRaf = 0;
-    if (listEl) listEl.addEventListener('scroll', () => {
-        if (carouselRaf) return;
-        carouselRaf = requestAnimationFrame(() => { carouselRaf = 0; syncActiveFromCarousel(); });
-    }, { passive: true });
+    // highlight its pin as the user swipes. wireCarouselSync handles the
+    // geometry + per-frame throttle; onCentred defers to select(), which owns
+    // `active` (shared with desktop card clicks). pan=false keeps the current
+    // view (used after a fitBounds, which a pan would cancel mid-animation).
+    const syncActiveFromCarousel = wireCarouselSync(
+        listEl,
+        () => entries,
+        (en) => en.card,
+        (en) => !en.card.hidden,
+        (en, pan) => { if (en !== active) select(en, false, pan); }
+    );
 
     if (mapEl && typeof L !== 'undefined') {
         map = L.map(mapEl, { scrollWheelZoom: false, zoomSnap: 0 });
@@ -700,15 +735,10 @@ if (form) {
 
     // Mobile: collapse/expand the filters + sort behind the toggle arrow
     // (same as the walks page).
-    const filterToggle = document.querySelector('.places-filter-toggle');
-    if (filterToggle && toolbar) {
-        filterToggle.addEventListener('click', () => {
-            const open = toolbar.classList.toggle('is-open');
-            filterToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-            setTop();
-            if (map) requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
-        });
-    }
+    wireFilterToggle(document.querySelector('.places-filter-toggle'), toolbar, () => {
+        setTop();
+        if (map) requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
+    });
 
     const initial = (location.hash || '').replace('#', '');
     applyCat(valid.has(initial) ? initial : 'all');
