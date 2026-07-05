@@ -566,7 +566,9 @@ h1, h2, h3 {
        viewport-tall panel that never scrolls vertically, pinned just below the
        sticky header + filter bar and split ~40% map / ~60% cards. Cards swipe
        horizontally with snap-to-centre. */
-    .places-explorer-section { padding: 0; }
+    /* All three classes so this beats `.walk-section.section-alt`'s 4.5rem
+       padding — otherwise a tall gap opens between the toolbar and the map. */
+    .walk-section.section-alt.places-explorer-section { padding: 0; }
     /* Taller than the pinned panel so its sticky child has room to travel and
        actually pins at --places-content-top. */
     .places-explorer-section > .container { max-width: none; padding: 0; min-height: 100vh; min-height: 100svh; }
@@ -690,6 +692,15 @@ h1, h2, h3 {
     margin: 0.6rem 0 0;
     font: 600 0.95rem/1.4 'Inter', system-ui, sans-serif;
     color: var(--color-forest);
+}
+/* Mobile toolbar/count overrides — placed AFTER the base .places-toolbar and
+   .places-count rules above so they win on source order (the main mobile block
+   sits earlier in this section, where these same-specificity rules would lose).
+   Tightens the space between the "Filter & sort" bar and the "Showing N" count
+   so it sits right under the toolbar, matching the walks page. */
+@media (max-width: 900px) {
+    .places-toolbar { padding: 0.45rem 0; box-shadow: none; }
+    .places-count-map { margin: 0 0 0.35rem; font-size: 0.9rem; }
 }
 /* The venue cards set their own display, which would beat the [hidden]
    attribute — force filtered-out cards to actually hide. */
@@ -2115,7 +2126,9 @@ h2 .lucide { vertical-align: -0.1em; }
        map / ~60% card; both shrink together on shorter screens rather than
        letting the card overflow. svh (with a vh fallback) keeps it fitting even
        while the browser chrome is showing. */
-    .walks-explorer-section { padding: 0; }
+    /* All three classes so this beats `.walk-section.section-alt`'s 4.5rem
+       padding — otherwise a tall gap opens between the toolbar and the map. */
+    .walk-section.section-alt.walks-explorer-section { padding: 0; }
     /* Taller than the pinned panel so its sticky child has room to travel and
        actually pins at --content-top (a same-height containing block wouldn't). */
     .walks-explorer-section > .container { max-width: none; padding: 0; min-height: 100vh; min-height: 100svh; }
