@@ -1719,14 +1719,15 @@ function placesIndexPage(places, walks) {
                         <div class="places-controls">
                             <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
                                 ${pills}
-                            </div>
+                            </div>${subfilter}
+                            <div class="places-active-filters" role="group" aria-label="Active filters" hidden></div>
                             <select class="places-sort" aria-label="Sort places">
                                 <option value="recommended">Recommended</option>
                                 <option value="distance">Distance</option>
                                 <option value="added">Recently added</option>
                                 <option value="az">A–Z</option>
                             </select>
-                        </div>${subfilter}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -529,9 +529,17 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const subCat = subBar ? subBar.dataset.for : null;
     const subTypePills = subBar ? Array.from(subBar.querySelectorAll('[data-subtype]')) : [];
     const subAccessPills = subBar ? Array.from(subBar.querySelectorAll('[data-subaccess]')) : [];
+    const bubblesEl = document.querySelector('.places-active-filters');
     let cat = 'all';
     let subType = 'all';
     const subAccess = new Set();
+    let subOpen = false; // is the sub-filter panel expanded (vs collapsed to bubbles)
+
+    // Human labels for the active-filter bubbles, read from the pills themselves.
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const subLabels = {};
+    subTypePills.forEach((b) => { subLabels['type:' + b.dataset.subtype] = b.textContent.trim(); });
+    subAccessPills.forEach((b) => { subLabels['access:' + b.dataset.subaccess] = b.textContent.trim(); });
 
     // Freeze the filter bar below the sticky header, and park the sticky map
     // below both.
@@ -698,26 +706,61 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         subAccessPills.forEach((b) => pressPill(b, false));
     };
 
+    const hasActiveSub = () => subType !== 'all' || subAccess.size > 0;
+
+    // Bubbles that show what's on while the sub-filter panel is collapsed; each
+    // removes its own filter when tapped.
+    const renderBubbles = () => {
+        if (!bubblesEl) return;
+        const chips = [];
+        if (subType !== 'all') chips.push({ kind: 'type', key: subType, label: subLabels['type:' + subType] || subType });
+        subAccess.forEach((k) => chips.push({ kind: 'access', key: k, label: subLabels['access:' + k] || k }));
+        bubblesEl.innerHTML = chips.map((c) =>
+            `<button type="button" class="active-filter-chip" data-kind="${c.kind}" data-key="${esc(c.key)}" aria-label="Remove filter: ${esc(c.label)}">${esc(c.label)}<span class="x" aria-hidden="true">×</span></button>`
+        ).join('');
+    };
+
+    // The panel shows only when Eat & Drink is the active category AND expanded;
+    // the bubbles show when it's active, collapsed, and something is selected.
+    // Sub-filters keep applying whenever Eat & Drink is the category, either way.
+    const updateSubUI = () => {
+        if (!subBar) return;
+        const key = () => subBar.hidden + '|' + (bubblesEl ? bubblesEl.hidden : '');
+        const before = key();
+        subBar.hidden = !(cat === subCat && subOpen);
+        if (bubblesEl) {
+            const showBubbles = cat === subCat && !subOpen && hasActiveSub();
+            if (showBubbles) renderBubbles(); else bubblesEl.innerHTML = '';
+            bubblesEl.hidden = !showBubbles;
+        }
+        setTop(); // the toolbar grows/shrinks with the sub-filter row / bubbles
+        // On mobile the pinned panel (and the map inside it) resizes with the
+        // toolbar — let Leaflet re-measure, then refit.
+        if (map && before !== key()) {
+            requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
+        }
+    };
+
     const applyCat = (next) => {
         cat = valid.has(next) ? next : 'all';
         pills.forEach((p) => pressPill(p, p.dataset.cat === cat));
-        if (subBar) {
-            const wasHidden = subBar.hidden;
-            if (cat !== subCat) resetSubFilters();
-            subBar.hidden = cat !== subCat;
-            setTop(); // the toolbar grows/shrinks with the sub-filter row
-            // On mobile the pinned panel (and the map inside it) resizes with
-            // the toolbar — let Leaflet re-measure, then refit.
-            if (map && wasHidden !== subBar.hidden) {
-                requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
-            }
-        }
+        if (cat !== subCat) { resetSubFilters(); subOpen = false; }
+        updateSubUI();
         applyFilters();
     };
 
     pills.forEach((p) => p.addEventListener('click', () => {
-        applyCat(p.dataset.cat);
-        history.replaceState(null, '', p.dataset.cat === 'all' ? location.pathname : '#' + p.dataset.cat);
+        const next = p.dataset.cat;
+        if (next === subCat && cat === subCat) {
+            // Eat & Drink already active: toggle the panel open/closed. Any
+            // selections stay applied when it collapses (shown as bubbles).
+            subOpen = !subOpen;
+            updateSubUI();
+        } else {
+            if (next === subCat) subOpen = true; // opening Eat & Drink expands it
+            applyCat(next);
+        }
+        history.replaceState(null, '', next === 'all' ? location.pathname : '#' + next);
     }));
 
     subTypePills.forEach((b) => b.addEventListener('click', () => {
@@ -733,6 +776,21 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         applyFilters();
     }));
 
+    // Removing a bubble clears that one filter (and un-presses its pill).
+    if (bubblesEl) bubblesEl.addEventListener('click', (e) => {
+        const chip = e.target.closest('.active-filter-chip');
+        if (!chip) return;
+        if (chip.dataset.kind === 'type') {
+            subType = 'all';
+            subTypePills.forEach((x) => pressPill(x, x.dataset.subtype === 'all'));
+        } else {
+            subAccess.delete(chip.dataset.key);
+            subAccessPills.forEach((x) => { if (x.dataset.subaccess === chip.dataset.key) pressPill(x, false); });
+        }
+        applyFilters();
+        updateSubUI(); // re-render bubbles, or hide the row once it's empty
+    });
+
     // Mobile: collapse/expand the filters + sort behind the toggle arrow
     // (same as the walks page).
     wireFilterToggle(document.querySelector('.places-filter-toggle'), toolbar, () => {
@@ -741,7 +799,9 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     });
 
     const initial = (location.hash || '').replace('#', '');
-    applyCat(valid.has(initial) ? initial : 'all');
+    const startCat = valid.has(initial) ? initial : 'all';
+    subOpen = startCat === subCat; // deep-link to Eat & Drink opens the panel
+    applyCat(startCat);
     // Nudge the map once it has its real size — Leaflet mis-sizes (loads too few
     // tiles) if its container wasn't fully laid out at init, notably the mobile
     // sticky map. Re-measure the sticky offsets at the same time.

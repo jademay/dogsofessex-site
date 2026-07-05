@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=e995766c">
+    <link rel="stylesheet" href="../styles.css?v=39a99463">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
@@ -79,13 +79,6 @@
                         <button type="button" class="filter-pill" data-cat="beaches" aria-pressed="false">Beaches</button>
                         <button type="button" class="filter-pill" data-cat="stay" aria-pressed="false">Stay</button>
                             </div>
-                            <select class="places-sort" aria-label="Sort places">
-                                <option value="recommended">Recommended</option>
-                                <option value="distance">Distance</option>
-                                <option value="added">Recently added</option>
-                                <option value="az">A–Z</option>
-                            </select>
-                        </div>
                         <div class="places-subfilter" data-for="eat-drink" hidden aria-label="Filter places to eat and drink">
                             <button type="button" class="filter-pill subfilter-pill is-active" data-subtype="all" aria-pressed="true">All</button>
                             <button type="button" class="filter-pill subfilter-pill" data-subtype="cafe" aria-pressed="false">Cafés</button>
@@ -97,6 +90,14 @@
                             <button type="button" class="filter-pill subfilter-pill" data-subaccess="water-bowls" aria-pressed="false">Water bowls</button>
                             <button type="button" class="filter-pill subfilter-pill" data-subaccess="dog-menu" aria-pressed="false">Dog menu</button>
                             <button type="button" class="filter-pill subfilter-pill" data-subaccess="treats" aria-pressed="false">Treats available</button>
+                        </div>
+                            <div class="places-active-filters" role="group" aria-label="Active filters" hidden></div>
+                            <select class="places-sort" aria-label="Sort places">
+                                <option value="recommended">Recommended</option>
+                                <option value="distance">Distance</option>
+                                <option value="added">Recently added</option>
+                                <option value="az">A–Z</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -403,6 +404,6 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="../script.js?v=c5dcd17e"></script>
+    <script src="../script.js?v=1c4eeacc"></script>
 </body>
 </html>

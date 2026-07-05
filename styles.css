@@ -486,13 +486,16 @@ h1, h2, h3 {
 /* Heading + filter pills + sort dropdown in the sticky toolbar (matches the
    walks page's "Find the perfect walk"). */
 .places-toolbar .controls-title { margin: 0 0 0.65rem; font-size: 1.15rem; }
-.places-controls { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+/* Vertical stack: category chips, then the sub-filter row (or its active-filter
+   bubbles), then the sort dropdown — so the sub-filters sit directly under
+   Eat & Drink and above "Recommended". */
+.places-controls { display: flex; flex-direction: column; align-items: stretch; gap: 0.7rem; }
 /* Category chips scroll sideways on one line (Apple-style) instead of wrapping
    into a cramped block. The pills keep their size and overflow; the scrollbar
    is hidden and touch scrolling has momentum. Qualified with .places-controls
    so nowrap beats the later `.walk-filters { flex-wrap: wrap }` base rule. */
 .places-controls .places-cat-filter {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
@@ -501,8 +504,50 @@ h1, h2, h3 {
 }
 .places-cat-filter::-webkit-scrollbar { display: none; }
 .places-cat-filter > .filter-pill { flex: 0 0 auto; }
+/* Active-filter bubbles: what's currently on while the sub-filter row is
+   collapsed. Each is a button that removes that filter when tapped. */
+.places-active-filters {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+.places-active-filters[hidden] { display: none; }
+.places-active-filters::-webkit-scrollbar { display: none; }
+.active-filter-chip {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.55rem 0.3rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-forest);
+    background: var(--color-forest);
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+.active-filter-chip:hover { background: var(--color-forest-dark, #2f4a37); }
+.active-filter-chip .x {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    font-size: 0.95rem;
+    line-height: 1;
+}
 .places-sort {
     flex: 0 0 auto;
+    align-self: flex-start;
     font-family: var(--font-sans);
     font-size: 0.85rem;
     padding: 0.5rem 2.3rem 0.5rem 0.95rem;
@@ -531,7 +576,6 @@ h1, h2, h3 {
     -webkit-overflow-scrolling: touch;
     align-items: center;
     gap: 0.45rem;
-    margin-top: 0.6rem;
     padding: 0.55rem 0.7rem;
     background: var(--color-bg-alt);
     border: 1px solid var(--color-border);
