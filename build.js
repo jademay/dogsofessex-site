@@ -1707,22 +1707,27 @@ function placesIndexPage(places, walks) {
             <div class="places-toolbar">
                 <div class="container">
                     <h2 class="controls-title">Find the perfect place to go</h2>
-                    <div class="places-controls">
-                        <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
-                            ${pills}
-                        </div>
-                        <select class="places-sort" aria-label="Sort places">
-                            <option value="recommended">Recommended</option>
-                            <option value="distance">Distance</option>
-                            <option value="added">Recently added</option>
-                            <option value="az">A–Z</option>
-                        </select>
-                    </div>${subfilter}
-                    <p class="places-count places-count-bar" aria-live="polite"></p>
+                    <button type="button" class="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
+                        <span>Filter &amp; sort</span>
+                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="places-controls-wrap" id="places-controls">
+                        <div class="places-controls">
+                            <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
+                                ${pills}
+                            </div>
+                            <select class="places-sort" aria-label="Sort places">
+                                <option value="recommended">Recommended</option>
+                                <option value="distance">Distance</option>
+                                <option value="added">Recently added</option>
+                                <option value="az">A–Z</option>
+                            </select>
+                        </div>${subfilter}
+                    </div>
                 </div>
             </div>
 
-            <section class="walk-section section-alt places-section">
+            <section class="walk-section section-alt places-section places-explorer-section">
                 <div class="container">
                     <div class="places-explorer">
                         <div class="places-list-col">

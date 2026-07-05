@@ -548,10 +548,8 @@ h1, h2, h3 {
     display: flex;
     flex-direction: column;
 }
-/* "Showing N places" sits above the map on desktop; on mobile it stays in the
-   filter toolbar instead. */
+/* "Showing N places" sits above the map (both desktop and mobile). */
 .places-count-map { flex: 0 0 auto; margin: 0 0 0.6rem; }
-.places-count-bar { display: none; }
 .places-map {
     flex: 1;
     min-height: 0;
@@ -564,19 +562,91 @@ h1, h2, h3 {
 /* Card briefly highlighted when its map pin is tapped. */
 .places-hub-list > .is-map-active { outline: 2px solid var(--color-terracotta); outline-offset: 2px; }
 @media (max-width: 900px) {
-    /* Airbnb-style: the map sticks to the top while the list scrolls under it,
-       matching the walks page. */
-    .places-explorer { display: flex; flex-direction: column; gap: 1rem; }
-    .places-map-col {
-        order: -1;
+    /* Mirror the walks page: the map and the card carousel share ONE
+       viewport-tall panel that never scrolls vertically, pinned just below the
+       sticky header + filter bar and split ~40% map / ~60% cards. Cards swipe
+       horizontally with snap-to-centre. */
+    .places-explorer-section { padding: 0; }
+    /* Taller than the pinned panel so its sticky child has room to travel and
+       actually pins at --places-content-top. */
+    .places-explorer-section > .container { max-width: none; padding: 0; min-height: 100vh; min-height: 100svh; }
+    .places-explorer {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
         position: sticky;
         top: var(--places-content-top, 150px);
-        height: 42vh;
+        height: calc(100vh - var(--places-content-top, 150px));
+        height: calc(100svh - var(--places-content-top, 150px));
+        overflow: hidden;
+    }
+
+    /* Map — ~40% of the shared height; the "Showing N places" count sits above
+       it inside the column. Full-bleed so its solid background covers the
+       gutters and the map lines up to the same 16px margins as the cards. */
+    .places-map-col {
+        order: -1;
+        position: static;
+        align-self: auto;
+        height: auto;
+        flex: 4 1 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
         z-index: 1;
         background: var(--color-bg-alt);
+        width: 100vw;
+        margin-inline: calc(50% - 50vw);
+        padding: 0.35rem 16px 0;
+        box-sizing: border-box;
     }
-    .places-count-map { display: none; }
-    .places-count-bar { display: block; }
+    .places-count-map { margin: 0 0 0.35rem; font-size: 0.9rem; }
+    .places-map-col .places-map { flex: 1 1 auto; min-height: 0; }
+
+    /* Carousel — the remaining ~60%. Full-bleed horizontal snap scroller. */
+    .places-list-col { flex: 6 1 0; min-height: 0; min-width: 0; width: 100%; display: flex; flex-direction: column; }
+    .places-explorer .places-hub-list {
+        flex: 1 1 auto;
+        min-height: 0;
+        flex-direction: row;
+        align-items: stretch;
+        width: 100vw;
+        margin-inline: calc(50% - 50vw);
+        gap: 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 16px;
+        padding: 0 16px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .places-explorer .places-hub-list::-webkit-scrollbar { display: none; }
+    .places-hub-list > .day-card,
+    .places-hub-list > .free-pill {
+        flex: 0 0 calc(100vw - 32px); /* 16px margin each side */
+        width: calc(100vw - 32px);
+        max-width: 420px;
+        min-width: 0;
+        min-height: 0;
+        scroll-snap-align: center;
+    }
+    /* Partner card: fill the slide; actions pinned to the bottom edge and a
+       long description scrolls inside rather than pushing them off-screen. */
+    .places-hub-list > .day-card { display: flex; flex-direction: column; overflow-y: auto; }
+    .places-hub-list > .day-card .pc-actions { margin-top: auto; }
+    /* Free venues are compact rows — centre them in the slide, don't stretch. */
+    .places-hub-list > .free-pill { align-self: center; }
+    /* Collapse the carousel when every card is filtered out (class set by
+       script.js), so the "coming soon" note sits right under the map. */
+    .places-explorer .places-hub-list.is-empty { display: none; }
+    .places-explorer .places-empty { padding: 1.5rem 16px; }
+
+    /* Collapse the filters behind the "Filter & sort" toggle (same as walks). */
+    .places-toolbar { padding: 0.45rem 0; box-shadow: none; }
+    .places-toolbar .controls-title { display: none; }
+    .places-controls-wrap { display: none; margin-top: 0.85rem; }
+    .places-toolbar.is-open .places-controls-wrap { display: block; }
 }
 
 .bestfor-card.is-soon {
@@ -1960,7 +2030,7 @@ h2 .lucide { vertical-align: -0.1em; }
 }
 .walks-toolbar .controls-title { margin: 0 0 0.65rem; font-size: 1.15rem; }
 /* The filter/sort toggle is mobile-only; on desktop the controls are always shown. */
-.walks-filter-toggle { display: none; }
+.walks-filter-toggle, .places-filter-toggle { display: none; }
 
 /* Walks explorer: scrolling card list (left) + sticky map (right) */
 .walks-explorer {
@@ -2174,7 +2244,7 @@ h2 .lucide { vertical-align: -0.1em; }
        scrolling; the map pins just beneath it. */
     .walks-toolbar { padding: 0.45rem 0; box-shadow: none; }
     .walks-toolbar .controls-title { display: none; }
-    .walks-filter-toggle {
+    .walks-filter-toggle, .places-filter-toggle {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
@@ -2186,8 +2256,9 @@ h2 .lucide { vertical-align: -0.1em; }
         color: var(--color-forest);
         cursor: pointer;
     }
-    .walks-filter-toggle .chevron { transition: transform 0.2s ease; }
-    .walks-toolbar.is-open .walks-filter-toggle .chevron { transform: rotate(180deg); }
+    .walks-filter-toggle .chevron, .places-filter-toggle .chevron { transition: transform 0.2s ease; }
+    .walks-toolbar.is-open .walks-filter-toggle .chevron,
+    .places-toolbar.is-open .places-filter-toggle .chevron { transform: rotate(180deg); }
     .controls-row { display: none; margin-top: 0.85rem; }
     .walks-toolbar.is-open .controls-row { display: flex; }
 }

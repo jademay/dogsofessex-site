@@ -513,7 +513,12 @@ if (form) {
         else arr.sort((a, b) => numAttr(a, 'order') - numAttr(b, 'order'));
         if (listEl) arr.forEach((c) => listEl.appendChild(c));
     };
-    if (sortSel) sortSel.addEventListener('change', sortCards);
+    if (sortSel) sortSel.addEventListener('change', () => {
+        sortCards();
+        // Mobile: re-ordering the slides changes which card sits at the
+        // carousel centre without firing a scroll event — resync the highlight.
+        if (isMobile()) requestAnimationFrame(() => syncActiveFromCarousel(false));
+    });
 
     // Map is optional — only build it if Leaflet loaded and the element exists.
     const mapEl = document.getElementById('places-map');
@@ -521,21 +526,52 @@ if (form) {
     const entries = []; // { card, marker }
     let active = null;
 
+    const isMobile = () => window.matchMedia('(max-width: 900px)').matches;
+
     const highlightMarker = (marker, on) => {
         if (marker && marker._icon) marker._icon.classList.toggle('walk-map-pin--active', on);
         if (marker) marker.setZIndexOffset(on ? 1000 : 0);
     };
     // Select a venue: colour its pin, highlight its card and pan the map to it
-    // (instead of following its link).
-    const select = (entry, scrollCard) => {
+    // (instead of following its link). On mobile pan only enough to bring the
+    // pin on-screen (like walks) so swiping doesn't recentre the map each card;
+    // scrolling a card into view means swiping the carousel there.
+    const select = (entry, scrollCard, pan = true) => {
         if (active) { highlightMarker(active.marker, false); active.card.classList.remove('is-map-active'); }
         active = entry;
         if (!entry) return;
         highlightMarker(entry.marker, true);
         entry.card.classList.add('is-map-active');
-        if (map && entry.marker) map.panTo(entry.marker.getLatLng(), { animate: true });
-        if (scrollCard) entry.card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (pan && map && entry.marker) {
+            if (isMobile()) map.panInside(entry.marker.getLatLng(), { padding: [40, 40], animate: true });
+            else map.panTo(entry.marker.getLatLng(), { animate: true });
+        }
+        if (scrollCard) entry.card.scrollIntoView(isMobile()
+            ? { behavior: 'smooth', inline: 'center', block: 'nearest' }
+            : { behavior: 'smooth', block: 'center' });
     };
+
+    // Mobile: the card nearest the carousel's centre is the "active" one —
+    // highlight its pin as the user swipes. pan=false keeps the current view
+    // (used after a fitBounds, which a pan would cancel mid-animation).
+    const syncActiveFromCarousel = (pan = true) => {
+        if (!isMobile() || !listEl) return;
+        const rect = listEl.getBoundingClientRect();
+        const mid = rect.left + rect.width / 2;
+        let best = null, bestDist = Infinity;
+        entries.forEach((en) => {
+            if (en.card.hidden) return;
+            const r = en.card.getBoundingClientRect();
+            const d = Math.abs((r.left + r.width / 2) - mid);
+            if (d < bestDist) { bestDist = d; best = en; }
+        });
+        if (best && best !== active) select(best, false, pan);
+    };
+    let carouselRaf = 0;
+    if (listEl) listEl.addEventListener('scroll', () => {
+        if (carouselRaf) return;
+        carouselRaf = requestAnimationFrame(() => { carouselRaf = 0; syncActiveFromCarousel(); });
+    }, { passive: true });
 
     if (mapEl && typeof L !== 'undefined') {
         map = L.map(mapEl, { scrollWheelZoom: false, zoomSnap: 0 });
@@ -552,6 +588,9 @@ if (form) {
                 icon: L.divIcon({ className: 'walk-map-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] })
             });
             if (name) m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
+            // On phones the active card sits right below the map, so the name
+            // tag is redundant (and lingers after a tap) — suppress it there.
+            m.on('tooltipopen', () => { if (isMobile()) m.closeTooltip(); });
             const entry = { card, marker: m };
             m.on('click', () => select(entry, true));
             entries.push(entry);
@@ -563,9 +602,9 @@ if (form) {
     cards.forEach((card) => {
         const entry = entries.find((e) => e.card === card);
         if (!entry) return;
-        card.addEventListener('click', (e) => { if (!e.target.closest('a, button')) select(entry); });
+        card.addEventListener('click', (e) => { if (!e.target.closest('a, button')) select(entry, isMobile()); });
         card.addEventListener('keydown', (e) => {
-            if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a, button')) { e.preventDefault(); select(entry); }
+            if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a, button')) { e.preventDefault(); select(entry, isMobile()); }
         });
     });
 
@@ -602,8 +641,14 @@ if (form) {
         const subActive = subBar && cat === subCat && (subType !== 'all' || subAccess.size > 0);
         const text = n ? ('Showing ' + n + ' place' + (n === 1 ? '' : 's'))
             : (subActive ? 'No places match those filters' : '');
+        // No-JS-:has() fallback: collapse the carousel when nothing is showing
+        // so the "coming soon" note sits right under the map.
+        if (listEl) listEl.classList.toggle('is-empty', n === 0);
         countEls.forEach((el) => { el.textContent = text; });
         fitVisible();
+        // Mobile: highlight whichever card now leads the carousel — without
+        // panning, so the fitBounds animation isn't cancelled mid-flight.
+        if (isMobile()) requestAnimationFrame(() => syncActiveFromCarousel(false));
     };
 
     const pressPill = (b, on) => {
@@ -622,9 +667,15 @@ if (form) {
         cat = valid.has(next) ? next : 'all';
         pills.forEach((p) => pressPill(p, p.dataset.cat === cat));
         if (subBar) {
+            const wasHidden = subBar.hidden;
             if (cat !== subCat) resetSubFilters();
             subBar.hidden = cat !== subCat;
             setTop(); // the toolbar grows/shrinks with the sub-filter row
+            // On mobile the pinned panel (and the map inside it) resizes with
+            // the toolbar — let Leaflet re-measure, then refit.
+            if (map && wasHidden !== subBar.hidden) {
+                requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
+            }
         }
         applyFilters();
     };
@@ -646,6 +697,18 @@ if (form) {
         pressPill(b, on);
         applyFilters();
     }));
+
+    // Mobile: collapse/expand the filters + sort behind the toggle arrow
+    // (same as the walks page).
+    const filterToggle = document.querySelector('.places-filter-toggle');
+    if (filterToggle && toolbar) {
+        filterToggle.addEventListener('click', () => {
+            const open = toolbar.classList.toggle('is-open');
+            filterToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            setTop();
+            if (map) requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
+        });
+    }
 
     const initial = (location.hash || '').replace('#', '');
     applyCat(valid.has(initial) ? initial : 'all');
