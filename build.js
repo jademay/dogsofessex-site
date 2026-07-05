@@ -1609,7 +1609,8 @@ function accessBadgesHTML(p) {
 function placeSortAttrs(p, near, opts) {
     return ` data-order="${opts.order || 0}" data-dist="${near ? near.mi.toFixed(2) : 9999}"`
         + ` data-rating="${p.rating || 0}" data-added="${esc(p.added || p.lastChecked || '')}"`
-        + ` data-name="${esc((p.name || '').toLowerCase())}"`;
+        + ` data-name="${esc((p.name || '').toLowerCase())}"`
+        + ` data-access="${esc((p.dogAccess || []).join(' '))}"`;
 }
 
 function placePartnerCardHTML(p, walks, opts) {
@@ -1651,6 +1652,27 @@ function placesIndexPage(places, walks) {
     const cats = PLACE_CATEGORIES;
     const pills = `<button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>\n                        `
         + cats.map((c) => `<button type="button" class="filter-pill" data-cat="${esc(c.slug)}" aria-pressed="false">${esc(c.title)}</button>`).join('\n                        ');
+
+    // Eat & Drink sub-filters: venue type (single-select) plus dog-access
+    // options (multi-select), shown only while that category is active. The
+    // access pills are built from whichever dogAccess keys the venues use.
+    const eat = cats.find((c) => c.slug === 'eat-drink');
+    const eatPlaces = eat ? placesInCategory(eat, places) : [];
+    const accessLabels = { inside: 'Dogs allowed inside', outside: 'Dogs allowed outside' };
+    const accessKeys = Object.keys(ACCESS_META)
+        .filter((k) => eatPlaces.some((p) => (p.dogAccess || []).includes(k)));
+    const typePills = (eat && eat.filters ? eat.filters : [])
+        .map((f, i) => `<button type="button" class="filter-pill subfilter-pill${i === 0 ? ' is-active' : ''}" data-subtype="${esc(f.type)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${esc(f.label)}</button>`)
+        .join('\n                            ');
+    const accessPills = accessKeys
+        .map((k) => `<button type="button" class="filter-pill subfilter-pill" data-subaccess="${esc(k)}" aria-pressed="false">${esc(accessLabels[k] || ACCESS_META[k].label)}</button>`)
+        .join('\n                            ');
+    const subfilter = (typePills || accessPills) ? `
+                        <div class="places-subfilter" data-for="eat-drink" hidden aria-label="Filter places to eat and drink">
+                            ${typePills}
+                            <span class="subfilter-sep" aria-hidden="true"></span>
+                            ${accessPills}
+                        </div>` : '';
 
     // "Recommended" default order: reviewed (partner) venues first, then by
     // distance to the nearest walk. The index becomes data-order for re-sorting.
@@ -1695,7 +1717,7 @@ function placesIndexPage(places, walks) {
                             <option value="added">Recently added</option>
                             <option value="az">A–Z</option>
                         </select>
-                    </div>
+                    </div>${subfilter}
                     <p class="places-count places-count-bar" aria-live="polite"></p>
                 </div>
             </div>

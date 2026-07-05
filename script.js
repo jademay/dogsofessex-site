@@ -476,6 +476,17 @@ if (form) {
     const countEls = Array.from(document.querySelectorAll('.places-count'));
     const valid = new Set(pills.map((p) => p.dataset.cat));
 
+    // Eat & Drink sub-filters: venue type (single-select) + dog-access
+    // (multi-select, AND). Only shown - and only applied - while the category
+    // named in the bar's data-for is active.
+    const subBar = document.querySelector('.places-subfilter');
+    const subCat = subBar ? subBar.dataset.for : null;
+    const subTypePills = subBar ? Array.from(subBar.querySelectorAll('[data-subtype]')) : [];
+    const subAccessPills = subBar ? Array.from(subBar.querySelectorAll('[data-subaccess]')) : [];
+    let cat = 'all';
+    let subType = 'all';
+    const subAccess = new Set();
+
     // Freeze the filter bar below the sticky header, and park the sticky map
     // below both.
     const header = document.querySelector('.site-header');
@@ -568,26 +579,72 @@ if (form) {
         if (pts.length) map.fitBounds(pts, { padding: [12, 12], maxZoom: 15 });
     };
 
-    const applyCat = (cat) => {
-        if (!valid.has(cat)) cat = 'all';
-        pills.forEach((p) => {
-            const on = p.dataset.cat === cat;
-            p.classList.toggle('is-active', on);
-            p.setAttribute('aria-pressed', on ? 'true' : 'false');
-        });
-        cards.forEach((c) => { c.hidden = !(cat === 'all' || c.dataset.cat === cat); });
+    // Whether a card passes the category filter plus, within the sub-filtered
+    // category, the venue-type and every selected dog-access option.
+    const cardShown = (c) => {
+        if (!(cat === 'all' || c.dataset.cat === cat)) return false;
+        if (subBar && cat === subCat) {
+            if (subType !== 'all' && c.dataset.placeType !== subType) return false;
+            if (subAccess.size) {
+                const access = (c.dataset.access || '').split(/\s+/);
+                for (const k of subAccess) if (!access.includes(k)) return false;
+            }
+        }
+        return true;
+    };
+
+    const applyFilters = () => {
+        cards.forEach((c) => { c.hidden = !cardShown(c); });
         // Show a "coming soon" state only when the chosen category has none.
         empties.forEach((e) => { e.hidden = !(cat !== 'all' && e.dataset.cat === cat); });
         if (active && active.card.hidden) select(null);
         const n = cards.filter((c) => !c.hidden).length;
-        const text = n ? ('Showing ' + n + ' place' + (n === 1 ? '' : 's')) : '';
+        const subActive = subBar && cat === subCat && (subType !== 'all' || subAccess.size > 0);
+        const text = n ? ('Showing ' + n + ' place' + (n === 1 ? '' : 's'))
+            : (subActive ? 'No places match those filters' : '');
         countEls.forEach((el) => { el.textContent = text; });
         fitVisible();
+    };
+
+    const pressPill = (b, on) => {
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    };
+
+    const resetSubFilters = () => {
+        subType = 'all';
+        subAccess.clear();
+        subTypePills.forEach((b) => pressPill(b, b.dataset.subtype === 'all'));
+        subAccessPills.forEach((b) => pressPill(b, false));
+    };
+
+    const applyCat = (next) => {
+        cat = valid.has(next) ? next : 'all';
+        pills.forEach((p) => pressPill(p, p.dataset.cat === cat));
+        if (subBar) {
+            if (cat !== subCat) resetSubFilters();
+            subBar.hidden = cat !== subCat;
+            setTop(); // the toolbar grows/shrinks with the sub-filter row
+        }
+        applyFilters();
     };
 
     pills.forEach((p) => p.addEventListener('click', () => {
         applyCat(p.dataset.cat);
         history.replaceState(null, '', p.dataset.cat === 'all' ? location.pathname : '#' + p.dataset.cat);
+    }));
+
+    subTypePills.forEach((b) => b.addEventListener('click', () => {
+        subType = b.dataset.subtype;
+        subTypePills.forEach((x) => pressPill(x, x === b));
+        applyFilters();
+    }));
+    subAccessPills.forEach((b) => b.addEventListener('click', () => {
+        const k = b.dataset.subaccess;
+        const on = !subAccess.has(k);
+        if (on) subAccess.add(k); else subAccess.delete(k);
+        pressPill(b, on);
+        applyFilters();
     }));
 
     const initial = (location.hash || '').replace('#', '');

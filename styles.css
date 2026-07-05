@@ -507,6 +507,28 @@ h1, h2, h3 {
 }
 .places-sort:hover { border-color: var(--color-moss); }
 
+/* Eat & Drink sub-filters: a second row of smaller pills tucked under the
+   category pills while that category is active. */
+.places-subfilter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+.places-subfilter[hidden] { display: none; }
+.subfilter-pill { font-size: 0.8rem; padding: 0.35rem 0.9rem; }
+.subfilter-sep {
+    width: 1px;
+    align-self: stretch;
+    margin: 0.15rem 0.35rem;
+    background: var(--color-border);
+}
+
 /* Hub: cards on the left, sticky map on the right — same proportions as the
    walks page (50/50, 70vh). */
 .places-explorer {
