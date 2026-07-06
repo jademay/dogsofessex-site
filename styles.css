@@ -1243,6 +1243,9 @@ h1, h2, h3 {
 /* Contact page: the email address line + the small "opens your email app" note. */
 .contact-email { font-weight: 500; }
 .contact-email .lucide { color: var(--color-moss); position: relative; top: 0.15em; }
+/* Plain text (not a link) so it copies cleanly; one click selects the whole
+   address. The "Email us" button beneath is the mailto link. */
+.contact-email-address { user-select: all; -webkit-user-select: all; }
 .contact-note { margin-top: 0.4rem; font-size: 0.85rem; color: var(--color-muted); }
 .contact-page .btn { text-decoration: none; }
 /* Equal-width contact options: a responsive grid so every button shares the

@@ -2249,7 +2249,7 @@ function contactPage() {
 
                         <h2>Prefer to email us?</h2>
                         <p>For anything else, feel free to email us and we'll get back to you as soon as we can.</p>
-                        <p class="contact-email">${icon('mail')} <a href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">hello@dogsofessex.co.uk</a></p>
+                        <p class="contact-email">${icon('mail')} <span class="contact-email-address">hello@dogsofessex.co.uk</span></p>
                         <p><a class="btn btn-secondary" href="mailto:hello@dogsofessex.co.uk?subject=Dogs%20of%20Essex%20Enquiry">Email us</a></p>
                         <p class="contact-note">Clicking the button opens your email app.</p>
 
