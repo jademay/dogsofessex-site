@@ -393,7 +393,45 @@
       "website": "https://www.visitmaldon.co.uk/promenade-park/"
     },
     "added": "2026-06-23",
-    "hasPage": true
+    "hasPage": true,
+    "gallery": [
+      {
+        "image": "",
+        "caption": "View along the peninsula with the estuary on both sides."
+      },
+      {
+        "image": "",
+        "caption": "Large open green at Maldon Promenade."
+      },
+      {
+        "image": "",
+        "caption": "View across the boating lake towards the Blackwater Estuary."
+      },
+      {
+        "image": "",
+        "caption": "View across the Blackwater Estuary."
+      },
+      {
+        "image": "",
+        "caption": "Poppy enjoying the large open green."
+      },
+      {
+        "image": "",
+        "caption": "Statue overlooking the Blackwater Estuary."
+      },
+      {
+        "image": "",
+        "caption": "Promenade path beside the estuary."
+      },
+      {
+        "image": "",
+        "caption": "Sign for the model boating lake at Maldon Promenade."
+      },
+      {
+        "image": "",
+        "caption": "The model boating lake at Maldon Promenade."
+      }
+    ]
   },
   {
     "id": "west-mersea-island",
