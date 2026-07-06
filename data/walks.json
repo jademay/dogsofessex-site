@@ -931,6 +931,7 @@
     "timeShort": "20–40 mins",
     "distance": "0.8–1.5 miles",
     "routeType": "Circular",
+    "gpxFile": "data/gpx/crowsheath-wood-circular.gpx",
     "terrain": "Woodland, grassland, ponds",
     "mud": "Moderate",
     "summary": "Take a walk through this fantastic woodland that shows off one of Essex's best spring flower displays",
