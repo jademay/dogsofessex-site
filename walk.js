@@ -197,6 +197,27 @@
         document.querySelectorAll('.improve-btn').forEach((btn) => {
             btn.addEventListener('click', () => openModal(btn.dataset.tiptype));
         });
+
+        // Deep-link support: a URL hash opens the form straight to one type, e.g.
+        //   /contact.html#recommend-a-place
+        // Works on any page that has the form (Contact, About, walk pages) and
+        // from links elsewhere on the site. hashchange covers same-page links.
+        const HASH_TIP = {
+            'recommend-a-place': 'newPlaceSuggestion',
+            'suggest-a-walk': 'newWalkSuggestion',
+            'report': 'report',
+            'share-a-tip': 'walkingTip',
+            'ask': 'question'
+        };
+        const openFromHash = () => {
+            const type = HASH_TIP[(location.hash || '').replace('#', '').toLowerCase()];
+            if (!type) return;
+            section.scrollIntoView({ block: 'start' });
+            openModal(type);
+        };
+        window.addEventListener('hashchange', openFromHash);
+        openFromHash();
+
         modal.querySelector('.tip-modal-close').addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
