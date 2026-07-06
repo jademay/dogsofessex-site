@@ -974,7 +974,45 @@
       "website": "https://www.essexwt.org.uk/nature-reserves/crowsheath-wood"
     },
     "added": "2026-06-22",
-    "hasPage": true
+    "hasPage": true,
+    "gallery": [
+      {
+        "image": "",
+        "caption": "Sunlight breaking through the canopy."
+      },
+      {
+        "image": "",
+        "caption": "A den built in a woodland clearing."
+      },
+      {
+        "image": "",
+        "caption": "The path leading in from the entrance."
+      },
+      {
+        "image": "",
+        "caption": "The Essex Wildlife Trust information board at the entrance."
+      },
+      {
+        "image": "",
+        "caption": "A fallen tree across the woodland path."
+      },
+      {
+        "image": "",
+        "caption": "The farmland field bordering the wood."
+      },
+      {
+        "image": "",
+        "caption": "A field gate onto the meadow near the entrance."
+      },
+      {
+        "image": "",
+        "caption": "Open, sunlit coppiced woodland."
+      },
+      {
+        "image": "",
+        "caption": "The small gravel car park at Crowsheath Wood."
+      }
+    ]
   },
   {
     "id": "dedham-vale-dedham",
