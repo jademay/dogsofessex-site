@@ -328,7 +328,21 @@
     "emoji": "⚓",
     "timeShort": "1hr 10 mins",
     "distance": "3.3 miles",
-    "routeType": "Circular",
+    "routeType": "Multiple routes",
+    "routes": [
+      {
+        "name": "Circular",
+        "distance": "2.5 miles",
+        "time": "55 mins",
+        "gpxFile": "data/gpx/maldon-promenade-circular.gpx"
+      },
+      {
+        "name": "Peninsula and back",
+        "distance": "1.4 miles",
+        "time": "30 mins",
+        "gpxFile": "data/gpx/maldon-promenade-peninsula-and-back.gpx"
+      }
+    ],
     "terrain": "Waterside paths, open parkland & surfaced promenades",
     "mud": "Low",
     "summary": "A popular riverside park with estuary views, wide paths and plenty of facilities for dogs and families.",
