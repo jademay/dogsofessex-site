@@ -706,6 +706,20 @@
     "timeShort": "50 mins",
     "distance": "2 miles",
     "routeType": "Multiple routes",
+    "routes": [
+      {
+        "name": "Main Circular",
+        "distance": "2.2 miles",
+        "time": "55 mins",
+        "gpxFile": "data/gpx/danbury-commons-main-circular.gpx"
+      },
+      {
+        "name": "Small Circular",
+        "distance": "1.1 miles",
+        "time": "25 mins",
+        "gpxFile": "data/gpx/danbury-commons-small-circular.gpx"
+      }
+    ],
     "terrain": "Woodland, common, heathland",
     "mud": "Moderate",
     "summary": "Explore Essex's second largest area of common land.",

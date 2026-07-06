@@ -1619,6 +1619,9 @@ h1, h2, h3 {
     padding: 0.25rem 0 1rem;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    /* Centre the route cards whatever the count; "safe" falls back to
+       left-aligned so the first card is never clipped when they overflow. */
+    justify-content: safe center;
 }
 .route-card {
     flex: 0 0 300px;

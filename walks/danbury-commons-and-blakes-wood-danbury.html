@@ -36,7 +36,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=30894cd5">
+    <link rel="stylesheet" href="../styles.css?v=95212a0f">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script>window.WALK_ID = "danbury-commons-and-blakes-wood-danbury";</script>
 </head>
 <body>
@@ -70,7 +71,7 @@
                     <span class="rating-score">4.4</span>
                     <span class="rating-count">(1 reviews)</span>
                 </div>
-                <p class="meta-line">Woodland • Multiple routes • 50 mins • Mud: Moderate</p>
+                <p class="meta-line">Woodland • Multiple routes • 25 mins–55 mins • Mud: Moderate</p>
                 <div class="walk-chips"><span class="chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="11" cy="4" r="2" /><circle cx="18" cy="8" r="2" /><circle cx="20" cy="16" r="2" /><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" /></svg> Mostly off lead</span><span class="chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" /><circle cx="7" cy="17" r="2" /><path d="M9 17h6" /><circle cx="17" cy="17" r="2" /></svg> Free parking</span></div>
             </div>
             <div class="hero-actions">
@@ -221,17 +222,28 @@
             </section>
             <section class="walk-section section-alt">
                 <div class="container narrow">
-                    <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /><path d="M15 5.764v15" /><path d="M9 3.236v15" /></svg> Walk Route</h2>
+                    <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" /><path d="M15 5.764v15" /><path d="M9 3.236v15" /></svg> Walk Routes</h2>
                     <div class="route-carousel">
                         <article class="route-card">
-                            <div class="route-card-preview is-empty"><svg class="route-line route-line-ph" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M12 46 Q32 14 52 34 T90 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-dasharray="3 5" stroke-linecap="round"/></svg></div>
+                            <div class="route-card-preview route-card-map" data-gpx="../data/gpx/danbury-commons-main-circular.gpx" data-name="Main Circular"><svg class="route-line" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><polyline points="35.0,33.0 35.4,33.6 36.2,34.7 35.5,36.4 35.4,37.5 35.8,38.3 36.3,40.6 36.6,42.5 37.2,44.3 37.2,44.3 36.5,45.2 36.5,46.6 36.7,47.2 36.2,48.9 36.2,50.8 36.2,50.8 38.7,50.3 40.1,50.2 41.1,51.1 41.6,51.8 42.6,49.4 43.0,49.7 44.3,50.1 45.5,49.4 46.5,48.4 47.0,49.4 48.0,50.4 48.3,50.8 48.5,48.6 48.5,47.3 48.8,42.6 48.9,41.2 49.5,40.5 49.0,38.5 48.7,36.4 48.8,35.6 49.3,35.1 49.1,32.7 48.7,31.2 47.8,30.5 47.5,29.9 46.5,26.7 45.5,25.2 44.3,24.2 43.3,22.9 43.1,22.6 44.0,21.5 44.8,20.8 45.9,20.5 47.9,18.5 49.2,17.0 49.6,16.6 51.3,16.9 52.6,17.3 54.0,18.0 55.6,18.3 57.1,18.7 58.3,18.5 60.9,17.5 60.9,16.7 61.8,15.8 62.7,15.0 63.8,14.3 65.3,13.3 65.4,11.3 65.0,10.5 64.7,9.3 64.7,8.3 65.0,8.0 64.4,8.1 62.8,8.3 62.1,8.9 60.7,9.6 59.7,11.8 58.9,12.5 58.0,12.9 57.6,13.2 58.2,13.9 59.1,14.8 60.3,17.1 60.3,17.8 58.3,18.5 56.1,18.6 54.5,18.2 53.5,17.7 52.0,17.1 50.1,16.6 49.2,17.0 47.9,18.5 45.9,20.5 44.8,20.8 44.0,21.5 43.1,22.6 40.2,20.5 38.7,19.5 36.7,18.0 36.6,18.6 36.1,21.9 36.6,23.7 37.0,24.8 37.3,26.0 36.5,26.4 34.9,27.6 34.8,28.9 34.3,30.8" fill="none" stroke="#1F5A44" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
                             <div class="route-card-body">
+                                <h3 class="route-card-name"><span class="route-dot" style="background:#1F5A44"></span>Main Circular</h3>
+                                <p class="route-card-meta">2.2 miles • 55 mins</p>
                                 
-                                <p class="route-card-meta">2 miles • 50 mins</p>
-                                <p class="route-card-type">Multiple routes</p>
                                 
                                 
-                                <a class="route-card-link" href="https://www.google.com/maps?q=51.708981,0.576547" target="_blank" rel="noopener">View location →</a>
+                                <button type="button" class="route-card-link" data-gpx="../data/gpx/danbury-commons-main-circular.gpx" data-name="Main Circular">View route →</button>
+                            </div>
+                        </article>
+                        <article class="route-card">
+                            <div class="route-card-preview route-card-map" data-gpx="../data/gpx/danbury-commons-small-circular.gpx" data-name="Small Circular"><svg class="route-line" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><polyline points="37.5,19.0 37.6,19.0 38.1,20.1 39.5,22.0 38.3,23.6 38.3,24.9 37.9,26.0 38.1,26.9 38.3,27.3 38.8,28.2 38.7,29.8 40.1,33.2 40.1,35.6 41.1,37.6 41.3,38.6 40.4,39.3 40.1,40.2 39.9,42.0 40.0,42.6 40.4,43.4 40.2,45.5 39.5,46.7 39.6,48.8 39.5,49.8 39.3,50.1 39.5,49.8 42.0,48.9 43.9,49.1 44.8,49.0 46.4,48.9 47.6,49.6 48.0,50.4 48.7,52.0 48.8,51.9 49.6,49.6 50.5,47.7 50.6,47.5 51.3,48.0 53.5,48.7 54.7,48.9 55.9,48.9 58.1,48.4 57.0,46.0 56.9,45.4 56.9,45.2 57.6,46.1 58.3,47.5 59.3,48.5 60.0,49.2 60.3,49.6 60.5,49.9 60.5,47.4 60.8,46.0 61.0,45.1 60.9,43.8 61.3,39.5 61.4,35.6 61.4,35.0 61.6,33.3 61.6,33.3 62.5,32.5 62.5,32.0 62.4,30.8 61.8,28.6 61.3,26.4 61.3,25.7 61.1,24.6 61.4,23.5 62.4,22.7 62.3,22.7 62.0,19.9 61.9,18.5 61.6,17.0 61.2,16.0 60.9,15.3 59.6,14.6 59.3,14.4 59.2,13.5 58.5,10.5 57.4,8.0 57.3,8.0 54.8,8.8 52.8,9.0 51.2,9.7 50.6,10.3 49.8,11.0 48.8,11.5 47.2,11.4 47.1,11.4 47.2,11.4 46.4,12.1 45.4,13.1 44.7,14.0 44.0,15.4 44.3,16.0 41.5,19.6 40.8,20.5" fill="none" stroke="#1F5A44" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+                            <div class="route-card-body">
+                                <h3 class="route-card-name"><span class="route-dot" style="background:#BC6A48"></span>Small Circular</h3>
+                                <p class="route-card-meta">1.1 miles • 25 mins</p>
+                                
+                                
+                                
+                                <button type="button" class="route-card-link" data-gpx="../data/gpx/danbury-commons-small-circular.gpx" data-name="Small Circular">View route →</button>
                             </div>
                         </article>
                     </div>
@@ -532,5 +544,7 @@
 
     <script src="../script.js?v=1c4eeacc"></script>
     <script src="../walk.js?v=23e5a3bf"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>
 </body>
 </html>
