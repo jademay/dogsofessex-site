@@ -2471,11 +2471,18 @@ h2 .lucide { vertical-align: -0.1em; }
     grid-auto-columns: 31.5%;
     gap: 0.85rem;
     overflow-x: auto;
-    scrollbar-width: none;
+    /* Show the same thin scrollbar as the Explore Nearby carousel so the bar
+       under the gallery tracks the scroll position too. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
     padding: 0.25rem 0.1rem 0.5rem;
     scroll-behavior: smooth;
 }
-.gallery-mosaic .carousel-track::-webkit-scrollbar { display: none; }
+.gallery-mosaic .carousel-track::-webkit-scrollbar { height: 8px; }
+.gallery-mosaic .carousel-track::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+}
 .gallery-mosaic .g-item {
     border-radius: 8px;
     overflow: hidden;
