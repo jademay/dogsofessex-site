@@ -287,13 +287,8 @@ const PLACE_CATEGORIES = [
         blurb: 'Make a full day of it.',
         cta: 'Explore things to do →',
         intro: 'Dog-friendly days out beyond a walk - garden centres, National Trust properties, estates, country parks, markets, farm shops and seasonal attractions.' },
-    { slug: 'beaches', emoji: icon('parasol'), title: 'Beaches', plural: 'beaches',
-        soon: true, image: 'beaches.webp',
-        types: ['beach', 'seaside', 'swim-spot'],
-        blurb: 'The best coastal spots for muddy paws.',
-        cta: 'Explore beaches →',
-        intro: 'Dog-friendly beaches and coastal spots. Check seasonal restrictions, parking and nearby cafés before you set off.',
-        note: 'Seasonal restrictions apply on many Essex beaches - dogs are often banned between 1 May and 30 September. Always check local signage before you go.' },
+    // Beaches deliberately omitted from Places — coastal spots live on the
+    // Walks side and get added there as more are visited.
     { slug: 'stay', emoji: icon('bed-double'), title: 'Stay', comingSoon: true,
         image: 'stay.webp', imgPos: 'center 68%',
         blurb: 'Dog-friendly places to stay across Essex.',
@@ -1707,7 +1702,7 @@ function placesIndexPage(places, walks) {
             <section class="walk-section walk-index-head">
                 <div class="container">
                     <h1 class="index-title">Dog-friendly places in Essex</h1>
-                    <p class="index-sub">Cafés, pubs, days out and beaches worth visiting with your dog.</p>
+                    <p class="index-sub">Cafés, pubs and days out worth visiting with your dog.</p>
                 </div>
             </section>
 
@@ -1746,7 +1741,7 @@ function placesIndexPage(places, walks) {
                     </div>
                 </div>
             </section>`;
-    return `${headHTML('../', 'Dog-friendly places in Essex | Dogs of Essex', 'Browse dog-friendly cafés, pubs, days out and beaches across Essex - filter by category and find your nearest.', { canonical: 'places/' })}
+    return `${headHTML('../', 'Dog-friendly places in Essex | Dogs of Essex', 'Browse dog-friendly cafés, pubs and days out across Essex - filter by category and find your nearest.', { canonical: 'places/' })}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>${navHTML('../')}
