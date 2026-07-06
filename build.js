@@ -1986,6 +1986,43 @@ ${footerHTML('')}
 `;
 }
 
+function thankYouPage() {
+    const prefix = '../';
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container narrow centered">
+                    <p class="eyebrow centered" style="color: var(--color-terracotta);">You're in ${icon('paw-print')}</p>
+                    <h1 class="index-title">Welcome to the pack!</h1>
+                    <p class="index-sub">Thanks for subscribing — you're all set for the best dog-friendly walks and places in Essex.</p>
+                </div>
+            </section>
+
+            <section class="walk-section section-alt">
+                <div class="container narrow centered">
+                    <p class="section-lead">Keep an eye on your inbox — a welcome email is on its way. If it hasn't arrived in a few minutes, check your spam or promotions folder and mark us as safe so you don't miss a walk.</p>
+                    <div class="ty-actions">
+                        <a class="btn btn-primary" href="${prefix}walks/index.html">${icon('paw-print')} Browse walks</a>
+                        <a class="btn btn-secondary" href="${prefix}places/index.html">Explore places</a>
+                        <a class="btn btn-secondary" href="${prefix}index.html">Back to home</a>
+                    </div>
+                </div>
+            </section>`;
+    return `${headHTML(prefix, "You're in! | Dogs of Essex", 'Thanks for subscribing to Dogs of Essex - the best dog-friendly walks and places in Essex, straight to your inbox.', { canonical: 'thank-you/', extra: '<meta name="robots" content="noindex,follow">' })}
+</head>
+<body>${navHTML(prefix)}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML(prefix)}
+
+    <script src="${prefix}script.js?v=${V_JS}"></script>
+</body>
+</html>
+`;
+}
+
 function privacyPage() {
     const updated = 'Last updated: 28 June 2026';
     const body = `
@@ -2314,6 +2351,13 @@ function build() {
 
     fs.writeFileSync(path.join(ROOT, 'about.html'), aboutPage());
     console.log('  ✓ about.html');
+
+    // Newsletter thank-you page (systeme.io redirects here after signup). Lives
+    // at /thank-you/ for a clean URL; noindex since it's a post-action page.
+    const TY_OUT = path.join(ROOT, 'thank-you');
+    if (!fs.existsSync(TY_OUT)) fs.mkdirSync(TY_OUT, { recursive: true });
+    fs.writeFileSync(path.join(TY_OUT, 'index.html'), thankYouPage());
+    console.log('  ✓ thank-you/index.html');
 
     // Best For hub + one curated page per category.
     const BF_OUT = path.join(ROOT, 'best-for');
