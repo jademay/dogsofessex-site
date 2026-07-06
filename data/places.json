@@ -1304,5 +1304,41 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "tea-on-the-green-danbury",
+    "name": "Tea on the Green",
+    "type": "cafe",
+    "lat": 51.71742705,
+    "lng": 0.5815815644,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Wagging tails are definitely welcome here.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-07-06",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Cosy village café serving locally roasted coffee, homemade cakes, brunch and lunch.",
+    "website": "",
+    "mapsLink": "https://maps.app.goo.gl/mYBFSSDL7jZ2Uxhx5",
+    "phone": "01245 226616",
+    "email": "",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/teaonthegreendanbury/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
