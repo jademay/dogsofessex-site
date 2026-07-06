@@ -914,9 +914,9 @@ h1, h2, h3 {
 
 .places-grid {
     display: grid;
-    /* Four categories filling the row evenly (was 5 cols, which left them
-       looking left-aligned with a gap on the right). */
-    grid-template-columns: repeat(4, 1fr);
+    /* Three categories filling the row evenly and centred (was 4 cols, which
+       left them left-aligned with a gap on the right once Beaches was dropped). */
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.25rem;
 }
 
@@ -1902,7 +1902,9 @@ h1, h2, h3 {
     .walk-grid { grid-template-columns: 1fr; }
     .category-grid { grid-template-columns: repeat(2, 1fr); }
     .bestfor-grid { grid-template-columns: repeat(2, 1fr); }
-    .places-grid { grid-template-columns: repeat(2, 1fr); }
+    /* Keep the three place cards balanced across the row down to the mobile
+       swipe carousel (a 2-col rule would orphan the third card). */
+    .places-grid { grid-template-columns: repeat(3, 1fr); }
 
     .walk-layout { grid-template-columns: 1fr; }
     .walk-aside { position: static; }
