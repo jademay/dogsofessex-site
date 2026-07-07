@@ -1373,5 +1373,41 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-anchor-danbury",
+    "name": "The Anchor",
+    "type": "pub",
+    "lat": 51.71838097,
+    "lng": 0.5996341213,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed both inside and outside, but not in the main dining areas. During busy periods, it is necessary to book.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "treats"
+    ],
+    "lastChecked": "2026-07-07",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Traditional country pub with a large garden, classic pub food and popular Sunday roasts.",
+    "website": "https://www.theanchordanbury.co.uk/index",
+    "mapsLink": "https://maps.app.goo.gl/2WU9Qsb15ZeR3t988",
+    "phone": "01245 222457",
+    "email": "info@theanchordanbury.co.uk",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/theanchordanbury",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": "https://www.twitter.com/@AnchorDanbury"
+    }
   }
 ]
