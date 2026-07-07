@@ -783,6 +783,100 @@
     "hasPage": true
   },
   {
+    "id": "danbury-country-park-danbury",
+    "name": "Danbury Country Park",
+    "area": "Mid Essex",
+    "scenery": "woodland",
+    "lat": 51.71365547,
+    "lng": 0.5590810168,
+    "town": "Danbury",
+    "emoji": "",
+    "routeType": "Multiple routes",
+    "routes": [
+      {
+        "name": "Whole Park Circular",
+        "distance": "1.6 miles",
+        "time": "40 mins",
+        "gpxFile": "data/gpx/danbury-country-park-whole-park-circular.gpx"
+      },
+      {
+        "name": "Lake Circular",
+        "distance": "1.1 miles",
+        "time": "25 mins",
+        "gpxFile": "data/gpx/danbury-country-park-lake-circular.gpx"
+      },
+      {
+        "name": "Mini Lake Circular",
+        "distance": "0.6 miles",
+        "time": "15 mins",
+        "gpxFile": "data/gpx/danbury-country-park-mini-lake-circular.gpx"
+      }
+    ],
+    "terrain": "A mix of wide gravel paths, tarmac sections, woodland tracks, formal gardens and gentle grassy meadows. Mostly flat with a few gentle slopes.",
+    "mud": "Medium (higher after rain on woodland trails)",
+    "summary": "A beautiful country park with historic lakes, ancient woodland, formal gardens and peaceful walking trails.",
+    "tags": [
+      "Woodland",
+      "Lakes"
+    ],
+    "rating": {
+      "value": 4.9,
+      "count": 1
+    },
+    "badges": [
+      "📍 Danbury",
+      "🌳 Woodland trails",
+      "🐕 Mostly off lead",
+      "🚶 Multiple routes"
+    ],
+    "intro": "If you're looking for an easy, scenic dog walk with plenty of variety, Danbury Country Park is hard to beat. Historic lakes, ancient woodland, colourful gardens and open meadows all sit within 45 acres of beautifully maintained parkland, making it one of the best all-round walks in Essex for every season.",
+    "glance": [
+      {
+        "label": "Reactive Dogs",
+        "score": 4
+      },
+      {
+        "label": "Puppies",
+        "score": 3
+      },
+      {
+        "label": "Senior Dogs",
+        "score": 2
+      },
+      {
+        "label": "Pushchairs",
+        "score": 3
+      },
+      {
+        "label": "Swimming",
+        "score": 1
+      },
+      {
+        "label": "Off Lead",
+        "score": 4
+      },
+      {
+        "label": "Shade",
+        "score": 4
+      },
+      {
+        "label": "Low Mud",
+        "score": 3
+      }
+    ],
+    "route": {
+      "parking": "There are two paid for carparks. You can pay onsite at the machines or use the MiPermit app. Both carparks are fairly big.",
+      "localTip": "Visit in late spring or early summer to see the formal gardens in full bloom, then cool off beneath the ancient woodland canopy on the quieter woodland trails.",
+      "mapEmbed": ""
+    },
+    "official": {
+      "managedBy": "Essex County Council",
+      "website": "https://www.explore-essex.com/places-to-go/find-whats-near-me/danbury-country-park"
+    },
+    "added": "2026-07-07",
+    "hasPage": true
+  },
+  {
     "id": "hylands-park-writtle",
     "name": "Hylands Park",
     "area": "Mid Essex",
