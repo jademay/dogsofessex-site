@@ -1340,5 +1340,38 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "cricketers-arms-danbury",
+    "name": "The Cricketers Arms",
+    "type": "pub",
+    "lat": 51.71318137,
+    "lng": 0.5741234123,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "They are dog-friendly.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-07-07",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Traditional village pub overlooking Danbury Common, serving classic pub food, real ales and Sunday lunches.",
+    "website": "https://www.cricketersarmsdanbury.com/",
+    "mapsLink": "https://maps.app.goo.gl/Y8bRj33hD65Rk4hj6",
+    "phone": "01245 222022",
+    "email": "thecricketersarms24@gmail.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/cricketersarmsdanbury",
+      "facebook": "https://www.facebook.com/TheCricketersArmsDanbury/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
