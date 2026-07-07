@@ -1409,5 +1409,41 @@
       "youtube": null,
       "twitter": "https://www.twitter.com/@AnchorDanbury"
     }
+  },
+  {
+    "id": "the-fowlers-farm-cressing",
+    "name": "The Fowler's Farm",
+    "type": "pub",
+    "lat": 51.86746219,
+    "lng": 0.5829913036,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed outside and inside at the bar area. You can specifically book dog-friendly tables.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "treats"
+    ],
+    "lastChecked": "2026-07-07",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Historic country pub serving hearty favourites, seasonal dishes and traditional pub classics.",
+    "website": "https://www.vintageinn.co.uk/restaurants/east/thefowlersfarmbraintree#/",
+    "mapsLink": "https://maps.app.goo.gl/rTjKJtugCgCyF26r5",
+    "phone": "01376 551560",
+    "email": "",
+    "socials": {
+      "instagram": "https://www.instagram.com/fowlers_farm_braintree/",
+      "facebook": "https://www.facebook.com/FowlersFarmBraintree",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": "https://x.com/vintage_inns"
+    }
   }
 ]
