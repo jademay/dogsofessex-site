@@ -772,12 +772,20 @@ function pickCardHTML(p) {
                         </article>`;
 }
 
+// Filter/sort data attributes for a "Make a Day of It" venue (same keys the
+// places hub uses, so the walk-page filter JS can reuse the logic).
+function dayCardAttrs(p, order) {
+    return ` data-place-type="${esc(p.type)}" data-dist="${(p._mi != null ? p._mi : 9999).toFixed(2)}"`
+        + ` data-rating="${p.rating || 0}" data-name="${esc((p.name || '').toLowerCase())}"`
+        + ` data-order="${order || 0}" data-access="${esc((p.dogAccess || []).join(' '))}"`;
+}
+
 // A paid partner - compact card: name, distance, one-liner, dog tags, CTA.
-function partnerCardHTML(p, extraClass) {
+function partnerCardHTML(p, extraClass, order) {
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const href = placeUrl(p);
     return `
-                                <article class="day-card partner-card${extraClass || ''}">
+                                <article class="day-card partner-card${extraClass || ''}"${dayCardAttrs(p, order)}>
                                     <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
                                     <span class="pc-dist">${distLine(p)}</span>
                                     ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
@@ -789,10 +797,10 @@ function partnerCardHTML(p, extraClass) {
 }
 
 // A free listing - a compact pill (name + distance + arrow) that opens Google Maps.
-function freePillHTML(p) {
+function freePillHTML(p, order) {
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     return `
-                            <a class="free-pill" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">
+                            <a class="free-pill"${dayCardAttrs(p, order)} href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">
                                 <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
                                 <span class="fp-dist">${distLine(p)}</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
@@ -807,76 +815,64 @@ function dayHTML(walk, places) {
         .filter((p) => p.dogFriendly !== false && p.showOnWalkPages !== false)
         .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }), _tier: effectiveTier(p) }));
 
-    // The pick is shown regardless of distance (it's chosen for this walk).
-    const pick = pickId ? withDist.find((p) => p.id === pickId) : null;
-
-    const inRange = withDist
-        .filter((p) => p.id !== pickId && p._mi <= DAY_RADIUS_MI)
+    // Everything within the day radius, nearest first. The walk's pick (if any)
+    // is a partner shown regardless of distance, so it joins the featured group.
+    let inRange = withDist
+        .filter((p) => p._mi <= DAY_RADIUS_MI)
         .sort((a, b) => a._mi - b._mi);
+    const pick = pickId ? withDist.find((p) => p.id === pickId) : null;
+    if (pick && !inRange.some((p) => p.id === pick.id)) inRange = [pick, ...inRange].sort((a, b) => a._mi - b._mi);
 
-    // Each category: partner cards, then a lighter "More nearby …" panel of free pills.
-    const categoryBlock = (icon, label, items) => {
-        const partners = items.filter((p) => p._tier === 'partner');
-        const frees = items.filter((p) => p._tier === 'free');
-        let noun = label.replace(/\s*nearby$/i, '').toLowerCase();
-        if (!noun || noun === 'more') noun = 'places';
-        let body = '';
+    if (!inRange.length) return '';
 
-        const INITIAL = 2; // partner cards shown before "Show more"
-        // Free panel tucks into the expander whenever there are partner cards above it.
-        const tuckFree = frees.length > 0 && partners.length > 0;
-        const showToggle = partners.length > INITIAL || tuckFree;
+    const featured = inRange.filter((p) => p._tier === 'partner');
+    const everyone = inRange.filter((p) => p._tier !== 'partner');
 
-        if (partners.length === 1) {
-            body += `\n                        <div class="day-grid single">${partnerCardHTML(partners[0])}</div>`;
-        } else if (partners.length >= 2) {
-            const odd = partners.length % 2 === 1;
-            const cards = partners.map((p, i) => {
-                let cls = '';
-                if (odd && i === partners.length - 1) cls += ' span-center';
-                if (i >= INITIAL) cls += ' day-extra';
-                return partnerCardHTML(p, cls);
-            }).join('');
-            body += `\n                        <div class="day-grid">${cards}</div>`;
-        }
+    // Category pills: "All" plus one per CATEGORIES group present among the
+    // nearby venues (data-daytype holds the comma-joined types it matches).
+    const presentTypes = new Set(inRange.map((p) => p.type));
+    const catPills = CATEGORIES
+        .map((c) => ({ label: c.label.replace(/\s*nearby$/i, ''), types: c.types.filter((t) => presentTypes.has(t)) }))
+        .filter((c) => c.types.length);
 
-        if (frees.length) {
-            body += `
-                        <div class="more-free${tuckFree ? ' day-extra-panel' : ''}">
-                            <h4 class="more-free-title">Other nearby ${esc(noun)}</h4>
-                            <div class="free-pills">${frees.map(freePillHTML).join('')}</div>
-                        </div>`;
-        }
+    // Dog-access pills, built from the access keys the nearby venues actually
+    // use (same friendly labels as the places page).
+    const accessLabels = { inside: 'Dogs allowed inside', outside: 'Dogs allowed outside' };
+    const accessKeys = Object.keys(ACCESS_META).filter((k) => inRange.some((p) => (p.dogAccess || []).includes(k)));
 
-        if (showToggle) {
-            body += `\n                        <button class="day-more-toggle" type="button">Show more ↓</button>`;
-        }
+    const filterBar = `
+                    <div class="day-filter" role="group" aria-label="Filter nearby places">
+                        <button type="button" class="filter-pill subfilter-pill is-active" data-daytype="all" aria-pressed="true">All</button>
+                        ${catPills.map((c) => `<button type="button" class="filter-pill subfilter-pill" data-daytype="${esc(c.types.join(','))}" aria-pressed="false">${esc(c.label)}</button>`).join('\n                        ')}${accessKeys.length ? `
+                        <span class="subfilter-sep" aria-hidden="true"></span>
+                        ${accessKeys.map((k) => `<button type="button" class="filter-pill subfilter-pill" data-dayaccess="${esc(k)}" aria-pressed="false">${esc(accessLabels[k] || ACCESS_META[k].label)}</button>`).join('\n                        ')}` : ''}
+                    </div>
+                    <div class="day-sort-row">
+                        <label class="day-sort-label" for="day-sort">Sort by</label>
+                        <select class="places-sort day-sort" id="day-sort" aria-label="Sort nearby places">
+                            <option value="distance">Distance</option>
+                            <option value="recommended">Recommended</option>
+                            <option value="rating">Rating</option>
+                            <option value="az">A–Z</option>
+                        </select>
+                    </div>
+                    <p class="day-count places-count" aria-live="polite"></p>`;
 
-        return `
-                    <div class="day-category">
-                        <h3 class="day-cat-head">${icon} ${esc(label)} (${items.length})</h3>${body}
+    const group = (name, heading, items, listClass, render) => `
+                    <div class="day-group" data-group="${name}"${items.length ? '' : ' hidden'}>
+                        <h3 class="day-group-head">${heading}</h3>
+                        <div class="day-list ${listClass}">${items.map((p, i) => render(p, i)).join('')}
+                        </div>
                     </div>`;
-    };
-
-    const used = new Set();
-    let sections = '';
-    for (const cat of CATEGORIES) {
-        const inCat = inRange.filter((p) => cat.types.includes(p.type));
-        if (!inCat.length) continue;
-        inCat.forEach((p) => used.add(p.id));
-        sections += categoryBlock(cat.icon, cat.label, inCat);
-    }
-    const leftover = inRange.filter((p) => !used.has(p.id));
-    if (leftover.length) sections += categoryBlock(icon('map-pin'), 'More nearby', leftover);
-
-    if (!pick && !sections) return '';
 
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
                     <h2>${icon('paw-print')} Make a Day of It</h2>
-                    <p class="section-lead">Already heading to ${who}? Here's what other local dog owners pair with this walk.</p>
-                    ${pick ? pickCardHTML(pick) : ''}
-                    ${sections}`;
+                    <p class="section-lead">Already heading to ${who}? Filter and sort the dog-friendly places other local owners pair with this walk.</p>
+                    <div class="day-explorer">${filterBar}
+                        ${group('featured', 'Featured', featured, 'day-grid', (p, i) => partnerCardHTML(p, '', i))}
+                        ${group('everyone', 'Everyone else', everyone, 'free-pills', (p, i) => freePillHTML(p, i))}
+                    </div>`;
 }
 
 function exploreHTML(walk, walks) {

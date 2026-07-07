@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=30894cd5">
+    <link rel="stylesheet" href="../styles.css?v=5816e6b2">
     <script>window.WALK_ID = "danbury-ridge-nature-reserves-danbury";</script>
 </head>
 <body>
@@ -248,13 +248,35 @@
                 <div class="container">
                     <div id="make-a-day">
                     <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="11" cy="4" r="2" /><circle cx="18" cy="8" r="2" /><circle cx="20" cy="16" r="2" /><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" /></svg> Make a Day of It</h2>
-                    <p class="section-lead">Already heading to Danbury? Here's what other local dog owners pair with this walk.</p>
-                    
-                    
-                    <div class="day-category">
-                        <h3 class="day-cat-head"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Cafés nearby (8)</h3>
-                        <div class="day-grid">
-                                <article class="day-card partner-card">
+                    <p class="section-lead">Already heading to Danbury? Filter and sort the dog-friendly places other local owners pair with this walk.</p>
+                    <div class="day-explorer">
+                    <div class="day-filter" role="group" aria-label="Filter nearby places">
+                        <button type="button" class="filter-pill subfilter-pill is-active" data-daytype="all" aria-pressed="true">All</button>
+                        <button type="button" class="filter-pill subfilter-pill" data-daytype="cafe" aria-pressed="false">Cafés</button>
+                        <button type="button" class="filter-pill subfilter-pill" data-daytype="pub" aria-pressed="false">Pubs</button>
+                        <button type="button" class="filter-pill subfilter-pill" data-daytype="restaurant" aria-pressed="false">Restaurants</button>
+                        <span class="subfilter-sep" aria-hidden="true"></span>
+                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="inside" aria-pressed="false">Dogs allowed inside</button>
+                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="outside" aria-pressed="false">Dogs allowed outside</button>
+                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="water-bowls" aria-pressed="false">Water bowls</button>
+                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="dog-menu" aria-pressed="false">Dog menu</button>
+                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="treats" aria-pressed="false">Treats available</button>
+                    </div>
+                    <div class="day-sort-row">
+                        <label class="day-sort-label" for="day-sort">Sort by</label>
+                        <select class="places-sort day-sort" id="day-sort" aria-label="Sort nearby places">
+                            <option value="distance">Distance</option>
+                            <option value="recommended">Recommended</option>
+                            <option value="rating">Rating</option>
+                            <option value="az">A–Z</option>
+                        </select>
+                    </div>
+                    <p class="day-count places-count" aria-live="polite"></p>
+                        
+                    <div class="day-group" data-group="featured">
+                        <h3 class="day-group-head">Featured</h3>
+                        <div class="day-list day-grid">
+                                <article class="day-card partner-card" data-place-type="cafe" data-dist="7.41" data-rating="0" data-name="claire's cabin, cafe &amp; smokehouse" data-order="0" data-access="inside outside water-bowls">
                                     <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Claire's Cabin, Cafe &amp; Smokehouse</h4>
                                     <span class="pc-dist">7.4 mi • 21 mins</span>
                                     <p class="pc-desc">A dog-friendly café at Tom's Farm Shop serving traditional breakfasts, homemade cakes and its speciality smoked menu.</p>
@@ -264,7 +286,7 @@
                                         <a class="pc-map" href="https://maps.app.goo.gl/u9E1SCeokEfh5krLA" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                                     </div>
                                 </article>
-                                <article class="day-card partner-card">
+                                <article class="day-card partner-card" data-place-type="cafe" data-dist="9.26" data-rating="0" data-name="tiptree tea rooms" data-order="1" data-access="inside outside water-bowls dog-menu">
                                     <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Tiptree Tea Rooms</h4>
                                     <span class="pc-dist">9.3 mi • 27 mins</span>
                                     <p class="pc-desc">A traditional tea room set within the historic Wilkin &amp; Sons jam factory, serving hearty breakfasts, classic lunches, cream teas and homemade favourites alongside the story of Tiptree's famous jam-making heritage.</p>
@@ -273,47 +295,18 @@
                                         <a class="pc-cta" href="https://tiptreetearooms.com/pages/tiptree-tea-room" target="_blank" rel="noopener">Visit website →</a>
                                         <a class="pc-map" href="https://maps.app.goo.gl/r3RJHmsH4M2sJiUd6" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                                     </div>
-                                </article></div>
-                        <div class="more-free day-extra-panel">
-                            <h4 class="more-free-title">Other nearby cafés</h4>
-                            <div class="free-pills">
-                            <a class="free-pill" href="https://maps.app.goo.gl/mYBFSSDL7jZ2Uxhx5" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Tea on the Green</span>
-                                <span class="fp-dist">0.4 mi • 3 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/9et6XDzKrPYdaA8U7" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Mrs Salisbury's</span>
-                                <span class="fp-dist">4.0 mi • 12 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/65ET5D54xH2XDxFj9" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Farm Cafe by Black Pig</span>
-                                <span class="fp-dist">5.8 mi • 17 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/WhPArKSUwRmCyWcv6" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Osea View Cafe</span>
-                                <span class="fp-dist">6.1 mi • 18 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/T3QSaKZW7C2MnSeN7" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Deli Hylands</span>
-                                <span class="fp-dist">6.5 mi • 19 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/Hcx75T4FgjZrUp387" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Coffee Crate</span>
-                                <span class="fp-dist">9.3 mi • 27 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a></div>
-                        </div>
-                        <button class="day-more-toggle" type="button">Show more ↓</button>
-                    </div>
-                    <div class="day-category">
-                        <h3 class="day-cat-head"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> Pubs nearby (17)</h3>
-                        <div class="day-grid">
-                                <article class="day-card partner-card">
+                                </article>
+                                <article class="day-card partner-card" data-place-type="restaurant" data-dist="9.51" data-rating="0" data-name="the red dog" data-order="2" data-access="inside outside">
+                                    <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> The Red Dog</h4>
+                                    <span class="pc-dist">9.5 mi • 27 mins</span>
+                                    <p class="pc-desc">The Red Dog is a quality burger and breakfast restaurant based in the small village of Inworth, close to Tiptree, Feering and Kelvedon.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Dogs inside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
+                                    <div class="pc-actions">
+                                        <a class="pc-cta" href="https://thereddog.co.uk/" target="_blank" rel="noopener">Visit website →</a>
+                                        <a class="pc-map" href="https://maps.app.goo.gl/f2gZsokJwfHpyLuv8" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                    </div>
+                                </article>
+                                <article class="day-card partner-card" data-place-type="pub" data-dist="9.62" data-rating="0" data-name="the tavern kelvedon" data-order="3" data-access="inside outside water-bowls">
                                     <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Tavern Kelvedon</h4>
                                     <span class="pc-dist">9.6 mi • 28 mins</span>
                                     <p class="pc-desc">An award-winning family-run pub on the River Blackwater, serving traditional homemade food made with locally sourced ingredients.</p>
@@ -323,7 +316,7 @@
                                         <a class="pc-map" href="https://maps.app.goo.gl/o1Tb9pLkcFVksXZb8" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                                     </div>
                                 </article>
-                                <article class="day-card partner-card">
+                                <article class="day-card partner-card" data-place-type="pub" data-dist="9.71" data-rating="0" data-name="the sun inn" data-order="4" data-access="outside">
                                     <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Sun Inn</h4>
                                     <span class="pc-dist">9.7 mi • 28 mins</span>
                                     <p class="pc-desc">Nestled in the charming Essex village of Feering, The Sun Inn has welcomed travellers, locals and wandering souls for centuries.</p>
@@ -332,101 +325,120 @@
                                         <a class="pc-cta" href="https://www.suninnfeering.co.uk/" target="_blank" rel="noopener">Visit website →</a>
                                         <a class="pc-map" href="https://maps.app.goo.gl/pHBUWEecWFM4qkJW7" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
                                     </div>
-                                </article></div>
-                        <div class="more-free day-extra-panel">
-                            <h4 class="more-free-title">Other nearby pubs</h4>
-                            <div class="free-pills">
-                            <a class="free-pill" href="https://maps.app.goo.gl/2WU9Qsb15ZeR3t988" target="_blank" rel="noopener">
+                                </article>
+                        </div>
+                    </div>
+                        
+                    <div class="day-group" data-group="everyone">
+                        <h3 class="day-group-head">Everyone else</h3>
+                        <div class="day-list free-pills">
+                            <a class="free-pill" data-place-type="cafe" data-dist="0.39" data-rating="0" data-name="tea on the green" data-order="0" data-access="inside outside water-bowls dog-menu" href="https://maps.app.goo.gl/mYBFSSDL7jZ2Uxhx5" target="_blank" rel="noopener">
+                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Tea on the Green</span>
+                                <span class="fp-dist">0.4 mi • 3 mins</span>
+                                <span class="fp-arrow" aria-hidden="true">↗</span>
+                            </a>
+                            <a class="free-pill" data-place-type="pub" data-dist="0.61" data-rating="0" data-name="the anchor" data-order="1" data-access="inside outside water-bowls treats" href="https://maps.app.goo.gl/2WU9Qsb15ZeR3t988" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Anchor</span>
                                 <span class="fp-dist">0.6 mi • 3 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/Y8bRj33hD65Rk4hj6" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="0.82" data-rating="0" data-name="the cricketers arms" data-order="2" data-access="outside" href="https://maps.app.goo.gl/Y8bRj33hD65Rk4hj6" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Cricketers Arms</span>
                                 <span class="fp-dist">0.8 mi • 3 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/LBHc6suTsPsJenwZ6" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="cafe" data-dist="4.01" data-rating="0" data-name="mrs salisbury's" data-order="3" data-access="outside water-bowls" href="https://maps.app.goo.gl/9et6XDzKrPYdaA8U7" target="_blank" rel="noopener">
+                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Mrs Salisbury's</span>
+                                <span class="fp-dist">4.0 mi • 12 mins</span>
+                                <span class="fp-arrow" aria-hidden="true">↗</span>
+                            </a>
+                            <a class="free-pill" data-place-type="pub" data-dist="4.36" data-rating="0" data-name="the queen's head, maldon" data-order="4" data-access="inside outside" href="https://maps.app.goo.gl/LBHc6suTsPsJenwZ6" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Queen's Head, Maldon</span>
                                 <span class="fp-dist">4.4 mi • 13 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/Dtb3XD7L7LzyGUM46" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="5.27" data-rating="0" data-name="the old ship" data-order="5" data-access="outside" href="https://maps.app.goo.gl/Dtb3XD7L7LzyGUM46" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Old Ship</span>
                                 <span class="fp-dist">5.3 mi • 15 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/RHjoTourry3ctQqs8" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="5.29" data-rating="0" data-name="the jolly sailor" data-order="6" data-access="inside outside water-bowls" href="https://maps.app.goo.gl/RHjoTourry3ctQqs8" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Jolly Sailor</span>
                                 <span class="fp-dist">5.3 mi • 15 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/yJp9yAYVDZqXTZmq7" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="cafe" data-dist="5.82" data-rating="0" data-name="the farm cafe by black pig" data-order="7" data-access="inside outside water-bowls" href="https://maps.app.goo.gl/65ET5D54xH2XDxFj9" target="_blank" rel="noopener">
+                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Farm Cafe by Black Pig</span>
+                                <span class="fp-dist">5.8 mi • 17 mins</span>
+                                <span class="fp-arrow" aria-hidden="true">↗</span>
+                            </a>
+                            <a class="free-pill" data-place-type="pub" data-dist="5.88" data-rating="0" data-name="the rayleigh arms" data-order="8" data-access="inside outside" href="https://maps.app.goo.gl/yJp9yAYVDZqXTZmq7" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Rayleigh Arms</span>
                                 <span class="fp-dist">5.9 mi • 17 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/xWAtWH9xVRCG6TpLA" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="6.02" data-rating="0" data-name="the green man" data-order="9" data-access="" href="https://maps.app.goo.gl/xWAtWH9xVRCG6TpLA" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Green Man</span>
                                 <span class="fp-dist">6.0 mi • 17 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/ZUGBe7nXNXZpS9dF6" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="cafe" data-dist="6.08" data-rating="0" data-name="osea view cafe" data-order="10" data-access="inside outside water-bowls treats" href="https://maps.app.goo.gl/WhPArKSUwRmCyWcv6" target="_blank" rel="noopener">
+                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Osea View Cafe</span>
+                                <span class="fp-dist">6.1 mi • 18 mins</span>
+                                <span class="fp-arrow" aria-hidden="true">↗</span>
+                            </a>
+                            <a class="free-pill" data-place-type="cafe" data-dist="6.51" data-rating="0" data-name="the deli hylands" data-order="11" data-access="outside water-bowls treats dog-menu" href="https://maps.app.goo.gl/T3QSaKZW7C2MnSeN7" target="_blank" rel="noopener">
+                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Deli Hylands</span>
+                                <span class="fp-dist">6.5 mi • 19 mins</span>
+                                <span class="fp-arrow" aria-hidden="true">↗</span>
+                            </a>
+                            <a class="free-pill" data-place-type="pub" data-dist="6.63" data-rating="0" data-name="the horse &amp; groom" data-order="12" data-access="inside outside water-bowls treats" href="https://maps.app.goo.gl/ZUGBe7nXNXZpS9dF6" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Horse &amp; Groom</span>
                                 <span class="fp-dist">6.6 mi • 19 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/2kK7zUZf58aFzDCW8" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="7.04" data-rating="0" data-name="white hart inn" data-order="13" data-access="inside outside dog-menu" href="https://maps.app.goo.gl/2kK7zUZf58aFzDCW8" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> White Hart Inn</span>
                                 <span class="fp-dist">7.0 mi • 20 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/PMB3o6AEKm6cbrhi7" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="7.12" data-rating="0" data-name="the bakers arms" data-order="14" data-access="outside" href="https://maps.app.goo.gl/PMB3o6AEKm6cbrhi7" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Bakers Arms</span>
                                 <span class="fp-dist">7.1 mi • 21 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/mfUdNiCBgzjr6gYL7" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="7.24" data-rating="0" data-name="the hoop" data-order="15" data-access="inside outside" href="https://maps.app.goo.gl/mfUdNiCBgzjr6gYL7" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Hoop</span>
                                 <span class="fp-dist">7.2 mi • 21 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/cF1Hxrbp2nQpMcMw7" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="9.01" data-rating="0" data-name="compasses inn" data-order="16" data-access="inside outside" href="https://maps.app.goo.gl/cF1Hxrbp2nQpMcMw7" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> Compasses Inn</span>
                                 <span class="fp-dist">9.0 mi • 26 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/GvUwbWkzM8VqbgsM6" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="9.03" data-rating="0" data-name="the angel" data-order="17" data-access="inside outside" href="https://maps.app.goo.gl/GvUwbWkzM8VqbgsM6" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Angel</span>
                                 <span class="fp-dist">9.0 mi • 26 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/ProFvpLSDMyoxSMx8" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="cafe" data-dist="9.32" data-rating="0" data-name="the coffee crate" data-order="18" data-access="inside outside dog-menu" href="https://maps.app.goo.gl/Hcx75T4FgjZrUp387" target="_blank" rel="noopener">
+                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Coffee Crate</span>
+                                <span class="fp-dist">9.3 mi • 27 mins</span>
+                                <span class="fp-arrow" aria-hidden="true">↗</span>
+                            </a>
+                            <a class="free-pill" data-place-type="pub" data-dist="9.48" data-rating="0" data-name="the shepherd &amp; dog" data-order="19" data-access="inside outside" href="https://maps.app.goo.gl/ProFvpLSDMyoxSMx8" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Shepherd &amp; Dog</span>
                                 <span class="fp-dist">9.5 mi • 27 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
                             </a>
-                            <a class="free-pill" href="https://maps.app.goo.gl/X5RjVAzfiqzMStgD6" target="_blank" rel="noopener">
+                            <a class="free-pill" data-place-type="pub" data-dist="9.65" data-rating="0" data-name="the cricketers mill green" data-order="20" data-access="inside outside" href="https://maps.app.goo.gl/X5RjVAzfiqzMStgD6" target="_blank" rel="noopener">
                                 <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Cricketers Mill Green</span>
                                 <span class="fp-dist">9.6 mi • 28 mins</span>
                                 <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a></div>
+                            </a>
                         </div>
-                        <button class="day-more-toggle" type="button">Show more ↓</button>
                     </div>
-                    <div class="day-category">
-                        <h3 class="day-cat-head"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> Restaurants nearby (1)</h3>
-                        <div class="day-grid single">
-                                <article class="day-card partner-card">
-                                    <h4 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> The Red Dog</h4>
-                                    <span class="pc-dist">9.5 mi • 27 mins</span>
-                                    <p class="pc-desc">The Red Dog is a quality burger and breakfast restaurant based in the small village of Inworth, close to Tiptree, Feering and Kelvedon.</p>
-                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Dogs inside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
-                                    <div class="pc-actions">
-                                        <a class="pc-cta" href="https://thereddog.co.uk/" target="_blank" rel="noopener">Visit website →</a>
-                                        <a class="pc-map" href="https://maps.app.goo.gl/f2gZsokJwfHpyLuv8" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
-                                    </div>
-                                </article></div>
                     </div>
                     </div>
                 </div>
@@ -596,7 +608,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=1c4eeacc"></script>
+    <script src="../script.js?v=321e16bc"></script>
     <script src="../walk.js?v=23e5a3bf"></script>
 </body>
 </html>

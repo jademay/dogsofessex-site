@@ -810,3 +810,68 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     setTimeout(refresh, 900);
     window.addEventListener('load', refresh);
 })();
+
+// Walk pages — "Make a Day of It": filter (category + dog access) and sort the
+// nearby places into two groups (Featured partners, Everyone else). No map.
+(function () {
+    const root = document.getElementById('make-a-day');
+    if (!root) return;
+    const bar = root.querySelector('.day-filter');
+    if (!bar) return;
+    const typePills = Array.from(bar.querySelectorAll('[data-daytype]'));
+    const accessPills = Array.from(bar.querySelectorAll('[data-dayaccess]'));
+    const sortSel = root.querySelector('.day-sort');
+    const groups = Array.from(root.querySelectorAll('.day-group'));
+    const countEl = root.querySelector('.day-count');
+    let type = 'all';
+    const access = new Set();
+
+    const num = (c, a) => parseFloat(c.dataset[a]) || 0;
+    const shown = (c) => {
+        if (type !== 'all' && !type.split(',').includes(c.dataset.placeType)) return false;
+        if (access.size) {
+            const a = (c.dataset.access || '').split(/\s+/);
+            for (const k of access) if (!a.includes(k)) return false;
+        }
+        return true;
+    };
+    const sortCards = (list) => {
+        const s = sortSel ? sortSel.value : 'distance';
+        const arr = list.slice();
+        if (s === 'rating') arr.sort((a, b) => num(b, 'rating') - num(a, 'rating') || num(a, 'dist') - num(b, 'dist'));
+        else if (s === 'az') arr.sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || ''));
+        else if (s === 'recommended') arr.sort((a, b) => num(a, 'order') - num(b, 'order'));
+        else arr.sort((a, b) => num(a, 'dist') - num(b, 'dist'));
+        return arr;
+    };
+    const apply = () => {
+        let total = 0;
+        groups.forEach((g) => {
+            const list = Array.from(g.querySelectorAll('[data-place-type]'));
+            const container = g.querySelector('.day-list');
+            let vis = 0;
+            list.forEach((c) => { const ok = shown(c); c.style.display = ok ? '' : 'none'; if (ok) vis++; });
+            sortCards(list.filter(shown)).forEach((c) => container.appendChild(c));
+            g.hidden = vis === 0;
+            total += vis;
+        });
+        if (countEl) countEl.textContent = total
+            ? ('Showing ' + total + ' place' + (total === 1 ? '' : 's'))
+            : 'No places match those filters';
+    };
+    const press = (b, on) => { b.classList.toggle('is-active', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+    typePills.forEach((b) => b.addEventListener('click', () => {
+        type = b.dataset.daytype;
+        typePills.forEach((x) => press(x, x === b));
+        apply();
+    }));
+    accessPills.forEach((b) => b.addEventListener('click', () => {
+        const k = b.dataset.dayaccess;
+        const on = !access.has(k);
+        if (on) access.add(k); else access.delete(k);
+        press(b, on);
+        apply();
+    }));
+    if (sortSel) sortSel.addEventListener('change', apply);
+    apply();
+})();

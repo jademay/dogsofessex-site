@@ -2657,6 +2657,54 @@ h2 .lucide { vertical-align: -0.1em; }
     margin: 1.25rem 0;
 }
 
+/* Make a Day of It — filterable/sortable nearby places (a mini places page,
+   no map). Category + dog-access pills, a sort dropdown, and two groups:
+   Featured (partners) then Everyone else (free). */
+.day-explorer { margin-top: 1.25rem; }
+.day-filter {
+    display: flex;
+    /* One line that scrolls sideways (Apple-style), same as the places page. */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0.85rem;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+.day-filter::-webkit-scrollbar { display: none; }
+.day-filter > .filter-pill { flex: 0 0 auto; }
+.day-filter .subfilter-sep {
+    flex: 0 0 auto;
+    width: 1px;
+    align-self: stretch;
+    margin: 0.15rem 0.35rem;
+    background: var(--color-border);
+}
+.day-sort-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1rem 0 0.25rem;
+}
+.day-sort-label { font-size: 0.9rem; font-weight: 500; color: var(--color-muted); }
+.day-sort { margin: 0; }
+.day-count { margin: 0.35rem 0 0; }
+.day-group { margin-top: 1.75rem; }
+.day-group[hidden] { display: none; }
+.day-group-head {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin: 0 0 0.9rem;
+}
+/* The two group lists reuse the existing card grid / pill list layouts. */
+.day-group .day-list.day-grid { gap: 1.25rem; }
+.day-group .day-list.free-pills { margin: 0; }
+
 /* Make a Day of It — place cards */
 .day-grid {
     display: grid;
