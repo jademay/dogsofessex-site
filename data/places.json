@@ -1481,5 +1481,40 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-exchange-tiptree",
+    "name": "The Exchange",
+    "type": "cafe",
+    "lat": 51.81271764,
+    "lng": 0.7494779738,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are not allowed inside, however the staff will come to you if you sit outside with your dog.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-07-08",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A friendly independent café in the heart of Tiptree, perfect for watching village life go by.",
+    "website": "",
+    "mapsLink": "https://maps.app.goo.gl/2tLtDkna8zfBtAt59",
+    "phone": "01621 810090",
+    "email": "thetiptreeexchange@gmail.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/the_tiptree_exchange_/",
+      "facebook": "https://www.facebook.com/p/The-Tiptree-Exchange-61559837527198/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
