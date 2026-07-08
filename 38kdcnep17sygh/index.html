@@ -38,9 +38,24 @@
         .muted { color: var(--color-muted); }
         .legend { font-size: 0.8rem; color: var(--color-muted); margin: 0.5rem 0 0; }
         h2.section { font-family: var(--font-serif); font-size: 1.3rem; margin: 2rem 0 0.9rem; }
+        #gate { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-bg); z-index: 100; }
+        #gate form { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 2rem; width: min(360px, 90vw); text-align: center; }
+        #gate h1 { font-family: var(--font-serif); font-size: 1.4rem; margin: 0 0 1rem; }
+        #gate input { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--color-border); border-radius: 999px; font-size: 1rem; margin-bottom: 0.75rem; }
+        #gate button { width: 100%; padding: 0.7rem; border: none; border-radius: 999px; background: var(--color-forest); color: #fff; font-weight: 500; font-size: 0.95rem; cursor: pointer; }
+        #gate .err { color: var(--color-terracotta); font-size: 0.85rem; min-height: 1.1em; margin: 0.4rem 0 0; }
     </style>
 </head>
 <body>
+    <div id="gate">
+        <form id="gate-form" autocomplete="off">
+            <h1>🐾 Private</h1>
+            <input type="password" id="gate-pw" placeholder="Password" aria-label="Password" autofocus>
+            <button type="submit">Enter</button>
+            <p class="err" id="gate-err" role="alert"></p>
+        </form>
+    </div>
+    <div id="dash" hidden>
     <div class="admin">
         <div class="admin-head">
             <h1>🐾 Dogs of Essex — Admin</h1>
@@ -328,10 +343,36 @@
             </div>
         </div>
     </div>
+    </div>
 
     <script>
-        // Click-to-sort for the coverage table.
+        // Password gate. NOT real security (the page exists in source) — it just
+        // hides the dashboard from a casual onlooker who has the secret URL. Only
+        // the SHA-256 of the password lives here; the real protection is the
+        // unguessable path.
         (function () {
+            const HASH = '1a331057104dfba50380251b58304c17ca2152fba66ecd181ed39b53bc288d8f';
+            const gate = document.getElementById('gate');
+            const dash = document.getElementById('dash');
+            const form = document.getElementById('gate-form');
+            const pw = document.getElementById('gate-pw');
+            const err = document.getElementById('gate-err');
+            const KEY = 'doe-admin-ok';
+            async function sha(s) {
+                const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+                return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, '0')).join('');
+            }
+            function unlock() { gate.remove(); dash.hidden = false; initSort(); }
+            if (sessionStorage.getItem(KEY) === '1') { unlock(); return; }
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (await sha(pw.value) === HASH) { sessionStorage.setItem(KEY, '1'); unlock(); }
+                else { err.textContent = 'Nope, try again.'; pw.value = ''; pw.focus(); }
+            });
+        })();
+
+        // Click-to-sort for the coverage table (called once unlocked).
+        function initSort() {
             const table = document.getElementById('cov');
             if (!table) return;
             const tbody = table.tBodies[0];
@@ -350,7 +391,7 @@
                     rows.forEach((r) => tbody.appendChild(r));
                 });
             });
-        })();
+        }
     </script>
 </body>
 </html>

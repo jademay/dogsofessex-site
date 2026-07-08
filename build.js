@@ -2314,10 +2314,15 @@ function readJSON(file) {
     return JSON.parse(fs.readFileSync(path.join(DATA, file), 'utf8'));
 }
 
-// Private stats dashboard at /admin/ — unlisted (not linked, not in the
-// sitemap) and noindex. Regenerated every build from the same data the site
-// uses, so the numbers always match what's live. Everything here is derived
-// from already-public data, so there is nothing secret to protect.
+// Private stats dashboard, served from an unguessable secret path (the real
+// "key"), with a password box on top that hides the content from a casual
+// shoulder-surfer. Neither is true server-side auth — this is a static site, so
+// the page still exists in source — but the data is only aggregate stats of
+// already-public content. The slug is deliberately NOT referenced in robots.txt
+// or the sitemap so it can't leak. Only the password's SHA-256 is stored here,
+// never the password itself.
+const ADMIN_SLUG = '38kdcnep17sygh';
+const ADMIN_PW_SHA256 = '1a331057104dfba50380251b58304c17ca2152fba66ecd181ed39b53bc288d8f';
 function adminPage(walks, places) {
     const pages = walks.filter((w) => w.hasPage && w.lat != null && w.lng != null);
     const dfPlaces = places.filter((p) => p.dogFriendly !== false && p.lat != null);
@@ -2432,9 +2437,24 @@ function adminPage(walks, places) {
         .muted { color: var(--color-muted); }
         .legend { font-size: 0.8rem; color: var(--color-muted); margin: 0.5rem 0 0; }
         h2.section { font-family: var(--font-serif); font-size: 1.3rem; margin: 2rem 0 0.9rem; }
+        #gate { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-bg); z-index: 100; }
+        #gate form { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 2rem; width: min(360px, 90vw); text-align: center; }
+        #gate h1 { font-family: var(--font-serif); font-size: 1.4rem; margin: 0 0 1rem; }
+        #gate input { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--color-border); border-radius: 999px; font-size: 1rem; margin-bottom: 0.75rem; }
+        #gate button { width: 100%; padding: 0.7rem; border: none; border-radius: 999px; background: var(--color-forest); color: #fff; font-weight: 500; font-size: 0.95rem; cursor: pointer; }
+        #gate .err { color: var(--color-terracotta); font-size: 0.85rem; min-height: 1.1em; margin: 0.4rem 0 0; }
     </style>
 </head>
 <body>
+    <div id="gate">
+        <form id="gate-form" autocomplete="off">
+            <h1>🐾 Private</h1>
+            <input type="password" id="gate-pw" placeholder="Password" aria-label="Password" autofocus>
+            <button type="submit">Enter</button>
+            <p class="err" id="gate-err" role="alert"></p>
+        </form>
+    </div>
+    <div id="dash" hidden>
     <div class="admin">
         <div class="admin-head">
             <h1>🐾 Dogs of Essex — Admin</h1>
@@ -2481,10 +2501,36 @@ function adminPage(walks, places) {
             ${listPanel('Need a re-check', stale, (p) => `<li><span>${esc(p.name)}</span><span class="meta">${p.lastChecked ? formatDate(p.lastChecked) : 'never'}</span></li>`)}
         </div>
     </div>
+    </div>
 
     <script>
-        // Click-to-sort for the coverage table.
+        // Password gate. NOT real security (the page exists in source) — it just
+        // hides the dashboard from a casual onlooker who has the secret URL. Only
+        // the SHA-256 of the password lives here; the real protection is the
+        // unguessable path.
         (function () {
+            const HASH = '${ADMIN_PW_SHA256}';
+            const gate = document.getElementById('gate');
+            const dash = document.getElementById('dash');
+            const form = document.getElementById('gate-form');
+            const pw = document.getElementById('gate-pw');
+            const err = document.getElementById('gate-err');
+            const KEY = 'doe-admin-ok';
+            async function sha(s) {
+                const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+                return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, '0')).join('');
+            }
+            function unlock() { gate.remove(); dash.hidden = false; initSort(); }
+            if (sessionStorage.getItem(KEY) === '1') { unlock(); return; }
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (await sha(pw.value) === HASH) { sessionStorage.setItem(KEY, '1'); unlock(); }
+                else { err.textContent = 'Nope, try again.'; pw.value = ''; pw.focus(); }
+            });
+        })();
+
+        // Click-to-sort for the coverage table (called once unlocked).
+        function initSort() {
             const table = document.getElementById('cov');
             if (!table) return;
             const tbody = table.tBodies[0];
@@ -2503,7 +2549,7 @@ function adminPage(walks, places) {
                     rows.forEach((r) => tbody.appendChild(r));
                 });
             });
-        })();
+        }
     </script>
 </body>
 </html>
@@ -2612,15 +2658,16 @@ function build() {
     fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
     console.log(`  ✓ sitemap.xml (${urls.length} urls)`);
 
-    const robots = `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${BASE_URL}/sitemap.xml\n`;
+    const robots = `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`;
     fs.writeFileSync(path.join(ROOT, 'robots.txt'), robots);
     console.log('  ✓ robots.txt');
 
-    // Private stats dashboard — unlisted, noindex, never in the sitemap.
-    const adminDir = path.join(ROOT, 'admin');
+    // Private stats dashboard — served from a secret, unguessable path. Never
+    // linked, never in robots.txt or the sitemap, noindex, plus a password box.
+    const adminDir = path.join(ROOT, ADMIN_SLUG);
     if (!fs.existsSync(adminDir)) fs.mkdirSync(adminDir, { recursive: true });
     fs.writeFileSync(path.join(adminDir, 'index.html'), adminPage(walks, places));
-    console.log('  ✓ admin/index.html (private, noindex)');
+    console.log(`  ✓ ${ADMIN_SLUG}/index.html (private, secret path + password)`);
 
     console.log(`\nBuilt ${pages.length} walk page(s) + walks index + ${BEST_FOR.length} Best For pages + Places hub/${PLACE_CATEGORIES.length} categories/${venueCount} venues from ${walks.length} walks, ${places.length} places, ${tips.length} tips.`);
 }
