@@ -2851,7 +2851,14 @@ h2 .lucide { vertical-align: -0.1em; }
     white-space: nowrap;
 }
 .tier-pick { color: var(--color-terracotta); font-weight: 600; }
-.tier-sponsored { margin-left: auto; color: var(--color-muted); }
+/* "Sponsored" — tiny and faint, exactly like Google's ad label. */
+.tier-sponsored {
+    margin-left: auto;
+    color: var(--color-muted);
+    opacity: 0.8;
+    font-size: 0.66rem;
+    font-weight: 400;
+}
 /* Keep the mobile hub carousel's "actions pinned to the bottom" behaviour
    working now that actions live inside .place-card-body. */
 .places-hub-list > .place-card .place-card-body { flex: 1 1 auto; }
