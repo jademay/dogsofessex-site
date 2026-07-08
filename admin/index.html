@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Admin · Dogs of Essex</title>
+    <link rel="icon" href="../favicon.ico" sizes="any">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css?v=ce2fbb04">
+    <style>
+        .admin { max-width: 1080px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+        .admin-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem 1.25rem; margin-bottom: 1.5rem; }
+        .admin-head h1 { font-family: var(--font-serif); font-size: 1.9rem; margin: 0; }
+        .admin-head .muted { color: var(--color-muted); font-size: 0.9rem; }
+        .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem; margin-bottom: 2rem; }
+        .tile { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.15rem; }
+        .tile-num { font-family: var(--font-serif); font-size: 2rem; line-height: 1; color: var(--color-forest); }
+        .tile-label { font-weight: 500; font-size: 0.9rem; }
+        .tile-sub { color: var(--color-muted); font-size: 0.78rem; }
+        .panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; align-items: start; }
+        .panel { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.1rem 1.25rem; }
+        .panel h2 { font-family: var(--font-serif); font-size: 1.15rem; margin: 0 0 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        table.mini, table.cov { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        table.mini td { padding: 0.28rem 0; border-bottom: 1px solid var(--color-border); }
+        .num { text-align: right; font-variant-numeric: tabular-nums; }
+        .cov-wrap { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.1rem 1.25rem; overflow-x: auto; }
+        table.cov th, table.cov td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--color-border); text-align: left; white-space: nowrap; }
+        table.cov th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); cursor: pointer; user-select: none; }
+        table.cov th.num, table.cov td.num { text-align: right; }
+        table.cov tr.thin td { background: rgba(200, 90, 60, 0.07); }
+        .count-badge { background: var(--color-forest); color: #fff; font: 500 0.75rem/1 var(--font-sans); padding: 0.2rem 0.5rem; border-radius: 999px; }
+        ul.plain { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.9rem; }
+        ul.plain li { display: flex; justify-content: space-between; gap: 0.75rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.35rem; }
+        ul.plain .meta { color: var(--color-muted); font-size: 0.82rem; white-space: nowrap; }
+        .muted { color: var(--color-muted); }
+        .legend { font-size: 0.8rem; color: var(--color-muted); margin: 0.5rem 0 0; }
+        h2.section { font-family: var(--font-serif); font-size: 1.3rem; margin: 2rem 0 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="admin">
+        <div class="admin-head">
+            <h1>🐾 Dogs of Essex — Admin</h1>
+            <span class="muted">Private dashboard · generated 8 Jul 2026 · reflects the last build/push</span>
+        </div>
+
+        <div class="tiles">
+            
+                <div class="tile">
+                    <span class="tile-num">23</span>
+                    <span class="tile-label">Walk pages</span><span class="tile-sub">23 in data</span>
+                </div>
+            
+                <div class="tile">
+                    <span class="tile-num">46</span>
+                    <span class="tile-label">Places</span><span class="tile-sub">46 shown on walks</span>
+                </div>
+            
+                <div class="tile">
+                    <span class="tile-num">45</span>
+                    <span class="tile-label">Verified</span><span class="tile-sub">1 unverified</span>
+                </div>
+            
+                <div class="tile">
+                    <span class="tile-num">6</span>
+                    <span class="tile-label">Sponsors</span><span class="tile-sub">paid tiers</span>
+                </div>
+            
+                <div class="tile">
+                    <span class="tile-num">1</span>
+                    <span class="tile-label">Dogs of Essex Picks</span><span class="tile-sub">editorial</span>
+                </div>
+            
+                <div class="tile">
+                    <span class="tile-num">0</span>
+                    <span class="tile-label">Need a re-check</span><span class="tile-sub">not checked in 6+ months</span>
+                </div>
+        </div>
+
+        <div class="panels">
+            
+            <div class="panel">
+                <h2>Places by type</h2>
+                <table class="mini">
+                    <tr><td>Pub</td><td class="num">27</td></tr>
+                    <tr><td>Café</td><td class="num">14</td></tr>
+                    <tr><td>Restaurant</td><td class="num">5</td></tr>
+                </table>
+            </div>
+            
+            <div class="panel">
+                <h2>Places by category</h2>
+                <table class="mini">
+                    <tr><td>Eat &amp; Drink</td><td class="num">46</td></tr>
+                </table>
+            </div>
+            
+            <div class="panel">
+                <h2>Places by tier</h2>
+                <table class="mini">
+                    <tr><td>Free</td><td class="num">40</td></tr>
+                    <tr><td>Partner</td><td class="num">6</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <h2 class="section">Coverage — places near each walk</h2>
+        <div class="cov-wrap">
+            <table class="cov" id="cov">
+                <thead>
+                    <tr>
+                        <th>Walk</th>
+                        <th class="num">Nearby ≤10mi</th>
+                        <th class="num">Cafés</th>
+                        <th class="num">Pubs</th>
+                        <th>Closest place</th>
+                        <th class="num">Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="">
+                        <td>Heybridge Basin</td>
+                        <td class="num" data-sort="23">23</td>
+                        <td class="num">9</td>
+                        <td class="num">13</td>
+                        <td>The Jolly Sailor</td>
+                        <td class="num" data-sort="0.113">0.11 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Chigborough Lakes Nature Reserve</td>
+                        <td class="num" data-sort="23">23</td>
+                        <td class="num">9</td>
+                        <td class="num">13</td>
+                        <td>The Farm Cafe by Black Pig</td>
+                        <td class="num" data-sort="0.210">0.21 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Danbury Common</td>
+                        <td class="num" data-sort="21">21</td>
+                        <td class="num">6</td>
+                        <td class="num">15</td>
+                        <td>The Cricketers Arms</td>
+                        <td class="num" data-sort="0.308">0.31 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Maldon Promenade</td>
+                        <td class="num" data-sort="23">23</td>
+                        <td class="num">9</td>
+                        <td class="num">13</td>
+                        <td>The Queen's Head, Maldon</td>
+                        <td class="num" data-sort="0.365">0.37 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Hylands Park</td>
+                        <td class="num" data-sort="13">13</td>
+                        <td class="num">2</td>
+                        <td class="num">10</td>
+                        <td>The Deli Hylands</td>
+                        <td class="num" data-sort="0.377">0.38 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Danbury Ridge Nature Reserves</td>
+                        <td class="num" data-sort="28">28</td>
+                        <td class="num">9</td>
+                        <td class="num">18</td>
+                        <td>Tea on the Green</td>
+                        <td class="num" data-sort="0.391">0.39 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Great Notley Country Park</td>
+                        <td class="num" data-sort="12">12</td>
+                        <td class="num">2</td>
+                        <td class="num">9</td>
+                        <td>Prince Louis</td>
+                        <td class="num" data-sort="0.515">0.52 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Tiptree Heath Nature Reserve</td>
+                        <td class="num" data-sort="26">26</td>
+                        <td class="num">10</td>
+                        <td class="num">15</td>
+                        <td>The Exchange</td>
+                        <td class="num" data-sort="0.589">0.59 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Danbury Country Park</td>
+                        <td class="num" data-sort="20">20</td>
+                        <td class="num">6</td>
+                        <td class="num">14</td>
+                        <td>The Cricketers Arms</td>
+                        <td class="num" data-sort="0.645">0.64 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>West Mersea</td>
+                        <td class="num" data-sort="14">14</td>
+                        <td class="num">8</td>
+                        <td class="num">5</td>
+                        <td>The White Hart Inn</td>
+                        <td class="num" data-sort="0.757">0.76 mi</td>
+                    </tr>
+                    <tr class="thin">
+                        <td>Hadleigh Country Park</td>
+                        <td class="num" data-sort="3">3</td>
+                        <td class="num">0</td>
+                        <td class="num">3</td>
+                        <td>The Woodmans Arms</td>
+                        <td class="num" data-sort="1.233">1.23 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>High Woods Country Park</td>
+                        <td class="num" data-sort="16">16</td>
+                        <td class="num">7</td>
+                        <td class="num">6</td>
+                        <td>The Passage House</td>
+                        <td class="num" data-sort="1.326">1.33 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Crowsheath Wood Nature Reserve</td>
+                        <td class="num" data-sort="13">13</td>
+                        <td class="num">2</td>
+                        <td class="num">10</td>
+                        <td>The Bakers Arms</td>
+                        <td class="num" data-sort="2.460">2.46 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Wrabness Nature Reserve</td>
+                        <td class="num" data-sort="5">5</td>
+                        <td class="num">2</td>
+                        <td class="num">1</td>
+                        <td>Tea At The Quay</td>
+                        <td class="num" data-sort="3.108">3.11 mi</td>
+                    </tr>
+                    <tr class="thin">
+                        <td>Epping Forest</td>
+                        <td class="num" data-sort="2">2</td>
+                        <td class="num">0</td>
+                        <td class="num">1</td>
+                        <td>The Royal Forest</td>
+                        <td class="num" data-sort="3.182">3.18 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Dedham Vale</td>
+                        <td class="num" data-sort="6">6</td>
+                        <td class="num">3</td>
+                        <td class="num">1</td>
+                        <td>Lucca Enoteca</td>
+                        <td class="num" data-sort="3.185">3.18 mi</td>
+                    </tr>
+                    <tr class="thin">
+                        <td>Hatfield Forest</td>
+                        <td class="num" data-sort="3">3</td>
+                        <td class="num">1</td>
+                        <td class="num">2</td>
+                        <td>The Toaster</td>
+                        <td class="num" data-sort="3.653">3.65 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Langdon Hills Country Park - Westley Heights</td>
+                        <td class="num" data-sort="7">7</td>
+                        <td class="num">0</td>
+                        <td class="num">7</td>
+                        <td>The Shepherd &amp; Dog</td>
+                        <td class="num" data-sort="4.001">4.00 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Langdon Hills Country Park - One Tree Hill</td>
+                        <td class="num" data-sort="6">6</td>
+                        <td class="num">0</td>
+                        <td class="num">6</td>
+                        <td>The Shepherd &amp; Dog</td>
+                        <td class="num" data-sort="4.015">4.01 mi</td>
+                    </tr>
+                    <tr class="">
+                        <td>Langdon Nature Discovery Park</td>
+                        <td class="num" data-sort="8">8</td>
+                        <td class="num">0</td>
+                        <td class="num">7</td>
+                        <td>The Shepherd &amp; Dog</td>
+                        <td class="num" data-sort="4.450">4.45 mi</td>
+                    </tr>
+                    <tr class="thin">
+                        <td>Thameside Nature Discovery Park</td>
+                        <td class="num" data-sort="3">3</td>
+                        <td class="num">0</td>
+                        <td class="num">3</td>
+                        <td>The Lobster Smack</td>
+                        <td class="num" data-sort="4.805">4.81 mi</td>
+                    </tr>
+                    <tr class="thin">
+                        <td>Hainault Forest Country Park</td>
+                        <td class="num" data-sort="3">3</td>
+                        <td class="num">0</td>
+                        <td class="num">1</td>
+                        <td>The Royal Forest</td>
+                        <td class="num" data-sort="5.096">5.10 mi</td>
+                    </tr>
+                    <tr class="thin">
+                        <td>Thames Chase Forest Centre</td>
+                        <td class="num" data-sort="3">3</td>
+                        <td class="num">0</td>
+                        <td class="num">2</td>
+                        <td>The Shepherd &amp; Dog</td>
+                        <td class="num" data-sort="9.013">9.01 mi</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="legend">Highlighted rows have 3 or fewer nearby places — the walks most worth adding a café or pub to. Click a column heading to sort.</p>
+        </div>
+
+        <div class="panels" style="margin-top:2rem;">
+            
+            <div class="panel">
+                <h2>Sponsors <span class="count-badge">6</span></h2>
+                <ul class="plain"><li><span>Tiptree Tea Rooms</span><span class="meta">partner</span></li><li><span>Claire's Cabin, Cafe &amp; Smokehouse</span><span class="meta">partner</span></li><li><span>The Tavern Kelvedon</span><span class="meta">partner</span></li><li><span>The Hare &amp; Hounds Pub &amp; Restaurant</span><span class="meta">partner</span></li><li><span>The Sun Inn</span><span class="meta">partner</span></li><li><span>The Red Dog</span><span class="meta">partner</span></li></ul>
+            </div>
+            
+            <div class="panel">
+                <h2>Dogs of Essex Picks <span class="count-badge">1</span></h2>
+                <ul class="plain"><li><span>The Farm Cafe by Black Pig</span><span class="meta">Café</span></li></ul>
+            </div>
+            
+            <div class="panel">
+                <h2>Need a re-check <span class="count-badge">0</span></h2>
+                <p class="muted">None.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Click-to-sort for the coverage table.
+        (function () {
+            const table = document.getElementById('cov');
+            if (!table) return;
+            const tbody = table.tBodies[0];
+            Array.from(table.tHead.rows[0].cells).forEach((th, i) => {
+                let asc = true;
+                th.addEventListener('click', () => {
+                    const rows = Array.from(tbody.rows);
+                    const val = (r) => {
+                        const cell = r.cells[i];
+                        const s = cell.dataset.sort != null ? cell.dataset.sort : cell.textContent;
+                        const n = parseFloat(s);
+                        return isNaN(n) ? s.toLowerCase() : n;
+                    };
+                    rows.sort((a, b) => { const x = val(a), y = val(b); return (x < y ? -1 : x > y ? 1 : 0) * (asc ? 1 : -1); });
+                    asc = !asc;
+                    rows.forEach((r) => tbody.appendChild(r));
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

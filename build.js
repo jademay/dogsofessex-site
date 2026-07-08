@@ -2314,6 +2314,202 @@ function readJSON(file) {
     return JSON.parse(fs.readFileSync(path.join(DATA, file), 'utf8'));
 }
 
+// Private stats dashboard at /admin/ — unlisted (not linked, not in the
+// sitemap) and noindex. Regenerated every build from the same data the site
+// uses, so the numbers always match what's live. Everything here is derived
+// from already-public data, so there is nothing secret to protect.
+function adminPage(walks, places) {
+    const pages = walks.filter((w) => w.hasPage && w.lat != null && w.lng != null);
+    const dfPlaces = places.filter((p) => p.dogFriendly !== false && p.lat != null);
+    const onWalks = dfPlaces.filter((p) => p.showOnWalkPages !== false);
+
+    // Freshness: places not checked in the last ~6 months.
+    const now = new Date();
+    const STALE_DAYS = 183;
+    const ageDays = (iso) => {
+        const t = Date.parse(iso || '');
+        return isNaN(t) ? Infinity : Math.floor((now - t) / 86400000);
+    };
+    const stale = dfPlaces.filter((p) => ageDays(p.lastChecked) > STALE_DAYS)
+        .sort((a, b) => ageDays(b.lastChecked) - ageDays(a.lastChecked));
+
+    // Tallies.
+    const tally = (arr, keyFn) => {
+        const m = {};
+        arr.forEach((x) => { const k = keyFn(x); m[k] = (m[k] || 0) + 1; });
+        return Object.entries(m).sort((a, b) => b[1] - a[1]);
+    };
+    const byType = tally(places, (p) => p.type);
+    const byTier = tally(places, (p) => effectiveTier(p));
+    const byCat = tally(places, (p) => { const c = placeCategoryOf(p); return c ? c.title : 'Uncategorised'; });
+    const verified = places.filter((p) => p.verified).length;
+    const sponsors = places.filter(isPaid);
+    const picks = places.filter((p) => p.doePick === true);
+
+    // Per-walk coverage: nearby dog-friendly places within the day radius, with a
+    // café/pub split and the single closest place (any distance).
+    const rows = pages.map((w) => {
+        const ds = onWalks.map((p) => ({ p, mi: miles(w, { lat: p.lat, lng: p.lng }) })).sort((a, b) => a.mi - b.mi);
+        const near = ds.filter((d) => d.mi <= DAY_RADIUS_MI);
+        return {
+            walk: w.name,
+            count: near.length,
+            cafes: near.filter((d) => d.p.type === 'cafe').length,
+            pubs: near.filter((d) => d.p.type === 'pub').length,
+            closest: ds[0] || null
+        };
+    }).sort((a, b) => (a.closest ? a.closest.mi : 1e9) - (b.closest ? b.closest.mi : 1e9));
+
+    const tile = (value, label, sub) => `
+                <div class="tile">
+                    <span class="tile-num">${value}</span>
+                    <span class="tile-label">${esc(label)}</span>${sub ? `<span class="tile-sub">${esc(sub)}</span>` : ''}
+                </div>`;
+    const breakdown = (title, entries, fmt) => `
+            <div class="panel">
+                <h2>${esc(title)}</h2>
+                <table class="mini">${entries.map(([k, v]) => `
+                    <tr><td>${esc(fmt ? fmt(k) : k)}</td><td class="num">${v}</td></tr>`).join('')}
+                </table>
+            </div>`;
+
+    const coverageRows = rows.map((r) => `
+                    <tr class="${r.count <= 3 ? 'thin' : ''}">
+                        <td>${esc(r.walk)}</td>
+                        <td class="num" data-sort="${r.count}">${r.count}</td>
+                        <td class="num">${r.cafes}</td>
+                        <td class="num">${r.pubs}</td>
+                        <td>${r.closest ? esc(r.closest.p.name) : '—'}</td>
+                        <td class="num" data-sort="${r.closest ? r.closest.mi.toFixed(3) : 9999}">${r.closest ? r.closest.mi.toFixed(2) + ' mi' : '—'}</td>
+                    </tr>`).join('');
+
+    const listPanel = (title, items, render) => `
+            <div class="panel">
+                <h2>${esc(title)} <span class="count-badge">${items.length}</span></h2>
+                ${items.length ? `<ul class="plain">${items.map(render).join('')}</ul>` : '<p class="muted">None.</p>'}
+            </div>`;
+
+    const typeLabel = (t) => (TYPE_META[t] ? TYPE_META[t].label : t);
+    const generated = `${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Admin · Dogs of Essex</title>
+    <link rel="icon" href="../favicon.ico" sizes="any">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css?v=${V_CSS}">
+    <style>
+        .admin { max-width: 1080px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+        .admin-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.75rem 1.25rem; margin-bottom: 1.5rem; }
+        .admin-head h1 { font-family: var(--font-serif); font-size: 1.9rem; margin: 0; }
+        .admin-head .muted { color: var(--color-muted); font-size: 0.9rem; }
+        .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem; margin-bottom: 2rem; }
+        .tile { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.15rem; }
+        .tile-num { font-family: var(--font-serif); font-size: 2rem; line-height: 1; color: var(--color-forest); }
+        .tile-label { font-weight: 500; font-size: 0.9rem; }
+        .tile-sub { color: var(--color-muted); font-size: 0.78rem; }
+        .panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; align-items: start; }
+        .panel { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.1rem 1.25rem; }
+        .panel h2 { font-family: var(--font-serif); font-size: 1.15rem; margin: 0 0 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        table.mini, table.cov { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        table.mini td { padding: 0.28rem 0; border-bottom: 1px solid var(--color-border); }
+        .num { text-align: right; font-variant-numeric: tabular-nums; }
+        .cov-wrap { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.1rem 1.25rem; overflow-x: auto; }
+        table.cov th, table.cov td { padding: 0.5rem 0.6rem; border-bottom: 1px solid var(--color-border); text-align: left; white-space: nowrap; }
+        table.cov th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); cursor: pointer; user-select: none; }
+        table.cov th.num, table.cov td.num { text-align: right; }
+        table.cov tr.thin td { background: rgba(200, 90, 60, 0.07); }
+        .count-badge { background: var(--color-forest); color: #fff; font: 500 0.75rem/1 var(--font-sans); padding: 0.2rem 0.5rem; border-radius: 999px; }
+        ul.plain { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.9rem; }
+        ul.plain li { display: flex; justify-content: space-between; gap: 0.75rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.35rem; }
+        ul.plain .meta { color: var(--color-muted); font-size: 0.82rem; white-space: nowrap; }
+        .muted { color: var(--color-muted); }
+        .legend { font-size: 0.8rem; color: var(--color-muted); margin: 0.5rem 0 0; }
+        h2.section { font-family: var(--font-serif); font-size: 1.3rem; margin: 2rem 0 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="admin">
+        <div class="admin-head">
+            <h1>🐾 Dogs of Essex — Admin</h1>
+            <span class="muted">Private dashboard · generated ${generated} · reflects the last build/push</span>
+        </div>
+
+        <div class="tiles">
+            ${tile(pages.length, 'Walk pages', `${walks.length} in data`)}
+            ${tile(places.length, 'Places', `${onWalks.length} shown on walks`)}
+            ${tile(verified, 'Verified', `${places.length - verified} unverified`)}
+            ${tile(sponsors.length, 'Sponsors', 'paid tiers')}
+            ${tile(picks.length, 'Dogs of Essex Picks', 'editorial')}
+            ${tile(stale.length, 'Need a re-check', 'not checked in 6+ months')}
+        </div>
+
+        <div class="panels">
+            ${breakdown('Places by type', byType, typeLabel)}
+            ${breakdown('Places by category', byCat)}
+            ${breakdown('Places by tier', byTier, (t) => t.charAt(0).toUpperCase() + t.slice(1))}
+        </div>
+
+        <h2 class="section">Coverage — places near each walk</h2>
+        <div class="cov-wrap">
+            <table class="cov" id="cov">
+                <thead>
+                    <tr>
+                        <th>Walk</th>
+                        <th class="num">Nearby ≤${DAY_RADIUS_MI}mi</th>
+                        <th class="num">Cafés</th>
+                        <th class="num">Pubs</th>
+                        <th>Closest place</th>
+                        <th class="num">Distance</th>
+                    </tr>
+                </thead>
+                <tbody>${coverageRows}
+                </tbody>
+            </table>
+            <p class="legend">Highlighted rows have 3 or fewer nearby places — the walks most worth adding a café or pub to. Click a column heading to sort.</p>
+        </div>
+
+        <div class="panels" style="margin-top:2rem;">
+            ${listPanel('Sponsors', sponsors, (p) => `<li><span>${esc(p.name)}</span><span class="meta">${esc(effectiveTier(p))}</span></li>`)}
+            ${listPanel('Dogs of Essex Picks', picks, (p) => `<li><span>${esc(p.name)}</span><span class="meta">${esc(typeLabel(p.type))}</span></li>`)}
+            ${listPanel('Need a re-check', stale, (p) => `<li><span>${esc(p.name)}</span><span class="meta">${p.lastChecked ? formatDate(p.lastChecked) : 'never'}</span></li>`)}
+        </div>
+    </div>
+
+    <script>
+        // Click-to-sort for the coverage table.
+        (function () {
+            const table = document.getElementById('cov');
+            if (!table) return;
+            const tbody = table.tBodies[0];
+            Array.from(table.tHead.rows[0].cells).forEach((th, i) => {
+                let asc = true;
+                th.addEventListener('click', () => {
+                    const rows = Array.from(tbody.rows);
+                    const val = (r) => {
+                        const cell = r.cells[i];
+                        const s = cell.dataset.sort != null ? cell.dataset.sort : cell.textContent;
+                        const n = parseFloat(s);
+                        return isNaN(n) ? s.toLowerCase() : n;
+                    };
+                    rows.sort((a, b) => { const x = val(a), y = val(b); return (x < y ? -1 : x > y ? 1 : 0) * (asc ? 1 : -1); });
+                    asc = !asc;
+                    rows.forEach((r) => tbody.appendChild(r));
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
+`;
+}
+
 function build() {
     const walks = readJSON('walks.json');
     const places = readJSON('places.json');
@@ -2416,9 +2612,15 @@ function build() {
     fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
     console.log(`  ✓ sitemap.xml (${urls.length} urls)`);
 
-    const robots = `User-agent: *\nAllow: /\n\nSitemap: ${BASE_URL}/sitemap.xml\n`;
+    const robots = `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${BASE_URL}/sitemap.xml\n`;
     fs.writeFileSync(path.join(ROOT, 'robots.txt'), robots);
     console.log('  ✓ robots.txt');
+
+    // Private stats dashboard — unlisted, noindex, never in the sitemap.
+    const adminDir = path.join(ROOT, 'admin');
+    if (!fs.existsSync(adminDir)) fs.mkdirSync(adminDir, { recursive: true });
+    fs.writeFileSync(path.join(adminDir, 'index.html'), adminPage(walks, places));
+    console.log('  ✓ admin/index.html (private, noindex)');
 
     console.log(`\nBuilt ${pages.length} walk page(s) + walks index + ${BEST_FOR.length} Best For pages + Places hub/${PLACE_CATEGORIES.length} categories/${venueCount} venues from ${walks.length} walks, ${places.length} places, ${tips.length} tips.`);
 }
