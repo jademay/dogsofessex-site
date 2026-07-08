@@ -1,7 +1,7 @@
 [
   {
     "id": "tiptree-tea-rooms",
-    "doePick": true,
+    "doePick": false,
     "name": "Tiptree Tea Rooms",
     "type": "cafe",
     "lat": 51.80668208,
