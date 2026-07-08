@@ -2361,6 +2361,7 @@ function adminPage(walks, places) {
             count: near.length,
             cafes: near.filter((d) => d.p.type === 'cafe').length,
             pubs: near.filter((d) => d.p.type === 'pub').length,
+            restaurants: near.filter((d) => d.p.type === 'restaurant').length,
             closest: ds[0] || null
         };
     }).sort((a, b) => (a.closest ? a.closest.mi : 1e9) - (b.closest ? b.closest.mi : 1e9));
@@ -2384,6 +2385,7 @@ function adminPage(walks, places) {
                         <td class="num" data-sort="${r.count}">${r.count}</td>
                         <td class="num">${r.cafes}</td>
                         <td class="num">${r.pubs}</td>
+                        <td class="num">${r.restaurants}</td>
                         <td>${r.closest ? esc(r.closest.p.name) : '—'}</td>
                         <td class="num" data-sort="${r.closest ? r.closest.mi.toFixed(3) : 9999}">${r.closest ? r.closest.mi.toFixed(2) + ' mi' : '—'}</td>
                     </tr>`).join('');
@@ -2485,6 +2487,7 @@ function adminPage(walks, places) {
                         <th class="num">Nearby ≤${DAY_RADIUS_MI}mi</th>
                         <th class="num">Cafés</th>
                         <th class="num">Pubs</th>
+                        <th class="num">Restaurants</th>
                         <th>Closest place</th>
                         <th class="num">Distance</th>
                     </tr>
