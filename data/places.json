@@ -1516,5 +1516,40 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-passage-house-colchester",
+    "name": "The Passage House",
+    "type": "cafe",
+    "lat": 51.88952919,
+    "lng": 0.8971826172,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "They are dog-friendly.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-07-08",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A hidden gem in Colchester serving speciality coffee, authentic Turkish pastries, homemade cakes and traditional Turkish breakfasts.",
+    "website": "https://www.thepassagehouse.com/",
+    "mapsLink": "https://maps.app.goo.gl/cYUb5iq3ZeJZ8SCP9",
+    "phone": "",
+    "email": "",
+    "socials": {
+      "instagram": "https://www.instagram.com/the_passage_house/",
+      "facebook": "https://www.facebook.com/thepassagehouse",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
