@@ -1,6 +1,7 @@
 [
   {
     "id": "tiptree-tea-rooms",
+    "doePick": true,
     "name": "Tiptree Tea Rooms",
     "type": "cafe",
     "lat": 51.80668208,
@@ -298,6 +299,7 @@
   },
   {
     "id": "the-farm-cafe-by-black-pig-maldon",
+    "doePick": true,
     "name": "The Farm Cafe by Black Pig",
     "type": "cafe",
     "lat": 51.74227113,
@@ -1444,6 +1446,40 @@
       "tiktok": null,
       "youtube": null,
       "twitter": "https://x.com/vintage_inns"
+    }
+  },
+  {
+    "id": "prince-louis-great-notley",
+    "name": "Prince Louis",
+    "type": "pub",
+    "lat": 51.85752979,
+    "lng": 0.5243654343,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed anywhere in the bar and half of the restaurant is available for doggy dining too. There's a big garden available too.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-07-07",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Contemporary village pub overlooking Notley Green, serving rotisserie chicken, cocktails and local beers.",
+    "website": "https://www.mcmullens.co.uk/local-pub/prince-louis/",
+    "mapsLink": "https://maps.app.goo.gl/1d4DCTAtQi3UGAvc7",
+    "phone": "01376 328777",
+    "email": "princelouis.greatnotley@mcmullens.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/princelouis.greatnotley/",
+      "facebook": "https://www.facebook.com/PrinceLouisGreatNotley/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
     }
   }
 ]

@@ -49,7 +49,25 @@ Re-run after editing any file in `data/`. The build is deterministic.
 
 ## Adding a place / tip
 Add an object to `data/places.json` or `data/tips.json` and rebuild — it appears
-on every nearby walk page automatically.
+on every nearby walk page automatically, gets its own detail page, and is placed
+in the ranked list by the blended score below.
+
+### Places: promotion vs. quality (kept deliberately separate)
+Every place gets the **same card** — photo, description, dog badges, distance,
+detail page. Tiers only change ranking weight and a tiny label:
+
+| Field | Values | Effect |
+|-------|--------|--------|
+| `partnerTier` | `free` · `sponsored` · `partner` (internal `bronze`/`silver`/`gold` collapse to a paid slot) | Any paid tier shows a small **"Sponsored"** label and gets a small ranking boost. `featuredUntil` (ISO date) auto-expires a paid slot back to free. |
+| `editorScore` | `excellent` · `very-good` · `good` · `standard` (default) | The recommendation signal that feeds ranking. **Fill this in per place** — until then every place counts as `standard`. |
+| `doePick` | `true` / `false` | Shows the earned **★ Dogs of Essex Pick** badge. Purely editorial — Michelin-star logic, it has **no** effect on ranking. Never sell it. |
+
+**Ranking** (in `build.js` `rankScore` / `script.js` `placeScore`, kept in sync):
+`distance (10 pts/mile within a 10-mile cap — dominant) + editorScore
+(excellent 12 · very-good 8 · good 4 · standard 0) + sponsor boost (+5, any paid
+tier)`. Sorted high→low. The +5 boost is worth ~½ mile, so a sponsor can nudge
+up a place or two but can never leapfrog somewhere significantly closer and
+better rated. Re-ranks client-side once a visitor gives a location.
 
 ## Photography
 Image areas currently use styled placeholders labelled with what belongs there

@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=5816e6b2">
+    <link rel="stylesheet" href="../styles.css?v=ff1a4bad">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script>window.WALK_ID = "langdon-nature-discovery-park-basildon";</script>
 </head>
@@ -353,65 +353,120 @@
                     <div class="day-sort-row">
                         <label class="day-sort-label" for="day-sort">Sort by</label>
                         <select class="places-sort day-sort" id="day-sort" aria-label="Sort nearby places">
-                            <option value="distance">Distance</option>
                             <option value="recommended">Recommended</option>
-                            <option value="rating">Rating</option>
+                            <option value="distance">Distance</option>
                             <option value="az">A–Z</option>
                         </select>
                     </div>
                     <p class="day-count places-count" aria-live="polite"></p>
-                        
-                    <div class="day-group" data-group="featured" hidden>
-                        <h3 class="day-group-head">Featured</h3>
-                        <div class="day-list day-grid">
+                        <div class="day-group" data-group="all">
+                            <div class="day-list places-list">
+                                <article class="place-card day-card" data-place-type="pub" data-lat="51.60356691" data-lng="0.4754051531" data-dist="4.45" data-editor="0" data-boost="0" data-score="55.50" data-order="0" data-added="2026-06-26" data-name="the shepherd &amp; dog" data-access="inside outside">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Shepherd &amp; Dog</h3>
+                                        <span class="pc-dist place-dist">4.5 mi • 13 mins</span>
+                                        <p class="pc-desc">Award-winning family-run country pub serving homemade food, with a beautiful beer garden and over 300 years of history.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Dogs inside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/the-shepherd-and-dog-crays-hill/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://theshepherd.pub/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/ProFvpLSDMyoxSMx8" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="place-card day-card" data-place-type="pub" data-lat="51.66460805" data-lng="0.4454134674" data-dist="7.31" data-editor="0" data-boost="0" data-score="26.95" data-order="1" data-added="2026-06-25" data-name="the hoop" data-access="inside outside">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Hoop</h3>
+                                        <span class="pc-dist place-dist">7.3 mi • 21 mins</span>
+                                        <p class="pc-desc">Award-winning gastro pub with a large enclosed beer garden, real ales and a welcoming traditional atmosphere.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Dogs inside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/the-hoop-stock/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://www.thehoop.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/mfUdNiCBgzjr6gYL7" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="place-card day-card" data-place-type="pub" data-lat="51.66517201" data-lng="0.4480242808" data-dist="7.38" data-editor="0" data-boost="0" data-score="26.23" data-order="2" data-added="2026-06-24" data-name="the bakers arms" data-access="outside">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Bakers Arms</h3>
+                                        <span class="pc-dist place-dist">7.4 mi • 21 mins</span>
+                                        <p class="pc-desc">A welcoming country pub with great food, outdoor seating and a dog-friendly atmosphere year-round.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/the-bakers-arms-stock/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://www.bakersarms.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/PMB3o6AEKm6cbrhi7" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="place-card day-card" data-place-type="pub" data-lat="51.51124901" data-lng="0.5530137556" data-dist="7.75" data-editor="0" data-boost="0" data-score="22.53" data-order="3" data-added="2026-06-24" data-name="the lobster smack" data-access="outside">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Lobster Smack</h3>
+                                        <span class="pc-dist place-dist">7.7 mi • 22 mins</span>
+                                        <p class="pc-desc">A characterful waterside pub with estuary views, outdoor seating and a great spot to relax after a walk.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/the-lobster-smack-canvey-island/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://www.lobstersmackcanveyisland.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/P14aLZpmH8nVBrdu7" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="place-card day-card" data-place-type="pub" data-lat="51.68556217" data-lng="0.3692991685" data-dist="8.48" data-editor="0" data-boost="0" data-score="15.25" data-order="4" data-added="2026-06-26" data-name="the cricketers mill green" data-access="inside outside">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Cricketers Mill Green</h3>
+                                        <span class="pc-dist place-dist">8.5 mi • 24 mins</span>
+                                        <p class="pc-desc">A relaxed countryside pub near Ingatestone, serving freshly prepared food, seasonal specials and pub favourites.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Dogs inside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/the-cricketers-mill-green-ingatestone/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://thecricketersmillgreen.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/X5RjVAzfiqzMStgD6" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="place-card day-card" data-place-type="pub" data-lat="51.68438316" data-lng="0.4341096752" data-dist="8.51" data-editor="0" data-boost="0" data-score="14.94" data-order="5" data-added="2026-06-24" data-name="white hart inn" data-access="inside outside dog-menu">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> White Hart Inn</h3>
+                                        <span class="pc-dist place-dist">8.5 mi • 25 mins</span>
+                                        <p class="pc-desc">A welcoming village pub serving freshly prepared food, seasonal specials and renowned Sunday roasts.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Dogs inside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z" /></svg> Dog menu</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/white-hart-inn-ingatestone/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://www.whitehartinnessex.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/2kK7zUZf58aFzDCW8" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="place-card day-card" data-place-type="pub" data-lat="51.56976195" data-lng="0.5953293124" data-dist="8.66" data-editor="0" data-boost="0" data-score="13.35" data-order="6" data-added="2026-06-24" data-name="the woodmans arms" data-access="outside dog-menu">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Woodmans Arms</h3>
+                                        <span class="pc-dist place-dist">8.7 mi • 25 mins</span>
+                                        <p class="pc-desc">A welcoming dog-friendly pub serving classic favourites, fresh pizzas and a special Woofmans menu just for four-legged visitors.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z" /></svg> Dog menu</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/the-woodmans-arms-benfleet/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://woodmans-arms.co.uk/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/F9vm6n9LampCKFum8" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                                <article class="place-card day-card" data-place-type="restaurant" data-lat="51.69309037" data-lng="0.3187360942" data-dist="9.49" data-editor="0" data-boost="0" data-score="5.07" data-order="7" data-added="2026-06-24" data-name="the leather bottle" data-access="inside outside">
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> The Leather Bottle</h3>
+                                        <span class="pc-dist place-dist">9.5 mi • 27 mins</span>
+                                        <p class="pc-desc">A welcoming restaurant and bar in historic Blackmore, serving locally sourced British dishes with a modern twist.</p>
+                                <div class="pc-tags"><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Dogs inside</span><span class="access-chip"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></svg> Dogs outside</span></div>
+                                        <div class="pc-actions">
+                                            <a class="pc-cta" href="/places/eat-drink/the-leather-bottle-blackmore/index.html">View details →</a>
+                                            <a class="pc-cta" href="https://www.leatherbottle.pub/" target="_blank" rel="noopener">Visit website ↗</a>
+                                            <a class="pc-map" href="https://maps.app.goo.gl/jMnqU37fjfNfzt4CA" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Go to map</a>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="day-group" data-group="everyone">
-                        <h3 class="day-group-head">Everyone else</h3>
-                        <div class="day-list free-pills">
-                            <a class="free-pill" data-place-type="pub" data-dist="4.45" data-rating="0" data-name="the shepherd &amp; dog" data-order="0" data-access="inside outside" href="https://maps.app.goo.gl/ProFvpLSDMyoxSMx8" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Shepherd &amp; Dog</span>
-                                <span class="fp-dist">4.5 mi • 13 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" data-place-type="pub" data-dist="7.31" data-rating="0" data-name="the hoop" data-order="1" data-access="inside outside" href="https://maps.app.goo.gl/mfUdNiCBgzjr6gYL7" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Hoop</span>
-                                <span class="fp-dist">7.3 mi • 21 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" data-place-type="pub" data-dist="7.38" data-rating="0" data-name="the bakers arms" data-order="2" data-access="outside" href="https://maps.app.goo.gl/PMB3o6AEKm6cbrhi7" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Bakers Arms</span>
-                                <span class="fp-dist">7.4 mi • 21 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" data-place-type="pub" data-dist="7.75" data-rating="0" data-name="the lobster smack" data-order="3" data-access="outside" href="https://maps.app.goo.gl/P14aLZpmH8nVBrdu7" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Lobster Smack</span>
-                                <span class="fp-dist">7.7 mi • 22 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" data-place-type="pub" data-dist="8.48" data-rating="0" data-name="the cricketers mill green" data-order="4" data-access="inside outside" href="https://maps.app.goo.gl/X5RjVAzfiqzMStgD6" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Cricketers Mill Green</span>
-                                <span class="fp-dist">8.5 mi • 24 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" data-place-type="pub" data-dist="8.51" data-rating="0" data-name="white hart inn" data-order="5" data-access="inside outside dog-menu" href="https://maps.app.goo.gl/2kK7zUZf58aFzDCW8" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> White Hart Inn</span>
-                                <span class="fp-dist">8.5 mi • 25 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" data-place-type="pub" data-dist="8.66" data-rating="0" data-name="the woodmans arms" data-order="6" data-access="outside dog-menu" href="https://maps.app.goo.gl/F9vm6n9LampCKFum8" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Woodmans Arms</span>
-                                <span class="fp-dist">8.7 mi • 25 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                            <a class="free-pill" data-place-type="restaurant" data-dist="9.49" data-rating="0" data-name="the leather bottle" data-order="7" data-access="inside outside" href="https://maps.app.goo.gl/jMnqU37fjfNfzt4CA" target="_blank" rel="noopener">
-                                <span class="fp-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> The Leather Bottle</span>
-                                <span class="fp-dist">9.5 mi • 27 mins</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>
-                        </div>
-                    </div>
                     </div>
                     </div>
                 </div>
@@ -581,7 +636,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=321e16bc"></script>
+    <script src="../script.js?v=3a33edf1"></script>
     <script src="../walk.js?v=23e5a3bf"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>

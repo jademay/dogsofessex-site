@@ -233,15 +233,22 @@ function milesRange(walk) {
     return { min: f, max: f };
 }
 
-// Place tiers: `partner` (paid, richer tile) or `free` (basic). The big
-// editorial card is the walk's `dogsOfEssexPick`, not a place tier.
+// Promotion is separate from quality. `partnerTier` (free | sponsored |
+// partner, plus internal bronze/silver/gold that all read as a paid slot)
+// only ever buys a small ranking boost and a tiny "Sponsored" label - every
+// tier gets the exact same card. `doePick` is the editorial "Dogs of Essex
+// Pick" badge: earned, never bought, and deliberately kept OUT of the ranking
+// (Michelin-star logic - it changes perception, not the running order).
+// `editorScore` (excellent | very-good | good | standard) is the recommendation
+// signal that DOES feed the ranking.
 const EXAMPLE_PLACEHOLDER = 'https://example.com';
 
 // Which contact details each tier is allowed to show. Tune freely.
-// `pick` is used for the walk's Dogs of Essex Pick card.
+// `pick` is the fuller treatment used on venue detail pages.
 const TIER_CONTACT = {
     pick: { phone: true, email: true, socials: true },
     partner: { phone: false, email: false, socials: true },
+    sponsored: { phone: false, email: false, socials: true },
     free: { phone: false, email: false, socials: false }
 };
 const SOCIAL_LABELS = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube', twitter: 'X' };
@@ -295,17 +302,79 @@ const PLACE_CATEGORIES = [
         cta: 'Coming soon' }
 ];
 
-// Resolve a place's tier to `partner` or `free`. Legacy values are mapped,
-// and a partner whose featuredUntil has passed drops back to free.
+// Resolve a place's tier to `free`, `sponsored` or `partner`. Legacy values
+// are mapped, internal levels collapse to a paid slot, and any paid tier whose
+// featuredUntil has passed drops back to free.
 function effectiveTier(p) {
     let tier = p.partnerTier || 'free';
-    if (tier === 'premium' || tier === 'featured') tier = 'partner';
+    if (tier === 'premium' || tier === 'featured') tier = 'sponsored';
+    if (tier === 'bronze' || tier === 'silver' || tier === 'gold') tier = 'partner';
     if (tier === 'none') tier = 'free';
-    if (tier === 'partner' && p.featuredUntil) {
+    if (tier !== 'free' && p.featuredUntil) {
         const until = Date.parse(p.featuredUntil);
         if (!isNaN(until) && until < Date.now()) tier = 'free';
     }
-    return tier;
+    return (tier === 'sponsored' || tier === 'partner') ? tier : 'free';
+}
+// Any paid tier. All paid tiers look identical to the visitor ("Sponsored").
+const isPaid = (p) => effectiveTier(p) !== 'free';
+
+// --- Ranking -------------------------------------------------------------
+// Final score = distance (dominant) + editor recommendation + a small, bounded
+// sponsor boost. Distance is 10 pts/mile within the cap, so the +5 sponsor
+// boost is worth ~half a mile: enough to nudge a sponsor up a place or two, but
+// it can NEVER leapfrog somewhere significantly closer and better recommended,
+// and no boost can lift an awful/distant place near the top. `doePick` is
+// intentionally absent - it is a badge, not a lever.
+const RANK_DIST_CAP_MI = 10;
+const EDITOR_POINTS = { excellent: 12, 'very-good': 8, good: 4, standard: 0 };
+const SPONSOR_BOOST = 5;
+
+function editorKey(p) {
+    const k = String(p.editorScore || 'standard').toLowerCase().replace(/\s+/g, '-');
+    return EDITOR_POINTS[k] != null ? k : 'standard';
+}
+const editorPoints = (p) => EDITOR_POINTS[editorKey(p)];
+
+// mi may be null/undefined (unknown distance) - treated as the cap (0 pts).
+function rankScore(p, mi) {
+    const d = (mi == null || isNaN(mi)) ? RANK_DIST_CAP_MI : mi;
+    const distScore = Math.max(0, 100 - (Math.min(d, RANK_DIST_CAP_MI) / RANK_DIST_CAP_MI) * 100);
+    return distScore + editorPoints(p) + (isPaid(p) ? SPONSOR_BOOST : 0);
+}
+
+// The PLACE_CATEGORIES entry a place belongs to (drives its detail-page URL).
+function placeCategoryOf(p) {
+    return PLACE_CATEGORIES.find((c) => !c.comingSoon && (c.types || []).includes(p.type)) || null;
+}
+// Root-relative URL of a place's detail page, or '' if its type has no category.
+function venueHref(p, prefix) {
+    const c = placeCategoryOf(p);
+    return c ? `${prefix || ''}places/${c.slug}/${p.id}/index.html` : '';
+}
+
+// Tiny corner labels. Every paid tier reads simply "Sponsored" (internal
+// bronze/silver/gold is never surfaced). The Pick is editorial only.
+function tierNoteHTML(p) {
+    return isPaid(p) ? '<span class="tier-note tier-sponsored">Sponsored</span>' : '';
+}
+function pickTagHTML(p) {
+    return p.doePick ? '<span class="tier-note tier-pick">★ Dogs of Essex Pick</span>' : '';
+}
+function cardLabelsHTML(p) {
+    const labels = `${pickTagHTML(p)}${tierNoteHTML(p)}`;
+    return labels ? `\n                                    <div class="card-labels">${labels}</div>` : '';
+}
+// Sort/filter data attributes shared by every place card (client re-ranking
+// recomputes distance + score from data-lat/lng + data-editor + data-boost).
+function rankAttrs(p, opts) {
+    const mi = opts.mi;
+    return ` data-dist="${mi != null && !isNaN(mi) ? mi.toFixed(2) : 9999}"`
+        + ` data-editor="${editorPoints(p)}" data-boost="${isPaid(p) ? SPONSOR_BOOST : 0}"`
+        + ` data-score="${rankScore(p, mi).toFixed(2)}" data-order="${opts.order || 0}"`
+        + ` data-added="${esc(p.added || p.lastChecked || '')}"`
+        + ` data-name="${esc((p.name || '').toLowerCase())}"`
+        + ` data-access="${esc((p.dogAccess || []).join(' '))}"`;
 }
 function placeUrl(p) {
     return (p.website && p.website !== '#' && p.website !== EXAMPLE_PLACEHOLDER) ? p.website : '';
@@ -743,90 +812,55 @@ function whatToExpectInner(walk) {
                     ${nextUpHTML('Make a Day of It')}`;
 }
 
-// The walk's single editorial "Dogs of Essex Pick" - the big card.
-function pickCardHTML(p) {
+// The one and only place card - used identically on walk pages, the places
+// hub and category pages. Tier changes nothing here except the tiny "Sponsored"
+// label (and the editorial Pick badge); everyone gets photo, description, dog
+// badges, distance and the same actions. Callers pass the right detail-page URL
+// and distance label for their context.
+//   opts: { mi, order, cat, detailHref, distText }
+function placeCardHTML(p, opts) {
+    opts = opts || {};
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
-    const href = placeUrl(p);
+    const web = placeUrl(p);
+    const detail = opts.detailHref;
+    const distText = opts.distText != null
+        ? opts.distText
+        : (opts.mi != null && !isNaN(opts.mi) ? `${opts.mi.toFixed(1)} mi • ${driveMins(opts.mi)} mins` : '');
+    const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
     const photo = p.image
-        ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove();this.parentNode.classList.add('noimg')">`
+        ? `\n                                    <div class="place-card-photo photo-ph"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.closest('.place-card-photo').remove()"></div>`
         : '';
+    const actions = [
+        detail ? `<a class="pc-cta" href="${esc(detail)}">View details →</a>` : '',
+        web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : '',
+        `<a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>`
+    ].filter(Boolean).join('\n                                            ');
     return `
-                        <article class="day-card premium">
-                            <div class="premium-badge-bar">
-                                <span class="badge-main">★ Dogs of Essex Pick</span>
-                                <span class="badge-sub">Our recommended stop for this walk</span>
-                            </div>
-                            <div class="premium-main">
-                                <div class="premium-photo photo-ph">${photo}</div>
-                                <div class="premium-content">
-                                    <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
-                                    <h3 class="premium-name">${esc(p.name)}</h3>
-                                    ${distChipsHTML(p)}
-                                    ${p.notes ? `<p class="premium-desc">${esc(p.notes)}</p>` : ''}${accessHTML(p)}
-                                    <div class="pc-actions">
-                                        ${href ? `<a class="btn btn-primary premium-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
-                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>
-                                    </div>${contactHTML(p, 'pick')}${verifyHTML(p)}
-                                </div>
-                            </div>
-                        </article>`;
-}
-
-// Filter/sort data attributes for a "Make a Day of It" venue (same keys the
-// places hub uses, so the walk-page filter JS can reuse the logic).
-function dayCardAttrs(p, order) {
-    return ` data-place-type="${esc(p.type)}" data-dist="${(p._mi != null ? p._mi : 9999).toFixed(2)}"`
-        + ` data-rating="${p.rating || 0}" data-name="${esc((p.name || '').toLowerCase())}"`
-        + ` data-order="${order || 0}" data-access="${esc((p.dogAccess || []).join(' '))}"`;
-}
-
-// A paid partner - compact card: name, distance, one-liner, dog tags, CTA.
-function partnerCardHTML(p, extraClass, order) {
-    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
-    const href = placeUrl(p);
-    return `
-                                <article class="day-card partner-card${extraClass || ''}"${dayCardAttrs(p, order)}>
-                                    <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
-                                    <span class="pc-dist">${distLine(p)}</span>
-                                    ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
-                                    <div class="pc-actions">
-                                        ${href ? `<a class="pc-cta" href="${esc(href)}" target="_blank" rel="noopener">Visit website →</a>` : ''}
-                                        <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>
+                                <article class="place-card day-card" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${rankAttrs(p, opts)}>${cardLabelsHTML(p)}${photo}
+                                    <div class="place-card-body">
+                                        <h3 class="pc-name">${meta.icon} ${esc(p.name)}</h3>
+                                        ${distText ? `<span class="pc-dist place-dist">${distText}</span>` : ''}
+                                        ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
+                                        <div class="pc-actions">
+                                            ${actions}
+                                        </div>
                                     </div>
                                 </article>`;
 }
 
-// A free listing - a compact pill (name + distance + arrow) that opens Google Maps.
-function freePillHTML(p, order) {
-    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
-    return `
-                            <a class="free-pill"${dayCardAttrs(p, order)} href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">
-                                <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
-                                <span class="fp-dist">${distLine(p)}</span>
-                                <span class="fp-arrow" aria-hidden="true">↗</span>
-                            </a>`;
-}
-
 function dayHTML(walk, places) {
     const origin = { lat: walk.lat, lng: walk.lng };
-    const pickId = walk.dogsOfEssexPick;
 
-    const withDist = places
+    const inRange = places
         .filter((p) => p.dogFriendly !== false && p.showOnWalkPages !== false)
-        .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }), _tier: effectiveTier(p) }));
-
-    // Everything within the day radius, nearest first. The walk's pick (if any)
-    // is a partner shown regardless of distance, so it joins the featured group.
-    let inRange = withDist
+        .map((p) => ({ ...p, _mi: miles(origin, { lat: p.lat, lng: p.lng }) }))
         .filter((p) => p._mi <= DAY_RADIUS_MI)
-        .sort((a, b) => a._mi - b._mi);
-    const pick = pickId ? withDist.find((p) => p.id === pickId) : null;
-    if (pick && !inRange.some((p) => p.id === pick.id)) inRange = [pick, ...inRange].sort((a, b) => a._mi - b._mi);
+        // One flat list, best first: distance dominates, editor score and the
+        // small sponsor boost fine-tune. Distance ties break by name.
+        .sort((a, b) => rankScore(b, b._mi) - rankScore(a, a._mi) || a._mi - b._mi
+            || (a.name || '').localeCompare(b.name || ''));
 
     if (!inRange.length) return '';
-
-    const featured = inRange.filter((p) => p._tier === 'partner');
-    const everyone = inRange.filter((p) => p._tier !== 'partner');
 
     // Category pills: "All" plus one per CATEGORIES group present among the
     // nearby venues (data-daytype holds the comma-joined types it matches).
@@ -850,28 +884,26 @@ function dayHTML(walk, places) {
                     <div class="day-sort-row">
                         <label class="day-sort-label" for="day-sort">Sort by</label>
                         <select class="places-sort day-sort" id="day-sort" aria-label="Sort nearby places">
-                            <option value="distance">Distance</option>
                             <option value="recommended">Recommended</option>
-                            <option value="rating">Rating</option>
+                            <option value="distance">Distance</option>
                             <option value="az">A–Z</option>
                         </select>
                     </div>
                     <p class="day-count places-count" aria-live="polite"></p>`;
 
-    const group = (name, heading, items, listClass, render) => `
-                    <div class="day-group" data-group="${name}"${items.length ? '' : ' hidden'}>
-                        <h3 class="day-group-head">${heading}</h3>
-                        <div class="day-list ${listClass}">${items.map((p, i) => render(p, i)).join('')}
-                        </div>
-                    </div>`;
+    const cards = inRange
+        .map((p, i) => placeCardHTML(p, { mi: p._mi, order: i, detailHref: venueHref(p, '/'), distText: distLine(p) }))
+        .join('');
 
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
                     <h2>${icon('paw-print')} Make a Day of It</h2>
                     <p class="section-lead">Already heading to ${who}? Filter and sort the dog-friendly places other local owners pair with this walk.</p>
                     <div class="day-explorer">${filterBar}
-                        ${group('featured', 'Featured', featured, 'day-grid', (p, i) => partnerCardHTML(p, '', i))}
-                        ${group('everyone', 'Everyone else', everyone, 'free-pills', (p, i) => freePillHTML(p, i))}
+                        <div class="day-group" data-group="all">
+                            <div class="day-list places-list">${cards}
+                            </div>
+                        </div>
                     </div>`;
 }
 
@@ -1599,51 +1631,21 @@ function accessBadgesHTML(p) {
     return `<div class="premium-access">${chips}</div>`;
 }
 
-// A partner venue - the same compact partner card used on walk pages, plus a
-// "View details" link to its venue page. The badge bar / large photo (the
-// "Dogs of Essex Pick" look) is intentionally not used here.
-// Sort data used by the places hub: original (recommended) order, distance to
-// nearest walk, Google rating (0 until added to data), added/checked date, name.
-function placeSortAttrs(p, near, opts) {
-    return ` data-order="${opts.order || 0}" data-dist="${near ? near.mi.toFixed(2) : 9999}"`
-        + ` data-rating="${p.rating || 0}" data-added="${esc(p.added || p.lastChecked || '')}"`
-        + ` data-name="${esc((p.name || '').toLowerCase())}"`
-        + ` data-access="${esc((p.dogAccess || []).join(' '))}"`;
-}
-
-function placePartnerCardHTML(p, walks, opts) {
+// A place on the hub / category pages: the same unified card, with distance
+// shown relative to the nearest walk and a link to the place's detail page.
+// opts: { pathPrefix (dir the detail page sits in, relative to this page),
+//         cat, order }.
+function placesCardHTML(p, walks, opts) {
     opts = opts || {};
-    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const near = nearestWalk(p, walks);
-    const web = placeUrl(p);
-    const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
-    return `
-                        <article class="day-card partner-card venue-card" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${placeSortAttrs(p, near, opts)}>
-                            <h4 class="pc-name">${meta.icon} ${esc(p.name)}</h4>
-                            <span class="pc-dist place-dist">${near ? `${near.mi.toFixed(1)} mi from ${esc(near.walk.name)}` : ''}</span>
-                            ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
-                            <div class="pc-actions">
-                                <a class="pc-cta" href="${esc(opts.pathPrefix || '')}${esc(p.id)}/index.html">View details →</a>
-                                ${web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : ''}
-                                <a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>
-                            </div>
-                        </article>`;
-}
-
-// A free venue - a pill linking straight to its own website (or map).
-function placeFreePillHTML(p, walks, opts) {
-    opts = opts || {};
-    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
-    const near = nearestWalk(p, walks);
-    const url = placeUrl(p) || mapsUrl(p);
-    const dist = near ? `${near.mi.toFixed(1)} mi • ${driveMins(near.mi)} mins` : '';
-    const cat = opts.cat ? ` data-cat="${esc(opts.cat)}"` : '';
-    return `
-                            <div class="free-pill" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${placeSortAttrs(p, near, opts)} role="button" tabindex="0">
-                                <span class="fp-name">${meta.icon} ${esc(p.name)}</span>
-                                <span class="fp-dist place-dist">${dist}</span>
-                                <a class="fp-visit" href="${esc(url)}" target="_blank" rel="noopener">Visit website ↗</a>
-                            </div>`;
+    const mi = near ? near.mi : null;
+    return placeCardHTML(p, {
+        mi,
+        order: opts.order || 0,
+        cat: opts.cat,
+        detailHref: `${opts.pathPrefix || ''}${p.id}/index.html`,
+        distText: near ? `${near.mi.toFixed(1)} mi from ${esc(near.walk.name)}` : ''
+    });
 }
 
 function placesIndexPage(places, walks) {
@@ -1672,19 +1674,16 @@ function placesIndexPage(places, walks) {
                             ${accessPills}
                         </div>` : '';
 
-    // "Recommended" default order: reviewed (partner) venues first, then by
-    // distance to the nearest walk. The index becomes data-order for re-sorting.
+    // "Recommended" default order: the blended score (distance to nearest walk
+    // + editor recommendation + small sponsor boost). Re-ranks client-side once
+    // the visitor gives a location. The index becomes data-order.
     const tagged = cats.flatMap((cat) => placesInCategory(cat, places).map((p) => ({ p, cat })));
-    tagged.sort((a, b) => {
-        const ta = effectiveTier(a.p) === 'partner' ? 0 : 1;
-        const tb = effectiveTier(b.p) === 'partner' ? 0 : 1;
-        if (ta !== tb) return ta - tb;
-        const na = nearestWalk(a.p, walks), nb = nearestWalk(b.p, walks);
-        return (na ? na.mi : 1e9) - (nb ? nb.mi : 1e9);
-    });
-    const list = tagged.map(({ p, cat }, i) => effectiveTier(p) === 'partner'
-        ? placePartnerCardHTML(p, walks, { pathPrefix: cat.slug + '/', cat: cat.slug, order: i })
-        : placeFreePillHTML(p, walks, { cat: cat.slug, order: i })).join('');
+    const nearMi = (p) => { const n = nearestWalk(p, walks); return n ? n.mi : null; };
+    tagged.sort((a, b) => rankScore(b.p, nearMi(b.p)) - rankScore(a.p, nearMi(a.p))
+        || (nearMi(a.p) == null ? 1e9 : nearMi(a.p)) - (nearMi(b.p) == null ? 1e9 : nearMi(b.p))
+        || (a.p.name || '').localeCompare(b.p.name || ''));
+    const list = tagged.map(({ p, cat }, i) =>
+        placesCardHTML(p, walks, { pathPrefix: cat.slug + '/', cat: cat.slug, order: i })).join('');
 
     // Coming-soon empty state for categories with no venues yet (shown by the
     // filter JS when that category is selected).
@@ -1762,14 +1761,14 @@ function placesInCategory(cat, places) {
 
 function placesCategoryPage(cat, places, walks) {
     const prefix = '../../';
-    const byNear = (a, b) => {
-        const na = nearestWalk(a, walks), nb = nearestWalk(b, walks);
-        return (na ? na.mi : 1e9) - (nb ? nb.mi : 1e9);
-    };
-    // One list of every venue, sorted by distance. Partner venues get the
-    // bigger badged card; free venues the compact row. Re-sorts client-side
-    // once the visitor enters a location.
-    const inCat = placesInCategory(cat, places).slice().sort(byNear);
+    const nearMi = (p) => { const n = nearestWalk(p, walks); return n ? n.mi : null; };
+    // One list of every venue in blended-recommended order (distance to nearest
+    // walk + editor score + small sponsor boost). Re-ranks client-side once the
+    // visitor enters a location.
+    const inCat = placesInCategory(cat, places).slice().sort((a, b) =>
+        rankScore(b, nearMi(b)) - rankScore(a, nearMi(a))
+        || (nearMi(a) == null ? 1e9 : nearMi(a)) - (nearMi(b) == null ? 1e9 : nearMi(b))
+        || (a.name || '').localeCompare(b.name || ''));
     const noteBlock = cat.note ? `\n                    <p class="local-tip">${icon('triangle-alert')} ${esc(cat.note)}</p>` : '';
 
     const filterBar = cat.filters ? `
@@ -1797,13 +1796,11 @@ function placesCategoryPage(cat, places, walks) {
                 </div>
             </section>`;
     } else {
-        const list = inCat.map((p) => effectiveTier(p) === 'partner'
-            ? placePartnerCardHTML(p, walks)
-            : placeFreePillHTML(p, walks)).join('');
+        const list = inCat.map((p, i) => placesCardHTML(p, walks, { cat: cat.slug, order: i })).join('');
         content = `
             <section class="walk-section section-alt places-section">
                 <div class="container">
-                    <p class="section-lead">Sorted by distance - enter your postcode above to see what's closest to you.</p>
+                    <p class="section-lead">In recommended order - enter your postcode above to re-rank by what's closest to you.</p>
                     <div class="places-list">${list}
                     </div>
                 </div>
@@ -2379,8 +2376,8 @@ function build() {
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
         fs.writeFileSync(path.join(dir, 'index.html'), placesCategoryPage(cat, places, walks));
         console.log(`  ✓ places/${cat.slug}/index.html`);
+        // Tier 1 promise: every dog-friendly place gets its own detail page.
         placesInCategory(cat, places)
-            .filter((p) => effectiveTier(p) === 'partner')
             .forEach((p) => {
                 const vdir = path.join(dir, p.id);
                 if (!fs.existsSync(vdir)) fs.mkdirSync(vdir, { recursive: true });
@@ -2403,7 +2400,6 @@ function build() {
         if (cat.comingSoon) return;
         urls.push({ loc: `places/${cat.slug}/` });
         placesInCategory(cat, places)
-            .filter((p) => effectiveTier(p) === 'partner')
             .forEach((p) => urls.push({ loc: `places/${cat.slug}/${p.id}/` }));
     });
     urls.push({ loc: 'about.html' });

@@ -1,5 +1,19 @@
 // Dogs of Essex — small enhancements
 
+// Blended place ranking, mirrored from build.js so the server order and any
+// client re-rank agree. score = distance (10 pts/mile within a 10-mile cap,
+// dominant) + editor recommendation + small sponsor boost (both baked into
+// data-editor / data-boost). The "Dogs of Essex Pick" badge deliberately has
+// no weight here — it is recognition, not a lever.
+function placeScore(el, mi) {
+    const CAP = 10;
+    const d = (mi == null || isNaN(mi)) ? CAP : mi;
+    const distScore = Math.max(0, 100 - (Math.min(d, CAP) / CAP) * 100);
+    return distScore
+        + (parseFloat(el.dataset.editor) || 0)
+        + (parseFloat(el.dataset.boost) || 0);
+}
+
 // Current year in footer
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -475,6 +489,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         items.forEach((el) => {
             const mi = haversine(point, { lat: parseFloat(el.dataset.lat), lng: parseFloat(el.dataset.lng) });
             el.dataset.dist = mi;
+            el.dataset.score = placeScore(el, mi);
             const d = el.querySelector('.place-dist');
             if (d) d.textContent = mi.toFixed(1) + ' mi away';
         });
@@ -482,10 +497,13 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         parents.forEach((parent) => {
             Array.from(parent.children)
                 .filter((c) => c.dataset && c.dataset.dist != null)
-                .sort((a, b) => parseFloat(a.dataset.dist) - parseFloat(b.dataset.dist))
+                // Recommended order: distance dominates, editor score and the
+                // small sponsor boost fine-tune. Ties break by distance.
+                .sort((a, b) => parseFloat(b.dataset.score) - parseFloat(a.dataset.score)
+                    || parseFloat(a.dataset.dist) - parseFloat(b.dataset.dist))
                 .forEach((c) => parent.appendChild(c));
         });
-        say('Showing places nearest to ' + label + '.');
+        say('Showing places near ' + label + ', in recommended order.');
     }
 
     form.addEventListener('submit', async (e) => {
@@ -561,10 +579,10 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         const s = sortSel ? sortSel.value : 'recommended';
         const arr = cards.slice();
         if (s === 'distance') arr.sort((a, b) => numAttr(a, 'dist') - numAttr(b, 'dist'));
-        else if (s === 'rated') arr.sort((a, b) => numAttr(b, 'rating') - numAttr(a, 'rating') || numAttr(a, 'order') - numAttr(b, 'order'));
         else if (s === 'added') { const t = (c) => c.dataset.added ? Date.parse(c.dataset.added) : 0; arr.sort((a, b) => t(b) - t(a)); }
         else if (s === 'az') arr.sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || ''));
-        else arr.sort((a, b) => numAttr(a, 'order') - numAttr(b, 'order'));
+        // Recommended: the blended score (kept in sync as distance updates).
+        else arr.sort((a, b) => numAttr(b, 'score') - numAttr(a, 'score') || numAttr(a, 'order') - numAttr(b, 'order'));
         if (listEl) arr.forEach((c) => listEl.appendChild(c));
     };
     if (sortSel) sortSel.addEventListener('change', () => {
@@ -811,8 +829,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     window.addEventListener('load', refresh);
 })();
 
-// Walk pages — "Make a Day of It": filter (category + dog access) and sort the
-// nearby places into two groups (Featured partners, Everyone else). No map.
+// Walk pages — "Make a Day of It": filter (category + dog access) and sort one
+// flat, blended-ranked list of nearby places. No map.
 (function () {
     const root = document.getElementById('make-a-day');
     if (!root) return;
@@ -836,12 +854,13 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         return true;
     };
     const sortCards = (list) => {
-        const s = sortSel ? sortSel.value : 'distance';
+        const s = sortSel ? sortSel.value : 'recommended';
         const arr = list.slice();
-        if (s === 'rating') arr.sort((a, b) => num(b, 'rating') - num(a, 'rating') || num(a, 'dist') - num(b, 'dist'));
+        if (s === 'distance') arr.sort((a, b) => num(a, 'dist') - num(b, 'dist'));
         else if (s === 'az') arr.sort((a, b) => (a.dataset.name || '').localeCompare(b.dataset.name || ''));
-        else if (s === 'recommended') arr.sort((a, b) => num(a, 'order') - num(b, 'order'));
-        else arr.sort((a, b) => num(a, 'dist') - num(b, 'dist'));
+        // Recommended: the blended score baked at build time (distances here are
+        // fixed relative to this walk, so no client recompute is needed).
+        else arr.sort((a, b) => num(b, 'score') - num(a, 'score') || num(a, 'dist') - num(b, 'dist'));
         return arr;
     };
     const apply = () => {
