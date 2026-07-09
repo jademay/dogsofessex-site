@@ -14,6 +14,25 @@ function placeScore(el, mi) {
         + (parseFloat(el.dataset.boost) || 0);
 }
 
+// Keep a marker's hover tooltip fully inside the map. Leaflet centres a
+// 'top' tooltip over the pin, so one near the left/right edge overflows the
+// map container (which clips) and its text gets cut off. On open, measure the
+// tooltip against the map box and nudge it horizontally so it stays visible.
+// Shared by every map (walks index, places hub, walk-page car parks).
+function clampMapTooltip(map, tooltip) {
+    if (!map || !tooltip || !tooltip.getElement) return;
+    const el = tooltip.getElement();
+    if (!el) return;
+    el.style.marginLeft = '';               // clear any previous nudge before measuring
+    const box = map.getContainer().getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const pad = 6;
+    let shift = 0;
+    if (r.left < box.left + pad) shift = (box.left + pad) - r.left;
+    else if (r.right > box.right - pad) shift = (box.right - pad) - r.right;
+    if (shift) el.style.marginLeft = Math.round(shift) + 'px';
+}
+
 // Current year in footer
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -274,7 +293,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             // redundant (and lingers after a tap) — suppress it there. Closing
             // it inside tooltipopen happens before paint, so no flash. Desktop
             // hover tooltips are unaffected.
-            m.on('tooltipopen', () => { if (isMobile()) m.closeTooltip(); });
+            m.on('tooltipopen', (e) => { if (isMobile()) { m.closeTooltip(); return; } clampMapTooltip(walksMap, e.tooltip); });
             m.on('mouseover', () => highlightCard(i, true));
             m.on('mouseout', () => highlightCard(i, false));
             // Tapping a marker jumps to its card: swipe the carousel on mobile,
@@ -651,7 +670,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             if (name) m.bindTooltip(name, { direction: 'top', offset: [0, -10], opacity: 1 });
             // On phones the active card sits right below the map, so the name
             // tag is redundant (and lingers after a tap) — suppress it there.
-            m.on('tooltipopen', () => { if (isMobile()) m.closeTooltip(); });
+            m.on('tooltipopen', (e) => { if (isMobile()) { m.closeTooltip(); return; } clampMapTooltip(map, e.tooltip); });
             const entry = { card, marker: m };
             m.on('click', () => select(entry, true));
             entries.push(entry);

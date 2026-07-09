@@ -49,6 +49,9 @@
                 zIndexOffset: cp.recommended ? 1000 : 0
             }).addTo(map);
             m.bindTooltip(cp.name, { direction: 'top', offset: [0, -14], opacity: 1 });
+            // Keep the tooltip inside the map when a marker sits near an edge
+            // (shared helper from script.js, loaded before walk.js).
+            m.on('tooltipopen', (e) => { if (typeof clampMapTooltip === 'function') clampMapTooltip(map, e.tooltip); });
             // Click a marker to open that car park in Google Maps.
             m.on('click', () => openInMaps(cp));
             markers.push(m);
