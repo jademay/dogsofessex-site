@@ -24,13 +24,19 @@ function clampMapTooltip(map, tooltip) {
     const el = tooltip.getElement();
     if (!el) return;
     el.style.marginLeft = '';               // clear any previous nudge before measuring
+    el.style.marginTop = '';
     const box = map.getContainer().getBoundingClientRect();
     const r = el.getBoundingClientRect();
     const pad = 6;
-    let shift = 0;
-    if (r.left < box.left + pad) shift = (box.left + pad) - r.left;
-    else if (r.right > box.right - pad) shift = (box.right - pad) - r.right;
-    if (shift) el.style.marginLeft = Math.round(shift) + 'px';
+    let dx = 0, dy = 0;
+    if (r.left < box.left + pad) dx = (box.left + pad) - r.left;
+    else if (r.right > box.right - pad) dx = (box.right - pad) - r.right;
+    // The tooltip sits above the pin, so the top edge is the usual offender;
+    // cover the bottom too for completeness.
+    if (r.top < box.top + pad) dy = (box.top + pad) - r.top;
+    else if (r.bottom > box.bottom - pad) dy = (box.bottom - pad) - r.bottom;
+    if (dx) el.style.marginLeft = Math.round(dx) + 'px';
+    if (dy) el.style.marginTop = Math.round(dy) + 'px';
 }
 
 // Current year in footer
