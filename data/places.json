@@ -1551,5 +1551,43 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "carpino-lounge-epping",
+    "name": "Carpino Lounge",
+    "type": "cafe",
+    "lat": 51.69904647,
+    "lng": 0.1112183121,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are very welcome at Carpino Lounge. They even have their own mini pup menu.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-07-09",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A welcoming café bar next to Epping Forest serving everything from brunch and coffee to tapas, cocktails and family-friendly meals.",
+    "website": "https://thelounges.co.uk/carpino",
+    "mapsLink": "https://maps.app.goo.gl/Z7uQe39GKhfwfQf18",
+    "phone": "01992 210547",
+    "email": "carpino@thelounges.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/carpinolounge",
+      "facebook": "https://www.facebook.com/carpinolounge/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
