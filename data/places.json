@@ -1738,5 +1738,42 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "hope-coffee-stanford-le-hope",
+    "name": "Hope Coffee",
+    "type": "cafe",
+    "lat": 51.5150554,
+    "lng": 0.4268165989,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "An independent family-run coffee shop serving great coffee, homemade cakes, iced drinks and pup cups for visiting dogs.",
+    "website": "",
+    "mapsLink": "https://maps.app.goo.gl/nAUyqUWxNW8etfkF8",
+    "phone": "",
+    "email": "hopecoffee.uk@gmail.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/hopecoffeesocial",
+      "facebook": "https://www.facebook.com/p/Hope-Coffee-Cuts-100093411502142/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
