@@ -1703,5 +1703,40 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "bobo-and-wild-chigwell",
+    "name": "BOBO & WILD - Chigwell",
+    "type": "cafe",
+    "lat": 51.6183301,
+    "lng": 0.0742555409,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed on their terrace, which is all covered up and shady. If you are doing takeaways you can go in and collect your coffee with your dog.",
+    "dogAccess": [
+      "outside"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A relaxed neighbourhood café serving all-day brunch, freshly baked pastries, signature banana bread and house coffee in the heart of Chigwell.",
+    "website": "https://www.boboandwild.co.uk/chigwell",
+    "mapsLink": "https://maps.app.goo.gl/juKNnWMuZTz7jPd4A",
+    "phone": "02031 500225",
+    "email": "info@boboandwild.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/boboandwild",
+      "facebook": "https://www.facebook.com/boboandwild/",
+      "tiktok": "https://www.tiktok.com/@boboandwild",
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
