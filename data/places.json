@@ -1847,5 +1847,42 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-sun-inn-dedham",
+    "name": "The Sun Inn",
+    "type": "pub",
+    "lat": 51.95906369,
+    "lng": 0.9923183,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome inside at the front bar and in the incredibly cosy lounge on the side, but not in the lower dining area. There are limited dog friendly tables, therefore it is advised to book the specific dog-friendly tables.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A historic coaching inn in the heart of Dedham, with cosy interiors, a peaceful garden and a warm welcome after exploring Constable Country.",
+    "website": "https://www.thesuninndedham.com/",
+    "mapsLink": "https://maps.app.goo.gl/c64KSxW7xWKWaohP9",
+    "phone": "01206 323351",
+    "email": "office@thesuninndedham.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/suninndedham/",
+      "facebook": "https://www.facebook.com/suninndedham",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": "https://x.com/SunInnDedham"
+    }
   }
 ]
