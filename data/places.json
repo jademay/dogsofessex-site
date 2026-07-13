@@ -1589,5 +1589,43 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-reservoir-dogs-cafe-upminster",
+    "name": "The Reservoir Dogs Cafe",
+    "type": "cafe",
+    "lat": 51.5304636,
+    "lng": 0.2234891728,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are just as welcome as humans in this cafe.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A dog-loving vintage tea room serving coffee, cakes and special treats for four-legged visitors.",
+    "website": "",
+    "mapsLink": "https://maps.app.goo.gl/x8Z3BREryzJv333g7",
+    "phone": "07553 029498",
+    "email": "info.resdogs@gmail.com",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/reservoirdogscafe/?locale=en_GB",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
