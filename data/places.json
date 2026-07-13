@@ -1664,5 +1664,44 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-jobbers-rest-upminster",
+    "name": "The Jobber's Rest",
+    "type": "pub",
+    "lat": 51.55780423,
+    "lng": 0.2731735897,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "The Jobber's Rest has many dog friendly spots inside the pub, just clarify when you are booking that you're bringing a furry one.",
+    "dogAccess": [
+      "inside",
+      "outside",
+      "water-bowls",
+      "dog-menu",
+      "treats"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A welcoming country pub with cosy snugs, a large garden, seasonal food and a dedicated dog menu for four-legged visitors.",
+    "website": "https://jobbersrestupminster.com/",
+    "mapsLink": "https://maps.app.goo.gl/zMYBJHdbDQmPHfF48",
+    "phone": "01708 251540",
+    "email": "upminster@heartwoodinns.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/thejobbersrestupminster/",
+      "facebook": "https://www.facebook.com/JRUpminster",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
