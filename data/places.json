@@ -1811,5 +1811,41 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "langdon-nature-discovery-park-cafe-basildon",
+    "name": "Langdon Nature Discovery Park Cafe",
+    "type": "cafe",
+    "lat": 51.56087164,
+    "lng": 0.393244694,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are not allowed inside the cafe. When I visited solo with Poppy however, the waitress kindly brought my food to me (you usually collect it when the buzzer goes off).",
+    "dogAccess": [
+      "outside",
+      "dog-menu"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A friendly café serving sandwiches, toasties, jacket potatoes, locally baked cakes and quality coffee in the heart of the nature reserve.",
+    "website": "https://www.essexwt.org.uk/nature-reserves/langdon",
+    "mapsLink": "https://maps.app.goo.gl/nh19BEKt9hNmUwmz8",
+    "phone": "01268 419103",
+    "email": "langdon@essexwt.org.uk",
+    "socials": {
+      "instagram": null,
+      "facebook": null,
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
