@@ -1775,5 +1775,41 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "inn-on-the-green-stanford-le-hope",
+    "name": "Inn on the Green",
+    "type": "pub",
+    "lat": 51.514357,
+    "lng": 0.4273792698,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed inside and out.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A historic village pub with over 400 years of history, a beer garden, live sport and a friendly welcome for dogs and families.",
+    "website": "https://www.greeneking.co.uk/pubs/essex/inn-on-the-green-stanford-le-hope",
+    "mapsLink": "https://maps.app.goo.gl/ZZG4D73XaogVg5Q3A",
+    "phone": "01375 400010",
+    "email": "1482@greeneking.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/innonthegreen",
+      "facebook": "https://www.facebook.com/innonthegreenstanford/",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
