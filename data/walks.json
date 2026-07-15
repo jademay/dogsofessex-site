@@ -2518,7 +2518,34 @@
     "route": {
       "parking": "Daisy Meadow Car Park is a large and easy to navigate car park right next to the basin - you can pay via the RingGo app or with your credit/debit card at the machines. You can also park at the two nearby pubs if you are planning to eat there; see The Jolly Sailor and The Old Ship in the Make a Day of It section below.",
       "localTip": "Arrive early on sunny weekends to make parking easier and enjoy a quieter walk. If the tide is in, the estuary views are particularly beautiful.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Daisy Meadow Car Park",
+          "info": "Paid; large car park.",
+          "recommended": true,
+          "lat": 51.7300225,
+          "lng": 0.7072824
+        },
+        {
+          "name": "The Old Ship Parking",
+          "info": "Free if you go to The Old Ship; only for customers.",
+          "lat": 51.729376,
+          "lng": 0.709665
+        },
+        {
+          "name": "The Jolly Sailor Parking",
+          "info": "Free if you go to The Jolly Sailor; only for customers.",
+          "lat": 51.729896,
+          "lng": 0.710018
+        },
+        {
+          "name": "Osea Leisure Park Car Park",
+          "info": "Free if you go to Osea View cafe; paid option available.",
+          "lat": 51.7360034,
+          "lng": 0.728854
+        }
+      ]
     },
     "added": "2026-06-28",
     "hasPage": true
