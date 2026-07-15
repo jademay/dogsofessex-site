@@ -1711,6 +1711,29 @@ h1, h2, h3 {
     justify-content: center;
 }
 .cp-card-name { font-weight: 600; }
+/* Small ↗ button (no text) that opens this car park in Google Maps. Clicking
+   the rest of the card selects/zooms it on the map instead. */
+.cp-card-maps {
+    margin-left: auto;
+    flex-shrink: 0;
+    width: 1.6rem;
+    height: 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    color: var(--color-terracotta);
+    font-size: 0.95rem;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.cp-card-maps:hover, .cp-card-maps:focus-visible {
+    background: var(--color-terracotta);
+    border-color: var(--color-terracotta);
+    color: #fff;
+}
 .cp-rec {
     align-self: flex-end;
     margin-top: 0.7rem;

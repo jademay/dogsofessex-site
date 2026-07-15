@@ -723,6 +723,7 @@ function gettingThereInner(walk) {
                             <span class="cp-num">${i + 1}</span>
                             ${icon('square-parking')}
                             <span class="cp-card-name">${esc(cp.name)}</span>
+                            <a class="cp-card-maps" href="https://www.google.com/maps/search/?api=1&query=${cp.lat},${cp.lng}" target="_blank" rel="noopener" aria-label="Open ${esc(cp.name)} in Google Maps" title="Open in Google Maps">↗</a>
                         </div>${cp.info ? `
                         <p class="cp-card-info">${esc(cp.info)}</p>` : ''}${cp.recommended ? `
                         <span class="cp-rec">★ Recommended</span>` : ''}

@@ -61,31 +61,45 @@
         else map.fitBounds(latlngs, { padding: [45, 45] });
         setTimeout(() => map.invalidateSize(), 60);
 
-        // Link cards and markers: hovering one highlights the other, clicking
-        // either opens that car park in Google Maps.
+        // Link cards and markers. Clicking a card SELECTS its car park - enlarges
+        // the marker and zooms the map to it (no Google Maps jump). The ↗ link on
+        // the card opens Google Maps; clicking a map marker also opens Google Maps
+        // (wired above). Hovering either gives a temporary highlight; the
+        // selection just stays enlarged until another card is picked.
         const cardByName = {};
         document.querySelectorAll('.cp-card[data-cp-name]').forEach((card) => {
             cardByName[card.getAttribute('data-cp-name')] = card;
         });
-        const setActive = (i, on) => {
+        let selected = -1, hovered = -1;
+        const render = () => {
+            markers.forEach((m, i) => {
+                const on = (i === selected || i === hovered);
+                const card = cardByName[carParks[i].name];
+                if (m && m._icon) m._icon.classList.toggle('cp-pin--active', on);
+                if (m) m.setZIndexOffset(on ? 2000 : (carParks[i].recommended ? 1000 : 0));
+                if (card) card.classList.toggle('is-active', on);
+            });
+        };
+        const select = (i) => {
+            selected = i;
+            render();
             const m = markers[i];
-            const card = cardByName[carParks[i].name];
-            if (m && m._icon) m._icon.classList.toggle('cp-pin--active', on);
-            if (m) m.setZIndexOffset(on ? 2000 : (carParks[i].recommended ? 1000 : 0));
-            if (card) card.classList.toggle('is-active', on);
-            if (on && m) map.panInside(m.getLatLng(), { padding: [50, 50] });
+            if (m) map.panInside(m.getLatLng(), { padding: [50, 50] });
         };
         carParks.forEach((cp, i) => {
             const card = cardByName[cp.name];
             if (card) {
-                card.addEventListener('mouseenter', () => setActive(i, true));
-                card.addEventListener('mouseleave', () => setActive(i, false));
-                card.addEventListener('click', () => openInMaps(cp));
+                card.addEventListener('mouseenter', () => { hovered = i; render(); });
+                card.addEventListener('mouseleave', () => { hovered = -1; render(); });
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.cp-card-maps')) return; // let the ↗ open Google Maps
+                    select(i);
+                });
             }
             const m = markers[i];
             if (m) {
-                m.on('mouseover', () => setActive(i, true));
-                m.on('mouseout', () => setActive(i, false));
+                m.on('mouseover', () => { hovered = i; render(); });
+                m.on('mouseout', () => { hovered = -1; render(); });
             }
         });
     }
