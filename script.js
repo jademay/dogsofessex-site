@@ -629,6 +629,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     let originLabel = '';
     let distanceLimit = 10;   // miles (defaults to 10 once an origin is set), null = everywhere
     let searchRef = null;     // reference centre for the "moved far enough?" check
+    let areaMode = false;     // "Search this area": filter by the map view, not a radius
+    let areaBounds = null;    // snapshot of the map bounds when that search was run
     const locForm = document.querySelector('.places-locator');
     const locInput = locForm && locForm.querySelector('.locator-input');
     const locStatus = document.querySelector('.locator-status');
@@ -732,6 +734,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             if (card.hidden) { map.removeLayer(marker); }
             else { marker.addTo(map); pts.push(marker.getLatLng()); }
         });
+        if (areaMode) return; // a map-area search keeps the user's current view
         if (originPoint) {
             // Centre on the origin plus the nearest handful of visible places.
             const near = pts.slice()
@@ -747,7 +750,12 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     // category, the venue-type and every selected dog-access option.
     const cardShown = (c) => {
         if (!(cat === 'all' || c.dataset.cat === cat)) return false;
-        if (originPoint && distanceLimit != null && (parseFloat(c.dataset.dist) || Infinity) > distanceLimit) return false;
+        if (areaMode) {
+            // Only what's inside the searched map view (no radius).
+            if (areaBounds && !areaBounds.contains([parseFloat(c.dataset.lat), parseFloat(c.dataset.lng)])) return false;
+        } else if (originPoint && distanceLimit != null && (parseFloat(c.dataset.dist) || Infinity) > distanceLimit) {
+            return false;
+        }
         if (subBar && cat === subCat) {
             if (subType !== 'all' && c.dataset.placeType !== subType) return false;
             if (subAccess.size) {
@@ -766,8 +774,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         if (listEl) listEl.classList.toggle('is-empty', total === 0);
         if (!total) {
             const subActive = subBar && cat === subCat && (subType !== 'all' || subAccess.size > 0);
-            const near = originPoint ? ' near ' + originLabel : '';
-            countEls.forEach((el) => { el.textContent = subActive || originPoint ? ('No places' + near + ' match those filters') : ''; });
+            const where = areaMode ? ' in this map area' : (originPoint ? ' near ' + originLabel : '');
+            countEls.forEach((el) => { el.textContent = subActive || originPoint ? ('No places' + where + ' match those filters') : ''; });
             return;
         }
         let inView = total;
@@ -778,7 +786,9 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         }
         const plc = (n) => n + ' place' + (n === 1 ? '' : 's');
         let text;
-        if (originPoint && distanceLimit != null) {
+        if (areaMode) {
+            text = 'Showing ' + plc(total) + ' in this map area';
+        } else if (originPoint && distanceLimit != null) {
             text = 'Showing ' + plc(total) + ' within ' + distanceLimit + ' miles of ' + originLabel;
         } else if (originPoint) {
             text = inView < total
@@ -941,6 +951,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     // Distance, which is what people expect the first time they set a location.
     const setOrigin = (point, label, opts) => {
         opts = opts || {};
+        areaMode = !!opts.area;
+        areaBounds = (opts.area && map) ? map.getBounds() : null;
         originPoint = point;
         originLabel = label;
         searchRef = point;
@@ -953,7 +965,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             const d = c.querySelector('.place-dist');
             if (d) d.textContent = mi.toFixed(1) + ' mi away';
         });
-        if (distWrap) distWrap.hidden = false;
+        if (distWrap) distWrap.hidden = areaMode; // radius is irrelevant for a map-area search
         if (searchAreaBtn) searchAreaBtn.hidden = true;
         if (sortSel && !opts.keepSort) sortSel.value = 'distance';
         if (map && typeof L !== 'undefined') {
@@ -1018,7 +1030,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             const c = map.getCenter();
             if (walkSel) walkSel.value = '';
             if (locInput) locInput.value = 'Map location';
-            setOrigin({ lat: c.lat, lng: c.lng }, 'the map area', { keepSort: true });
+            setOrigin({ lat: c.lat, lng: c.lng }, 'the map area', { keepSort: true, area: true });
         });
     }
     // ?near=lat,lng[&walk=Name] deep link (from a walk's "Browse all …").
