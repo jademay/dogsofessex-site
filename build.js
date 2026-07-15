@@ -841,7 +841,7 @@ function placeCardHTML(p, opts) {
         `<a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>`
     ].filter(Boolean).join('\n                                            ');
     return `
-                                <article class="place-card day-card" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${rankAttrs(p, opts)}>${cardLabelsHTML(p)}${photo}
+                                <article class="place-card day-card${opts.extraClass || ''}" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${rankAttrs(p, opts)}>${cardLabelsHTML(p)}${photo}
                                     <div class="place-card-body">
                                         <h3 class="pc-name">${meta.icon} ${esc(p.name)}</h3>
                                         ${distText ? `<span class="pc-dist place-dist">${distText}</span>` : ''}
@@ -867,48 +867,26 @@ function dayHTML(walk, places) {
 
     if (!inRange.length) return '';
 
-    // Category pills: "All" plus one per CATEGORIES group present among the
-    // nearby venues (data-daytype holds the comma-joined types it matches).
-    const presentTypes = new Set(inRange.map((p) => p.type));
-    const catPills = CATEGORIES
-        .map((c) => ({ label: c.label.replace(/\s*nearby$/i, ''), types: c.types.filter((t) => presentTypes.has(t)) }))
-        .filter((c) => c.types.length);
-
-    // Dog-access pills, built from the access keys the nearby venues actually
-    // use (same friendly labels as the places page).
-    const accessLabels = { inside: 'Dogs allowed inside', outside: 'Dogs allowed outside' };
-    const accessKeys = Object.keys(ACCESS_META).filter((k) => inRange.some((p) => (p.dogAccess || []).includes(k)));
-
-    const filterBar = `
-                    <div class="day-filter" role="group" aria-label="Filter nearby places">
-                        <button type="button" class="filter-pill subfilter-pill is-active" data-daytype="all" aria-pressed="true">All</button>
-                        ${catPills.map((c) => `<button type="button" class="filter-pill subfilter-pill" data-daytype="${esc(c.types.join(','))}" aria-pressed="false">${esc(c.label)}</button>`).join('\n                        ')}${accessKeys.length ? `
-                        <span class="subfilter-sep" aria-hidden="true"></span>
-                        ${accessKeys.map((k) => `<button type="button" class="filter-pill subfilter-pill" data-dayaccess="${esc(k)}" aria-pressed="false">${esc(accessLabels[k] || ACCESS_META[k].label)}</button>`).join('\n                        ')}` : ''}
-                    </div>
-                    <div class="day-sort-row">
-                        <label class="day-sort-label" for="day-sort">Sort by</label>
-                        <select class="places-sort day-sort" id="day-sort" aria-label="Sort nearby places">
-                            <option value="recommended">Recommended</option>
-                            <option value="distance">Distance</option>
-                            <option value="az">A-Z</option>
-                        </select>
-                    </div>
-                    <p class="day-count places-count" aria-live="polite"></p>`;
-
+    // A short preview - the top 3 by our blended ranking, with the rest revealed
+    // by "Show more". The full filterable/sortable experience (with the map) lives
+    // on the places page, reached via "Browse all …".
+    const N = inRange.length;
     const cards = inRange
-        .map((p, i) => placeCardHTML(p, { mi: p._mi, order: i, detailHref: venueHref(p, '/'), distText: distLine(p) }))
+        .map((p, i) => placeCardHTML(p, { mi: p._mi, order: i, detailHref: venueHref(p, '/'), distText: distLine(p), extraClass: i >= 3 ? ' day-extra' : '' }))
         .join('');
+
+    const moreBtn = N > 3
+        ? `\n                        <button type="button" class="day-more-toggle" aria-expanded="false">Show more ↓</button>` : '';
+    const browseAll = N > 3
+        ? `\n                        <a class="day-browse-all" href="/places/?near=${walk.lat},${walk.lng}&amp;walk=${encodeURIComponent(walk.name)}">Browse all ${N} nearby places →</a>` : '';
 
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `
                     <h2>${icon('paw-print')} Make a Day of It</h2>
-                    <p class="section-lead">Already heading to ${who}? Filter and sort the dog-friendly places other local owners pair with this walk.</p>
-                    <div class="day-explorer">${filterBar}
-                        <div class="day-group" data-group="all">
-                            <div class="day-list places-list">${cards}
-                            </div>
-                        </div>
+                    <p class="section-lead">Already heading to ${who}? These are the best nearby dog-friendly places to visit before or after your walk.</p>
+                    <div class="day-explorer day-category">
+                        <div class="day-list places-list">${cards}
+                        </div>${moreBtn}${browseAll}
                     </div>`;
 }
 
@@ -1657,6 +1635,27 @@ function placesCardHTML(p, walks, opts) {
 
 function placesIndexPage(places, walks) {
     const cats = PLACE_CATEGORIES;
+    // "Near a walk" options for the location bar - every walk with a page + coords.
+    const walkOpts = walks
+        .filter((w) => w.hasPage && w.lat != null && w.lng != null)
+        .slice()
+        .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+        .map((w) => `<option value="${w.lat},${w.lng}">${esc(w.name)}</option>`)
+        .join('\n                                ');
+    // Location bar: set an origin by postcode/town, current location, or a walk;
+    // distances + the map then re-centre on it. Deep-linkable via ?near=lat,lng.
+    const locatorBar = `
+                    <form class="places-locator" autocomplete="off" aria-label="Find places near a location or a walk">
+                        <input type="text" class="locator-input" name="loc" placeholder="Postcode or town…" aria-label="Your postcode or town">
+                        <button type="submit" class="btn btn-primary locator-go">Search</button>
+                        <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} Use my location</button>
+                        <span class="locator-or" aria-hidden="true">or</span>
+                        <select class="places-near-walk" aria-label="Show places near a walk">
+                            <option value="">Near a walk…</option>
+                            ${walkOpts}
+                        </select>
+                        <p class="locator-status" role="status" hidden></p>
+                    </form>`;
     const pills = `<button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>\n                        `
         + cats.map((c) => `<button type="button" class="filter-pill" data-cat="${esc(c.slug)}" aria-pressed="false">${esc(c.title)}</button>`).join('\n                        ');
 
@@ -1711,6 +1710,7 @@ function placesIndexPage(places, walks) {
             <div class="places-toolbar">
                 <div class="container">
                     <h2 class="controls-title">Find the perfect place to go</h2>
+                    ${locatorBar}
                     ${filterToggleHTML('places-filter-toggle', 'places-controls')}
                     <div class="places-controls-wrap" id="places-controls">
                         <div class="places-controls">

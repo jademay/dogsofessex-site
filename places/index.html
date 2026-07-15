@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=853d65c8">
+    <link rel="stylesheet" href="../styles.css?v=263b42a7">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
@@ -66,6 +66,40 @@
             <div class="places-toolbar">
                 <div class="container">
                     <h2 class="controls-title">Find the perfect place to go</h2>
+                    
+                    <form class="places-locator" autocomplete="off" aria-label="Find places near a location or a walk">
+                        <input type="text" class="locator-input" name="loc" placeholder="Postcode or town…" aria-label="Your postcode or town">
+                        <button type="submit" class="btn btn-primary locator-go">Search</button>
+                        <button type="button" class="locator-geo btn btn-secondary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Use my location</button>
+                        <span class="locator-or" aria-hidden="true">or</span>
+                        <select class="places-near-walk" aria-label="Show places near a walk">
+                            <option value="">Near a walk…</option>
+                            <option value="51.74531216,0.7186835096">Chigborough Lakes Nature Reserve</option>
+                                <option value="51.64118465,0.4904430227">Crowsheath Wood Nature Reserve</option>
+                                <option value="51.708981,0.576547">Danbury Common</option>
+                                <option value="51.71365547,0.5590810168">Danbury Country Park</option>
+                                <option value="51.72211399,0.5867142927">Danbury Ridge Nature Reserves</option>
+                                <option value="51.96073005,0.9942639235">Dedham Vale</option>
+                                <option value="51.67382558,0.0553748682">Epping Forest</option>
+                                <option value="51.86366842,0.5175026241">Great Notley Country Park</option>
+                                <option value="51.551916,0.5949829768">Hadleigh Country Park</option>
+                                <option value="51.61391387,0.1309962561">Hainault Forest Country Park</option>
+                                <option value="51.8599262,0.2453073837">Hatfield Forest</option>
+                                <option value="51.73008325,0.7071438224">Heybridge Basin</option>
+                                <option value="51.90743054,0.9084076014">High Woods Country Park</option>
+                                <option value="51.71663627,0.4315194437">Hylands Park</option>
+                                <option value="51.54828784,0.4466060731">Langdon Hills Country Park - One Tree Hill</option>
+                                <option value="51.55476941,0.4252246507">Langdon Hills Country Park - Westley Heights</option>
+                                <option value="51.56384958,0.3938078316">Langdon Nature Discovery Park</option>
+                                <option value="51.72528556,0.6928534029">Maldon Promenade</option>
+                                <option value="51.55209988,0.2825378185">Thames Chase Forest Centre</option>
+                                <option value="51.49924583,0.4429606702">Thameside Nature Discovery Park</option>
+                                <option value="51.808,0.738">Tiptree Heath Nature Reserve</option>
+                                <option value="51.77420801,0.9285178677">West Mersea</option>
+                                <option value="51.93931232,1.151622376">Wrabness Nature Reserve</option>
+                        </select>
+                        <p class="locator-status" role="status" hidden></p>
+                    </form>
                     <button type="button" class="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
                         <span>Filter &amp; sort</span>
                         <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -907,6 +941,6 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="../script.js?v=dd1fa0bd"></script>
+    <script src="../script.js?v=f477721e"></script>
 </body>
 </html>

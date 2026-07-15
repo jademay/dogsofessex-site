@@ -694,6 +694,15 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         });
     });
 
+    // Origin for "near a walk"/location sorting (null = default view). Kept up
+    // here so fitVisible can stay centred on it across later map refreshes.
+    let originPoint = null;
+    const haversine = (a, b) => {
+        const R = 3958.8, tr = (d) => d * Math.PI / 180;
+        const dLat = tr(b.lat - a.lat), dLng = tr(b.lng - a.lng);
+        const h = Math.sin(dLat / 2) ** 2 + Math.cos(tr(a.lat)) * Math.cos(tr(b.lat)) * Math.sin(dLng / 2) ** 2;
+        return 2 * R * Math.asin(Math.sqrt(h));
+    };
     const fitVisible = () => {
         if (!map) return;
         const pts = [];
@@ -701,7 +710,15 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             if (card.hidden) { map.removeLayer(marker); }
             else { marker.addTo(map); pts.push(marker.getLatLng()); }
         });
-        if (pts.length) map.fitBounds(pts, { padding: [12, 12], maxZoom: 15 });
+        if (originPoint) {
+            // Centre on the origin plus the nearest handful of visible places.
+            const near = pts.slice()
+                .sort((p, q) => haversine(originPoint, { lat: p.lat, lng: p.lng }) - haversine(originPoint, { lat: q.lat, lng: q.lng }))
+                .slice(0, 8).map((ll) => [ll.lat, ll.lng]);
+            map.fitBounds([[originPoint.lat, originPoint.lng]].concat(near), { padding: [26, 26], maxZoom: 14 });
+        } else if (pts.length) {
+            map.fitBounds(pts, { padding: [12, 12], maxZoom: 15 });
+        }
     };
 
     // Whether a card passes the category filter plus, within the sub-filtered
@@ -852,6 +869,91 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     setTimeout(refresh, 300);
     setTimeout(refresh, 900);
     window.addEventListener('load', refresh);
+
+    // --- Location / "near a walk" ------------------------------------------
+    // Set an origin (a typed location, the user's position, or a chosen walk),
+    // then recompute each place's distance from it, re-sort by distance, and
+    // centre the map. Also honours a ?near=lat,lng[&walk=Name] deep link from a
+    // walk page's "Browse all nearby places →".
+    const locForm = document.querySelector('.places-locator');
+    const locInput = locForm && locForm.querySelector('.locator-input');
+    const locStatus = locForm && locForm.querySelector('.locator-status');
+    const geoBtn = locForm && locForm.querySelector('.locator-geo');
+    const walkSel = document.querySelector('.places-near-walk');
+    const say = (msg) => { if (locStatus) { locStatus.hidden = !msg; locStatus.textContent = msg || ''; } };
+    async function geocode(q) {
+        try { const r = await fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(q)); if (r.ok) { const j = await r.json(); if (j.result) return { lat: j.result.latitude, lng: j.result.longitude, label: j.result.postcode }; } } catch (e) { /* next */ }
+        try { const r = await fetch('https://api.postcodes.io/outcodes/' + encodeURIComponent(q)); if (r.ok) { const j = await r.json(); if (j.result) return { lat: j.result.latitude, lng: j.result.longitude, label: j.result.outcode }; } } catch (e) { /* next */ }
+        try { const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=gb&q=' + encodeURIComponent(q), { headers: { Accept: 'application/json' } }); if (r.ok) { const j = await r.json(); if (j[0]) return { lat: parseFloat(j[0].lat), lng: parseFloat(j[0].lon), label: q }; } } catch (e) { /* give up */ }
+        return null;
+    }
+    let originMarker = null;
+    const setOrigin = (point, label) => {
+        originPoint = point;
+        cards.forEach((c) => {
+            const lat = parseFloat(c.dataset.lat), lng = parseFloat(c.dataset.lng);
+            if (!isFinite(lat) || !isFinite(lng)) return;
+            const mi = haversine(point, { lat, lng });
+            c.dataset.dist = mi;
+            c.dataset.score = placeScore(c, mi);
+            const d = c.querySelector('.place-dist');
+            if (d) d.textContent = mi.toFixed(1) + ' mi away';
+        });
+        if (sortSel) sortSel.value = 'distance';
+        sortCards();
+        if (map && typeof L !== 'undefined') {
+            if (originMarker) originMarker.setLatLng([point.lat, point.lng]);
+            else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: 3000, interactive: false }).addTo(map);
+        }
+        fitVisible();
+        say('Showing places nearest to ' + label + '.');
+    };
+    if (locForm) {
+        locForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const q = (locInput && locInput.value.trim()) || '';
+            if (!q) return;
+            say('Searching…');
+            const loc = await geocode(q);
+            if (!loc) { say("Sorry, we couldn't find that location - try a postcode."); return; }
+            if (walkSel) walkSel.value = '';
+            setOrigin({ lat: loc.lat, lng: loc.lng }, loc.label);
+        });
+    }
+    if (geoBtn) {
+        geoBtn.addEventListener('click', () => {
+            if (!navigator.geolocation) { say('Location services are not available in this browser.'); return; }
+            say('Finding your location…');
+            navigator.geolocation.getCurrentPosition(
+                (pos) => { if (walkSel) walkSel.value = ''; if (locInput) locInput.value = ''; setOrigin({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 'your location'); },
+                () => say("We couldn't access your location - try entering a postcode.")
+            );
+        });
+    }
+    if (walkSel) {
+        walkSel.addEventListener('change', () => {
+            if (!walkSel.value) return;
+            const parts = walkSel.value.split(',').map(parseFloat);
+            if (!isFinite(parts[0]) || !isFinite(parts[1])) return;
+            if (locInput) locInput.value = '';
+            setOrigin({ lat: parts[0], lng: parts[1] }, walkSel.options[walkSel.selectedIndex].textContent.trim());
+        });
+    }
+    // Hint when someone picks "Distance" without having set a location.
+    if (sortSel) sortSel.addEventListener('change', () => {
+        if (sortSel.value === 'distance' && !originPoint) say('Enter a location or pick a walk above to sort by distance.');
+    });
+    // ?near=lat,lng[&walk=Name] deep link (from a walk's "Browse all …").
+    (function () {
+        const params = new URLSearchParams(location.search);
+        const near = params.get('near');
+        if (!near) return;
+        const parts = near.split(',').map(parseFloat);
+        if (!isFinite(parts[0]) || !isFinite(parts[1])) return;
+        const label = params.get('walk') || 'this walk';
+        if (walkSel) { for (let i = 0; i < walkSel.options.length; i++) { if (walkSel.options[i].value === near || walkSel.options[i].textContent.trim() === label) { walkSel.selectedIndex = i; break; } } }
+        setOrigin({ lat: parts[0], lng: parts[1] }, label);
+    })();
 })();
 
 // Walk pages — "Make a Day of It": filter (category + dog access) and sort one

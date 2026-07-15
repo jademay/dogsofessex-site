@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=853d65c8">
+    <link rel="stylesheet" href="../styles.css?v=263b42a7">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script>window.WALK_ID = "crowsheath-wood-nature-reserve-billericay"; window.WALK_CARPARKS = [{"name":"Lay-by parking","lat":51.6411846,"lng":0.490443,"recommended":true}];</script>
 </head>
@@ -307,31 +307,9 @@
                 <div class="container">
                     <div id="make-a-day">
                     <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="11" cy="4" r="2" /><circle cx="18" cy="8" r="2" /><circle cx="20" cy="16" r="2" /><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" /></svg> Make a Day of It</h2>
-                    <p class="section-lead">Already heading to Downham? Filter and sort the dog-friendly places other local owners pair with this walk.</p>
-                    <div class="day-explorer">
-                    <div class="day-filter" role="group" aria-label="Filter nearby places">
-                        <button type="button" class="filter-pill subfilter-pill is-active" data-daytype="all" aria-pressed="true">All</button>
-                        <button type="button" class="filter-pill subfilter-pill" data-daytype="cafe" aria-pressed="false">Cafés</button>
-                        <button type="button" class="filter-pill subfilter-pill" data-daytype="pub" aria-pressed="false">Pubs</button>
-                        <button type="button" class="filter-pill subfilter-pill" data-daytype="restaurant" aria-pressed="false">Restaurants</button>
-                        <span class="subfilter-sep" aria-hidden="true"></span>
-                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="inside" aria-pressed="false">Dogs allowed inside</button>
-                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="outside" aria-pressed="false">Dogs allowed outside</button>
-                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="water-bowls" aria-pressed="false">Water bowls</button>
-                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="dog-menu" aria-pressed="false">Dog menu</button>
-                        <button type="button" class="filter-pill subfilter-pill" data-dayaccess="treats" aria-pressed="false">Treats available</button>
-                    </div>
-                    <div class="day-sort-row">
-                        <label class="day-sort-label" for="day-sort">Sort by</label>
-                        <select class="places-sort day-sort" id="day-sort" aria-label="Sort nearby places">
-                            <option value="recommended">Recommended</option>
-                            <option value="distance">Distance</option>
-                            <option value="az">A-Z</option>
-                        </select>
-                    </div>
-                    <p class="day-count places-count" aria-live="polite"></p>
-                        <div class="day-group" data-group="all">
-                            <div class="day-list places-list">
+                    <p class="section-lead">Already heading to Downham? These are the best nearby dog-friendly places to visit before or after your walk.</p>
+                    <div class="day-explorer day-category">
+                        <div class="day-list places-list">
                                 <article class="place-card day-card" data-place-type="pub" data-lat="51.66517201" data-lng="0.4480242808" data-dist="2.46" data-editor="0" data-boost="0" data-score="75.40" data-order="0" data-added="2026-06-24" data-name="the bakers arms" data-access="outside">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Bakers Arms</h3>
@@ -371,7 +349,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.68438316" data-lng="0.4341096752" data-dist="3.84" data-editor="0" data-boost="0" data-score="61.61" data-order="3" data-added="2026-06-24" data-name="white hart inn" data-access="inside outside dog-menu">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.68438316" data-lng="0.4341096752" data-dist="3.84" data-editor="0" data-boost="0" data-score="61.61" data-order="3" data-added="2026-06-24" data-name="white hart inn" data-access="inside outside dog-menu">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> White Hart Inn</h3>
                                         <span class="pc-dist place-dist">3.8 mi • 11 mins</span>
@@ -384,7 +362,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="cafe" data-lat="51.71180005" data-lng="0.4356048987" data-dist="5.42" data-editor="0" data-boost="0" data-score="45.85" data-order="4" data-added="2026-06-30" data-name="the deli hylands" data-access="outside water-bowls treats dog-menu">
+                                <article class="place-card day-card day-extra" data-place-type="cafe" data-lat="51.71180005" data-lng="0.4356048987" data-dist="5.42" data-editor="0" data-boost="0" data-score="45.85" data-order="4" data-added="2026-06-30" data-name="the deli hylands" data-access="outside water-bowls treats dog-menu">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> The Deli Hylands</h3>
                                         <span class="pc-dist place-dist">5.4 mi • 16 mins</span>
@@ -397,7 +375,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.68556217" data-lng="0.3692991685" data-dist="6.03" data-editor="0" data-boost="0" data-score="39.70" data-order="5" data-added="2026-06-26" data-name="the cricketers mill green" data-access="inside outside">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.68556217" data-lng="0.3692991685" data-dist="6.03" data-editor="0" data-boost="0" data-score="39.70" data-order="5" data-added="2026-06-26" data-name="the cricketers mill green" data-access="inside outside">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Cricketers Mill Green</h3>
                                         <span class="pc-dist place-dist">6.0 mi • 17 mins</span>
@@ -410,7 +388,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.71318137" data-lng="0.5741234123" data-dist="6.13" data-editor="0" data-boost="0" data-score="38.68" data-order="6" data-added="2026-07-07" data-name="the cricketers arms" data-access="outside">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.71318137" data-lng="0.5741234123" data-dist="6.13" data-editor="0" data-boost="0" data-score="38.68" data-order="6" data-added="2026-07-07" data-name="the cricketers arms" data-access="outside">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Cricketers Arms</h3>
                                         <span class="pc-dist place-dist">6.1 mi • 18 mins</span>
@@ -423,7 +401,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="cafe" data-lat="51.71742705" data-lng="0.5815815644" data-dist="6.56" data-editor="0" data-boost="0" data-score="34.43" data-order="7" data-added="2026-07-06" data-name="tea on the green" data-access="inside outside water-bowls dog-menu">
+                                <article class="place-card day-card day-extra" data-place-type="cafe" data-lat="51.71742705" data-lng="0.5815815644" data-dist="6.56" data-editor="0" data-boost="0" data-score="34.43" data-order="7" data-added="2026-07-06" data-name="tea on the green" data-access="inside outside water-bowls dog-menu">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Tea on the Green</h3>
                                         <span class="pc-dist place-dist">6.6 mi • 19 mins</span>
@@ -435,7 +413,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.56976195" data-lng="0.5953293124" data-dist="6.68" data-editor="0" data-boost="0" data-score="33.21" data-order="8" data-added="2026-06-24" data-name="the woodmans arms" data-access="outside dog-menu">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.56976195" data-lng="0.5953293124" data-dist="6.68" data-editor="0" data-boost="0" data-score="33.21" data-order="8" data-added="2026-06-24" data-name="the woodmans arms" data-access="outside dog-menu">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Woodmans Arms</h3>
                                         <span class="pc-dist place-dist">6.7 mi • 19 mins</span>
@@ -448,7 +426,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="cafe" data-lat="51.56087164" data-lng="0.393244694" data-dist="6.94" data-editor="0" data-boost="0" data-score="30.58" data-order="9" data-added="2026-07-13" data-name="langdon nature discovery park cafe" data-access="outside dog-menu">
+                                <article class="place-card day-card day-extra" data-place-type="cafe" data-lat="51.56087164" data-lng="0.393244694" data-dist="6.94" data-editor="0" data-boost="0" data-score="30.58" data-order="9" data-added="2026-07-13" data-name="langdon nature discovery park cafe" data-access="outside dog-menu">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Langdon Nature Discovery Park Cafe</h3>
                                         <span class="pc-dist place-dist">6.9 mi • 20 mins</span>
@@ -461,7 +439,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.71838097" data-lng="0.5996341213" data-dist="7.09" data-editor="0" data-boost="0" data-score="29.05" data-order="10" data-added="2026-07-07" data-name="the anchor" data-access="inside outside water-bowls treats">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.71838097" data-lng="0.5996341213" data-dist="7.09" data-editor="0" data-boost="0" data-score="29.05" data-order="10" data-added="2026-07-07" data-name="the anchor" data-access="inside outside water-bowls treats">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Anchor</h3>
                                         <span class="pc-dist place-dist">7.1 mi • 20 mins</span>
@@ -474,7 +452,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.74099994" data-lng="0.4347898225" data-dist="7.30" data-editor="0" data-boost="0" data-score="27.03" data-order="11" data-added="2026-06-24" data-name="the horse &amp; groom" data-access="inside outside water-bowls treats">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.74099994" data-lng="0.4347898225" data-dist="7.30" data-editor="0" data-boost="0" data-score="27.03" data-order="11" data-added="2026-06-24" data-name="the horse &amp; groom" data-access="inside outside water-bowls treats">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Horse &amp; Groom</h3>
                                         <span class="pc-dist place-dist">7.3 mi • 21 mins</span>
@@ -487,7 +465,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="restaurant" data-lat="51.69309037" data-lng="0.3187360942" data-dist="8.19" data-editor="0" data-boost="0" data-score="18.14" data-order="12" data-added="2026-06-24" data-name="the leather bottle" data-access="inside outside">
+                                <article class="place-card day-card day-extra" data-place-type="restaurant" data-lat="51.69309037" data-lng="0.3187360942" data-dist="8.19" data-editor="0" data-boost="0" data-score="18.14" data-order="12" data-added="2026-06-24" data-name="the leather bottle" data-access="inside outside">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></svg> The Leather Bottle</h3>
                                         <span class="pc-dist place-dist">8.2 mi • 24 mins</span>
@@ -500,7 +478,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="cafe" data-lat="51.5150554" data-lng="0.4268165989" data-dist="9.13" data-editor="0" data-boost="0" data-score="8.67" data-order="13" data-added="2026-07-13" data-name="hope coffee" data-access="inside outside dog-menu">
+                                <article class="place-card day-card day-extra" data-place-type="cafe" data-lat="51.5150554" data-lng="0.4268165989" data-dist="9.13" data-editor="0" data-boost="0" data-score="8.67" data-order="13" data-added="2026-07-13" data-name="hope coffee" data-access="inside outside dog-menu">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></svg> Hope Coffee</h3>
                                         <span class="pc-dist place-dist">9.1 mi • 26 mins</span>
@@ -512,7 +490,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.514357" data-lng="0.4273792698" data-dist="9.17" data-editor="0" data-boost="0" data-score="8.28" data-order="14" data-added="2026-07-13" data-name="inn on the green" data-access="inside outside">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.514357" data-lng="0.4273792698" data-dist="9.17" data-editor="0" data-boost="0" data-score="8.28" data-order="14" data-added="2026-07-13" data-name="inn on the green" data-access="inside outside">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> Inn on the Green</h3>
                                         <span class="pc-dist place-dist">9.2 mi • 26 mins</span>
@@ -525,7 +503,7 @@
                                         </div>
                                     </div>
                                 </article>
-                                <article class="place-card day-card" data-place-type="pub" data-lat="51.51124901" data-lng="0.5530137556" data-dist="9.37" data-editor="0" data-boost="0" data-score="6.29" data-order="15" data-added="2026-06-24" data-name="the lobster smack" data-access="outside">
+                                <article class="place-card day-card day-extra" data-place-type="pub" data-lat="51.51124901" data-lng="0.5530137556" data-dist="9.37" data-editor="0" data-boost="0" data-score="6.29" data-order="15" data-added="2026-06-24" data-name="the lobster smack" data-access="outside">
                                     <div class="place-card-body">
                                         <h3 class="pc-name"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M17 11h1a3 3 0 0 1 0 6h-1" /><path d="M9 12v6" /><path d="M13 12v6" /><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.5 2.5.5S9.44 2 11 2s2 1.5 3 1.5 1.72-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.78 0-1.5-.5-2.5-.5Z" /><path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" /></svg> The Lobster Smack</h3>
                                         <span class="pc-dist place-dist">9.4 mi • 27 mins</span>
@@ -538,8 +516,9 @@
                                         </div>
                                     </div>
                                 </article>
-                            </div>
                         </div>
+                        <button type="button" class="day-more-toggle" aria-expanded="false">Show more ↓</button>
+                        <a class="day-browse-all" href="/places/?near=51.64118465,0.4904430227&amp;walk=Crowsheath%20Wood%20Nature%20Reserve">Browse all 16 nearby places →</a>
                     </div>
                     </div>
                 </div>
@@ -709,7 +688,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=dd1fa0bd"></script>
+    <script src="../script.js?v=f477721e"></script>
     <script src="../walk.js?v=0c8e35bc"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>

@@ -872,6 +872,44 @@ h1, h2, h3 {
     .locator-form .btn { flex: 1 1 auto; }
 }
 
+/* Places hub location bar: type a location, use current location, or pick a
+   walk; distances + the map then re-centre on it. */
+.places-locator {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+    margin: 1rem 0 0.25rem;
+}
+.places-locator .btn { flex: 0 0 auto; }
+.locator-or { color: var(--color-muted); font-size: 0.9rem; }
+.places-near-walk {
+    flex: 1 1 200px;
+    min-width: 0;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background-color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--color-text);
+    cursor: pointer;
+}
+.places-near-walk:focus { outline: none; border-color: var(--color-moss); }
+.places-locator .locator-status { flex: 1 1 100%; margin: 0.2rem 0 0; }
+/* Origin pin (your location / chosen walk) on the places map. */
+.origin-pin span {
+    display: block;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px var(--color-terracotta), 0 1px 5px rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 560px) {
+    .places-locator .btn { flex: 1 1 auto; }
+}
+
 /* ---------- Meetups ---------- */
 
 .meetup {
@@ -2939,6 +2977,21 @@ h2 .lucide { vertical-align: -0.1em; }
 .day-category.expanded .day-card.day-extra { display: flex; }
 .day-category .more-free.day-extra-panel { display: none; }
 .day-category.expanded .more-free.day-extra-panel { display: block; }
+/* Make a Day of It: top 3 shown, the rest revealed by "Show more". */
+.day-list .place-card.day-extra { display: none; }
+.day-category.expanded .day-list .place-card.day-extra { display: flex; }
+/* "Browse all N nearby places →" link to the places page. */
+.day-browse-all {
+    display: block;
+    width: fit-content;
+    margin: 0.9rem auto 0;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-terracotta);
+    text-decoration: none;
+}
+.day-browse-all:hover { text-decoration: underline; }
 .day-more-toggle {
     display: block;
     width: fit-content;
