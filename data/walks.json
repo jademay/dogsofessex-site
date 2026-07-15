@@ -173,7 +173,8 @@
         "distance": "1.4 miles",
         "time": "30 mins",
         "routeType": "Circular",
-        "gpxFile": "data/gpx/chigborough-lakes.gpx"
+        "gpxFile": "data/gpx/chigborough-lakes.gpx",
+        "bestCarPark": "Chigborough Lakes Nature Reserve Car Park"
       }
     ],
     "terrain": "Closed woodland and open lakes.",
