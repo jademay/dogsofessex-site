@@ -1164,7 +1164,16 @@
     "route": {
       "parking": "There is parking at Hanningfield Reservoir which is an easy walking distance, otherwise there is limited parking at the entrance of the track leading up to the reserve",
       "localTip": "",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Lay-by parking",
+          "info": "Free; very small lay-by for approx. 2 to 3 cars.",
+          "recommended": true,
+          "lat": 51.6411846,
+          "lng": 0.490443
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex Wildlife Trust",
