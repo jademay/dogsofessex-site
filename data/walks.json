@@ -719,10 +719,28 @@
         "score": 3
       }
     ],
+    "routes": [
+      {
+        "name": "Danbury Ridge Circular",
+        "distance": "2.5 miles",
+        "time": "55 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/danbury-ridge-circular.gpx"
+      }
+    ],
     "route": {
       "parking": "At the main entrance there is limited parking off the side of the road.",
       "localTip": "",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Lay-by parking",
+          "info": "Free; very small lay-by for approx. 3 to 4 cars.",
+          "recommended": true,
+          "lat": 51.721860,
+          "lng": 0.586939
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex Wildlife Trust",
