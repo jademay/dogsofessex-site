@@ -1366,6 +1366,12 @@
           "info": "Free for 2 hours; closest to the pubs & shops; limited spaces.",
           "lat": 51.9583124,
           "lng": 0.9908659
+        },
+        {
+          "name": "National Trust Car Park - Flatford",
+          "info": "Free to National Trust members; nearest to Flatford.",
+          "lat": 51.9623138,
+          "lng": 1.0201417
         }
       ]
     },
