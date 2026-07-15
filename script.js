@@ -628,6 +628,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     let originPoint = null;   // {lat,lng} once a location/walk/area is chosen
     let originLabel = '';
     let distanceLimit = null; // miles, or null for "everywhere"
+    let searchRef = null;     // reference centre for the "moved far enough?" check
     const locForm = document.querySelector('.places-locator');
     const locInput = locForm && locForm.querySelector('.locator-input');
     const locStatus = document.querySelector('.locator-status');
@@ -915,7 +916,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     // Nudge the map once it has its real size — Leaflet mis-sizes (loads too few
     // tiles) if its container wasn't fully laid out at init, notably the mobile
     // sticky map. Re-measure the sticky offsets at the same time.
-    const refresh = () => { setTop(); if (map) { map.invalidateSize(); fitVisible(); } };
+    const refresh = () => { setTop(); if (map) { map.invalidateSize(); fitVisible(); if (!searchRef) searchRef = map.getCenter(); } };
     setTimeout(refresh, 300);
     setTimeout(refresh, 900);
     window.addEventListener('load', refresh);
@@ -933,9 +934,16 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         return null;
     }
     let originMarker = null;
-    const setOrigin = (point, label) => {
+    // Setting an origin is exclusive: it replaces whichever origin was active
+    // (walk / postcode / location / map). Refinements - category, dog-access,
+    // sort and radius - are deliberately left untouched. `keepSort` preserves the
+    // user's sort choice (used by "Search this area"); otherwise we switch to
+    // Distance, which is what people expect the first time they set a location.
+    const setOrigin = (point, label, opts) => {
+        opts = opts || {};
         originPoint = point;
         originLabel = label;
+        searchRef = point;
         cards.forEach((c) => {
             const lat = parseFloat(c.dataset.lat), lng = parseFloat(c.dataset.lng);
             if (!isFinite(lat) || !isFinite(lng)) return;
@@ -947,7 +955,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         });
         if (distWrap) distWrap.hidden = false;
         if (searchAreaBtn) searchAreaBtn.hidden = true;
-        if (sortSel) sortSel.value = 'distance';
+        if (sortSel && !opts.keepSort) sortSel.value = 'distance';
         if (map && typeof L !== 'undefined') {
             if (originMarker) originMarker.setLatLng([point.lat, point.lng]);
             else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: 3000, interactive: false }).addTo(map);
@@ -992,16 +1000,25 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         distanceLimit = distSel.value ? parseFloat(distSel.value) : null;
         applyFilters();
     });
-    // "Search this area": after the user drags the map, offer to re-search at the
-    // new centre rather than changing everything automatically.
+    // "Search this area": only offered once the user has dragged the map a
+    // meaningful distance (~0.5 mi) from the current search centre, so tiny
+    // nudges don't trigger it. Clicking it switches the origin to the map centre
+    // (a new, exclusive origin) - clearing the walk + postcode inputs and marking
+    // the postcode box "Map location" - while keeping every refinement (category,
+    // dog-access, sort, radius) in place.
     if (map && searchAreaBtn) {
-        map.on('dragend', () => { searchAreaBtn.hidden = false; });
+        const MOVE_MI = 0.5;
+        map.on('dragend', () => {
+            const c = map.getCenter();
+            const moved = !searchRef || haversine({ lat: c.lat, lng: c.lng }, searchRef) > MOVE_MI;
+            searchAreaBtn.hidden = !moved;
+        });
         searchAreaBtn.addEventListener('click', () => {
             searchAreaBtn.hidden = true;
             const c = map.getCenter();
             if (walkSel) walkSel.value = '';
-            if (locInput) locInput.value = '';
-            setOrigin({ lat: c.lat, lng: c.lng }, 'this area');
+            if (locInput) locInput.value = 'Map location';
+            setOrigin({ lat: c.lat, lng: c.lng }, 'the map area', { keepSort: true });
         });
     }
     // ?near=lat,lng[&walk=Name] deep link (from a walk's "Browse all …").
