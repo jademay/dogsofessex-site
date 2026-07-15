@@ -1344,9 +1344,30 @@
       }
     ],
     "route": {
-      "parking": "Two paid for carparks: Dedham Car Park and Dedham Riverside Carpark. You can also park for free for two hours in the town.",
+      "parking": "Two paid car parks plus limited free two-hour parking on the High Street — take your pick below.",
       "localTip": "Many dogs head straight for the river, so a towel in the car is a good idea, especially after rain when the riverside paths can be muddy.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Mill Lane Dedham Car Park",
+          "info": "Paid; largest car park.",
+          "recommended": true,
+          "lat": 51.9606137,
+          "lng": 0.9943321
+        },
+        {
+          "name": "Dedham Riverside Carpark",
+          "info": "Paid; closest to the river; smaller car park.",
+          "lat": 51.9623576,
+          "lng": 0.9939301
+        },
+        {
+          "name": "Dedham High Street",
+          "info": "Free for 2 hours; closest to the pubs & shops; limited spaces.",
+          "lat": 51.9583124,
+          "lng": 0.9908659
+        }
+      ]
     },
     "official": {
       "managedBy": "National Landscapes",
