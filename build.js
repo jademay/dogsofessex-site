@@ -716,7 +716,7 @@ function gettingThereInner(walk) {
     const parts = [];
     const carParks = Array.isArray(r.carParks) ? r.carParks.filter((cp) => cp && cp.name) : [];
     if (carParks.length) {
-        if (r.parking) parts.push(`<p class="parking-lead">${esc(r.parking)}</p>`);
+        // Cards say it all - the parking blurb is intentionally not shown here.
         parts.push(`<div class="car-park-cards">${carParks.map((cp, i) =>
             `<div class="cp-card${cp.recommended ? ' is-recommended' : ''}" data-cp-name="${esc(cp.name)}">
                         <div class="cp-card-head">

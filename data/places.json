@@ -1884,5 +1884,41 @@
       "youtube": null,
       "twitter": "https://x.com/SunInnDedham"
     }
+  },
+  {
+    "id": "the-marlborough-dedham",
+    "name": "The Marlborough",
+    "type": "pub",
+    "lat": 51.95935131,
+    "lng": 0.9936449554,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are very welcome inside and out at the Marlborough. The staff are usually very happy to say hello and make a fuss of your dog.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-07-13",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "excellent",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A charming 15th-century pub serving home-cooked food, local ales and a warm welcome for dogs after exploring Dedham Vale.",
+    "website": "https://www.themarlboroughdedham.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/e9urC2Yormfkwnjy7",
+    "phone": "01206 323250",
+    "email": "info@themarlboroughdedham.co.uk",
+    "socials": {
+      "instagram": "https://www.instagram.com/marlboroughdedham/",
+      "facebook": "https://www.facebook.com/marlboroughdedham",
+      "tiktok": null,
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
