@@ -1339,6 +1339,13 @@
         "bestCarPark": "Mill Lane Dedham Car Park"
       },
       {
+        "name": "Flatford to Dedham Circular",
+        "distance": "3.2 miles",
+        "time": "1hr 45 mins",
+        "gpxFile": "data/gpx/dedham-vale-dedham-flatford-to-dedham-circular.gpx",
+        "bestCarPark": "National Trust Car Park - Flatford"
+      },
+      {
         "name": "Dedham, River Stour, and Manningtree Circular",
         "distance": "6 miles",
         "time": "3hrs 20 mins",
