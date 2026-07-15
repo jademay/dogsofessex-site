@@ -1843,7 +1843,8 @@ h1, h2, h3 {
 }
 .gpx-pin-carpark .cp-name { display: flex; flex-direction: column; align-items: center; }
 .gpx-pin-carpark .lucide { width: 0.95em; height: 0.95em; flex-shrink: 0; }
-.gpx-pin-carpark.is-best { background: var(--color-forest-dark); color: #fff; }
+/* Match the recommended (no.1) car park pin in the Getting there map. */
+.gpx-pin-carpark.is-best { background: var(--color-terracotta); color: #fff; }
 
 .nearby {
     margin-top: 3rem;
