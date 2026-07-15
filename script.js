@@ -627,7 +627,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     // filter/count/map helpers below can all see them.
     let originPoint = null;   // {lat,lng} once a location/walk/area is chosen
     let originLabel = '';
-    let distanceLimit = null; // miles, or null for "everywhere"
+    let distanceLimit = 10;   // miles (defaults to 10 once an origin is set), null = everywhere
     let searchRef = null;     // reference centre for the "moved far enough?" check
     const locForm = document.querySelector('.places-locator');
     const locInput = locForm && locForm.querySelector('.locator-input');

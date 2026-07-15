@@ -1741,7 +1741,7 @@ function placesIndexPage(places, walks) {
                                     <select class="places-distance" aria-label="Only show places within this distance">
                                         <option value="">Everywhere</option>
                                         <option value="20">20 miles</option>
-                                        <option value="10">10 miles</option>
+                                        <option value="10" selected>10 miles</option>
                                         <option value="5">5 miles</option>
                                         <option value="3">3 miles</option>
                                     </select>
