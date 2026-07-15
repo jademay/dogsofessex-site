@@ -2509,7 +2509,16 @@
     "route": {
       "parking": "The car park at the Nature Discovery Centre suggests a donation of £5 per car.",
       "localTip": "Bring binoculars if you have them. The estuary attracts a huge variety of birds throughout the year, and the higher viewpoints offer some of the best wildlife watching opportunities in Essex.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Discovery Park Car Park",
+          "info": "Free; large car park as you reach the Discovery Park.",
+          "recommended": true,
+          "lat": 51.498369,
+          "lng": 0.442155
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex Wildlife Trust",
