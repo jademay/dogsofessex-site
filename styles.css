@@ -912,6 +912,7 @@ h1, h2, h3 {
 .places-near-walk:focus, .places-distance:focus { outline: none; border-color: var(--color-moss); }
 /* "Within X miles" distance filter (shown once a location/walk is set). */
 .places-distance-wrap { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: var(--color-muted); }
+.places-distance-wrap[hidden] { display: none; }
 .places-distance { padding-top: 0.55rem; padding-bottom: 0.55rem; font-size: 0.9rem; }
 /* Origin pin (your location / chosen walk) on the places map. */
 .origin-pin span {
@@ -946,6 +947,7 @@ h1, h2, h3 {
 }
 .map-search-area:hover { border-color: var(--color-terracotta); color: var(--color-terracotta); }
 .map-search-area .lucide { width: 0.9em; height: 0.9em; }
+.map-search-area[hidden] { display: none; }
 @media (max-width: 560px) {
     .places-finder { flex-direction: column; align-items: stretch; }
     .finder-sep { display: none; }

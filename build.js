@@ -1658,7 +1658,7 @@ function placesIndexPage(places, walks) {
                         </div>
                         <span class="finder-sep" aria-hidden="true"></span>
                         <div class="finder-walk">
-                            <span class="finder-label">Browse around a walk</span>
+                            <span class="finder-label">Browse around a walk:</span>
                             <select class="places-near-walk" aria-label="Show places near a walk">
                                 <option value="">Select walk…</option>
                                 ${walkOpts}
