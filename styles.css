@@ -919,8 +919,9 @@ h1, h2, h3 {
     border: 3px solid #fff;
     box-shadow: 0 0 0 2px var(--color-terracotta), 0 1px 5px rgba(0, 0, 0, 0.4);
 }
-/* "Search this area" button, floated over the map after the user pans it. */
-.places-map-wrap { position: relative; }
+/* "Search this area" button, floated over the map after the user pans it. The
+   wrapper takes the map's place as the flex-filling child of .places-map-col. */
+.places-map-wrap { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .map-search-area {
     position: absolute;
     top: 12px; left: 50%;
