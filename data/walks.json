@@ -354,13 +354,15 @@
         "name": "Circular",
         "distance": "2.5 miles",
         "time": "55 mins",
-        "gpxFile": "data/gpx/maldon-promenade-circular.gpx"
+        "gpxFile": "data/gpx/maldon-promenade-circular.gpx",
+        "bestCarPark": "Promenade Park Car Park"
       },
       {
         "name": "Peninsula and back",
         "distance": "1.4 miles",
         "time": "30 mins",
-        "gpxFile": "data/gpx/maldon-promenade-peninsula-and-back.gpx"
+        "gpxFile": "data/gpx/maldon-promenade-peninsula-and-back.gpx",
+        "bestCarPark": "Promenade Park Car Park"
       }
     ],
     "terrain": "Waterside paths, open parkland & surfaced promenades",
@@ -420,7 +422,22 @@
     "route": {
       "parking": "There is plenty of parking in the Promenade Park Car Park and limited spaces in the Promenade Park Coach and Car Park. Or, you could park in the town in Butt Lane Car park or White Horse Lane Car Park.",
       "localTip": "Visit early in the morning for a quieter experience. The promenade can become very busy on sunny weekends, but the estuary views are at their best around high tide.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Promenade Park Car Park",
+          "info": "Paid car park; large in size with more parking if you keep driving around.",
+          "recommended": true,
+          "lat": 51.7250728,
+          "lng": 0.692789
+        },
+        {
+          "name": "Promenade Park Coach and Car Park",
+          "info": "Paid car park; medium sized.",
+          "lat": 51.726977,
+          "lng": 0.687569
+        }
+      ]
     },
     "official": {
       "managedBy": "Maldon District Council",
