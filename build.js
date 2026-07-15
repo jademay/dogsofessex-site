@@ -716,16 +716,19 @@ function gettingThereInner(walk) {
     const parts = [];
     const carParks = Array.isArray(r.carParks) ? r.carParks.filter((cp) => cp && cp.name) : [];
     if (carParks.length) {
+        // "Recommended" only means something when there's a choice - with a single
+        // car park it isn't shown, even if the data marks it recommended.
+        const multiCp = carParks.length > 1;
         // Cards say it all - the parking blurb is intentionally not shown here.
         parts.push(`<div class="car-park-cards">${carParks.map((cp, i) =>
-            `<div class="cp-card${cp.recommended ? ' is-recommended' : ''}" data-cp-name="${esc(cp.name)}">
+            `<div class="cp-card${cp.recommended && multiCp ? ' is-recommended' : ''}" data-cp-name="${esc(cp.name)}">
                         <div class="cp-card-head">
                             <span class="cp-num">${i + 1}</span>
                             ${icon('square-parking')}
                             <span class="cp-card-name">${esc(cp.name)}</span>
                             <a class="cp-card-maps" href="https://www.google.com/maps/search/?api=1&query=${cp.lat},${cp.lng}" target="_blank" rel="noopener" aria-label="Open ${esc(cp.name)} in Google Maps" title="Open in Google Maps">↗</a>
                         </div>${cp.info ? `
-                        <p class="cp-card-info">${esc(cp.info)}</p>` : ''}${cp.recommended ? `
+                        <p class="cp-card-info">${esc(cp.info)}</p>` : ''}${cp.recommended && multiCp ? `
                         <span class="cp-rec">★ Recommended</span>` : ''}
                     </div>`
         ).join('')}</div>`);

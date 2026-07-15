@@ -1669,7 +1669,16 @@
     "route": {
       "parking": "Parking is free in their eco-friendly living car park, but they welcome donations of £2 per car, which you can pay in the centre.",
       "localTip": "For the best views, head towards the higher meadows on a clear day. The reserve is particularly beautiful in spring and summer when the wildflowers are in bloom, and early mornings are often the quietest time to visit.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Langdon Nature Discovery Car Park",
+          "info": "Large; free, but the park welcomes donations of £2 per car, which you can pay in the centre.",
+          "recommended": true,
+          "lat": 51.561478,
+          "lng": 0.392941
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex Wildlife Trust",

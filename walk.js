@@ -34,19 +34,23 @@
         }).addTo(map);
         // Numbered circular markers matching the car park cards above; the name
         // shows on hover/tap. Compact so close-together car parks stay distinct.
+        // "Recommended" (terracotta) only applies when there's a choice - with a
+        // single car park it's just "the car park", shown neutral.
+        const multi = carParks.length > 1;
         const openInMaps = (cp) => window.open('https://www.google.com/maps/search/?api=1&query=' + cp.lat + ',' + cp.lng, '_blank', 'noopener');
         const latlngs = [];
         const markers = [];
         carParks.forEach((cp, i) => {
+            const rec = cp.recommended && multi;
             const m = L.marker([cp.lat, cp.lng], {
                 icon: L.divIcon({
-                    className: 'cp-pin' + (cp.recommended ? ' cp-pin--rec' : ''),
+                    className: 'cp-pin' + (rec ? ' cp-pin--rec' : ''),
                     html: '<span class="cp-pin-inner">' + (i + 1) + '</span>',
                     iconSize: [30, 30], iconAnchor: [15, 15]
                 }),
                 title: cp.name,
                 riseOnHover: true,
-                zIndexOffset: cp.recommended ? 1000 : 0
+                zIndexOffset: rec ? 1000 : 0
             }).addTo(map);
             m.bindTooltip(cp.name, { direction: 'top', offset: [0, -14], opacity: 1 });
             // Keep the tooltip inside the map when a marker sits near an edge
@@ -76,7 +80,7 @@
                 const on = (i === selected || i === hovered);
                 const card = cardByName[carParks[i].name];
                 if (m && m._icon) m._icon.classList.toggle('cp-pin--active', on);
-                if (m) m.setZIndexOffset(on ? 2000 : (carParks[i].recommended ? 1000 : 0));
+                if (m) m.setZIndexOffset(on ? 2000 : (carParks[i].recommended && multi ? 1000 : 0));
                 if (card) card.classList.toggle('is-active', on);
             });
         };
@@ -455,14 +459,15 @@
         });
         // Car park pins (those with coordinates), the route's best one highlighted.
         const P_SVG = '<svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>';
-        // Show only the car park this route names as its "best car park". If the
-        // route names none, plot no car parks on the GPX map (they still appear
-        // in the "Getting there" section, just not on the route map).
+        // Which car park to pin on the route map: the route's named best car park;
+        // or, if none is named but the walk has exactly one car park, that single
+        // one (it's the only option). Multiple car parks with no best named = none.
         const carParks = Array.isArray(window.WALK_CARPARKS) ? window.WALK_CARPARKS : [];
-        const relevant = bestPark ? carParks.filter((cp) => cp.name === bestPark) : [];
+        const relevant = bestPark ? carParks.filter((cp) => cp.name === bestPark)
+            : (carParks.length === 1 ? carParks : []);
         const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
         const cpMarkers = relevant.map((cp) => {
-            const best = bestPark && cp.name === bestPark;
+            const best = true; // the single P shown on a route map is always the highlighted one
             return L.marker([cp.lat, cp.lng], {
                 icon: L.divIcon({
                     className: 'gpx-pin',
@@ -498,9 +503,9 @@
                 }
             })(e.target);
             let bounds = e.target.getBounds();
-            // Only widen the view to reach the route's own (best) car park, so an
-            // unrelated distant car park can't zoom the whole map out.
-            if (bestPark) cpMarkers.forEach((m) => { bounds = bounds.extend(m.getLatLng()); });
+            // Widen the view to include the route's own car park pin (only ever the
+            // best/single one), so it's always visible without zooming out to others.
+            cpMarkers.forEach((m) => { bounds = bounds.extend(m.getLatLng()); });
             map.fitBounds(bounds, { paddingTopLeft: [12, 56], paddingBottomRight: [12, 12] });
             map.closePopup();
         }).addTo(map);
