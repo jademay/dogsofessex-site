@@ -834,19 +834,22 @@
         "name": "Whole Park Circular",
         "distance": "1.6 miles",
         "time": "40 mins",
-        "gpxFile": "data/gpx/danbury-country-park-whole-park-circular.gpx"
+        "gpxFile": "data/gpx/danbury-country-park-whole-park-circular.gpx",
+        "bestCarPark": "Woods Car Park"
       },
       {
         "name": "Lake Circular",
         "distance": "1.1 miles",
         "time": "25 mins",
-        "gpxFile": "data/gpx/danbury-country-park-lake-circular.gpx"
+        "gpxFile": "data/gpx/danbury-country-park-lake-circular.gpx",
+        "bestCarPark": "Lakes Car Park"
       },
       {
         "name": "Mini Lake Circular",
         "distance": "0.6 miles",
         "time": "15 mins",
-        "gpxFile": "data/gpx/danbury-country-park-mini-lake-circular.gpx"
+        "gpxFile": "data/gpx/danbury-country-park-mini-lake-circular.gpx",
+        "bestCarPark": "Lakes Car Park"
       }
     ],
     "terrain": "A mix of wide gravel paths, tarmac sections, woodland tracks, formal gardens and gentle grassy meadows. Mostly flat with a few gentle slopes.",
@@ -904,7 +907,21 @@
     "route": {
       "parking": "There are two paid for carparks. You can pay onsite at the machines or use the MiPermit app. Both carparks are fairly big.",
       "localTip": "Visit in late spring or early summer to see the formal gardens in full bloom, then cool off beneath the ancient woodland canopy on the quieter woodland trails.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Woods Car Park",
+          "info": "Paid car park; quite large in size.",
+          "lat": 51.7137599,
+          "lng": 0.5627577
+        },
+        {
+          "name": "Lakes Car Park",
+          "info": "Paid car park; quite large in size.",
+          "lat": 51.713560,
+          "lng": 0.559152
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex County Council",
