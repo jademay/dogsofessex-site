@@ -1787,7 +1787,16 @@
     "route": {
       "parking": "There's a free car park behind the Miller & Carter restaurant.",
       "localTip": "The further you venture from the main car park, the quieter the trails become. Dogs with reliable recall will find some excellent off-lead opportunities throughout the woodland.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Westley Heights Car Park",
+          "info": "Free; quite large car park behind Miller & Carter.",
+          "recommended": true,
+          "lat": 51.5546239,
+          "lng": 0.4252421
+        }
+      ]
     },
     "added": "2026-06-23",
     "hasPage": true
