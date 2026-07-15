@@ -1920,5 +1920,40 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "the-essex-rose-dedham",
+    "name": "The Essex Rose",
+    "type": "cafe",
+    "lat": 51.95922899,
+    "lng": 0.9933193525,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are allowed in the Tea Room but are limited to a maximum of three dogs at a time.",
+    "dogAccess": [
+      "inside"
+    ],
+    "lastChecked": "2026-07-15",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "A charming tea room in the heart of Dedham, serving hearty breakfasts, Tiptree favourites and sweet treats just moments from the River Stour.",
+    "website": "https://tiptreetearooms.com/pages/the-essex-rose",
+    "mapsLink": "https://maps.app.goo.gl/K1v1y8q46E87JaiTA",
+    "phone": "01206 323101",
+    "email": "essexrose@trooms.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/tiptreetearooms/?hl=en",
+      "facebook": "https://www.facebook.com/tiptreetearooms/?locale=en_GB",
+      "tiktok": "https://www.tiktok.com/@tiptreetearooms",
+      "youtube": null,
+      "twitter": null
+    }
   }
 ]
