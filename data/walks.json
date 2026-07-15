@@ -1325,6 +1325,12 @@
     ],
     "routes": [
       {
+        "name": "Dedham Short Circular",
+        "distance": "1.8 miles",
+        "time": "1 hr",
+        "gpxFile": "data/gpx/dedham-vale-dedham-short-circular.gpx"
+      },
+      {
         "name": "Dedham to Flatford River Walk",
         "distance": "2.5 miles",
         "time": "1hr 40 mins",
