@@ -112,7 +112,7 @@
     "route": {
       "parking": "Free car park off Maldon Road (B1022) between Tiptree and Maldon - search \"Tiptree Heath car park\". The reserve is signposted from the road and the trail begins at the car park gate.",
       "localTip": "The car park fills quickly after 10am on sunny Sundays - go early for a quiet walk and an easy space.",
-      "mapEmbed": "https://www.google.com/maps?q=Tiptree+Heath+Nature+Reserve+Essex&output=embed"
+      "mapEmbed": ""
     },
     "whatToExpect": [
       "Tiptree Heath is the largest remaining area of lowland heath in Essex, and it has a gentle, unhurried feel that suits dogs who like to take their time. Soft, meandering trails wind through silver birch, gorse and heather, with plenty of shade in the warmer months and dappled light filtering through the canopy.",
@@ -232,7 +232,7 @@
     ],
     "route": {
       "parking": "There's one free car park to the reserve which is fairly small but rarely seems to get busy.",
-      "mapEmbed": "https://www.google.com/maps?q=Chigborough+Lakes+Nature+Reserve+Essex&output=embed",
+      "mapEmbed": "",
       "carParks": [
         {
           "name": "Chigborough Lakes Nature Reserve Car Park",

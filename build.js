@@ -709,10 +709,6 @@ function carParksScript(walk) {
 
 function gettingThereInner(walk) {
     const r = walk.route || {};
-    const mapSrc = r.mapEmbed
-        || (walk.lat != null && walk.lng != null
-            ? `https://www.google.com/maps?q=${walk.lat},${walk.lng}&output=embed`
-            : '');
     const parts = [];
     const carParks = Array.isArray(r.carParks) ? r.carParks.filter((cp) => cp && cp.name) : [];
     if (carParks.length) {
@@ -735,14 +731,19 @@ function gettingThereInner(walk) {
     } else if (r.parking) {
         parts.push(`<p class="parking-lead">${esc(r.parking)}</p>`);
     }
-    // If car parks have coordinates, show them all on an interactive map (the
-    // Google embed can't plot multiple pins); otherwise fall back to the embed.
+    // Car parks with coordinates -> interactive multi-pin car-park map. Otherwise
+    // a reliable Leaflet/OSM location map centred on the walk (an explicit custom
+    // mapEmbed, if ever set, is still honoured as an iframe). We deliberately no
+    // longer fall back to Google's keyless `output=embed`, which Google blocks.
     const mappedCarParks = carParks.filter((cp) => cp.lat != null && cp.lng != null);
     if (mappedCarParks.length) {
         parts.push(`<div class="carparks-map" id="carparks-map"></div>
                     <p class="carparks-map-link">${icon('map-pin')} Click a car park above to open it in Google Maps</p>`);
-    } else if (mapSrc) {
-        parts.push(`<div class="map-embed"><iframe src="${esc(mapSrc)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
+    } else if (r.mapEmbed) {
+        parts.push(`<div class="map-embed"><iframe src="${esc(r.mapEmbed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
+    } else if (walk.lat != null && walk.lng != null) {
+        parts.push(`<div class="getting-there-map" id="getting-there-map" data-lat="${walk.lat}" data-lng="${walk.lng}"></div>
+                    <p class="carparks-map-link"><a class="gt-maps-link" href="https://www.google.com/maps/search/?api=1&query=${walk.lat},${walk.lng}" target="_blank" rel="noopener">${icon('map-pin')} Open this location in Google Maps</a></p>`);
     }
     if (!parts.length) return '';
     return `<h2>${icon('map-pin')} Getting there</h2>
@@ -1145,9 +1146,11 @@ function page(walk, walks, places, tips) {
     const canonicalPath = `walks/${walk.id}.html`;
     const og = seoHead({ canonical: canonicalPath, title: title, description: description, image: ogImage, type: 'article' })
         + '\n    ' + walkJsonLd(walk, description, absUrl(ogImage), absUrl(canonicalPath));
-    // Leaflet + leaflet-gpx are only loaded on pages that have a GPX track.
+    // Leaflet is loaded on pages that have a GPX track, mapped car parks, or a
+    // "Getting there" location map (any walk with coordinates).
     const needsMap = !!walk.gpxFile || (walk.routes || []).some(function (r) { return r.gpxFile; })
-        || ((walk.route && walk.route.carParks) || []).some(function (cp) { return cp && cp.lat != null && cp.lng != null; });
+        || ((walk.route && walk.route.carParks) || []).some(function (cp) { return cp && cp.lat != null && cp.lng != null; })
+        || (walk.lat != null && walk.lng != null);
     const mapHead = needsMap
         ? `\n    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">`
         : '';

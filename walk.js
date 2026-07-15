@@ -18,7 +18,31 @@
         wireRoutes();
         wireImprove();
         wireCarparksMap();
+        wireGettingThereMap();
     });
+
+    // Fallback "Getting there" map for walks without structured car parks: a
+    // reliable Leaflet/OSM map centred on the walk with a single pin (replaces
+    // the old Google keyless embed, which Google blocks). Click the pin to open
+    // the location in Google Maps.
+    function wireGettingThereMap() {
+        const el = document.getElementById('getting-there-map');
+        if (!el || typeof L === 'undefined') return;
+        const lat = parseFloat(el.dataset.lat), lng = parseFloat(el.dataset.lng);
+        if (!isFinite(lat) || !isFinite(lng)) { el.remove(); return; }
+        const map = L.map(el, { scrollWheelZoom: false });
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        map.setView([lat, lng], 14);
+        const m = L.marker([lat, lng], {
+            icon: L.divIcon({ className: 'walk-map-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] }),
+            title: 'Open in Google Maps'
+        }).addTo(map);
+        m.on('click', () => window.open('https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lng, '_blank', 'noopener'));
+        setTimeout(() => map.invalidateSize(), 60);
+    }
 
     // "Getting there" overview map: plot every car park (with coordinates) so
     // visitors can see all parking options at once.
