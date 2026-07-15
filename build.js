@@ -197,7 +197,7 @@ const trimNum = (n) => (Math.round(n * 100) / 100).toString();
 function milesLabel(walk) {
     if (walk.routes && walk.routes.length) {
         const r = rangeBy(walk.routes.map((x) => x.distance), parseMiles);
-        if (r) return r.min === r.max ? `${trimNum(r.min)} miles` : `${trimNum(r.min)}–${trimNum(r.max)} miles`;
+        if (r) return r.min === r.max ? `${trimNum(r.min)} miles` : `${trimNum(r.min)}-${trimNum(r.max)} miles`;
     }
     return walk.distance || '';
 }
@@ -211,7 +211,7 @@ function timeLabel(walk, short) {
         if (timed.length) {
             const lo = timed.reduce((a, b) => (b.mins < a.mins ? b : a));
             const hi = timed.reduce((a, b) => (b.mins > a.mins ? b : a));
-            return lo.label === hi.label ? lo.label : `${lo.label}–${hi.label}`;
+            return lo.label === hi.label ? lo.label : `${lo.label}-${hi.label}`;
         }
     }
     return short ? (walk.timeShort || walk.time || '') : (walk.time || walk.timeShort || '');
@@ -886,7 +886,7 @@ function dayHTML(walk, places) {
                         <select class="places-sort day-sort" id="day-sort" aria-label="Sort nearby places">
                             <option value="recommended">Recommended</option>
                             <option value="distance">Distance</option>
-                            <option value="az">A–Z</option>
+                            <option value="az">A-Z</option>
                         </select>
                     </div>
                     <p class="day-count places-count" aria-live="polite"></p>`;
@@ -1715,7 +1715,7 @@ function placesIndexPage(places, walks) {
                                 <option value="recommended">Recommended</option>
                                 <option value="distance">Distance</option>
                                 <option value="added">Recently added</option>
-                                <option value="az">A–Z</option>
+                                <option value="az">A-Z</option>
                             </select>
                         </div>
                     </div>
@@ -2560,6 +2560,18 @@ function adminPage(walks, places) {
 }
 
 function build() {
+    // House style: no "big" dashes. Every generated .html page has its em (—)
+    // and en (–) dashes normalised to a plain hyphen (-) on write, so this holds
+    // forever for all pages - current and future - whatever the data contains.
+    // (Non-HTML output like sitemap.xml / robots.txt is left untouched.)
+    const _writeFileSync = fs.writeFileSync.bind(fs);
+    fs.writeFileSync = (file, data, ...rest) => {
+        if (typeof file === 'string' && file.endsWith('.html') && typeof data === 'string') {
+            data = data.replace(/[–—]/g, '-');
+        }
+        return _writeFileSync(file, data, ...rest);
+    };
+
     const walks = readJSON('walks.json');
     const places = readJSON('places.json');
     let tips = [];
