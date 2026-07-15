@@ -2458,7 +2458,8 @@
         "distance": "2.6 miles",
         "time": "50 mins",
         "routeType": "Circular",
-        "gpxFile": "data/gpx/heybridge-basin-circular.gpx"
+        "gpxFile": "data/gpx/heybridge-basin-circular.gpx",
+        "bestCarPark": "Daisy Meadow Car Park"
       }
     ],
     "terrain": "Paved paths, compact gravel, sea wall, canal towpath and short sections of grass.",
@@ -2516,7 +2517,7 @@
       }
     ],
     "route": {
-      "parking": "Daisy Meadow Car Park is a large and easy to navigate car park right next to the basin - you can pay via the RingGo app or with your credit/debit card at the machines. You can also park at the two nearby pubs if you are planning to eat there; see The Jolly Sailor and The Old Ship in the Make a Day of It section below.",
+      "parking": "Daisy Meadow Car Park is a large and easy to navigate car park right next to the basin - you can pay via the RingGo app or with your credit/debit card at the machines. You can also park at the two nearby pubs if you are planning to eat at one - either The Jolly Sailor or The Old Ship. If you would rather park up and walk from Osea, their car park is free, if you're eating at the Osea View cafe, otherwise it is paid.",
       "localTip": "Arrive early on sunny weekends to make parking easier and enjoy a quieter walk. If the tide is in, the estuary views are particularly beautiful.",
       "mapEmbed": "",
       "carParks": [
