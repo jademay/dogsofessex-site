@@ -2460,6 +2460,22 @@
         "routeType": "Circular",
         "gpxFile": "data/gpx/heybridge-basin-circular.gpx",
         "bestCarPark": "Daisy Meadow Car Park"
+      },
+      {
+        "name": "Osea to The Old Ship (Out and Back)",
+        "distance": "3.5 miles",
+        "time": "1hr 10 mins",
+        "routeType": "Out and back",
+        "gpxFile": "data/gpx/heybridge-basin-osea-to-old-ship-out-and-back.gpx",
+        "bestCarPark": "Osea Leisure Park Car Park"
+      },
+      {
+        "name": "Osea to Heybridge Basin (Out and Back)",
+        "distance": "6.1 miles",
+        "time": "2 hrs",
+        "routeType": "Out and back",
+        "gpxFile": "data/gpx/heybridge-basin-osea-to-basin-out-and-back.gpx",
+        "bestCarPark": "Osea Leisure Park Car Park"
       }
     ],
     "terrain": "Paved paths, compact gravel, sea wall, canal towpath and short sections of grass.",
