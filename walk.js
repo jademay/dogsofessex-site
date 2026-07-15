@@ -441,10 +441,11 @@
         });
         // Car park pins (those with coordinates), the route's best one highlighted.
         const P_SVG = '<svg class="lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>';
-        // Show the car park relevant to this route (its "best car park"); if the
-        // route names none, show all the walk's car parks that have coordinates.
+        // Show only the car park this route names as its "best car park". If the
+        // route names none, plot no car parks on the GPX map (they still appear
+        // in the "Getting there" section, just not on the route map).
         const carParks = Array.isArray(window.WALK_CARPARKS) ? window.WALK_CARPARKS : [];
-        const relevant = bestPark ? carParks.filter((cp) => cp.name === bestPark) : carParks;
+        const relevant = bestPark ? carParks.filter((cp) => cp.name === bestPark) : [];
         const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
         const cpMarkers = relevant.map((cp) => {
             const best = bestPark && cp.name === bestPark;
