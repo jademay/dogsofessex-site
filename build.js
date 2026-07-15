@@ -867,18 +867,19 @@ function dayHTML(walk, places) {
 
     if (!inRange.length) return '';
 
-    // A short preview - the top 3 by our blended ranking, with the rest revealed
-    // by "Show more". The full filterable/sortable experience (with the map) lives
-    // on the places page, reached via "Browse all …".
+    // A short preview - the top 3 by our blended ranking, with up to 7 more (10
+    // total) revealed by "Show more". Anything beyond that, plus filters, sort
+    // and the map, lives on the places page via the "Browse all …" pill (which
+    // only appears once the list has been expanded).
     const N = inRange.length;
-    const cards = inRange
+    const cards = inRange.slice(0, 10)
         .map((p, i) => placeCardHTML(p, { mi: p._mi, order: i, detailHref: venueHref(p, '/'), distText: distLine(p), extraClass: i >= 3 ? ' day-extra' : '' }))
         .join('');
 
     const moreBtn = N > 3
         ? `\n                        <button type="button" class="day-more-toggle" aria-expanded="false">Show more ↓</button>` : '';
     const browseAll = N > 3
-        ? `\n                        <a class="day-browse-all" href="/places/?near=${walk.lat},${walk.lng}&amp;walk=${encodeURIComponent(walk.name)}">Browse all ${N} nearby places →</a>` : '';
+        ? `\n                        <a class="day-browse-all" href="/places/?near=${walk.lat},${walk.lng}&amp;walk=${encodeURIComponent(walk.name)}">Browse all ${N} nearby places (map included) →</a>` : '';
 
     const who = esc((walk.town || walk.name).split(' ')[0]);
     return `

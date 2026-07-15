@@ -2980,18 +2980,25 @@ h2 .lucide { vertical-align: -0.1em; }
 /* Make a Day of It: top 3 shown, the rest revealed by "Show more". */
 .day-list .place-card.day-extra { display: none; }
 .day-category.expanded .day-list .place-card.day-extra { display: flex; }
-/* "Browse all N nearby places →" link to the places page. */
+/* "Browse all N nearby places (map included) →" pill — a link to the places
+   page, shown only once the list has been expanded via "Show more". */
 .day-browse-all {
-    display: block;
+    display: none;
     width: fit-content;
     margin: 0.9rem auto 0;
+    padding: 0.5rem 1.3rem;
+    background-color: var(--color-forest);
+    color: #fff;
+    border-radius: 999px;
     font-family: var(--font-sans);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
-    color: var(--color-terracotta);
     text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s ease;
 }
-.day-browse-all:hover { text-decoration: underline; }
+.day-category.expanded .day-browse-all { display: block; }
+.day-browse-all:hover { background-color: var(--color-forest-dark); }
 .day-more-toggle {
     display: block;
     width: fit-content;

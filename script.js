@@ -735,20 +735,36 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         return true;
     };
 
+    // Count places currently within the map's view (vs the total matching the
+    // filters), so the tally reflects what's actually visible on the map - with a
+    // nudge to zoom out when more sit beyond the edges. Re-runs on every map move.
+    const updateCount = () => {
+        const total = cards.filter((c) => !c.hidden).length;
+        if (listEl) listEl.classList.toggle('is-empty', total === 0);
+        if (!total) {
+            const subActive = subBar && cat === subCat && (subType !== 'all' || subAccess.size > 0);
+            countEls.forEach((el) => { el.textContent = subActive ? 'No places match those filters' : ''; });
+            return;
+        }
+        let inView = total;
+        if (map) {
+            const b = map.getBounds();
+            inView = 0;
+            entries.forEach(({ card, marker }) => { if (!card.hidden && b.contains(marker.getLatLng())) inView++; });
+        }
+        countEls.forEach((el) => { el.textContent = inView < total
+            ? ('Showing ' + inView + ' of ' + total + ' places (zoom out to see more)')
+            : ('Showing ' + total + ' place' + (total === 1 ? '' : 's')); });
+    };
+    if (map) { map.on('moveend', updateCount); map.on('zoomend', updateCount); }
+
     const applyFilters = () => {
         cards.forEach((c) => { c.hidden = !cardShown(c); });
         // Show a "coming soon" state only when the chosen category has none.
         empties.forEach((e) => { e.hidden = !(cat !== 'all' && e.dataset.cat === cat); });
         if (active && active.card.hidden) select(null);
-        const n = cards.filter((c) => !c.hidden).length;
-        const subActive = subBar && cat === subCat && (subType !== 'all' || subAccess.size > 0);
-        const text = n ? ('Showing ' + n + ' place' + (n === 1 ? '' : 's'))
-            : (subActive ? 'No places match those filters' : '');
-        // No-JS-:has() fallback: collapse the carousel when nothing is showing
-        // so the "coming soon" note sits right under the map.
-        if (listEl) listEl.classList.toggle('is-empty', n === 0);
-        countEls.forEach((el) => { el.textContent = text; });
         fitVisible();
+        updateCount();
         // Mobile: highlight whichever card now leads the carousel — without
         // panning, so the fitBounds animation isn't cancelled mid-flight.
         if (isMobile()) requestAnimationFrame(() => syncActiveFromCarousel(false));
@@ -906,6 +922,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: 3000, interactive: false }).addTo(map);
         }
         fitVisible();
+        updateCount();
         say('Showing places nearest to ' + label + '.');
     };
     if (locForm) {
