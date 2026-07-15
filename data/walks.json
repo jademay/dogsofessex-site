@@ -1875,6 +1875,16 @@
       { "image": "", "caption": "One Tree Hill car park entrance" },
       { "image": "", "caption": "One Tree Hill car park sign" }
     ],
+    "routes": [
+      {
+        "name": "One Tree Hill & Langdon Hills Circular",
+        "distance": "1.6 miles",
+        "time": "35 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/langdon-hills-one-tree-hill-and-langdon-hills-circular.gpx",
+        "bestCarPark": "One Tree Hill 1"
+      }
+    ],
     "route": {
       "parking": "There are two main car parks on One Tree Hill Road - both free.",
       "localTip": "Don't miss the viewpoint near the summit. On a clear day you can see across much of south Essex, making it one of the best reward-to-effort walks in the county.",
