@@ -1719,7 +1719,7 @@ function placesIndexPage(places, walks) {
 
             <div class="places-toolbar">
                 <div class="container">
-                    <h2 class="controls-title">Find the perfect place to go</h2>
+                    <h2 class="controls-title">Plan the perfect dog-friendly day out</h2>
                     ${locatorBar}
                     ${filterToggleHTML('places-filter-toggle', 'places-controls')}
                     <div class="places-controls-wrap" id="places-controls">

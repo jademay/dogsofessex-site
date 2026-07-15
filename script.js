@@ -763,14 +763,10 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const updateCount = () => {
         const total = cards.filter((c) => !c.hidden).length;
         if (listEl) listEl.classList.toggle('is-empty', total === 0);
-        // Short "N places near <label>" status once a location/walk is chosen.
-        if (locStatus) {
-            if (originPoint) { locStatus.hidden = false; locStatus.textContent = total + ' place' + (total === 1 ? '' : 's') + ' near ' + originLabel; }
-            else { locStatus.hidden = true; locStatus.textContent = ''; }
-        }
         if (!total) {
             const subActive = subBar && cat === subCat && (subType !== 'all' || subAccess.size > 0);
-            countEls.forEach((el) => { el.textContent = subActive ? 'No places match those filters' : ''; });
+            const near = originPoint ? ' near ' + originLabel : '';
+            countEls.forEach((el) => { el.textContent = subActive || originPoint ? ('No places' + near + ' match those filters') : ''; });
             return;
         }
         let inView = total;
@@ -779,9 +775,20 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             inView = 0;
             entries.forEach(({ card, marker }) => { if (!card.hidden && b.contains(marker.getLatLng())) inView++; });
         }
-        countEls.forEach((el) => { el.textContent = inView < total
-            ? ('Showing ' + inView + ' of ' + total + ' places (zoom out to see more)')
-            : ('Showing ' + total + ' place' + (total === 1 ? '' : 's')); });
+        const plc = (n) => n + ' place' + (n === 1 ? '' : 's');
+        let text;
+        if (originPoint && distanceLimit != null) {
+            text = 'Showing ' + plc(total) + ' within ' + distanceLimit + ' miles of ' + originLabel;
+        } else if (originPoint) {
+            text = inView < total
+                ? ('Showing ' + inView + ' of ' + plc(total) + ' near ' + originLabel + ' (zoom out to see more)')
+                : ('Showing ' + plc(total) + ' near ' + originLabel);
+        } else {
+            text = inView < total
+                ? ('Showing ' + inView + ' of ' + plc(total) + ' (zoom out to see more)')
+                : ('Showing ' + plc(total));
+        }
+        countEls.forEach((el) => { el.textContent = text; });
     };
     if (map) { map.on('moveend', updateCount); map.on('zoomend', updateCount); }
 
@@ -946,7 +953,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: 3000, interactive: false }).addTo(map);
         }
         sortCards();
-        applyFilters(); // applies the distance filter, refits the map, updates the "N near X" status
+        applyFilters(); // applies the distance filter, refits the map, updates the map count
+        say(''); // clear any transient "Searching…" message; the count sits above the map now
     };
     if (locForm) {
         locForm.addEventListener('submit', async (e) => {
