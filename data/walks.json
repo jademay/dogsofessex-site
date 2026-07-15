@@ -230,7 +230,17 @@
       }
     ],
     "route": {
-      "mapEmbed": "https://www.google.com/maps?q=Chigborough+Lakes+Nature+Reserve+Essex&output=embed"
+      "parking": "There's one free car park to the reserve which is fairly small but rarely seems to get busy.",
+      "mapEmbed": "https://www.google.com/maps?q=Chigborough+Lakes+Nature+Reserve+Essex&output=embed",
+      "carParks": [
+        {
+          "name": "Chigborough Lakes Nature Reserve Car Park",
+          "info": "Free; fairly small car park.",
+          "recommended": true,
+          "lat": 51.7452862,
+          "lng": 0.7186724
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex Wildlife Trust",
