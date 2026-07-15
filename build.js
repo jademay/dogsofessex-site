@@ -716,7 +716,7 @@ function gettingThereInner(walk) {
     const parts = [];
     const carParks = Array.isArray(r.carParks) ? r.carParks.filter((cp) => cp && cp.name) : [];
     if (carParks.length) {
-        parts.push(`<p class="parking-lead"><strong>Parking &amp; directions.</strong>${r.parking ? ' ' + esc(r.parking) : ''}</p>`);
+        if (r.parking) parts.push(`<p class="parking-lead">${esc(r.parking)}</p>`);
         parts.push(`<div class="car-park-cards">${carParks.map((cp, i) =>
             `<div class="cp-card${cp.recommended ? ' is-recommended' : ''}" data-cp-name="${esc(cp.name)}">
                         <div class="cp-card-head">
@@ -730,7 +730,7 @@ function gettingThereInner(walk) {
                     </div>`
         ).join('')}</div>`);
     } else if (r.parking) {
-        parts.push(`<p class="parking-lead"><strong>Parking &amp; directions.</strong> ${esc(r.parking)}</p>`);
+        parts.push(`<p class="parking-lead">${esc(r.parking)}</p>`);
     }
     // If car parks have coordinates, show them all on an interactive map (the
     // Google embed can't plot multiple pins); otherwise fall back to the embed.
