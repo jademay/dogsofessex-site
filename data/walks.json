@@ -1878,7 +1878,22 @@
     "route": {
       "parking": "There are two main car parks on One Tree Hill Road - both free.",
       "localTip": "Don't miss the viewpoint near the summit. On a clear day you can see across much of south Essex, making it one of the best reward-to-effort walks in the county.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "One Tree Hill 1",
+          "info": "Free car park.",
+          "recommended": true,
+          "lat": 51.546106,
+          "lng": 0.446260
+        },
+        {
+          "name": "One Tree Hill 2",
+          "info": "Free car park.",
+          "lat": 51.548325,
+          "lng": 0.446120
+        }
+      ]
     },
     "added": "2026-06-23",
     "hasPage": true
