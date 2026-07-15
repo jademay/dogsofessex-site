@@ -1328,19 +1328,22 @@
         "name": "Dedham Short Circular",
         "distance": "1.8 miles",
         "time": "1 hr",
-        "gpxFile": "data/gpx/dedham-vale-dedham-short-circular.gpx"
+        "gpxFile": "data/gpx/dedham-vale-dedham-short-circular.gpx",
+        "bestCarPark": "Mill Lane Dedham Car Park"
       },
       {
         "name": "Dedham to Flatford River Walk",
         "distance": "2.5 miles",
         "time": "1hr 40 mins",
-        "gpxFile": "data/gpx/dedham-vale-dedham-to-flatford.gpx"
+        "gpxFile": "data/gpx/dedham-vale-dedham-to-flatford.gpx",
+        "bestCarPark": "Mill Lane Dedham Car Park"
       },
       {
         "name": "Dedham, River Stour, and Manningtree Circular",
         "distance": "6 miles",
         "time": "3hrs 20 mins",
-        "gpxFile": "data/gpx/dedham-vale-dedham-river-stour-and-manningtree-circular.gpx"
+        "gpxFile": "data/gpx/dedham-vale-dedham-river-stour-and-manningtree-circular.gpx",
+        "bestCarPark": "Mill Lane Dedham Car Park"
       }
     ],
     "route": {
