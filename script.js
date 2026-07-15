@@ -623,9 +623,29 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const entries = []; // { card, marker }
     let active = null;
 
+    // Shared "near a location/walk" state + control refs, declared up here so the
+    // filter/count/map helpers below can all see them.
+    let originPoint = null;   // {lat,lng} once a location/walk/area is chosen
+    let originLabel = '';
+    let distanceLimit = null; // miles, or null for "everywhere"
+    const locForm = document.querySelector('.places-locator');
+    const locInput = locForm && locForm.querySelector('.locator-input');
+    const locStatus = document.querySelector('.locator-status');
+    const geoBtn = document.querySelector('.places-finder .locator-geo');
+    const walkSel = document.querySelector('.places-near-walk');
+    const distSel = document.querySelector('.places-distance');
+    const distWrap = document.querySelector('.places-distance-wrap');
+    const searchAreaBtn = document.querySelector('.map-search-area');
+
     const highlightMarker = (marker, on) => {
         if (marker && marker._icon) marker._icon.classList.toggle('walk-map-pin--active', on);
         if (marker) marker.setZIndexOffset(on ? 1000 : 0);
+    };
+    // Temporary hover highlight linking a card and its map pin, both ways.
+    const setHover = (entry, on) => {
+        if (!entry || entry === active) return;
+        highlightMarker(entry.marker, on);
+        entry.card.classList.toggle('is-map-hover', on);
     };
     // Select a venue: colour its pin, highlight its card and pan the map to it
     // (instead of following its link). On mobile pan only enough to bring the
@@ -679,6 +699,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             m.on('tooltipopen', (e) => { if (isMobile()) { m.closeTooltip(); return; } clampMapTooltip(map, e.tooltip); });
             const entry = { card, marker: m };
             m.on('click', () => select(entry, true));
+            m.on('mouseover', () => setHover(entry, true));
+            m.on('mouseout', () => setHover(entry, false));
             entries.push(entry);
         });
     }
@@ -692,11 +714,10 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         card.addEventListener('keydown', (e) => {
             if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a, button')) { e.preventDefault(); select(entry, isMobile()); }
         });
+        card.addEventListener('mouseenter', () => setHover(entry, true));
+        card.addEventListener('mouseleave', () => setHover(entry, false));
     });
 
-    // Origin for "near a walk"/location sorting (null = default view). Kept up
-    // here so fitVisible can stay centred on it across later map refreshes.
-    let originPoint = null;
     const haversine = (a, b) => {
         const R = 3958.8, tr = (d) => d * Math.PI / 180;
         const dLat = tr(b.lat - a.lat), dLng = tr(b.lng - a.lng);
@@ -725,6 +746,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     // category, the venue-type and every selected dog-access option.
     const cardShown = (c) => {
         if (!(cat === 'all' || c.dataset.cat === cat)) return false;
+        if (originPoint && distanceLimit != null && (parseFloat(c.dataset.dist) || Infinity) > distanceLimit) return false;
         if (subBar && cat === subCat) {
             if (subType !== 'all' && c.dataset.placeType !== subType) return false;
             if (subAccess.size) {
@@ -741,6 +763,11 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const updateCount = () => {
         const total = cards.filter((c) => !c.hidden).length;
         if (listEl) listEl.classList.toggle('is-empty', total === 0);
+        // Short "N places near <label>" status once a location/walk is chosen.
+        if (locStatus) {
+            if (originPoint) { locStatus.hidden = false; locStatus.textContent = total + ' place' + (total === 1 ? '' : 's') + ' near ' + originLabel; }
+            else { locStatus.hidden = true; locStatus.textContent = ''; }
+        }
         if (!total) {
             const subActive = subBar && cat === subCat && (subType !== 'all' || subAccess.size > 0);
             countEls.forEach((el) => { el.textContent = subActive ? 'No places match those filters' : ''; });
@@ -891,11 +918,6 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     // then recompute each place's distance from it, re-sort by distance, and
     // centre the map. Also honours a ?near=lat,lng[&walk=Name] deep link from a
     // walk page's "Browse all nearby places →".
-    const locForm = document.querySelector('.places-locator');
-    const locInput = locForm && locForm.querySelector('.locator-input');
-    const locStatus = locForm && locForm.querySelector('.locator-status');
-    const geoBtn = locForm && locForm.querySelector('.locator-geo');
-    const walkSel = document.querySelector('.places-near-walk');
     const say = (msg) => { if (locStatus) { locStatus.hidden = !msg; locStatus.textContent = msg || ''; } };
     async function geocode(q) {
         try { const r = await fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(q)); if (r.ok) { const j = await r.json(); if (j.result) return { lat: j.result.latitude, lng: j.result.longitude, label: j.result.postcode }; } } catch (e) { /* next */ }
@@ -906,6 +928,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     let originMarker = null;
     const setOrigin = (point, label) => {
         originPoint = point;
+        originLabel = label;
         cards.forEach((c) => {
             const lat = parseFloat(c.dataset.lat), lng = parseFloat(c.dataset.lng);
             if (!isFinite(lat) || !isFinite(lng)) return;
@@ -915,15 +938,15 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             const d = c.querySelector('.place-dist');
             if (d) d.textContent = mi.toFixed(1) + ' mi away';
         });
+        if (distWrap) distWrap.hidden = false;
+        if (searchAreaBtn) searchAreaBtn.hidden = true;
         if (sortSel) sortSel.value = 'distance';
-        sortCards();
         if (map && typeof L !== 'undefined') {
             if (originMarker) originMarker.setLatLng([point.lat, point.lng]);
             else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: 3000, interactive: false }).addTo(map);
         }
-        fitVisible();
-        updateCount();
-        say('Showing places nearest to ' + label + '.');
+        sortCards();
+        applyFilters(); // applies the distance filter, refits the map, updates the "N near X" status
     };
     if (locForm) {
         locForm.addEventListener('submit', async (e) => {
@@ -956,10 +979,23 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             setOrigin({ lat: parts[0], lng: parts[1] }, walkSel.options[walkSel.selectedIndex].textContent.trim());
         });
     }
-    // Hint when someone picks "Distance" without having set a location.
-    if (sortSel) sortSel.addEventListener('change', () => {
-        if (sortSel.value === 'distance' && !originPoint) say('Enter a location or pick a walk above to sort by distance.');
+    // "Within X miles" distance filter (only meaningful once an origin is set).
+    if (distSel) distSel.addEventListener('change', () => {
+        distanceLimit = distSel.value ? parseFloat(distSel.value) : null;
+        applyFilters();
     });
+    // "Search this area": after the user drags the map, offer to re-search at the
+    // new centre rather than changing everything automatically.
+    if (map && searchAreaBtn) {
+        map.on('dragend', () => { searchAreaBtn.hidden = false; });
+        searchAreaBtn.addEventListener('click', () => {
+            searchAreaBtn.hidden = true;
+            const c = map.getCenter();
+            if (walkSel) walkSel.value = '';
+            if (locInput) locInput.value = '';
+            setOrigin({ lat: c.lat, lng: c.lng }, 'this area');
+        });
+    }
     // ?near=lat,lng[&walk=Name] deep link (from a walk's "Browse all …").
     (function () {
         const params = new URLSearchParams(location.search);

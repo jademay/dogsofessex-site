@@ -1643,20 +1643,29 @@ function placesIndexPage(places, walks) {
         .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
         .map((w) => `<option value="${w.lat},${w.lng}">${esc(w.name)}</option>`)
         .join('\n                                ');
-    // Location bar: set an origin by postcode/town, current location, or a walk;
+    // Finder: set an origin by postcode/town, current location, or a walk;
     // distances + the map then re-centre on it. Deep-linkable via ?near=lat,lng.
     const locatorBar = `
-                    <form class="places-locator" autocomplete="off" aria-label="Find places near a location or a walk">
-                        <input type="text" class="locator-input" name="loc" placeholder="Postcode or town…" aria-label="Your postcode or town">
-                        <button type="submit" class="btn btn-primary locator-go">Search</button>
-                        <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} Use my location</button>
-                        <span class="locator-or" aria-hidden="true">or</span>
-                        <select class="places-near-walk" aria-label="Show places near a walk">
-                            <option value="">Near a walk…</option>
-                            ${walkOpts}
-                        </select>
-                        <p class="locator-status" role="status" hidden></p>
-                    </form>`;
+                    <div class="places-finder">
+                        <div class="finder-search">
+                            <span class="finder-label">Search near:</span>
+                            <form class="places-locator" autocomplete="off">
+                                <input type="text" class="locator-input" name="loc" placeholder="Postcode…" aria-label="Your postcode or town">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </form>
+                            <span class="finder-or" aria-hidden="true">or</span>
+                            <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} Use my location</button>
+                        </div>
+                        <span class="finder-sep" aria-hidden="true"></span>
+                        <div class="finder-walk">
+                            <span class="finder-label">Browse around a walk</span>
+                            <select class="places-near-walk" aria-label="Show places near a walk">
+                                <option value="">Select walk…</option>
+                                ${walkOpts}
+                            </select>
+                        </div>
+                    </div>
+                    <p class="locator-status" role="status" hidden></p>`;
     const pills = `<button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>\n                        `
         + cats.map((c) => `<button type="button" class="filter-pill" data-cat="${esc(c.slug)}" aria-pressed="false">${esc(c.title)}</button>`).join('\n                        ');
 
@@ -1725,6 +1734,15 @@ function placesIndexPage(places, walks) {
                                 <option value="added">Recently added</option>
                                 <option value="az">A-Z</option>
                             </select>
+                            <label class="places-distance-wrap" hidden>Within
+                                <select class="places-distance" aria-label="Only show places within this distance">
+                                    <option value="">Everywhere</option>
+                                    <option value="20">20 miles</option>
+                                    <option value="10">10 miles</option>
+                                    <option value="5">5 miles</option>
+                                    <option value="3">3 miles</option>
+                                </select>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -1739,7 +1757,10 @@ function placesIndexPage(places, walks) {
                         </div>
                         <aside class="places-map-col">
                             <p class="places-count places-count-map" aria-live="polite"></p>
-                            <div id="places-map" class="places-map" aria-label="Map of dog-friendly places in Essex"></div>
+                            <div class="places-map-wrap">
+                                <div id="places-map" class="places-map" aria-label="Map of dog-friendly places in Essex"></div>
+                                <button type="button" class="map-search-area" hidden>${icon('map-pin')} Search this area</button>
+                            </div>
                         </aside>
                     </div>
                 </div>
