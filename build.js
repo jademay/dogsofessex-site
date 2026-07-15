@@ -1728,21 +1728,25 @@ function placesIndexPage(places, walks) {
                                 ${pills}
                             </div>${subfilter}
                             <div class="places-active-filters" role="group" aria-label="Active filters" hidden></div>
-                            <select class="places-sort" aria-label="Sort places">
-                                <option value="recommended">Recommended</option>
-                                <option value="distance">Distance</option>
-                                <option value="added">Recently added</option>
-                                <option value="az">A-Z</option>
-                            </select>
-                            <label class="places-distance-wrap" hidden>Within
-                                <select class="places-distance" aria-label="Only show places within this distance">
-                                    <option value="">Everywhere</option>
-                                    <option value="20">20 miles</option>
-                                    <option value="10">10 miles</option>
-                                    <option value="5">5 miles</option>
-                                    <option value="3">3 miles</option>
-                                </select>
-                            </label>
+                            <div class="places-sort-row">
+                                <label class="places-sort-label">Sort by
+                                    <select class="places-sort" aria-label="Sort places">
+                                        <option value="recommended">Recommended</option>
+                                        <option value="distance">Distance</option>
+                                        <option value="added">Recently added</option>
+                                        <option value="az">A-Z</option>
+                                    </select>
+                                </label>
+                                <label class="places-distance-wrap" hidden>Search radius
+                                    <select class="places-distance" aria-label="Only show places within this distance">
+                                        <option value="">Everywhere</option>
+                                        <option value="20">20 miles</option>
+                                        <option value="10">10 miles</option>
+                                        <option value="5">5 miles</option>
+                                        <option value="3">3 miles</option>
+                                    </select>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

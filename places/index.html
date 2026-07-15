@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=fea01eac">
+    <link rel="stylesheet" href="../styles.css?v=741f9108">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
@@ -134,21 +134,25 @@
                             <button type="button" class="filter-pill subfilter-pill" data-subaccess="treats" aria-pressed="false">Treats available</button>
                         </div>
                             <div class="places-active-filters" role="group" aria-label="Active filters" hidden></div>
-                            <select class="places-sort" aria-label="Sort places">
-                                <option value="recommended">Recommended</option>
-                                <option value="distance">Distance</option>
-                                <option value="added">Recently added</option>
-                                <option value="az">A-Z</option>
-                            </select>
-                            <label class="places-distance-wrap" hidden>Within
-                                <select class="places-distance" aria-label="Only show places within this distance">
-                                    <option value="">Everywhere</option>
-                                    <option value="20">20 miles</option>
-                                    <option value="10">10 miles</option>
-                                    <option value="5">5 miles</option>
-                                    <option value="3">3 miles</option>
-                                </select>
-                            </label>
+                            <div class="places-sort-row">
+                                <label class="places-sort-label">Sort by
+                                    <select class="places-sort" aria-label="Sort places">
+                                        <option value="recommended">Recommended</option>
+                                        <option value="distance">Distance</option>
+                                        <option value="added">Recently added</option>
+                                        <option value="az">A-Z</option>
+                                    </select>
+                                </label>
+                                <label class="places-distance-wrap" hidden>Search radius
+                                    <select class="places-distance" aria-label="Only show places within this distance">
+                                        <option value="">Everywhere</option>
+                                        <option value="20">20 miles</option>
+                                        <option value="10">10 miles</option>
+                                        <option value="5">5 miles</option>
+                                        <option value="3">3 miles</option>
+                                    </select>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

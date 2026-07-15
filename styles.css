@@ -566,6 +566,9 @@ h1, h2, h3 {
     background-position: right 0.85rem center;
 }
 .places-sort:hover { border-color: var(--color-moss); }
+/* "Sort by [ ]  Search radius [ ]" - both selects on one line, inline labels. */
+.places-sort-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; }
+.places-sort-label { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; color: var(--color-muted); }
 
 /* Eat & Drink sub-filters: a second row of smaller pills tucked under the
    category pills while that category is active. */
