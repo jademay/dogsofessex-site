@@ -795,9 +795,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
                 ? ('Showing ' + inView + ' of ' + plc(total) + ' near ' + originLabel + ' (zoom out to see more)')
                 : ('Showing ' + plc(total) + ' near ' + originLabel);
         } else {
-            text = inView < total
-                ? ('Showing ' + inView + ' of ' + plc(total) + ' (zoom out to see more)')
-                : ('Showing ' + plc(total));
+            text = ''; // hidden until a search has been run
         }
         countEls.forEach((el) => { el.textContent = text; });
     };
@@ -956,6 +954,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         originPoint = point;
         originLabel = label;
         searchRef = point;
+        // Progressive disclosure: first search reveals the tabs + sort.
+        if (toolbar && toolbar.classList.contains('is-pre-search')) { toolbar.classList.remove('is-pre-search'); setTop(); }
         cards.forEach((c) => {
             const lat = parseFloat(c.dataset.lat), lng = parseFloat(c.dataset.lng);
             if (!isFinite(lat) || !isFinite(lng)) return;

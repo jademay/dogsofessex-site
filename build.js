@@ -1648,17 +1648,17 @@ function placesIndexPage(places, walks) {
     const locatorBar = `
                     <div class="places-finder">
                         <div class="finder-search">
-                            <span class="finder-label">Search near:</span>
+                            <span class="finder-label">Near:</span>
                             <form class="places-locator" autocomplete="off">
                                 <input type="text" class="locator-input" name="loc" placeholder="Postcode…" aria-label="Your postcode or town">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </form>
                             <span class="finder-or" aria-hidden="true">or</span>
-                            <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} Use my location</button>
+                            <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} My location</button>
                         </div>
                         <span class="finder-sep" aria-hidden="true"></span>
                         <div class="finder-walk">
-                            <span class="finder-label">Browse around a walk:</span>
+                            <span class="finder-label">Walk:</span>
                             <select class="places-near-walk" aria-label="Show places near a walk">
                                 <option value="">Select walk…</option>
                                 ${walkOpts}
@@ -1717,36 +1717,37 @@ function placesIndexPage(places, walks) {
                 </div>
             </section>
 
-            <div class="places-toolbar">
+            <div class="places-toolbar is-pre-search">
                 <div class="container">
-                    <h2 class="controls-title">Plan the perfect dog-friendly day out</h2>
                     ${locatorBar}
                     ${filterToggleHTML('places-filter-toggle', 'places-controls')}
                     <div class="places-controls-wrap" id="places-controls">
                         <div class="places-controls">
-                            <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
-                                ${pills}
+                            <div class="places-controls-top">
+                                <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
+                                    ${pills}
+                                </div>
+                                <div class="places-sort-row">
+                                    <label class="places-sort-label">Sort by
+                                        <select class="places-sort" aria-label="Sort places">
+                                            <option value="recommended">Recommended</option>
+                                            <option value="distance">Distance</option>
+                                            <option value="added">Recently added</option>
+                                            <option value="az">A-Z</option>
+                                        </select>
+                                    </label>
+                                    <label class="places-distance-wrap" hidden>Search radius
+                                        <select class="places-distance" aria-label="Only show places within this distance">
+                                            <option value="">Everywhere</option>
+                                            <option value="20">20 miles</option>
+                                            <option value="10" selected>10 miles</option>
+                                            <option value="5">5 miles</option>
+                                            <option value="3">3 miles</option>
+                                        </select>
+                                    </label>
+                                </div>
                             </div>${subfilter}
                             <div class="places-active-filters" role="group" aria-label="Active filters" hidden></div>
-                            <div class="places-sort-row">
-                                <label class="places-sort-label">Sort by
-                                    <select class="places-sort" aria-label="Sort places">
-                                        <option value="recommended">Recommended</option>
-                                        <option value="distance">Distance</option>
-                                        <option value="added">Recently added</option>
-                                        <option value="az">A-Z</option>
-                                    </select>
-                                </label>
-                                <label class="places-distance-wrap" hidden>Search radius
-                                    <select class="places-distance" aria-label="Only show places within this distance">
-                                        <option value="">Everywhere</option>
-                                        <option value="20">20 miles</option>
-                                        <option value="10" selected>10 miles</option>
-                                        <option value="5">5 miles</option>
-                                        <option value="3">3 miles</option>
-                                    </select>
-                                </label>
-                            </div>
                         </div>
                     </div>
                 </div>

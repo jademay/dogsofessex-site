@@ -506,6 +506,14 @@ h1, h2, h3 {
 }
 .places-cat-filter::-webkit-scrollbar { display: none; }
 .places-cat-filter > .filter-pill { flex: 0 0 auto; }
+/* Category tabs and the sort/radius selects share one row (sort to the right). */
+.places-controls-top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+.places-controls-top .places-cat-filter { flex: 1 1 auto; min-width: 0; }
+.places-controls-top .places-sort-row { flex: 0 0 auto; margin-left: auto; }
+/* Progressive disclosure: hide the tabs/sort (+ the mobile toggle) until the
+   visitor has run a search. Revealed by JS (removes .is-pre-search). */
+.places-toolbar.is-pre-search .places-controls-wrap,
+.places-toolbar.is-pre-search .places-filter-toggle { display: none; }
 /* Active-filter bubbles: what's currently on while the sub-filter row is
    collapsed. Each is a button that removes that filter when tapped. */
 .places-active-filters {
