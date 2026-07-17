@@ -1566,14 +1566,20 @@
     ],
     "routes": [
       {
-        "name": "High Woods Small Circular",
-        "distance": "3 miles",
-        "time": "1hr 30 mins"
+        "name": "High Woods Lake Circular",
+        "distance": "2.5 miles",
+        "time": "55 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/high-woods-country-park-lake-circular.gpx",
+        "bestCarPark": "Turner Road Car Park"
       },
       {
-        "name": "High Woods Large Circular",
-        "distance": "6 miles",
-        "time": "3hrs"
+        "name": "High Woods Circular",
+        "distance": "3.5 miles",
+        "time": "1hr 15 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/high-woods-country-park-circular.gpx",
+        "bestCarPark": "Chanterelle Car Park"
       }
     ],
     "route": {
