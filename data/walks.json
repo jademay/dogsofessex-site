@@ -2504,7 +2504,16 @@
     "route": {
       "parking": "Check on arrival.",
       "localTip": "The main trails are excellent for puppies, older dogs and anyone looking for an easier walk. If you prefer quieter routes, head away from the Forest Centre and explore the wider trail network.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Thames Chase Forest Centre Car Park",
+          "info": "Paid/donation; 2m height restriction.",
+          "recommended": true,
+          "lat": 51.552642,
+          "lng": 0.281556
+        }
+      ]
     },
     "official": {
       "managedBy": "Thames Chase Community Forest",
