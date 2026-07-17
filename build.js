@@ -737,8 +737,11 @@ function gettingThereInner(walk) {
     // longer fall back to Google's keyless `output=embed`, which Google blocks.
     const mappedCarParks = carParks.filter((cp) => cp.lat != null && cp.lng != null);
     if (mappedCarParks.length) {
+        const clickMsg = mappedCarParks.length === 1
+            ? 'Click the car park above to open it in Google Maps'
+            : 'Click a car park above to open it in Google Maps';
         parts.push(`<div class="carparks-map" id="carparks-map"></div>
-                    <p class="carparks-map-link">${icon('map-pin')} Click a car park above to open it in Google Maps</p>`);
+                    <p class="carparks-map-link">${icon('map-pin')} ${clickMsg}</p>`);
     } else if (r.mapEmbed) {
         parts.push(`<div class="map-embed"><iframe src="${esc(r.mapEmbed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(walk.name)}"></iframe></div>`);
     } else if (walk.lat != null && walk.lng != null) {
@@ -881,7 +884,7 @@ function dayHTML(walk, places) {
     const browseAll = N > 3
         ? `\n                        <a class="day-browse-all" href="/places/?near=${walk.lat},${walk.lng}&amp;walk=${encodeURIComponent(walk.name)}">Browse all ${N} nearby places (map included) →</a>` : '';
 
-    const who = esc((walk.town || walk.name).split(' ')[0]);
+    const who = esc(walk.town || walk.name);
     return `
                     <h2>${icon('paw-print')} Make a Day of It</h2>
                     <p class="section-lead">Already heading to ${who}? These are the best nearby dog-friendly places to visit before or after your walk.</p>
