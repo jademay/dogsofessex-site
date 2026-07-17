@@ -325,6 +325,15 @@
         "score": 4
       }
     ],
+    "routes": [
+      {
+        "name": "Great Notley Country Park Circular",
+        "distance": "2.3 miles",
+        "time": "50 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/great-notley-country-park-circular.gpx"
+      }
+    ],
     "route": {
       "parking": "There is a paid for car park onsite.",
       "localTip": "If your dog enjoys a good run, head away from the play areas and visitor facilities towards the larger open meadows. There's plenty of space to explore and some of the quietest sections of the park can be found further from the main entrance.",
