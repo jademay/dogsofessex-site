@@ -337,7 +337,16 @@
     "route": {
       "parking": "There is a paid for car park onsite.",
       "localTip": "If your dog enjoys a good run, head away from the play areas and visitor facilities towards the larger open meadows. There's plenty of space to explore and some of the quietest sections of the park can be found further from the main entrance.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Great Notley Country Park Car Park",
+          "info": "Large; paid car park.",
+          "recommended": true,
+          "lat": 51.8642204,
+          "lng": 0.5188344
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex County Council",
