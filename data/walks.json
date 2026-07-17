@@ -2501,6 +2501,15 @@
         "score": 3
       }
     ],
+    "routes": [
+      {
+        "name": "Thames Chase Whole Forest Explore",
+        "distance": "3.1 miles",
+        "time": "1hr 10 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/thames-chase-whole-forest-explore.gpx"
+      }
+    ],
     "route": {
       "parking": "Check on arrival.",
       "localTip": "The main trails are excellent for puppies, older dogs and anyone looking for an easier walk. If you prefer quieter routes, head away from the Forest Centre and explore the wider trail network.",
