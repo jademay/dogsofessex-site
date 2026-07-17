@@ -1579,7 +1579,22 @@
     "route": {
       "parking": "There are two main car parks: the Turner Road car park (paid, near the Visitor Centre) and the Chanterelle car park (free, located on the High Woods residential estate).",
       "localTip": "Water-loving dogs may be disappointed here. The lakes are a great feature of the park, but dogs aren't allowed to swim in them, so don't forget to bring water on warmer days.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Turner Road Car Park",
+          "info": "Paid; no height restrictions.",
+          "lat": 51.906761,
+          "lng": 0.904893
+        },
+        {
+          "name": "Chanterelle Car Park",
+          "info": "Free car park; excellent location; 2.1m height restriction.",
+          "recommended": true,
+          "lat": 51.904550,
+          "lng": 0.918992
+        }
+      ]
     },
     "official": {
       "managedBy": "Colchester City Council",

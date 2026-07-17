@@ -38,7 +38,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css?v=bbb8aac1">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <script>window.WALK_ID = "high-woods-country-park";</script>
+    <script>window.WALK_ID = "high-woods-country-park"; window.WALK_CARPARKS = [{"name":"Turner Road Car Park","lat":51.906761,"lng":0.904893,"recommended":false},{"name":"Chanterelle Car Park","lat":51.90455,"lng":0.918992,"recommended":true}];</script>
 </head>
 <body>
     <header class="site-header">
@@ -253,9 +253,26 @@
             <section class="walk-section">
                 <div class="container narrow">
                     <h2><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Getting there</h2>
-                    <p class="parking-lead">There are two main car parks: the Turner Road car park (paid, near the Visitor Centre) and the Chanterelle car park (free, located on the High Woods residential estate).</p>
-                    <div class="getting-there-map" id="getting-there-map" data-lat="51.90743054" data-lng="0.9084076014"></div>
-                    <p class="carparks-map-link"><a class="gt-maps-link" href="https://www.google.com/maps/search/?api=1&query=51.90743054,0.9084076014" target="_blank" rel="noopener"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Open this location in Google Maps</a></p>
+                    <div class="car-park-cards"><div class="cp-card" data-cp-name="Turner Road Car Park">
+                        <div class="cp-card-head">
+                            <span class="cp-num">1</span>
+                            <svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 17V7h4a3 3 0 0 1 0 6H9" /></svg>
+                            <span class="cp-card-name">Turner Road Car Park</span>
+                            <a class="cp-card-maps" href="https://www.google.com/maps/search/?api=1&query=51.906761,0.904893" target="_blank" rel="noopener" aria-label="Open Turner Road Car Park in Google Maps" title="Open in Google Maps">↗</a>
+                        </div>
+                        <p class="cp-card-info">Paid; no height restrictions.</p>
+                    </div><div class="cp-card is-recommended" data-cp-name="Chanterelle Car Park">
+                        <div class="cp-card-head">
+                            <span class="cp-num">2</span>
+                            <svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 17V7h4a3 3 0 0 1 0 6H9" /></svg>
+                            <span class="cp-card-name">Chanterelle Car Park</span>
+                            <a class="cp-card-maps" href="https://www.google.com/maps/search/?api=1&query=51.90455,0.918992" target="_blank" rel="noopener" aria-label="Open Chanterelle Car Park in Google Maps" title="Open in Google Maps">↗</a>
+                        </div>
+                        <p class="cp-card-info">Free car park; excellent location; 2.1m height restriction.</p>
+                        <span class="cp-rec">★ Recommended</span>
+                    </div></div>
+                    <div class="carparks-map" id="carparks-map"></div>
+                    <p class="carparks-map-link"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Click a car park above to open it in Google Maps</p>
                 </div>
             </section>
             <section class="walk-section section-alt">
