@@ -322,10 +322,31 @@
             '<button class="route-popup-close" aria-label="Close map">×</button>' +
             '<h3 class="route-popup-title"></h3>' +
             '<div class="route-popup-map"></div>' +
-            '<a class="route-popup-download btn btn-secondary" download>⬇ Download GPX</a>' +
+            '<a class="route-popup-download btn btn-secondary" download>⬇ Download GPX route</a>' +
+            '<p class="route-popup-apps">Works with GPX Viewer, Footpath, Komoot (import), OS Maps and other GPX apps.</p>' +
+            '<button type="button" class="route-popup-help-toggle" aria-expanded="false">How do I use this?</button>' +
+            '<div class="route-popup-help" hidden>' +
+            '<ol>' +
+            '<li>Tap <strong>Download GPX route</strong>.</li>' +
+            '<li>Open the <strong>Files</strong> app.</li>' +
+            '<li>Find the downloaded file.</li>' +
+            '<li>Import it into your preferred walking app (GPX Viewer is the easiest free option).</li>' +
+            '</ol>' +
+            '</div>' +
             '<p class="route-popup-note">GPX routes are provided as a guide only. Please follow local signage and use your own judgement. See our <a href="/terms.html">Terms of Use</a>.</p>' +
             '</div>';
         document.body.appendChild(pop);
+
+        // "How do I use this?" toggles the step-by-step import help.
+        const helpToggle = pop.querySelector('.route-popup-help-toggle');
+        const helpBox = pop.querySelector('.route-popup-help');
+        if (helpToggle && helpBox) {
+            helpToggle.addEventListener('click', () => {
+                const open = helpBox.hidden;
+                helpBox.hidden = !open;
+                helpToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+        }
 
         const mapEl = pop.querySelector('.route-popup-map');
         const titleEl = pop.querySelector('.route-popup-title');

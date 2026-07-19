@@ -1112,6 +1112,36 @@ h1, h2, h3 {
 .form-consent a,
 .route-popup-note a { color: var(--color-terracotta); text-decoration: underline; }
 .route-popup-note { text-align: center; }
+/* Small "works with …" line + the "How do I use this?" import helper. */
+.route-popup-apps {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: var(--color-muted);
+    text-align: center;
+    margin: 0.5rem 0 0;
+}
+.route-popup-help-toggle {
+    display: block;
+    margin: 0.4rem auto 0;
+    padding: 0;
+    background: none;
+    border: 0;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--color-terracotta);
+    text-decoration: underline;
+    cursor: pointer;
+}
+.route-popup-help {
+    margin: 0.5rem auto 0;
+    max-width: 30rem;
+    background: var(--color-bg-alt, #f4efe6);
+    border-radius: var(--radius);
+    padding: 0.7rem 0.9rem 0.7rem 0.5rem;
+}
+.route-popup-help ol { margin: 0; padding-left: 1.5rem; }
+.route-popup-help li { font-size: 0.85rem; line-height: 1.5; color: var(--color-text); }
 /* The newsletter sits on a dark background — match the pale .form-note. */
 .newsletter .form-consent { margin-top: 0.4rem; color: rgba(255, 255, 255, 0.6); }
 .newsletter .form-consent a { color: #fff; }
