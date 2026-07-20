@@ -2218,11 +2218,11 @@
     "routes": [
       {
         "name": "Strawberry Hill Ponds and Earl's Path Pond",
-        "distance": "1.1 miles",
-        "time": "35 mins",
+        "distance": "1 mile",
+        "time": "30 mins",
         "routeType": "Circular",
         "gpxFile": "data/gpx/epping-forest-strawberry-hill-ponds-and-earls-path-pond.gpx",
-        "bestCarPark": "Fairmead Road Car Park"
+        "bestCarPark": "Lincolns Lane Car Park"
       },
       {
         "name": "Wake Valley Pond and High Beech Kiosk",
@@ -2331,6 +2331,12 @@
           "info": "Free car park.",
           "lat": 51.652137,
           "lng": 0.034831
+        },
+        {
+          "name": "Lincolns Lane Car Park",
+          "info": "Paid car park.",
+          "lat": 51.6480969,
+          "lng": 0.0368209
         },
         {
           "name": "Connaught Water Car Park",

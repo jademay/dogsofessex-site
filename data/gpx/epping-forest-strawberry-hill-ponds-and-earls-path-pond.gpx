@@ -238,56 +238,11 @@
       <trkpt lat="51.64801" lon="0.036859">
         <ele>54</ele>
       </trkpt>
-      <trkpt lat="51.647991" lon="0.036993">
+      <trkpt lat="51.64801" lon="0.036859">
         <ele>54</ele>
       </trkpt>
-      <trkpt lat="51.648127" lon="0.037603">
-        <ele>54.63</ele>
-      </trkpt>
-      <trkpt lat="51.648126" lon="0.037814">
-        <ele>55</ele>
-      </trkpt>
-      <trkpt lat="51.648097" lon="0.037996">
-        <ele>55</ele>
-      </trkpt>
-      <trkpt lat="51.648294" lon="0.038388">
-        <ele>55.68</ele>
-      </trkpt>
-      <trkpt lat="51.648348" lon="0.038564">
-        <ele>56.02</ele>
-      </trkpt>
-      <trkpt lat="51.648383" lon="0.038855">
-        <ele>56.95</ele>
-      </trkpt>
-      <trkpt lat="51.648433" lon="0.039081">
-        <ele>57.22</ele>
-      </trkpt>
-      <trkpt lat="51.648471" lon="0.039169">
-        <ele>57.8</ele>
-      </trkpt>
-      <trkpt lat="51.648559" lon="0.039263">
-        <ele>58.34</ele>
-      </trkpt>
-      <trkpt lat="51.64866" lon="0.039346">
-        <ele>59.03</ele>
-      </trkpt>
-      <trkpt lat="51.6487" lon="0.03948">
-        <ele>59.95</ele>
-      </trkpt>
-      <trkpt lat="51.648711" lon="0.039565">
-        <ele>60.53</ele>
-      </trkpt>
-      <trkpt lat="51.648693" lon="0.03966">
-        <ele>60.73</ele>
-      </trkpt>
-      <trkpt lat="51.648564" lon="0.039889">
-        <ele>61.06</ele>
-      </trkpt>
-      <trkpt lat="51.648481" lon="0.04021">
-        <ele>62.14</ele>
-      </trkpt>
-      <trkpt lat="51.648536" lon="0.040269">
-        <ele>62.68</ele>
+      <trkpt lat="51.647995" lon="0.036963">
+        <ele>54</ele>
       </trkpt>
     </trkseg>
   </trk>
