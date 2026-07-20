@@ -688,6 +688,12 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
+        // The origin (walk) pin lives in its own pane below the marker pane so it
+        // never overshadows place markers sitting close to it - the places are the
+        // interactive content and should always stay visible and clickable on top.
+        map.createPane('originPane');
+        map.getPane('originPane').style.zIndex = 590; // markerPane is 600
+        map.getPane('originPane').style.pointerEvents = 'none';
         cards.forEach((card) => {
             const lat = parseFloat(card.dataset.lat), lng = parseFloat(card.dataset.lng);
             if (!isFinite(lat) || !isFinite(lng)) return;
@@ -975,7 +981,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         if (sortSel && !opts.keepSort) sortSel.value = 'distance';
         if (map && typeof L !== 'undefined') {
             if (originMarker) originMarker.setLatLng([point.lat, point.lng]);
-            else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), zIndexOffset: 3000, interactive: false }).addTo(map);
+            else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), pane: 'originPane', interactive: false }).addTo(map);
         }
         sortCards();
         applyFilters(); // applies the distance filter, refits the map, updates the map count
