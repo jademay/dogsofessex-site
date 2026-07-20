@@ -2295,6 +2295,18 @@
           "lng": 0.04831
         },
         {
+          "name": "Hill Wood Car Park",
+          "info": "Paid car park.",
+          "lat": 51.6567796,
+          "lng": 0.0369394
+        },
+        {
+          "name": "Free Car Park",
+          "info": "Free car park.",
+          "lat": 51.652137,
+          "lng": 0.034831
+        },
+        {
           "name": "Connaught Water Car Park",
           "info": "Paid car park.",
           "lat": 51.6371066,
