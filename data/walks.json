@@ -2114,14 +2114,16 @@
         "distance": "7.5 miles",
         "time": "3hrs 30 mins",
         "routeType": "Circular",
-        "gpxFile": "data/gpx/hadleigh-country-park-and-castle-circular.gpx"
+        "gpxFile": "data/gpx/hadleigh-country-park-and-castle-circular.gpx",
+        "bestCarPark": "Marine Parade Free Car Park"
       },
       {
         "name": "Hadleigh Country Park and Castle North Circular",
         "distance": "3.1 miles",
         "time": "1hr 30 mins",
         "routeType": "Circular",
-        "gpxFile": "data/gpx/hadleigh-country-park-and-castle-north-circular.gpx"
+        "gpxFile": "data/gpx/hadleigh-country-park-and-castle-north-circular.gpx",
+        "bestCarPark": "Hadleigh Park Car Park"
       }
     ],
     "route": {
