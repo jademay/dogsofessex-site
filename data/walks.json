@@ -2441,7 +2441,21 @@
     "route": {
       "parking": "Free parking for National Trust members, please remember your card. Follow the 'P' signs to two large grass car parks and a central access-friendly tarmacked car park near facilities. Exit Gate is locked at Dusk. Smaller Entrance Car Park is open until 4pm.",
       "localTip": "The main lake is beautiful, but don't stop there. Some of the quietest and most scenic sections of Hatfield Forest can be found by following the trails deeper into the woodland away from the visitor centre.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Hatfield Forest Car Park 1",
+          "info": "National Trust members park for free; non-members can pay via the Just Park app or by card at the gate.",
+          "lat": 51.8594545,
+          "lng": 0.2452032
+        },
+        {
+          "name": "Hatfield Forest Car Park 2",
+          "info": "National Trust members park for free; non-members can pay via the Just Park app or by card at the gate.",
+          "lat": 51.8551124,
+          "lng": 0.2336761
+        }
+      ]
     },
     "official": {
       "managedBy": "National Trust",
