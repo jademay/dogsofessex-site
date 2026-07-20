@@ -85,9 +85,14 @@
             markers.push(m);
             latlngs.push([cp.lat, cp.lng]);
         });
-        if (latlngs.length === 1) map.setView(latlngs[0], 15);
-        else map.fitBounds(latlngs, { padding: [45, 45] });
-        setTimeout(() => map.invalidateSize(), 60);
+        // Re-fit after invalidateSize: if the map inits before its container has
+        // a real size, the first fit lands zoomed out; re-fitting centres it.
+        const fitCarparks = () => {
+            if (latlngs.length === 1) map.setView(latlngs[0], 15);
+            else map.fitBounds(latlngs, { padding: [45, 45] });
+        };
+        fitCarparks();
+        setTimeout(() => { map.invalidateSize(); fitCarparks(); }, 60);
 
         // Link cards and markers. Clicking a card SELECTS its car park - enlarges
         // the marker and zooms the map to it (no Google Maps jump). The ↗ link on
@@ -369,7 +374,7 @@
             mapEl.innerHTML = '';
             if (typeof L === 'undefined') return;
             map = buildRouteMap(mapEl, gpxUrl, bestPark);
-            setTimeout(() => { if (map) map.invalidateSize(); }, 60);
+            setTimeout(() => { if (map) { map.invalidateSize(); if (map._fitRoute) map._fitRoute(); } }, 60);
         };
 
         triggers.forEach((t) => t.addEventListener('click', () => open(t.dataset.gpx, t.dataset.name, t.dataset.bestpark)));
@@ -551,7 +556,12 @@
             // Widen the view to include the route's own car park pin (only ever the
             // best/single one), so it's always visible without zooming out to others.
             cpMarkers.forEach((m) => { bounds = bounds.extend(m.getLatLng()); });
-            map.fitBounds(bounds, { paddingTopLeft: [12, 56], paddingBottomRight: [12, 12] });
+            // Re-usable fit: the popup goes display:none -> flex, so the first fit
+            // can run before the container has its real size and land zoomed out /
+            // off-centre. invalidateSize() then re-fit centres tightly on the walk.
+            map._fitRoute = () => map.fitBounds(bounds, { paddingTopLeft: [12, 56], paddingBottomRight: [12, 12] });
+            map.invalidateSize();
+            map._fitRoute();
             map.closePopup();
         }).addTo(map);
         return map;
