@@ -1895,12 +1895,20 @@ h1, h2, h3 {
     justify-content: center;
     background: rgba(20, 24, 20, 0.9);
     padding: 4vh 4vw;
+    /* Scroll the whole overlay when the content is taller than the viewport
+       (short screens) so the download button and notes below the map stay
+       reachable. Momentum scrolling on iOS. */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 .route-popup.open { display: flex; }
 .route-popup-inner {
     position: relative;
     width: 100%;
     max-width: 900px;
+    /* Auto margins centre the card when it fits and let it scroll (no top
+       clipping) when it's taller than the overlay - unlike align-items:center. */
+    margin: auto;
     background-color: var(--color-card);
     border-radius: var(--radius);
     padding: 1.25rem;
