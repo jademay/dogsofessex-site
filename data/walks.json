@@ -2111,8 +2111,17 @@
     "routes": [
       {
         "name": "Hadleigh Country Park and Castle Circular",
-        "distance": "7.9 miles",
-        "time": "3hrs 30 mins"
+        "distance": "7.5 miles",
+        "time": "3hrs 30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/hadleigh-country-park-and-castle-circular.gpx"
+      },
+      {
+        "name": "Hadleigh Country Park and Castle North Circular",
+        "distance": "3.1 miles",
+        "time": "1hr 30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/hadleigh-country-park-and-castle-north-circular.gpx"
       },
       {
         "name": "Hadleigh Country Park Circular",
@@ -2128,7 +2137,22 @@
     "route": {
       "parking": "Hadleigh Country Park has a pay and stay car park.",
       "localTip": "The best views are found on the higher ground overlooking the estuary. Bring water for your dog on warm days, as much of the park is exposed with very little shade.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Hadleigh Park Car Park",
+          "info": "Paid car park; large.",
+          "recommended": true,
+          "lat": 51.551988,
+          "lng": 0.595017
+        },
+        {
+          "name": "Marine Parade Free Car Park",
+          "info": "Free car park; small.",
+          "lat": 51.5407764,
+          "lng": 0.629889
+        }
+      ]
     },
     "official": {
       "managedBy": "Essex County Council",
@@ -2414,6 +2438,13 @@
     ],
     "routes": [
       {
+        "name": "Boating Lake Circular",
+        "distance": "2.6 miles",
+        "time": "1hr 15 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/hainault-forest-boating-lake-circular.gpx"
+      },
+      {
         "name": "The Two Brewers Circular",
         "distance": "2.9 miles",
         "time": "1hr 30 mins"
@@ -2427,7 +2458,34 @@
     "route": {
       "parking": "Both of the car parks closest to the Forest Centre have charges that are applicable at all times. These are cashless car parks that use the Ringo parking app.",
       "localTip": "Although Hainault Forest has several lakes, dogs aren't permitted to enter the water. If your dog loves a swim, consider West Mersea Beach instead.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Hainault Forest - Second Car Park",
+          "info": "Paid car park; plenty of space.",
+          "lat": 51.615221,
+          "lng": 0.134064
+        },
+        {
+          "name": "Hainault Forest - Main Car Park",
+          "info": "Paid car park; plenty of space.",
+          "recommended": true,
+          "lat": 51.6128404,
+          "lng": 0.1306055
+        },
+        {
+          "name": "Hainault Forest Chigwell Row Woodland Trust Car Park - Lambourne Road",
+          "info": "Free car park; fairly small.",
+          "lat": 51.622103,
+          "lng": 0.122363
+        },
+        {
+          "name": "Hainault Forest Manor Road (Camelot) Car Park",
+          "info": "Free car park.",
+          "lat": 51.6284989,
+          "lng": 0.1340045
+        }
+      ]
     },
     "official": {
       "managedBy": "London Borough of Redbridge",
