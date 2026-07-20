@@ -691,9 +691,11 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         // The origin (walk) pin lives in its own pane below the marker pane so it
         // never overshadows place markers sitting close to it - the places are the
         // interactive content and should always stay visible and clickable on top.
+        // The pane keeps pointer events (so the walk pin can show its own hover
+        // name); because places sit in the higher pane, where one overlaps the walk
+        // it still takes the hover/click.
         map.createPane('originPane');
         map.getPane('originPane').style.zIndex = 590; // markerPane is 600
-        map.getPane('originPane').style.pointerEvents = 'none';
         cards.forEach((card) => {
             const lat = parseFloat(card.dataset.lat), lng = parseFloat(card.dataset.lng);
             if (!isFinite(lat) || !isFinite(lng)) return;
@@ -981,7 +983,16 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         if (sortSel && !opts.keepSort) sortSel.value = 'distance';
         if (map && typeof L !== 'undefined') {
             if (originMarker) originMarker.setLatLng([point.lat, point.lng]);
-            else originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), pane: 'originPane', interactive: false }).addTo(map);
+            else {
+                originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), pane: 'originPane' }).addTo(map);
+                // Floating name on hover, matching the place-pin tooltips (and
+                // suppressed on phones, where there's no hover, like those).
+                originMarker.bindTooltip('', { direction: 'top', offset: [0, -12], opacity: 1, className: 'origin-tooltip' });
+                originMarker.on('tooltipopen', (e) => { if (isMobile()) { originMarker.closeTooltip(); return; } clampMapTooltip(map, e.tooltip); });
+            }
+            // Set as a text node, not an HTML string, so a crafted ?walk= label
+            // can't inject markup into the tooltip.
+            if (label) { const t = document.createElement('span'); t.textContent = label; originMarker.setTooltipContent(t); }
         }
         sortCards();
         applyFilters(); // applies the distance filter, refits the map, updates the map count
