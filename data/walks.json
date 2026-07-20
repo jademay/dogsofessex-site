@@ -2293,6 +2293,12 @@
           "info": "Paid car park; beware the holes in the ground; signal is not great, buy a ticket before arriving with RingGo.",
           "lat": 51.6652664,
           "lng": 0.04831
+        },
+        {
+          "name": "Connaught Water Car Park",
+          "info": "Paid car park.",
+          "lat": 51.6371066,
+          "lng": 0.0285669
         }
       ]
     },
