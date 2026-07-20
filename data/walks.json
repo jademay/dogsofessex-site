@@ -2413,29 +2413,28 @@
     ],
     "routes": [
       {
-        "name": "Hatfield Forest Circular",
-        "distance": "3.1 miles",
-        "time": "1hr 15 mins"
-      },
-      {
-        "name": "Hatfield Forest - Wall Wood Circular",
-        "distance": "6.7 miles",
-        "time": "2hrs 45 mins"
-      },
-      {
-        "name": "Hatfield Forest Capability Brown Walk",
-        "distance": "2 miles",
-        "time": "45 mins"
-      },
-      {
         "name": "Hatfield Forest Tree Walk",
         "distance": "1.8 miles",
-        "time": "40 mins"
+        "time": "50 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/hatfield-forest-tree-walk.gpx",
+        "bestCarPark": "Hatfield Forest Car Park 1"
       },
       {
-        "name": "Hatfield Forest North Circular",
-        "distance": "2.1 miles",
-        "time": "50 mins"
+        "name": "Hatfield Forest Circular",
+        "distance": "3.2 miles",
+        "time": "1hr 30 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/hatfield-forest-circular.gpx",
+        "bestCarPark": "Hatfield Forest Car Park 2"
+      },
+      {
+        "name": "Bedlars Green and the Flitch Way Circular",
+        "distance": "5.1 miles",
+        "time": "2hrs 25 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/hatfield-forest-bedlars-green-and-the-flitch-way-circular.gpx",
+        "bestCarPark": "Hatfield Forest Car Park 1"
       }
     ],
     "route": {
