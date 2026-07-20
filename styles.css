@@ -1795,14 +1795,14 @@ h1, h2, h3 {
 .car-park-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 0.75rem;
-    margin: 0 0 1.1rem;
+    gap: 0.5rem;
+    margin: 0 0 0.85rem;
 }
 .cp-card {
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     background: var(--color-card);
-    padding: 0.8rem 0.9rem;
+    padding: 0.5rem 0.65rem;
     display: flex;
     flex-direction: column;
 }
@@ -1818,7 +1818,7 @@ h1, h2, h3 {
     border-color: var(--color-forest);
     box-shadow: 0 0 0 2px var(--color-forest);
 }
-.cp-card-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.cp-card-head { display: flex; align-items: center; gap: 0.45rem; }
 .cp-card-head .lucide { color: var(--color-moss); flex-shrink: 0; }
 .cp-num {
     flex-shrink: 0;
@@ -1833,7 +1833,17 @@ h1, h2, h3 {
     align-items: center;
     justify-content: center;
 }
-.cp-card-name { font-weight: 600; }
+.cp-card-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    /* Single line so a long name never grows the card - keeps every card the
+       same height. Full name stays available via the title tooltip and the map. */
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 /* Small ↗ button (no text) that opens this car park in Google Maps. Clicking
    the rest of the card selects/zooms it on the map instead. */
 .cp-card-maps {
@@ -1857,18 +1867,15 @@ h1, h2, h3 {
     border-color: var(--color-terracotta);
     color: #fff;
 }
+/* Recommended marker now rides on the title row (compact gold star) instead of
+   a pill at the bottom, saving a whole row of height. */
 .cp-rec {
-    align-self: flex-end;
-    margin-top: 0.7rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--color-forest-dark);
-    background: #F3E7C8;
-    border-radius: 999px;
-    padding: 2px 8px;
-    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 1rem;
+    line-height: 1;
+    color: #E0A100;
 }
-.cp-card-info { margin: 0.45rem 0 0; font-size: 0.9rem; color: var(--color-muted); }
+.cp-card-info { margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--color-muted); }
 #carparks-map .cp-pin--rec .cp-pin-inner { background: var(--color-terracotta); }
 .route-card-link {
     margin-top: auto;

@@ -721,11 +721,11 @@ function gettingThereInner(walk) {
                         <div class="cp-card-head">
                             <span class="cp-num">${i + 1}</span>
                             ${icon('square-parking')}
-                            <span class="cp-card-name">${esc(cp.name)}</span>
+                            <span class="cp-card-name" title="${esc(cp.name)}">${esc(cp.name)}</span>${cp.recommended && multiCp ? `
+                            <span class="cp-rec" title="Recommended" aria-label="Recommended">★</span>` : ''}
                             <a class="cp-card-maps" href="https://www.google.com/maps/search/?api=1&query=${cp.lat},${cp.lng}" target="_blank" rel="noopener" aria-label="Open ${esc(cp.name)} in Google Maps" title="Open in Google Maps">↗</a>
                         </div>${cp.info ? `
-                        <p class="cp-card-info">${esc(cp.info)}</p>` : ''}${cp.recommended && multiCp ? `
-                        <span class="cp-rec">★ Recommended</span>` : ''}
+                        <p class="cp-card-info">${esc(cp.info)}</p>` : ''}
                     </div>`
         ).join('')}</div>`);
     } else if (r.parking) {
