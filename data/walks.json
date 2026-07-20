@@ -2432,7 +2432,8 @@
         "distance": "2.6 miles",
         "time": "1hr 15 mins",
         "routeType": "Circular",
-        "gpxFile": "data/gpx/hainault-forest-boating-lake-circular.gpx"
+        "gpxFile": "data/gpx/hainault-forest-boating-lake-circular.gpx",
+        "bestCarPark": "Hainault Forest - Main Car Park"
       }
     ],
     "route": {
