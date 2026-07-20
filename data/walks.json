@@ -2250,7 +2250,51 @@
     "route": {
       "parking": "Epping Forest has multiple Car Parks, so it is best to search near the part of the forest that you would like to visit.",
       "localTip": "Don't worry about sticking to a single route. The best part of Epping Forest is simply exploring. If your dog enjoys off-lead freedom, some of the quieter woodland tracks away from the main car parks offer miles of adventure.",
-      "mapEmbed": ""
+      "mapEmbed": "",
+      "carParks": [
+        {
+          "name": "Forest Side Car Park",
+          "info": "Paid car park; approx. 10 spaces.",
+          "lat": 51.6888773,
+          "lng": 0.0955627
+        },
+        {
+          "name": "Piercing Hill Car Park",
+          "info": "Paid car park; approx. 4 spaces.",
+          "lat": 51.6796069,
+          "lng": 0.0910462
+        },
+        {
+          "name": "Genesis Slade Car Park",
+          "info": "Paid car park; approx. 10 spaces; beware the holes in the ground; signal is not great, buy a ticket before arriving with RingGo.",
+          "lat": 51.6765443,
+          "lng": 0.0793979
+        },
+        {
+          "name": "Jack's Hill Car Park",
+          "info": "Paid car park.",
+          "lat": 51.6762835,
+          "lng": 0.0743133
+        },
+        {
+          "name": "Wake Valley Car Park",
+          "info": "Paid car park; signal is not great, buy a ticket before arriving with RingGo.",
+          "lat": 51.6705256,
+          "lng": 0.0550855
+        },
+        {
+          "name": "Broadstrood Car Park",
+          "info": "Paid car park; signal is not great, buy a ticket before arriving with RingGo.",
+          "lat": 51.6680916,
+          "lng": 0.0646117
+        },
+        {
+          "name": "Mount Pleasant Car Park",
+          "info": "Paid car park; beware the holes in the ground; signal is not great, buy a ticket before arriving with RingGo.",
+          "lat": 51.6652664,
+          "lng": 0.04831
+        }
+      ]
     },
     "official": {
       "managedBy": "City of London Corporation",
