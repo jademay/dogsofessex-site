@@ -2217,34 +2217,60 @@
     ],
     "routes": [
       {
-        "name": "Epping Forest Main Path and Green Ride Circular",
-        "distance": "12.7 miles",
-        "time": "6hrs"
+        "name": "Strawberry Hill Ponds and Earl's Path Pond",
+        "distance": "1.1 miles",
+        "time": "35 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/epping-forest-strawberry-hill-ponds-and-earls-path-pond.gpx",
+        "bestCarPark": "Fairmead Road Car Park"
       },
       {
-        "name": "Oak Trail from Theydon Bois",
-        "distance": "6.9 miles",
-        "time": "3hrs"
+        "name": "Wake Valley Pond and High Beech Kiosk",
+        "distance": "1.7 miles",
+        "time": "50 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/epping-forest-wake-valley-and-high-beech-kiosk.gpx",
+        "bestCarPark": "Wake Valley Car Park"
       },
       {
-        "name": "Epping Forest Circular",
-        "distance": "5.6 miles",
-        "time": "2hrs 15 mins"
+        "name": "Epping Forest and Debden Green Circular",
+        "distance": "2.1 miles",
+        "time": "1hr",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/epping-forest-and-debden-green-circular.gpx",
+        "bestCarPark": "Broadstrood Car Park"
       },
       {
-        "name": "High Beach and Main Path Circular",
-        "distance": "4.5 miles",
-        "time": "2hrs"
+        "name": "Wake Valley Pond, Bellringer's Hollow and Great Monk Wood Circular",
+        "distance": "2.3 miles",
+        "time": "1hr 5 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/epping-forest-wake-valley-bellringers-hollow-and-great-monk-wood-circular.gpx",
+        "bestCarPark": "Wake Valley Car Park"
       },
       {
         "name": "Willow Circular",
         "distance": "2.3 miles",
-        "time": "45 mins"
+        "time": "1hr 5 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/epping-forest-willow-circular.gpx",
+        "bestCarPark": "Connaught Water Car Park"
       },
       {
-        "name": "Epping Forest and Green Ride Trail Circular",
-        "distance": "3.3 miles",
-        "time": "1hr 20 mins"
+        "name": "Epping Forest and The Deer Sanctuary",
+        "distance": "3 miles",
+        "time": "1hr 25 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/epping-forest-and-the-deer-sanctuary.gpx",
+        "bestCarPark": "Piercing Hill Car Park"
+      },
+      {
+        "name": "Epping Forest, Connaught Water and Chingford Plain Circular",
+        "distance": "4.8 miles",
+        "time": "2hrs 15 mins",
+        "routeType": "Circular",
+        "gpxFile": "data/gpx/epping-forest-connaught-water-and-chingford-plain-circular.gpx",
+        "bestCarPark": "Hill Wood Car Park"
       }
     ],
     "route": {
