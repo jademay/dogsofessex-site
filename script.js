@@ -789,7 +789,12 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         if (areaMode) {
             text = 'Showing ' + plc(total) + ' in this map area';
         } else if (originPoint && distanceLimit != null) {
-            text = 'Showing ' + plc(total) + ' within ' + distanceLimit + ' miles of ' + originLabel;
+            // All in-radius places are on the map, but the view frames only the
+            // nearest handful - so reflect what's actually visible, like the
+            // "near X" branch below, instead of always claiming the full total.
+            text = inView < total
+                ? ('Showing ' + inView + ' of ' + plc(total) + ' within ' + distanceLimit + ' miles of ' + originLabel + ' (zoom out to see more)')
+                : ('Showing ' + plc(total) + ' within ' + distanceLimit + ' miles of ' + originLabel);
         } else if (originPoint) {
             text = inView < total
                 ? ('Showing ' + inView + ' of ' + plc(total) + ' near ' + originLabel + ' (zoom out to see more)')
