@@ -2122,16 +2122,6 @@
         "time": "1hr 30 mins",
         "routeType": "Circular",
         "gpxFile": "data/gpx/hadleigh-country-park-and-castle-north-circular.gpx"
-      },
-      {
-        "name": "Hadleigh Country Park Circular",
-        "distance": "3.2 miles",
-        "time": "1hr 30 mins"
-      },
-      {
-        "name": "Hadleigh Country Park Outskirts Circular",
-        "distance": "4.7 miles",
-        "time": "2hrs"
       }
     ],
     "route": {
@@ -2381,7 +2371,7 @@
     "lng": 0.1309962561,
     "town": "Chigwell",
     "emoji": "🌲",
-    "routeType": "Multiple routes",
+    "routeType": "Circular",
     "terrain": "Ancient woodland trails, open grassland & lakeside paths",
     "mud": "Moderate",
     "summary": "A varied woodland walk with lakes, open spaces and plenty of room for dogs to explore.",
@@ -2443,16 +2433,6 @@
         "time": "1hr 15 mins",
         "routeType": "Circular",
         "gpxFile": "data/gpx/hainault-forest-boating-lake-circular.gpx"
-      },
-      {
-        "name": "The Two Brewers Circular",
-        "distance": "2.9 miles",
-        "time": "1hr 30 mins"
-      },
-      {
-        "name": "View of the London Skyline Trail",
-        "distance": "7.2 miles",
-        "time": "3hrs"
       }
     ],
     "route": {
