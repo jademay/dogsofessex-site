@@ -1189,6 +1189,62 @@ h1, h2, h3 {
     transition: color 0.2s ease;
 }
 .footer-col a:hover { color: var(--color-terracotta); }
+/* "Cookie settings" is a <button> so it can reopen the consent banner, but it
+   reads as a normal footer link. */
+.footer-col .link-button {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.2s ease;
+}
+.footer-col .link-button:hover { color: var(--color-terracotta); }
+
+/* Analytics consent banner (bottom, non-blocking). Accept and Reject are the
+   same size and both solid, so neither is nudged over the other. */
+.cookie-banner {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1200;
+    max-width: 660px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner-text {
+    flex: 1 1 260px;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+}
+.cookie-banner-text a { color: var(--color-terracotta); text-decoration: underline; }
+.cookie-banner-actions { display: flex; gap: 0.6rem; flex: 0 0 auto; }
+.cookie-banner .btn { padding: 0.6rem 1.1rem; font-size: 0.9rem; }
+.cookie-accept { background: var(--color-terracotta); color: #fff; border-color: var(--color-terracotta); }
+.cookie-accept:hover { background: var(--color-terracotta-dark); }
+.cookie-reject { background: var(--color-forest); color: #fff; border-color: var(--color-forest); }
+.cookie-reject:hover { background: var(--color-forest-dark); }
+@media (max-width: 560px) {
+    .cookie-banner { left: 0.5rem; right: 0.5rem; bottom: 0.5rem; }
+    .cookie-banner-actions { flex: 1 1 auto; }
+    .cookie-banner-actions .btn { flex: 1 1 auto; text-align: center; }
+}
 /* Follow socials read as text on desktop; the icons only appear on mobile. */
 .footer-follow svg { display: none; }
 

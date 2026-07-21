@@ -1,5 +1,97 @@
 // Dogs of Essex — small enhancements
 
+// --- Analytics consent (Basic Consent Mode) --------------------------------
+// Google Analytics is NOT loaded and sends no network requests until the
+// visitor explicitly accepts. First visit shows a banner with equally weighted
+// Accept / Reject buttons; the choice is stored first-party in localStorage.
+// Accept -> load GA with analytics_storage granted (ad_* stay denied). Reject
+// or withdraw -> GA is not loaded / is disabled and its _ga cookies are cleared.
+// A "Cookie settings" footer button reopens the banner to change the decision.
+(function () {
+    const GA_ID = 'G-NHQMLEF7QJ';
+    const KEY = 'doe-analytics-consent'; // 'accepted' | 'rejected'
+    const read = () => { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
+    const write = (v) => { try { localStorage.setItem(KEY, v); } catch (e) { /* private mode */ } };
+
+    // Remove GA's first-party cookies (_ga, _ga_*, _gid, _gat) across the
+    // hostname and its registrable-domain variants, as far as JS can reach.
+    const clearGaCookies = () => {
+        const host = location.hostname;
+        const parts = host.split('.');
+        const domains = ['', host, '.' + host];
+        if (parts.length > 2) domains.push('.' + parts.slice(-2).join('.'));
+        document.cookie.split(';').forEach((c) => {
+            const name = c.split('=')[0].trim();
+            if (!name) return;
+            if (/^_ga/.test(name) || name === '_gid' || name === '_gat') {
+                domains.forEach((d) => {
+                    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + (d ? '; domain=' + d : '');
+                });
+            }
+        });
+    };
+
+    let gaLoaded = false;
+    const loadGA = () => {
+        window['ga-disable-' + GA_ID] = false;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+        if (gaLoaded) { window.gtag('consent', 'update', { analytics_storage: 'granted' }); return; }
+        gaLoaded = true;
+        // Consent Mode: everything denied by default, then grant only analytics.
+        window.gtag('consent', 'default', {
+            ad_storage: 'denied', ad_user_data: 'denied',
+            ad_personalization: 'denied', analytics_storage: 'denied'
+        });
+        window.gtag('consent', 'update', { analytics_storage: 'granted' });
+        window.gtag('js', new Date());
+        window.gtag('config', GA_ID);
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+    };
+
+    // Stop GA sending further hits and clear its cookies (best effort within a
+    // session — the library can't be fully unloaded once running).
+    const disableGA = () => {
+        window['ga-disable-' + GA_ID] = true;
+        if (window.gtag) window.gtag('consent', 'update', { analytics_storage: 'denied' });
+        clearGaCookies();
+    };
+
+    let banner = null;
+    const hideBanner = () => { if (banner) banner.hidden = true; };
+    const showBanner = () => {
+        if (banner) { banner.hidden = false; banner.querySelector('.cookie-accept').focus(); return; }
+        banner = document.createElement('div');
+        banner.className = 'cookie-banner';
+        banner.setAttribute('role', 'region');
+        banner.setAttribute('aria-label', 'Analytics cookie consent');
+        banner.innerHTML =
+            '<p class="cookie-banner-text">We use privacy-friendly analytics to see which walks are popular and improve the site. ' +
+            'No advertising cookies, ever. See our <a href="/privacy.html">Privacy Policy</a>.</p>' +
+            '<div class="cookie-banner-actions">' +
+            '<button type="button" class="btn cookie-accept">Accept analytics</button>' +
+            '<button type="button" class="btn cookie-reject">Reject analytics</button>' +
+            '</div>';
+        document.body.appendChild(banner);
+        banner.querySelector('.cookie-accept').addEventListener('click', () => { write('accepted'); loadGA(); hideBanner(); });
+        banner.querySelector('.cookie-reject').addEventListener('click', () => { write('rejected'); if (gaLoaded) disableGA(); else clearGaCookies(); hideBanner(); });
+        banner.querySelector('.cookie-accept').focus();
+    };
+
+    // Footer "Cookie settings" button (present on every page) reopens the banner.
+    document.addEventListener('click', (e) => {
+        const t = e.target.closest && e.target.closest('.cookie-settings');
+        if (t) { e.preventDefault(); showBanner(); }
+    });
+
+    const decision = read();
+    if (decision === 'accepted') loadGA();
+    else if (decision !== 'rejected') showBanner();
+})();
+
 // Blended place ranking, mirrored from build.js so the server order and any
 // client re-rank agree. score = distance (10 pts/mile within a 10-mile cap,
 // dominant) + editor recommendation + small sponsor boost (both baked into

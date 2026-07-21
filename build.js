@@ -1010,15 +1010,7 @@ function headHTML(prefix, title, description, opts) {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHQMLEF7QJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-NHQMLEF7QJ');
-    </script>
+    <!-- Analytics loads only after the visitor accepts (see script.js consent banner). -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${esc(title)}</title>
@@ -1089,6 +1081,7 @@ function footerHTML(prefix) {
                         <li><a href="${prefix}contact.html">Contact</a></li>
                         <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
                         <li><a href="${prefix}terms.html">Terms of Use</a></li>
+                        <li><button type="button" class="cookie-settings link-button">Cookie settings</button></li>
                     </ul>
                 </div>
                 <div class="footer-col footer-follow">
@@ -1200,15 +1193,7 @@ function page(walk, walks, places, tips) {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHQMLEF7QJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-NHQMLEF7QJ');
-    </script>
+    <!-- Analytics loads only after the visitor accepts (see script.js consent banner). -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${esc(title)}</title>
@@ -1351,15 +1336,7 @@ function walksIndexPage(walks) {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHQMLEF7QJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-NHQMLEF7QJ');
-    </script>
+    <!-- Analytics loads only after the visitor accepts (see script.js consent banner). -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dog Walks in Essex | Dogs of Essex</title>
