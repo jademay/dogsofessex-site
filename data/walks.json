@@ -790,6 +790,12 @@
         "distance": "1.1 miles",
         "time": "25 mins",
         "gpxFile": "data/gpx/danbury-commons-small-circular.gpx"
+      },
+      {
+        "name": "Mini Circular",
+        "distance": "0.6 miles",
+        "time": "15 mins",
+        "gpxFile": "data/gpx/danbury-commons-mini-circular.gpx"
       }
     ],
     "terrain": "Woodland, common, heathland",
