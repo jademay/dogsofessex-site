@@ -69,8 +69,8 @@
         banner.setAttribute('role', 'region');
         banner.setAttribute('aria-label', 'Analytics cookie consent');
         banner.innerHTML =
-            '<p class="cookie-banner-text">We use privacy-friendly analytics to see which walks are popular and improve the site. ' +
-            'No advertising cookies, ever. See our <a href="/privacy.html">Privacy Policy</a>.</p>' +
+            '<p class="cookie-banner-text">We use optional Google Analytics cookies to understand how visitors use Dogs of Essex and improve the site. ' +
+            'Nothing is sent to Google unless you accept. See our <a href="/privacy.html">Privacy Policy</a>.</p>' +
             '<div class="cookie-banner-actions">' +
             '<button type="button" class="btn cookie-accept">Accept analytics</button>' +
             '<button type="button" class="btn cookie-reject">Reject analytics</button>' +
