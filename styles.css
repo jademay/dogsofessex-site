@@ -1257,6 +1257,23 @@ h1, h2, h3 {
     .cookie-banner-actions { flex: 1 1 auto; }
     .cookie-banner-actions .btn { flex: 1 1 auto; text-align: center; }
 }
+/* Custom 404 page. */
+.notfound {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2.5rem 0 3.5rem;
+}
+.notfound h1 { margin: 0.5rem 0 1rem; }
+.notfound > p { color: var(--color-muted); }
+.notfound .button-row {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.75rem;
+}
+.notfound-report { margin-top: 1.75rem; font-size: 0.95rem; }
+.notfound-report a { color: var(--color-terracotta); text-decoration: underline; }
+
 /* Follow socials read as text on desktop; the icons only appear on mobile. */
 .footer-follow svg { display: none; }
 

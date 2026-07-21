@@ -2337,6 +2337,43 @@ ${footerHTML('')}
 `;
 }
 
+// GitHub Pages serves /404.html (with a 404 status) for any missing URL, at any
+// depth - so every asset and link here is ROOT-RELATIVE (built with the '/'
+// prefix), not relative. noindex + absent from the sitemap keeps it out of
+// search. script.js still runs, so the consent banner and Cookie settings work.
+function notFoundPage() {
+    const body = `
+            <section class="section">
+                <div class="container">
+                    <div class="notfound">
+                        <p class="eyebrow centered" style="color: var(--color-terracotta);">Error 404</p>
+                        <h1>This page has wandered off</h1>
+                        <p>We couldn't find the page you were looking for. It may have moved, or the link might be broken. Let's get you back on the trail.</p>
+                        <div class="button-row">
+                            <a href="/walks/" class="btn btn-primary">Browse walks</a>
+                            <a href="/places/" class="btn btn-secondary">Dog-friendly places</a>
+                            <a href="/" class="btn btn-secondary">Back to home</a>
+                        </div>
+                        <p class="notfound-report">Spotted a broken link? <a href="/contact.html#report">Report it</a> and we'll fix it.</p>
+                    </div>
+                </div>
+            </section>`;
+    return `${headHTML('/', 'Page not found | Dogs of Essex', "Sorry, we couldn't find that page. Browse dog-friendly walks and places, or head back to the Dogs of Essex homepage.", { extra: '<meta name="robots" content="noindex">' })}
+</head>
+<body>${navHTML('/')}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML('/')}
+
+    <script src="/script.js?v=${V_JS}"></script>
+</body>
+</html>
+`;
+}
+
 // --- run ---
 
 function readJSON(file) {
@@ -2630,6 +2667,11 @@ function build() {
 
     fs.writeFileSync(path.join(ROOT, 'about.html'), aboutPage());
     console.log('  ✓ about.html');
+
+    // Custom 404 (GitHub Pages serves this with a 404 status). Deliberately NOT
+    // added to the sitemap/urls below.
+    fs.writeFileSync(path.join(ROOT, '404.html'), notFoundPage());
+    console.log('  ✓ 404.html');
 
     // Newsletter thank-you page (systeme.io redirects here after signup). Lives
     // at /thank-you/ for a clean URL; noindex since it's a post-action page.
