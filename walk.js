@@ -141,7 +141,9 @@
     // Four contribution types, each opening the same form pre-set to that type.
     // Submissions are emailed via FormSubmit (formsubmit.co); approved walking
     // tips are then added manually to data/tips.json and baked in on rebuild.
-    const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/tips@dogsofessex.co.uk';
+    // Private FormSubmit token for tips@dogsofessex.co.uk (from its activation
+    // email) - keeps the address out of the page source. Not the hello@ token.
+    const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/5e89a618d69f9442d8e8fdc17f28d16a';
     const TIP_TYPES = {
         'walkingTip': {
             title: 'Share a tip', label: 'Your tip',
