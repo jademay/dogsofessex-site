@@ -739,7 +739,7 @@
     "routes": [
       {
         "name": "Danbury Ridge Circular",
-        "distance": "2.5 miles",
+        "distance": "2.4 miles",
         "time": "55 mins",
         "routeType": "Circular",
         "gpxFile": "data/gpx/danbury-ridge-circular.gpx"
