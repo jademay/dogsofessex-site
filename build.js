@@ -2112,14 +2112,17 @@ function privacyPage() {
                         </ul>
 
                         <h2>8. Cookies &amp; Analytics</h2>
-                        <p>Dogs of Essex uses Google Analytics to understand how visitors use the site (for example, which walks are most popular) so we can improve it. Google Analytics sets cookies and collects anonymised usage data such as pages viewed and approximate location. We do not use this data to identify you personally.</p>
+                        <p>Analytics on Dogs of Essex is <strong>optional and switched off by default</strong>. We use <strong>Google Analytics</strong>, provided by Google, to understand how visitors use the site (for example, which walks are most popular and where people get stuck) so we can improve it. It sets first-party &ldquo;_ga&rdquo; cookies and collects anonymised usage data such as pages viewed, device type and approximate location. We do not use it to identify you personally, and we do not use any advertising or ad-personalisation cookies.</p>
+                        <p><strong>Nothing is loaded or sent to Google until you agree.</strong> On your first visit a banner asks you to <em>Accept analytics</em> or <em>Reject analytics</em>, with both choices given equal prominence. If you accept, Google Analytics loads with analytics permitted (advertising storage stays denied). If you reject, Google Analytics is never loaded.</p>
+                        <p>You can change your decision at any time. Select <button type="button" class="cookie-settings link-inline">Cookie settings</button> (available here and in the footer of every page) to reopen the banner and accept or withdraw permission. If you withdraw, we stop Google Analytics and remove its &ldquo;_ga&rdquo; cookies from your browser where possible.</p>
+                        <p>Your choice is saved on your device in your browser&rsquo;s local storage. It has no expiry date, so it is remembered until you change it here or clear your browser&rsquo;s site data. Because it is stored per browser and per device, you may be asked again if you visit from a different browser or device.</p>
                         <p>Aside from analytics, we only use essential cookies required for the website to function.</p>
 
                         <h2 id="third-parties">9. Third-Party Services</h2>
                         <p>We use a small number of trusted third-party services to run the site. These may process limited data on our behalf:</p>
                         <ul>
                             <li><strong>GitHub Pages</strong> - website hosting</li>
-                            <li><strong>Google Analytics</strong> - anonymised website usage statistics</li>
+                            <li><strong>Google Analytics</strong> (Google) - optional, consent-based website usage statistics; only loaded if you accept analytics</li>
                             <li><strong>FormSubmit</strong> - delivers form submissions (tips, suggestions, reports) to us by email</li>
                             <li><strong>Google Workspace</strong> - our email accounts</li>
                             <li><strong>Postcodes.io</strong> and <strong>OpenStreetMap (Nominatim)</strong> - look up a postcode or town you type into the &ldquo;find walks near me&rdquo; search</li>
