@@ -2345,7 +2345,7 @@ function notFoundPage() {
     const body = `
             <section class="section">
                 <div class="container">
-                    <div class="notfound">
+                    <div class="notfound" id="improve" data-walk="" data-walkid="" data-report-prefill="Broken link: {url}">
                         <p class="eyebrow centered" style="color: var(--color-terracotta);">Error 404</p>
                         <h1>This page has wandered off</h1>
                         <p>We couldn't find the page you were looking for. It may have moved, or the link might be broken. Let's get you back on the trail.</p>
@@ -2354,7 +2354,7 @@ function notFoundPage() {
                             <a href="/places/" class="btn btn-secondary">Dog-friendly places</a>
                             <a href="/" class="btn btn-secondary">Back to home</a>
                         </div>
-                        <p class="notfound-report">Spotted a broken link? <a href="/contact.html#report">Report it</a> and we'll fix it.</p>
+                        <p class="notfound-report">Spotted a broken link? <button type="button" class="improve-btn link-inline" data-tiptype="report">Report it</button> and we'll fix it.</p>
                     </div>
                 </div>
             </section>`;
@@ -2369,6 +2369,7 @@ function notFoundPage() {
 ${footerHTML('/')}
 
     <script src="/script.js?v=${V_JS}"></script>
+    <script src="/walk.js?v=${V_WALK}"></script>
 </body>
 </html>
 `;

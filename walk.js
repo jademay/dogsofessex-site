@@ -236,6 +236,11 @@
             form.reset();
             typeSelect.value = t;
             applyType(t);
+            // Optional prefill: the 404 page passes "Broken link: {url}" so a
+            // report carries the address the visitor actually hit. {url} -> the
+            // real URL (GitHub Pages serves 404.html at the requested path).
+            const prefill = section.getAttribute('data-report-prefill');
+            if (prefill && t === 'report') textarea.value = prefill.replace('{url}', location.href) + '\n\n';
             msg.textContent = '';
             lockScroll();
             modal.classList.add('open');
