@@ -886,7 +886,7 @@ h1, h2, h3 {
 
 /* Places hub finder: "Search near:" (postcode / current location) and, past a
    soft divider, "Browse around a walk". */
-.places-finder {
+.places-finder, .walks-finder {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -896,8 +896,8 @@ h1, h2, h3 {
 .finder-search { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .finder-walk { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .finder-label { font-size: 0.9rem; font-weight: 500; color: var(--color-forest-dark); }
-.places-locator { display: flex; gap: 0.5rem; align-items: center; }
-.places-locator .locator-input { flex: 1 1 160px; padding: 0.7rem 1rem; }
+.places-locator, .walks-locator { display: flex; gap: 0.5rem; align-items: center; }
+.places-locator .locator-input, .walks-locator .locator-input { flex: 1 1 160px; padding: 0.7rem 1rem; }
 .finder-or { color: var(--color-muted); font-size: 0.8rem; }
 .finder-sep { width: 1px; align-self: stretch; min-height: 1.6rem; background: var(--color-border); }
 .locator-status { margin: 0.2rem 0 0.4rem; color: var(--color-muted); font-size: 0.9rem; }
@@ -957,9 +957,9 @@ h1, h2, h3 {
 .map-search-area .lucide { width: 0.9em; height: 0.9em; }
 .map-search-area[hidden] { display: none; }
 @media (max-width: 560px) {
-    .places-finder { flex-direction: column; align-items: stretch; }
+    .places-finder, .walks-finder { flex-direction: column; align-items: stretch; }
     .finder-sep { display: none; }
-    .places-locator { flex: 1 1 auto; }
+    .places-locator, .walks-locator { flex: 1 1 auto; }
 }
 
 /* ---------- Meetups ---------- */

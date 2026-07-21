@@ -188,6 +188,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const mapEl = document.getElementById('walks-map');
     const countEl = document.getElementById('walks-count');
     let walksMap = null;
+    let originMarker = null;   // the "near" search point (postcode / your location)
     const walkMarkers = [];
     const catEligible = new Set();   // cards passing the category filters
     let boundsSync = false;          // only filter the list to the map after the user moves the map
@@ -284,6 +285,10 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(walksMap);
+        // The "near" search pin sits in its own pane below the marker pane so it
+        // never overshadows walk markers close to it (same as the places map).
+        walksMap.createPane('originPane');
+        walksMap.getPane('originPane').style.zIndex = 590; // markerPane is 600
         cards.forEach((card, i) => {
             const lat = parseFloat(card.dataset.lat), lng = parseFloat(card.dataset.lng);
             if (!isFinite(lat) || !isFinite(lng)) { walkMarkers.push(null); return; }
@@ -425,11 +430,73 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         sortSelect.addEventListener('change', () => {
             if (sortSelect.value === 'nearest' && !userPos && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (pos) => { userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude }; applyFilters(); },
+                    (pos) => setNear({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 'your location'),
                     () => { /* denied — keeps current order */ }
                 );
             }
             applyFilters();
+        });
+    }
+
+    // --- "Near:" search: postcode / town or the browser's location, mirroring
+    // the places page. A match sets the origin, switches the sort to Nearest,
+    // drops a pin, and recentres the map on the nearest walks.
+    const locForm = document.querySelector('.walks-locator');
+    const locInput = locForm && locForm.querySelector('.locator-input');
+    const geoBtn = document.querySelector('.walks-finder .locator-geo');
+    const locStatus = document.querySelector('.locator-status');
+    const say = (msg) => { if (locStatus) { locStatus.hidden = !msg; locStatus.textContent = msg || ''; } };
+    async function geocode(q) {
+        try { const r = await fetch('https://api.postcodes.io/postcodes/' + encodeURIComponent(q)); if (r.ok) { const j = await r.json(); if (j.result) return { lat: j.result.latitude, lng: j.result.longitude, label: j.result.postcode }; } } catch (e) { /* next */ }
+        try { const r = await fetch('https://api.postcodes.io/outcodes/' + encodeURIComponent(q)); if (r.ok) { const j = await r.json(); if (j.result) return { lat: j.result.latitude, lng: j.result.longitude, label: j.result.outcode }; } } catch (e) { /* next */ }
+        try { const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=gb&q=' + encodeURIComponent(q), { headers: { Accept: 'application/json' } }); if (r.ok) { const j = await r.json(); if (j[0]) return { lat: parseFloat(j[0].lat), lng: parseFloat(j[0].lon), label: q }; } } catch (e) { /* give up */ }
+        return null;
+    }
+    // Recentre on the origin plus the nearest handful of (eligible) walks, so a
+    // single far-off walk doesn't zoom the whole county out.
+    const fitNearOrigin = () => {
+        if (!walksMap || !userPos) return;
+        const near = walkMarkers.filter((m) => m && walksMap.hasLayer(m)).map((m) => m.getLatLng())
+            .sort((a, b) => haversine(userPos, { lat: a.lat, lng: a.lng }) - haversine(userPos, { lat: b.lat, lng: b.lng }))
+            .slice(0, 8).map((ll) => [ll.lat, ll.lng]);
+        walksMap.fitBounds([[userPos.lat, userPos.lng]].concat(near), { padding: [26, 26], maxZoom: 13 });
+    };
+    function setNear(point, label) {
+        userPos = point;
+        if (sortSelect) sortSelect.value = 'nearest';
+        if (walksMap && typeof L !== 'undefined') {
+            if (originMarker) originMarker.setLatLng([point.lat, point.lng]);
+            else {
+                originMarker = L.marker([point.lat, point.lng], { icon: L.divIcon({ className: 'origin-pin', html: '<span></span>', iconSize: [22, 22], iconAnchor: [11, 11] }), pane: 'originPane' }).addTo(walksMap);
+                originMarker.bindTooltip('', { direction: 'top', offset: [0, -12], opacity: 1 });
+                originMarker.on('tooltipopen', (e) => { if (isMobile()) { originMarker.closeTooltip(); return; } clampMapTooltip(walksMap, e.tooltip); });
+            }
+            // Text node, not an HTML string, so a label can't inject markup.
+            if (label) { const t = document.createElement('span'); t.textContent = label; originMarker.setTooltipContent(t); }
+        }
+        applyFilters();   // sorts nearest-first and shows the "X miles away" labels
+        fitNearOrigin();  // recentre on the user and the closest walks
+        say('');
+    }
+    if (locForm) {
+        locForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const q = (locInput && locInput.value.trim()) || '';
+            if (!q) return;
+            say('Searching…');
+            const loc = await geocode(q);
+            if (!loc) { say("Sorry, we couldn't find that location - try a postcode."); return; }
+            setNear({ lat: loc.lat, lng: loc.lng }, loc.label);
+        });
+    }
+    if (geoBtn) {
+        geoBtn.addEventListener('click', () => {
+            if (!navigator.geolocation) { say('Location services are not available in this browser.'); return; }
+            say('Finding your location…');
+            navigator.geolocation.getCurrentPosition(
+                (pos) => { if (locInput) locInput.value = ''; setNear({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 'your location'); },
+                () => say("We couldn't access your location - try entering a postcode.")
+            );
         });
     }
 

@@ -1303,6 +1303,18 @@ function walksIndexPage(walks) {
             <div class="walks-toolbar">
                 <div class="container">
                     <h2 class="controls-title">Find the perfect walk</h2>
+                    <div class="walks-finder">
+                        <div class="finder-search">
+                            <span class="finder-label">Near:</span>
+                            <form class="walks-locator" autocomplete="off">
+                                <input type="text" class="locator-input" name="loc" placeholder="Postcode…" aria-label="Your postcode or town">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </form>
+                            <span class="finder-or" aria-hidden="true">or</span>
+                            <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} My location</button>
+                        </div>
+                    </div>
+                    <p class="locator-status" role="status" hidden></p>
                     ${filterToggleHTML('walks-filter-toggle', 'walk-controls')}
                     <div class="controls-row" id="walk-controls">
                         <div class="walk-filters" aria-label="Filter walks by what they're best for">
