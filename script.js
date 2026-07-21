@@ -60,19 +60,32 @@ if (toggle && links) {
     window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
 }
 
-// Newsletter form — placeholder handler until a provider is connected
-const form = document.querySelector('.signup-form');
-if (form) {
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const input = form.querySelector('input[type="email"]');
-        const value = (input.value || '').trim();
-        if (!value || !value.includes('@')) {
-            input.focus();
-            return;
-        }
-        form.innerHTML = '<p style="color:#fff;font-size:1.05rem;">Thanks for joining the pack — we\'ll be in touch with the best Essex walks soon. 🐾</p>';
-    });
+// Newsletter -> Systeme.io (embedded form 42819378). The <form> posts straight
+// to Systeme.io, which stores the subscriber; no API key is used or exposed.
+// Progressive enhancement: post into a hidden iframe so the subscriber is saved
+// without leaving the page, then show the double opt-in confirmation in place.
+// (Systeme.io's own response is a generic "thank you" placeholder, so we render
+// the intended wording here.) Without JS, the form still posts normally.
+const signupForm = document.querySelector('.signup-form');
+if (signupForm && signupForm.getAttribute('action')) {
+    const frame = document.createElement('iframe');
+    frame.name = 'sio_target';
+    frame.hidden = true;
+    frame.tabIndex = -1;
+    frame.setAttribute('aria-hidden', 'true');
+    frame.title = 'Newsletter submission';
+    document.body.appendChild(frame);
+    signupForm.target = 'sio_target';
+    let submitted = false, shown = false;
+    const showThanks = () => {
+        if (!submitted || shown) return;
+        shown = true;
+        signupForm.innerHTML = '<p class="signup-done" role="status" style="color:#fff;font-size:1.05rem;text-align:center;margin:0;">Thanks! Please check your inbox and confirm your subscription.</p>';
+    };
+    // The submit event only fires once native validation (type=email + required)
+    // passes, so an empty or malformed address never reaches Systeme.io.
+    signupForm.addEventListener('submit', () => { submitted = true; setTimeout(showThanks, 1200); });
+    frame.addEventListener('load', showThanks); // Systeme.io's response loaded = stored
 }
 
 // --- Shared explorer helpers (walks hub + places hub) ------------------------
