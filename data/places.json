@@ -1992,5 +1992,40 @@
       "tiktok": null,
       "youtube": null
     }
+  },
+  {
+    "id": "the-red-lion-manningtree",
+    "name": "The Red Lion",
+    "type": "pub",
+    "lat": 51.94485436,
+    "lng": 1.063907288,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome inside and out.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-07-22",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Manningtree's oldest pub is a cosy, dog-friendly free house serving local ales and ciders, with a warming open fire after winter walks and a sunny courtyard for summer visits. Bring your own takeaway - or have it delivered directly to the pub.",
+    "website": "https://www.redlionmanningtree.co.uk/",
+    "mapsLink": "https://maps.app.goo.gl/9YyYZ656cuHtjA756",
+    "phone": "01206 391880",
+    "email": "",
+    "socials": {
+      "instagram": null,
+      "facebook": "https://www.facebook.com/profile.php?id=100069949489984",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
