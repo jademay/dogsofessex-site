@@ -1957,5 +1957,40 @@
       "youtube": null,
       "twitter": null
     }
+  },
+  {
+    "id": "chapters-coffee-and-wine-bradfield",
+    "name": "Chapters Coffee & Wine",
+    "type": "cafe",
+    "lat": 51.93592747,
+    "lng": 1.117200845,
+    "dogFriendly": true,
+    "dogFriendlyNotes": "Dogs are welcome inside and out.",
+    "dogAccess": [
+      "inside",
+      "outside"
+    ],
+    "lastChecked": "2026-07-22",
+    "checkedBy": "Dogs of Essex",
+    "verified": true,
+    "partnerTier": "free",
+    "featuredUntil": null,
+    "editorScore": "standard",
+    "doePick": false,
+    "showOnWalkPages": true,
+    "showOnAreaPages": true,
+    "showOnHomepage": true,
+    "image": "",
+    "notes": "Beautiful coffee and wine bar in Bradfield. Very welcoming and a pleasure to visit after a walk nearby.",
+    "website": "",
+    "mapsLink": "https://maps.app.goo.gl/rp65LV6hegDzVPsL8",
+    "phone": "01206 982179",
+    "email": "info@chapterscw.com",
+    "socials": {
+      "instagram": "https://www.instagram.com/chapterscw",
+      "facebook": "https://www.facebook.com/ChaptersCW",
+      "tiktok": null,
+      "youtube": null
+    }
   }
 ]
