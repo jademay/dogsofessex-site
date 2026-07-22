@@ -152,6 +152,68 @@ if (toggle && links) {
     window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
 }
 
+// --- Saved items (walks + venues) -------------------------------------------
+// No accounts: saves live in this browser's localStorage as an ordered list of
+// {type,id,ts}. A legacy array of walk ids (doe_saved_walks, written by earlier
+// versions) is migrated in on first read and kept in sync. window.DoeSaves is
+// the single source of truth; a 'doe-saves-changed' event fires on every write.
+window.DoeSaves = (function () {
+    const KEY = 'doe_saves';
+    const LEGACY = 'doe_saved_walks';
+    const key = (t, id) => t + ':' + id;
+    const parse = (k) => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch (e) { return []; } };
+
+    // Merge any legacy walk ids not already present (small ts so they sort as
+    // "saved earlier" than anything saved since the upgrade).
+    function load() {
+        const list = parse(KEY);
+        const seen = new Set(list.map((e) => key(e.type, e.id)));
+        let base = 1;
+        parse(LEGACY).forEach((id) => {
+            if (!seen.has(key('walk', id))) { list.push({ type: 'walk', id: id, ts: base++ }); seen.add(key('walk', id)); }
+        });
+        return list;
+    }
+    let items = load();
+
+    function persist() {
+        try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (e) { /* private mode */ }
+        try { localStorage.setItem(LEGACY, JSON.stringify(items.filter((e) => e.type === 'walk').map((e) => e.id))); } catch (e) { /* ignore */ }
+        document.dispatchEvent(new CustomEvent('doe-saves-changed'));
+    }
+
+    return {
+        all() { return items.slice(); },
+        count() { return items.length; },
+        has(type, id) { return items.some((e) => e.type === type && e.id === id); },
+        add(type, id) { if (!this.has(type, id)) { items.push({ type: type, id: id, ts: Date.now() }); persist(); } },
+        remove(type, id) {
+            const n = items.length;
+            items = items.filter((e) => !(e.type === type && e.id === id));
+            if (items.length !== n) persist();
+        },
+        toggle(type, id) { if (this.has(type, id)) { this.remove(type, id); return false; } this.add(type, id); return true; },
+        clear() { if (items.length) { items = []; persist(); } }
+    };
+})();
+
+// Wire every .js-save-btn (walk + venue hero "Save" buttons) to DoeSaves. The
+// Saved page manages its own .saved-toggle buttons, so those are skipped.
+document.querySelectorAll('.js-save-btn[data-save-type][data-save-id]').forEach((btn) => {
+    if (btn.closest('#saved-app')) return;
+    const type = btn.dataset.saveType, id = btn.dataset.saveId;
+    const label = btn.querySelector('.action-label');
+    const sync = () => {
+        const s = window.DoeSaves.has(type, id);
+        btn.classList.toggle('is-saved', s);
+        btn.setAttribute('aria-pressed', s ? 'true' : 'false');
+        if (label) label.textContent = s ? 'Saved' : 'Save';
+    };
+    btn.addEventListener('click', (e) => { e.preventDefault(); window.DoeSaves.toggle(type, id); sync(); });
+    document.addEventListener('doe-saves-changed', sync);
+    sync();
+});
+
 // Newsletter -> Systeme.io (embedded form 42819378). The <form> posts straight
 // to Systeme.io, which stores the subscriber; no API key is used or exposed.
 // Progressive enhancement: post into a hidden iframe so the subscriber is saved
@@ -1498,4 +1560,152 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             if (!typing) { e.preventDefault(); open(); }
         }
     });
+})();
+
+// --- Saved adventures page --------------------------------------------------
+// Renders the visitor's saved walks + venues from DoeSaves, using cards
+// pre-built into saved-data.json so they match the rest of the site. Handles
+// the All/Walks/Places tabs, sorting, per-card remove, and clear-all.
+(function () {
+    const app = document.getElementById('saved-app');
+    if (!app) return;
+    const listEl = document.getElementById('saved-list');
+    const emptyEl = document.getElementById('saved-empty');
+    const countEl = document.getElementById('saved-count');
+    const sortSel = document.getElementById('saved-sort');
+    const tabs = Array.prototype.slice.call(app.querySelectorAll('.saved-tab'));
+    const toolbar = app.querySelector('.saved-toolbar');
+    const metaBar = app.querySelector('.saved-meta');
+    const clearWrap = document.getElementById('saved-clear-wrap');
+    const TAB_LABEL = { all: 'All', walk: 'Walks', place: 'Places' };
+
+    let data = null;      // saved-data.json
+    let cards = [];       // [{type,id,ts,name,lat,lng,el}]
+    let tab = 'all';
+    let userPos = null;
+
+    function haversine(a, b) {
+        const R = 3958.8, toRad = (d) => d * Math.PI / 180;
+        const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
+        const s = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+        return 2 * R * Math.asin(Math.sqrt(s));
+    }
+
+    function note(msg) {
+        let el = document.getElementById('saved-note');
+        if (!el) { el = document.createElement('span'); el.id = 'saved-note'; el.className = 'saved-note'; el.setAttribute('role', 'status'); metaBar.appendChild(el); }
+        el.textContent = msg || '';
+    }
+
+    function build() {
+        cards = [];
+        listEl.innerHTML = '';
+        window.DoeSaves.all().forEach((entry) => {
+            const rec = data[entry.type] && data[entry.type][entry.id];
+            if (!rec) return; // saved item no longer in the data (e.g. removed)
+            const wrap = document.createElement('div');
+            wrap.innerHTML = rec.html.trim();
+            const el = wrap.firstElementChild;
+            if (!el) return;
+            listEl.appendChild(el);
+            const card = { type: entry.type, id: entry.id, ts: entry.ts || 0, name: rec.name || '', lat: rec.lat, lng: rec.lng, el: el };
+            const btn = el.querySelector('.saved-toggle');
+            if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); removeCard(card); });
+            cards.push(card);
+        });
+        apply();
+    }
+
+    function removeCard(card) {
+        window.DoeSaves.remove(card.type, card.id);
+        cards = cards.filter((c) => c !== card);
+        card.el.remove();
+        apply();
+    }
+
+    function sortCards(arr) {
+        const s = sortSel.value, a = arr.slice();
+        if (s === 'name') a.sort((x, y) => x.name.localeCompare(y.name));
+        else if (s === 'nearest' && userPos) a.sort((x, y) => haversine(userPos, x) - haversine(userPos, y));
+        else a.sort((x, y) => y.ts - x.ts); // recently saved
+        return a;
+    }
+
+    function apply() {
+        const total = cards.length;
+        const byType = { walk: 0, place: 0 };
+        cards.forEach((c) => { byType[c.type]++; });
+
+        tabs.forEach((t) => {
+            const kkey = t.dataset.tab;
+            const n = kkey === 'all' ? total : byType[kkey];
+            t.textContent = TAB_LABEL[kkey] + ' (' + n + ')';
+            const on = kkey === tab;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+
+        // Order everything by the chosen sort, then show/hide per active tab.
+        sortCards(cards).forEach((c) => {
+            listEl.appendChild(c.el);
+            c.el.style.display = (tab === 'all' || c.type === tab) ? '' : 'none';
+        });
+
+        countEl.textContent = total ? total + ' saved adventure' + (total === 1 ? '' : 's') : '';
+        const isEmpty = total === 0;
+        emptyEl.hidden = !isEmpty;
+        listEl.hidden = isEmpty;
+        if (toolbar) toolbar.style.display = isEmpty ? 'none' : '';
+        if (metaBar) metaBar.style.display = isEmpty ? 'none' : '';
+    }
+
+    function onSort() {
+        note('');
+        if (sortSel.value === 'nearest' && !userPos) {
+            if (!navigator.geolocation) { note('Location is not available in this browser.'); sortSel.value = 'recent'; return; }
+            sortSel.disabled = true;
+            note('Finding your location…');
+            navigator.geolocation.getCurrentPosition(
+                (pos) => { userPos = { lat: pos.coords.latitude, lng: pos.coords.longitude }; sortSel.disabled = false; note(''); apply(); },
+                () => { sortSel.disabled = false; sortSel.value = 'recent'; note('Could not get your location.'); apply(); },
+                { timeout: 10000 }
+            );
+            return;
+        }
+        apply();
+    }
+
+    function wireClear() {
+        const btn = document.getElementById('saved-clear');
+        if (!btn) return;
+        btn.addEventListener('click', () => {
+            clearWrap.innerHTML = '<span class="saved-clear-confirm">Clear all saved items? '
+                + '<button type="button" class="link-button saved-clear-yes">Yes, clear</button> '
+                + '<button type="button" class="link-button saved-clear-no">Cancel</button></span>';
+            clearWrap.querySelector('.saved-clear-yes').addEventListener('click', () => {
+                window.DoeSaves.clear();
+                cards.forEach((c) => c.el.remove());
+                cards = [];
+                resetClear();
+                apply();
+            });
+            clearWrap.querySelector('.saved-clear-no').addEventListener('click', resetClear);
+        });
+    }
+    function resetClear() {
+        clearWrap.innerHTML = '<button type="button" class="link-button saved-clear" id="saved-clear">Clear all</button>';
+        wireClear();
+    }
+
+    fetch('/saved-data.json')
+        .then((r) => r.json())
+        .then((d) => { data = d; init(); })
+        .catch(() => { data = { walk: {}, place: {} }; init(); });
+
+    function init() {
+        build();
+        tabs.forEach((t) => t.addEventListener('click', () => { tab = t.dataset.tab; apply(); }));
+        sortSel.addEventListener('change', onSort);
+        wireClear();
+    }
 })();

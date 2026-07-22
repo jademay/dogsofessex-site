@@ -1049,6 +1049,7 @@ function navHTML(prefix) {
                         <li><a href="${prefix}best-for/index.html">Best For</a></li>
                         <li><a href="${prefix}places/index.html">Places</a></li>
                         <li><a href="${prefix}index.html#meetups">Meetups</a></li>
+                        <li><a href="/saved/" class="nav-saved">${icon('heart')}<span>Saved</span></a></li>
                         <li><a href="${prefix}index.html#newsletter" class="nav-cta">Join the Pack</a></li>
                     </ul>
                     <button type="button" class="nav-search" aria-label="Search walks and places" aria-haspopup="dialog" hidden>${icon('search')}</button>
@@ -1074,6 +1075,7 @@ function footerHTML(prefix) {
                         <li><a href="/walks/">Walks</a></li>
                         <li><a href="${prefix}best-for/index.html">Best For</a></li>
                         <li><a href="${prefix}places/index.html">Places</a></li>
+                        <li><a href="/saved/">Saved</a></li>
                         <li><a href="${prefix}index.html#meetups">Meetups</a></li>
                     </ul>
                 </div>
@@ -1225,7 +1227,7 @@ function page(walk, walks, places, tips) {
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
             </div>
             <div class="hero-actions">
-                <a href="#" id="save-walk" class="btn btn-secondary">${icon('bookmark')}<span class="action-label">Save</span></a>
+                <a href="#" id="save-walk" class="btn btn-secondary js-save-btn" data-save-type="walk" data-save-id="${esc(walk.id)}">${icon('bookmark')}<span class="action-label">Save</span></a>
                 <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email</span></a>
                 <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
             </div>
@@ -1902,6 +1904,9 @@ function venuePage(p, cat, walks) {
                     <span class="premium-type">${meta.icon} ${esc(meta.label)}</span>
                     <h1 class="index-title">${esc(p.name)}</h1>
                     ${verify}
+                    <div class="hero-actions venue-actions">
+                        <a href="#" class="btn btn-secondary js-save-btn" data-save-type="place" data-save-id="${esc(p.id)}">${icon('bookmark')}<span class="action-label">Save</span></a>
+                    </div>
                 </div>
             </section>
 
@@ -2378,6 +2383,161 @@ ${footerHTML('/')}
 `;
 }
 
+// --- Saved page ("Your saved adventures") -----------------------------------
+// A combined, client-rendered list of the walks and venues a visitor has
+// bookmarked. There are no accounts: saves live in the browser's localStorage.
+// build.js pre-renders a card for every walk and venue into saved-data.json;
+// the page injects the ones whose id is in the visitor's saved list, so the
+// cards match the rest of the site exactly. See the Saved logic in script.js.
+
+function slugifyName(s) {
+    return String(s == null ? '' : s).toLowerCase()
+        .replace(/&/g, ' and ')
+        .replace(/['’]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+function titleCaseTown(slug) {
+    const small = { le: 'le', on: 'on', the: 'the', and: 'and', upon: 'upon' };
+    return slug.split('-').filter(Boolean)
+        .map((w) => small[w] || cap(w))
+        .join(' ');
+}
+
+// Best-effort town for a venue. Places carry no town field, but their id is
+// "<name-slug>-<town-slug>", so stripping the name-slug prefix usually yields
+// the town. Fall back to a town we already know from a walk, then to the
+// nearest walk's town.
+function placeTown(p, walks, townSlugs) {
+    const ns = slugifyName(p.name);
+    if (p.id !== ns && p.id.startsWith(ns + '-')) {
+        return titleCaseTown(p.id.slice(ns.length + 1));
+    }
+    const hit = (townSlugs || []).find((t) => p.id === t || p.id.endsWith('-' + t));
+    if (hit) return titleCaseTown(hit);
+    const near = nearestWalk(p, walks);
+    return near && near.walk ? (near.walk.town || '') : '';
+}
+
+// The heart button shared by every saved card (and reused as the generic save
+// control via the .js-save-btn hook wired in script.js).
+function savedToggleBtn(type, id) {
+    return `<button type="button" class="saved-toggle js-save-btn is-saved" data-save-type="${type}" data-save-id="${esc(id)}" aria-pressed="true" aria-label="Remove from saved">${icon('heart')}<span class="action-label">Saved</span></button>`;
+}
+
+function savedWalkCardHTML(w) {
+    const meta = [w.town, milesLabel(w), timeLabel(w, true)].filter(Boolean).join(' • ');
+    const tags = (w.tags || []).slice(0, 3).map((t) => `<span class="tag">${esc(t)}</span>`).join('');
+    return `<article class="walk-card saved-card" data-type="walk" data-id="${esc(w.id)}" data-name="${esc(w.name)}" data-lat="${w.lat}" data-lng="${w.lng}">
+                            <div class="photo-ph">${walkPhotoHTML(w, '/')}</div>
+                            <div class="walk-card-body">
+                                <h3>${esc(w.name)}</h3>
+                                ${meta ? `<p class="walk-card-meta">${icon('footprints')}<span>${esc(meta)}</span></p>` : ''}
+                                <div class="tag-row">${tags}</div>
+                                <div class="saved-actions">
+                                    <a class="btn btn-secondary" href="/walks/${esc(w.id)}.html">View walk</a>
+                                    ${savedToggleBtn('walk', w.id)}
+                                </div>
+                            </div>
+                        </article>`;
+}
+
+function savedPlaceCardHTML(p, cat, town) {
+    const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
+    const secondary = [meta.label, town].filter(Boolean).join(' • ');
+    const photo = p.image
+        ? `<div class="place-card-photo photo-ph"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.closest('.place-card-photo').remove()"></div>\n                                    `
+        : '';
+    return `<article class="place-card day-card saved-card" data-type="place" data-id="${esc(p.id)}" data-name="${esc(p.name)}" data-lat="${p.lat}" data-lng="${p.lng}">${photo}<div class="place-card-body">
+                                        <h3 class="pc-name">${meta.icon} ${esc(p.name)}</h3>
+                                        <span class="pc-dist">${esc(secondary)}</span>${dogTagsHTML(p, 3)}
+                                        <div class="saved-actions">
+                                            <a class="btn btn-secondary" href="/places/${esc(cat.slug)}/${esc(p.id)}/">View place</a>
+                                            ${savedToggleBtn('place', p.id)}
+                                        </div>
+                                    </div>
+                                </article>`;
+}
+
+// { walk: {id: {name, lat, lng, html}}, place: {...} } — everything the Saved
+// page needs to draw a card without re-deriving anything client-side.
+function savedData(walks, places) {
+    const townSlugs = [...new Set(walks.map((w) => slugifyName(w.town || '')).filter(Boolean))]
+        .sort((a, b) => b.length - a.length);
+    const data = { walk: {}, place: {} };
+    walks.filter((w) => w.hasPage).forEach((w) => {
+        data.walk[w.id] = { name: w.name, lat: w.lat, lng: w.lng, html: savedWalkCardHTML(w) };
+    });
+    places.forEach((p) => {
+        if (p.dogFriendly === false) return;
+        const cat = PLACE_CATEGORIES.find((c) => !c.comingSoon && (c.types || []).includes(p.type));
+        if (!cat) return;
+        data.place[p.id] = { name: p.name, lat: p.lat, lng: p.lng, html: savedPlaceCardHTML(p, cat, placeTown(p, walks, townSlugs)) };
+    });
+    return data;
+}
+
+function savedPage() {
+    const prefix = '../';
+    const body = `
+            <section class="walk-section walk-index-head">
+                <div class="container">
+                    <h1 class="index-title">Your saved adventures</h1>
+                    <p class="index-sub saved-device-note">${icon('bookmark')} <strong>Saved on this device.</strong> Your saved items are stored in this browser and may not appear on another phone or computer.</p>
+                </div>
+            </section>
+
+            <section class="walk-section saved-section" id="saved-app">
+                <div class="container">
+                    <div class="saved-toolbar">
+                        <div class="saved-tabs" role="tablist" aria-label="Filter saved items">
+                            <button type="button" class="saved-tab is-active" data-tab="all" role="tab" aria-selected="true">All</button>
+                            <button type="button" class="saved-tab" data-tab="walk" role="tab" aria-selected="false">Walks</button>
+                            <button type="button" class="saved-tab" data-tab="place" role="tab" aria-selected="false">Places</button>
+                        </div>
+                        <label class="saved-sort">Sort
+                            <select id="saved-sort">
+                                <option value="recent">Recently saved</option>
+                                <option value="name">Name</option>
+                                <option value="nearest">Nearest</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="saved-meta">
+                        <p class="saved-count" id="saved-count" aria-live="polite"></p>
+                        <div class="saved-clear-wrap" id="saved-clear-wrap">
+                            <button type="button" class="link-button saved-clear" id="saved-clear">Clear all</button>
+                        </div>
+                    </div>
+                    <div class="walk-grid saved-grid" id="saved-list"></div>
+                    <div class="saved-empty" id="saved-empty" hidden>
+                        <span class="saved-empty-icon" aria-hidden="true">${icon('heart')}</span>
+                        <h2>Nothing saved yet</h2>
+                        <p>Save your favourite walks and dog-friendly places to find them quickly later.</p>
+                        <div class="saved-empty-actions">
+                            <a class="btn btn-primary" href="/walks/">Explore walks</a>
+                            <a class="btn btn-secondary" href="${prefix}places/index.html">Explore places</a>
+                        </div>
+                    </div>
+                    <noscript><p class="section-lead">Saved adventures need JavaScript, since they're stored in your browser.</p></noscript>
+                </div>
+            </section>`;
+    return `${headHTML(prefix, 'Your saved adventures | Dogs of Essex', 'The dog walks and dog-friendly places you have saved on this device, kept handy for your next adventure.', { canonical: 'saved/', extra: '<meta name="robots" content="noindex">' })}
+</head>
+<body>${navHTML(prefix)}
+
+    <main>
+        <div class="walk-body">${body}
+        </div>
+    </main>
+${footerHTML(prefix)}
+
+    <script src="${prefix}script.js?v=${V_JS}"></script>
+</body>
+</html>`;
+}
+
 // --- run ---
 
 function readJSON(file) {
@@ -2751,6 +2911,14 @@ function build() {
     });
     fs.writeFileSync(path.join(ROOT, 'search-index.json'), JSON.stringify(searchEntries));
     console.log(`  ✓ search-index.json (${searchEntries.length} entries)`);
+
+    // --- Saved page + its data (saved-data.json) ---
+    const SAVED_OUT = path.join(ROOT, 'saved');
+    if (!fs.existsSync(SAVED_OUT)) fs.mkdirSync(SAVED_OUT, { recursive: true });
+    const savedIndex = savedData(walks, places);
+    fs.writeFileSync(path.join(ROOT, 'saved-data.json'), JSON.stringify(savedIndex));
+    fs.writeFileSync(path.join(SAVED_OUT, 'index.html'), savedPage());
+    console.log(`  ✓ saved/index.html + saved-data.json (${Object.keys(savedIndex.walk).length} walks, ${Object.keys(savedIndex.place).length} places)`);
 
     // --- sitemap.xml + robots.txt (regenerated every build, so new pages are
     // picked up automatically) ---

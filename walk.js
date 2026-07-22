@@ -708,34 +708,10 @@
     }
 
     function wireActions() {
-        const WALK_ID = window.WALK_ID;
-        const saveBtn = document.getElementById('save-walk');
+        // The "Save" button (#save-walk) is wired site-wide by script.js via the
+        // shared .js-save-btn / DoeSaves handler, so it's not handled here.
         const emailBtn = document.getElementById('email-walk');
         const shareBtn = document.getElementById('share-walk');
-        const KEY = 'doe_saved_walks';
-        const read = () => {
-            try { return JSON.parse(localStorage.getItem(KEY)) || []; }
-            catch (e) { return []; }
-        };
-
-        if (saveBtn && WALK_ID) {
-            const sync = () => {
-                const saved = read().includes(WALK_ID);
-                saveBtn.classList.toggle('is-saved', saved);
-                const label = saveBtn.querySelector('.action-label');
-                if (label) label.textContent = saved ? 'Saved' : 'Save';
-            };
-            saveBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                let list = read();
-                list = list.includes(WALK_ID)
-                    ? list.filter((id) => id !== WALK_ID)
-                    : [...list, WALK_ID];
-                localStorage.setItem(KEY, JSON.stringify(list));
-                sync();
-            });
-            sync();
-        }
 
         if (emailBtn) {
             const subject = encodeURIComponent('A dog-friendly walk in Essex');
