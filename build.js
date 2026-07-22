@@ -489,7 +489,7 @@ function heroHTML(walk) {
                 <div class="walk-rating">
                     <span class="star-track" aria-hidden="true"><span class="fill" style="width:${pct}%"></span></span>
                     <span class="rating-score">${esc(rating.value)}</span>
-                    ${rating.count ? `<span class="rating-count">(${esc(rating.count)} reviews)</span>` : ''}
+                    <span class="rating-count">Dogs of Essex score</span>
                 </div>` : '';
     return `
                 <h1>${esc(walk.name)}</h1>${ratingBlock}
@@ -1043,14 +1043,17 @@ function navHTML(prefix) {
         <div class="container">
             <nav class="nav">
                 <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
-                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span class="nav-toggle-open">${icon('menu')}</span><span class="nav-toggle-close">${icon('x')}</span></button>
-                <ul class="nav-links">
-                    <li><a href="/walks/">Walks</a></li>
-                    <li><a href="${prefix}best-for/index.html">Best For</a></li>
-                    <li><a href="${prefix}places/index.html">Places</a></li>
-                    <li><a href="${prefix}index.html#meetups">Meetups</a></li>
-                    <li><a href="${prefix}index.html#newsletter" class="nav-cta">Join the Pack</a></li>
-                </ul>
+                <div class="nav-right">
+                    <ul class="nav-links">
+                        <li><a href="/walks/">Walks</a></li>
+                        <li><a href="${prefix}best-for/index.html">Best For</a></li>
+                        <li><a href="${prefix}places/index.html">Places</a></li>
+                        <li><a href="${prefix}index.html#meetups">Meetups</a></li>
+                        <li><a href="${prefix}index.html#newsletter" class="nav-cta">Join the Pack</a></li>
+                    </ul>
+                    <button type="button" class="nav-search" aria-label="Search walks and places" aria-haspopup="dialog" hidden>${icon('search')}</button>
+                    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span class="nav-toggle-open">${icon('menu')}</span><span class="nav-toggle-close">${icon('x')}</span></button>
+                </div>
             </nav>
         </div>
     </header>`;
@@ -2715,6 +2718,39 @@ function build() {
                 venueCount++;
             });
     });
+
+    // --- search-index.json (site-wide search) ---
+    // A tiny flat index the client fetches on first search: one entry per walk
+    // and per dog-friendly venue. `n` name, `u` url, `g` kind badge, `s`
+    // subtitle, `k` a lowercase keyword blob used for matching. Town search
+    // works through `k` — walks carry their own town/area; places borrow the
+    // town of their nearest walk (they have no town field of their own).
+    const searchEntries = [];
+    walks.filter((w) => w.hasPage).forEach((w) => {
+        const town = w.town || '';
+        searchEntries.push({
+            t: 'walk', g: 'Walk', n: w.name, u: `/walks/${w.id}.html`,
+            s: [town, w.area].filter(Boolean).join(' · '),
+            k: [w.name, town, w.area, w.scenery, w.terrain, (w.tags || []).join(' ')]
+                .filter(Boolean).join(' ').toLowerCase()
+        });
+    });
+    places.forEach((p) => {
+        if (p.dogFriendly === false) return;
+        const cat = PLACE_CATEGORIES.find((c) => !c.comingSoon && (c.types || []).includes(p.type));
+        if (!cat) return;
+        const kind = (TYPE_META[p.type] && TYPE_META[p.type].label) || 'Place';
+        const near = nearestWalk(p, walks);
+        const nearTown = near && near.walk ? (near.walk.town || '') : '';
+        searchEntries.push({
+            t: 'place', g: kind, n: p.name, u: `/places/${cat.slug}/${p.id}/`,
+            s: nearTown ? `Near ${nearTown}` : '',
+            k: [p.name, kind, String(p.id).replace(/-/g, ' '), nearTown, (p.notes || '').slice(0, 120)]
+                .filter(Boolean).join(' ').toLowerCase()
+        });
+    });
+    fs.writeFileSync(path.join(ROOT, 'search-index.json'), JSON.stringify(searchEntries));
+    console.log(`  ✓ search-index.json (${searchEntries.length} entries)`);
 
     // --- sitemap.xml + robots.txt (regenerated every build, so new pages are
     // picked up automatically) ---

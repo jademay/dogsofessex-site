@@ -1305,3 +1305,197 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     if (sortSel) sortSel.addEventListener('change', apply);
     apply();
 })();
+
+// --- Site-wide search -------------------------------------------------------
+// A lightweight command-palette style search over walks and dog-friendly
+// venues. The index (search-index.json, built by build.js) is fetched once, on
+// the first open. The trigger button in the nav is hidden until this runs, so
+// visitors without JavaScript never see a control that would do nothing.
+(function () {
+    const triggers = document.querySelectorAll('.nav-search');
+    if (!triggers.length) return;
+
+    const SEARCH_SVG = '<svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>';
+    const X_SVG = '<svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+
+    let index = null;               // loaded entries, or null before load
+    let loadState = 'idle';         // idle | loading | ready | error
+    let modal, backdrop, input, resultsEl;
+    let current = [];               // entries currently rendered
+    let activeIdx = -1;             // highlighted result index
+    let lastFocus = null;           // element focused before opening
+
+    // Reveal the nav trigger(s) now that the script has run, and wire them up.
+    triggers.forEach((btn) => {
+        btn.hidden = false;
+        btn.addEventListener('click', open);
+    });
+
+    const escHtml = (s) => String(s).replace(/[&<>"']/g, (c) =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    function highlight(name, q) {
+        if (!q) return escHtml(name);
+        const idx = name.toLowerCase().indexOf(q);
+        if (idx === -1) return escHtml(name);
+        return escHtml(name.slice(0, idx))
+            + '<mark>' + escHtml(name.slice(idx, idx + q.length)) + '</mark>'
+            + escHtml(name.slice(idx + q.length));
+    }
+
+    function buildModal() {
+        modal = document.createElement('div');
+        modal.className = 'search-modal';
+        modal.hidden = true;
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-label', 'Search Dogs of Essex');
+        modal.innerHTML =
+            '<div class="search-modal-backdrop" data-close></div>'
+            + '<div class="search-panel">'
+            + '<div class="search-input-row">' + SEARCH_SVG
+            + '<input type="search" class="search-input" placeholder="Search walks, towns, pubs &amp; cafés" aria-label="Search walks, towns, pubs and cafés" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">'
+            + '<button type="button" class="search-close" data-close aria-label="Close search">' + X_SVG + '</button>'
+            + '</div>'
+            + '<div class="search-results" role="listbox" aria-label="Search results"></div>'
+            + '<div class="search-hint">Press <kbd>Esc</kbd> to close</div>'
+            + '</div>';
+        document.body.appendChild(modal);
+        backdrop = modal.querySelector('.search-modal-backdrop');
+        input = modal.querySelector('.search-input');
+        resultsEl = modal.querySelector('.search-results');
+
+        input.addEventListener('input', () => render(input.value));
+        input.addEventListener('keydown', onInputKeydown);
+        modal.addEventListener('keydown', onModalKeydown);
+        modal.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', close));
+        // Clicking a result closes the overlay (before the browser navigates).
+        resultsEl.addEventListener('click', (e) => { if (e.target.closest('.search-result')) close(); });
+        resultsEl.addEventListener('mousemove', (e) => {
+            const a = e.target.closest('.search-result');
+            if (a) setActive(Number(a.dataset.i));
+        });
+    }
+
+    function loadIndex() {
+        if (loadState === 'loading' || loadState === 'ready') return;
+        loadState = 'loading';
+        fetch('/search-index.json')
+            .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then((data) => { index = data; loadState = 'ready'; render(input.value); })
+            .catch(() => { loadState = 'error'; render(input.value); });
+    }
+
+    // Every query term must appear somewhere; the name match decides the rank.
+    function scoreEntry(e, q, terms) {
+        const name = e.n.toLowerCase();
+        const hay = name + ' ' + (e.s || '').toLowerCase() + ' ' + e.k;
+        for (let i = 0; i < terms.length; i++) { if (hay.indexOf(terms[i]) === -1) return -1; }
+        let score = 10;
+        if (name === q) score += 200;
+        else if (name.indexOf(q) === 0) score += 120;
+        else if (name.indexOf(' ' + q) !== -1) score += 80;   // word-start match
+        else if (name.indexOf(q) !== -1) score += 50;
+        if ((e.s || '').toLowerCase().indexOf(q) !== -1) score += 15;
+        if (e.t === 'walk') score += 3;                        // nudge walks up on ties
+        score -= Math.min(name.length, 40) * 0.1;              // prefer tighter names
+        return score;
+    }
+
+    function setStatus(msg) {
+        current = [];
+        activeIdx = -1;
+        resultsEl.innerHTML = '<p class="search-status">' + escHtml(msg) + '</p>';
+    }
+
+    function render(raw) {
+        if (!modal) return;
+        const q = (raw || '').trim().toLowerCase();
+        if (loadState === 'error') { setStatus('Search is unavailable right now.'); return; }
+        if (!index) { setStatus('Loading…'); return; }
+        if (!q) { setStatus('Search for a walk, town, pub or café.'); return; }
+
+        const terms = q.split(/\s+/).filter(Boolean);
+        const scored = [];
+        index.forEach((e) => { const s = scoreEntry(e, q, terms); if (s >= 0) scored.push({ e: e, s: s }); });
+        scored.sort((a, b) => b.s - a.s || a.e.n.localeCompare(b.e.n));
+        current = scored.slice(0, 12).map((x) => x.e);
+
+        if (!current.length) { setStatus('No matches for “' + raw.trim() + '”.'); return; }
+        resultsEl.innerHTML = current.map((e, i) =>
+            '<a class="search-result" href="' + e.u + '" role="option" data-i="' + i + '">'
+            + '<span class="search-result-body">'
+            + '<span class="search-result-name">' + highlight(e.n, q) + '</span>'
+            + (e.s ? '<span class="search-result-sub">' + escHtml(e.s) + '</span>' : '')
+            + '</span>'
+            + '<span class="search-result-kind">' + escHtml(e.g) + '</span>'
+            + '</a>'
+        ).join('');
+        setActive(0);
+    }
+
+    function setActive(i) {
+        if (!current.length) return;
+        activeIdx = (i + current.length) % current.length;
+        const rows = resultsEl.querySelectorAll('.search-result');
+        rows.forEach((el, idx) => {
+            const on = idx === activeIdx;
+            el.classList.toggle('is-active', on);
+            el.setAttribute('aria-selected', on ? 'true' : 'false');
+            if (on) el.scrollIntoView({ block: 'nearest' });
+        });
+    }
+
+    function onInputKeydown(e) {
+        if (e.key === 'ArrowDown') { e.preventDefault(); setActive(activeIdx + 1); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(activeIdx - 1); }
+        else if (e.key === 'Enter') {
+            const row = resultsEl.querySelectorAll('.search-result')[activeIdx];
+            if (row) { e.preventDefault(); close(); window.location.href = row.getAttribute('href'); }
+        }
+    }
+
+    function onModalKeydown(e) {
+        if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+        if (e.key !== 'Tab') return;
+        // Minimal focus trap: keep Tab within the panel.
+        const focusable = modal.querySelectorAll('input, button, a[href]');
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    function open() {
+        if (!modal) buildModal();
+        if (!modal.hidden) return;
+        lastFocus = document.activeElement;
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        loadIndex();
+        render(input.value);
+        requestAnimationFrame(() => { input.focus(); input.select(); });
+    }
+
+    function close() {
+        if (!modal || modal.hidden) return;
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    // Global shortcuts: Cmd/Ctrl+K anywhere, or "/" when not already typing.
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+            e.preventDefault();
+            (modal && !modal.hidden) ? close() : open();
+            return;
+        }
+        if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+            const el = document.activeElement;
+            const typing = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+            if (!typing) { e.preventDefault(); open(); }
+        }
+    });
+})();
