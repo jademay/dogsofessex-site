@@ -1781,6 +1781,23 @@
         "score": 3
       }
     ],
+    "gallery": [
+      { "image": "", "caption": "Sweeping views across the Stour Estuary from the reserve" },
+      { "image": "", "caption": "The Essex Wildlife Trust welcome board and trail map at the entrance" },
+      { "image": "", "caption": "Dogs trotting ahead along the main gravel trail" },
+      { "image": "", "caption": "Blue waymarkers guiding the way along the Estuary View Trail" },
+      { "image": "", "caption": "A wide, easy-going path with gentle gradients" },
+      { "image": "", "caption": "The trail hugs the estuary edge, water alongside" },
+      { "image": "", "caption": "One of the rustic wooden bird-watching screens" },
+      { "image": "", "caption": "Shade and estuary views from the wildlife hide" },
+      { "image": "", "caption": "A rare shady stretch where the path tunnels through scrub" },
+      { "image": "", "caption": "Off-lead exploring along the open gravel trail" },
+      { "image": "", "caption": "Summer wildflowers lining the meadow path" },
+      { "image": "", "caption": "A bench and habitat board make a good resting spot" },
+      { "image": "", "caption": "Accessible parking bays beside the reserve" },
+      { "image": "", "caption": "The gravel car park right by the reserve entrance" },
+      { "image": "", "caption": "Dog waste and litter bins at the entrance" }
+    ],
     "routes": [
       {
         "name": "Wrabness Nature Reserve Circular",
