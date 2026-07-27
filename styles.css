@@ -1008,8 +1008,7 @@ h1, h2, h3 {
         flex-direction: column;
         z-index: 1;
         background: var(--color-bg-alt);
-        width: 100vw;
-        margin-inline: calc(50% - 50vw);
+        width: 100%;
         padding: 0.35rem 16px 0;
         box-sizing: border-box;
     }
@@ -1023,8 +1022,7 @@ h1, h2, h3 {
         min-height: 0;
         flex-direction: row;
         align-items: stretch;
-        width: 100vw;
-        margin-inline: calc(50% - 50vw);
+        width: 100%;
         gap: 16px;
         overflow-x: auto;
         overflow-y: hidden;
@@ -1037,8 +1035,8 @@ h1, h2, h3 {
     .places-explorer .places-hub-list::-webkit-scrollbar { display: none; }
     .places-hub-list > .day-card,
     .places-hub-list > .free-pill {
-        flex: 0 0 calc(100vw - 32px); /* 16px margin each side */
-        width: calc(100vw - 32px);
+        flex: 0 0 100%;       /* one card per view (100% of the scroller's content box) */
+        width: 100%;
         max-width: 420px;
         min-width: 0;
         min-height: 0;
@@ -2996,6 +2994,13 @@ h2 .lucide { vertical-align: -0.1em; }
     }
     .places-controls-wrap { display: none; margin: 0; }
     .places-toolbar.is-filter-open .places-controls-wrap { display: block; margin: 0.1rem 0 0.3rem; }
+
+    /* Sort by + Search radius sit next to each other (each a compact column with
+       its label above the select) rather than stacked. */
+    .places-controls-top .places-sort-row { width: 100%; margin-left: 0; flex-wrap: nowrap; gap: 0.6rem; }
+    .places-sort-label,
+    .places-distance-wrap { flex: 1 1 0; min-width: 0; flex-direction: column; align-items: stretch; gap: 0.25rem; }
+    .places-sort, .places-distance { width: 100%; }
 
     /* Location panel: three separated, labelled options. */
     .places-finder .finder-option {
