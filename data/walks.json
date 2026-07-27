@@ -238,6 +238,21 @@
         "score": 3
       }
     ],
+    "gallery": [
+      { "image": "", "caption": "One of the tranquil lakes framed by willow and reed" },
+      { "image": "", "caption": "The Essex Wildlife Trust welcome board and trail map at the entrance" },
+      { "image": "", "caption": "A narrow, leafy path winding between the lakes" },
+      { "image": "", "caption": "Crossing one of the little wooden plank bridges" },
+      { "image": "", "caption": "The trail threads through tall summer grasses" },
+      { "image": "", "caption": "Summer wildflowers dotting the open meadow" },
+      { "image": "", "caption": "A quiet spot to sit by one of the fishing lakes" },
+      { "image": "", "caption": "A wooden screen and bench looking out over the reedbeds" },
+      { "image": "", "caption": "A footbridge over the dyke between the lakes" },
+      { "image": "", "caption": "Wide, easy paths through open woodland and scrub" },
+      { "image": "", "caption": "One of the benches dotted along the trail for a rest" },
+      { "image": "", "caption": "A barn owl box overlooking the rough grassland" },
+      { "image": "", "caption": "The gravel car park and entrance gate off Chigborough Road" }
+    ],
     "route": {
       "parking": "There's one free car park to the reserve which is fairly small but rarely seems to get busy.",
       "mapEmbed": "",
