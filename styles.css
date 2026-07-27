@@ -3465,12 +3465,19 @@ h2 .lucide { vertical-align: -0.1em; }
     position: relative;
 }
 .pc-name {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
     font-family: var(--font-serif);
     font-size: 1.12rem;
     font-weight: 500;
     line-height: 1.2;
     margin: 0;
 }
+.pc-name-text { min-width: 0; }
+/* "Sponsored" now rides at the end of the title line (base .tier-sponsored has
+   margin-left:auto, which pushes it to the right in this flex row). */
+.pc-name .tier-sponsored { flex: 0 0 auto; align-self: center; }
 .pc-dist { font-size: 0.85rem; color: var(--color-muted); }
 .pc-desc {
     font-size: 0.9rem;
@@ -3500,6 +3507,25 @@ h2 .lucide { vertical-align: -0.1em; }
     transition: background-color 0.2s ease;
 }
 .pc-cta:hover { background-color: var(--color-forest-dark); }
+.cta-short { display: none; }
+/* Phones: shorten the action labels (Details / Website / Map) so all three fit
+   on one line, and give them equal width so they're evenly spaced. */
+@media (max-width: 600px) {
+    .cta-long { display: none; }
+    .cta-short { display: inline; }
+    .pc-actions { flex-wrap: nowrap; align-items: stretch; gap: 0.4rem; }
+    .pc-actions > .pc-cta,
+    .pc-actions > .pc-map {
+        flex: 1 1 0;
+        min-width: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+    }
+}
 .pc-map {
     display: inline-flex;
     align-items: center;

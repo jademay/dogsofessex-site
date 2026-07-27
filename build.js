@@ -362,7 +362,9 @@ function pickTagHTML(p) {
     return p.doePick ? '<span class="tier-note tier-pick">★ Dogs of Essex Pick</span>' : '';
 }
 function cardLabelsHTML(p) {
-    const labels = `${pickTagHTML(p)}${tierNoteHTML(p)}`;
+    // The "Sponsored" note now sits on the title line (see placeCardHTML); this
+    // corner row is just the editorial Pick badge.
+    const labels = pickTagHTML(p);
     return labels ? `\n                                    <div class="card-labels">${labels}</div>` : '';
 }
 // Sort/filter data attributes shared by every place card (client re-ranking
@@ -839,14 +841,14 @@ function placeCardHTML(p, opts) {
         ? `\n                                    <div class="place-card-photo photo-ph"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.closest('.place-card-photo').remove()"></div>`
         : '';
     const actions = [
-        detail ? `<a class="pc-cta" href="${esc(detail)}">View details →</a>` : '',
-        web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a>` : '',
-        `<a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')} Go to map</a>`
+        detail ? `<a class="pc-cta" href="${esc(detail)}"><span class="cta-long">View details →</span><span class="cta-short">Details</span></a>` : '',
+        web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener"><span class="cta-long">Visit website ↗</span><span class="cta-short">Website</span></a>` : '',
+        `<a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')}<span class="cta-long"> Go to map</span><span class="cta-short"> Map</span></a>`
     ].filter(Boolean).join('\n                                            ');
     return `
                                 <article class="place-card day-card${opts.extraClass || ''}" data-place-type="${esc(p.type)}"${cat} data-lat="${p.lat}" data-lng="${p.lng}"${rankAttrs(p, opts)}>${cardLabelsHTML(p)}${photo}
                                     <div class="place-card-body">
-                                        <h3 class="pc-name">${meta.icon} ${esc(p.name)}</h3>
+                                        <h3 class="pc-name">${meta.icon}<span class="pc-name-text">${esc(p.name)}</span>${tierNoteHTML(p)}</h3>
                                         ${distText ? `<span class="pc-dist place-dist">${distText}</span>` : ''}
                                         ${p.notes ? `<p class="pc-desc">${esc(p.notes)}</p>` : ''}${dogTagsHTML(p, 4)}
                                         <div class="pc-actions">
