@@ -1048,6 +1048,22 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     };
     if (map) { map.on('moveend', updateCount); map.on('zoomend', updateCount); }
 
+    // Active-filter tally for the "Filter & Sort (N)" badge, so visitors know
+    // filters are still applied once the panel collapses. Counts the chosen
+    // category plus any Eat & Drink sub-type / dog-access selections.
+    const filterCountEl = document.querySelector('.places-filter-toggle .pa-count');
+    const activeFilterCount = () => {
+        let n = (cat !== 'all') ? 1 : 0;
+        if (cat === subCat) { if (subType !== 'all') n++; n += subAccess.size; }
+        return n;
+    };
+    const updateFilterCount = () => {
+        if (!filterCountEl) return;
+        const n = activeFilterCount();
+        filterCountEl.textContent = n ? ' (' + n + ')' : '';
+        filterCountEl.hidden = n === 0;
+    };
+
     const applyFilters = () => {
         cards.forEach((c) => { c.hidden = !cardShown(c); });
         // Show a "coming soon" state only when the chosen category has none.
@@ -1055,6 +1071,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         if (active && active.card.hidden) select(null);
         fitVisible();
         updateCount();
+        updateFilterCount();
         // Mobile: highlight whichever card now leads the carousel — without
         // panning, so the fitBounds animation isn't cancelled mid-flight.
         if (isMobile()) requestAnimationFrame(() => syncActiveFromCarousel(false));
@@ -1157,12 +1174,35 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         updateSubUI(); // re-render bubbles, or hide the row once it's empty
     });
 
-    // Mobile: collapse/expand the filters + sort behind the toggle arrow
-    // (same as the walks page).
-    wireFilterToggle(document.querySelector('.places-filter-toggle'), toolbar, () => {
+    // --- Location / Filter & Sort accordion (mobile) ----------------------
+    // Two collapsible panels above the map. Only one is open at a time; opening
+    // one closes the other. While a panel is open a fixed backdrop dims the map
+    // + cards, swallows taps meant for them, and closes the panel when tapped
+    // (leaving the current selections applied). Panels sit above the backdrop;
+    // background scrolling is locked. On desktop the toggles are hidden and both
+    // panels are always shown, so this is inert there.
+    const locToggle = document.querySelector('.places-location-toggle');
+    const filToggle = document.querySelector('.places-filter-toggle');
+    const backdrop = document.querySelector('.places-backdrop');
+    let openPanel = null; // 'location' | 'filter' | null
+    const setPanel = (which) => {
+        openPanel = which;
+        toolbar.classList.toggle('is-location-open', which === 'location');
+        toolbar.classList.toggle('is-filter-open', which === 'filter');
+        if (locToggle) locToggle.setAttribute('aria-expanded', which === 'location' ? 'true' : 'false');
+        if (filToggle) filToggle.setAttribute('aria-expanded', which === 'filter' ? 'true' : 'false');
+        if (backdrop) backdrop.hidden = !which;
+        document.body.classList.toggle('places-panel-open', !!which);
         setTop();
         if (map) requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
-    });
+    };
+    // Closing applies the current state: filters already apply live, so just
+    // refresh the active-filter badge and drop the backdrop.
+    const closePanel = () => { if (openPanel) { updateFilterCount(); setPanel(null); } };
+    if (locToggle) locToggle.addEventListener('click', () => setPanel(openPanel === 'location' ? null : 'location'));
+    if (filToggle) filToggle.addEventListener('click', () => setPanel(openPanel === 'filter' ? null : 'filter'));
+    if (backdrop) backdrop.addEventListener('click', closePanel);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && openPanel) closePanel(); });
 
     const initial = (location.hash || '').replace('#', '');
     const startCat = valid.has(initial) ? initial : 'all';
@@ -1232,7 +1272,12 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         applyFilters(); // applies the distance filter, refits the map, updates the map count
         // Desktop clears the status (the count sits above the map). On mobile the
         // map + count are below the fold, so confirm the search worked instead.
-        say(isMobile() && label ? 'Showing places near ' + label : '');
+        if (isMobile() && label) {
+            const within = (!areaMode && distanceLimit != null) ? ('within ' + distanceLimit + ' miles of ') : 'near ';
+            say('Showing places ' + within + label);
+        } else { say(''); }
+        // A successful search closes the Location panel and lifts the backdrop.
+        if (openPanel === 'location') setPanel(null);
     };
     if (locForm) {
         locForm.addEventListener('submit', async (e) => {
@@ -1257,13 +1302,18 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         });
     }
     if (walkSel) {
-        walkSel.addEventListener('change', () => {
+        const doWalkSearch = () => {
             if (!walkSel.value) return;
             const parts = walkSel.value.split(',').map(parseFloat);
             if (!isFinite(parts[0]) || !isFinite(parts[1])) return;
             if (locInput) locInput.value = '';
             setOrigin({ lat: parts[0], lng: parts[1] }, walkSel.options[walkSel.selectedIndex].textContent.trim());
-        });
+        };
+        // Desktop searches as soon as a walk is picked; mobile waits for the
+        // explicit "Search" button in the Location panel.
+        walkSel.addEventListener('change', () => { if (!isMobile()) doWalkSearch(); });
+        const walkSearchBtn = document.querySelector('.places-walk-search');
+        if (walkSearchBtn) walkSearchBtn.addEventListener('click', doWalkSearch);
     }
     // "Within X miles" distance filter (only meaningful once an origin is set).
     if (distSel) distSel.addEventListener('change', () => {
@@ -1302,30 +1352,6 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         if (walkSel) { for (let i = 0; i < walkSel.options.length; i++) { if (walkSel.options[i].value === near || walkSel.options[i].textContent.trim() === label) { walkSel.selectedIndex = i; break; } } }
         setOrigin({ lat: parts[0], lng: parts[1] }, label);
     })();
-})();
-
-// Places finder tabs — on narrow screens the "Near me" (postcode + location)
-// and "Near a walk" (walk dropdown) controls collapse behind two tabs so only
-// one shows at a time. Progressive enhancement: the tab bar ships hidden and
-// the panels show together (the desktop layout) until JS enables the tabs.
-(function () {
-    const finder = document.querySelector('.places-finder');
-    const tabsBar = finder && finder.querySelector('.finder-tabs');
-    if (!finder || !tabsBar) return;
-    const tabs = Array.prototype.slice.call(tabsBar.querySelectorAll('.finder-tab'));
-    const select = (name) => {
-        tabs.forEach((t) => {
-            const on = t.dataset.ftab === name;
-            t.classList.toggle('is-active', on);
-            t.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
-        finder.querySelectorAll('[data-fpanel]').forEach((p) => {
-            p.classList.toggle('is-active', p.dataset.fpanel === name);
-        });
-    };
-    tabs.forEach((t) => t.addEventListener('click', () => select(t.dataset.ftab)));
-    finder.classList.add('has-tabs');
-    tabsBar.hidden = false;
 })();
 
 // Walk pages — "Make a Day of It": filter (category + dog access) and sort one

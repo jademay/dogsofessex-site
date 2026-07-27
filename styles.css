@@ -839,10 +839,10 @@ h1, h2, h3 {
 .places-controls-top { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
 .places-controls-top .places-cat-filter { flex: 1 1 auto; min-width: 0; }
 .places-controls-top .places-sort-row { flex: 0 0 auto; margin-left: auto; }
-/* Progressive disclosure: hide the tabs/sort (+ the mobile toggle) until the
-   visitor has run a search. Revealed by JS (removes .is-pre-search). */
-.places-toolbar.is-pre-search .places-controls-wrap,
-.places-toolbar.is-pre-search .places-filter-toggle { display: none; }
+/* Progressive disclosure (desktop only): the category filters + sort were
+   hidden until a search. The mobile accordion now shows its Filter & Sort
+   header from the start, so the toggle is no longer gated here. */
+.places-toolbar.is-pre-search .places-controls-wrap { display: none; }
 /* On desktop, keep the category filters + sort visible from the start; the
    hide-until-search behaviour is a mobile-only space-saver. */
 @media (min-width: 901px) {
@@ -1229,9 +1229,29 @@ h1, h2, h3 {
 }
 .finder-search { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .finder-walk { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
-/* Segmented "Near me / Near a walk" tabs — only used on narrow screens (see the
-   max-width block below); hidden on desktop, where both panels show together. */
-.finder-tabs { display: none; }
+/* Location options: on desktop the wrappers collapse (display:contents) so the
+   finder renders as one inline row exactly as before; on mobile they become
+   separate labelled sections inside the Location accordion. The mobile-only
+   labels, the "Use your location" wording and the walk Search button are hidden
+   on desktop. */
+.places-finder .finder-option { display: contents; }
+.finder-option-label { display: none; }
+.geo-label-mobile { display: none; }
+.places-walk-search { display: none; }
+/* Accordion toggles + backdrop are mobile-only (revealed in the max-width block
+   near the end). */
+.pa-toggle { display: none; }
+.places-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    display: none;
+    background: rgba(30, 28, 24, 0.5);
+    -webkit-backdrop-filter: blur(1px);
+    backdrop-filter: blur(1px);
+}
+.places-backdrop[hidden] { display: none; }
+body.places-panel-open { overflow: hidden; }
 .finder-label { font-size: 0.9rem; font-weight: 500; color: var(--color-forest-dark); }
 .places-locator, .walks-locator { display: flex; gap: 0.5rem; align-items: center; }
 .places-locator .locator-input, .walks-locator .locator-input { flex: 1 1 160px; padding: 0.7rem 1rem; }
@@ -1294,67 +1314,11 @@ h1, h2, h3 {
 .map-search-area .lucide { width: 0.9em; height: 0.9em; }
 .map-search-area[hidden] { display: none; }
 @media (max-width: 560px) {
-    .places-finder, .walks-finder { flex-direction: column; align-items: stretch; }
-    .finder-sep { display: none; }
-    .places-locator, .walks-locator { flex: 1 1 auto; }
-
-    /* Places finder: collapse the two location methods behind a pair of tabs so
-       only one set of controls shows at a time. Enabled by JS (.has-tabs); the
-       tab bar stays revealed only once JS has removed its [hidden]. */
-    .finder-tabs:not([hidden]) {
-        display: flex;
-        gap: 0.4rem;
-        margin-bottom: 0.2rem;
-        background: var(--color-bg-alt);
-        border-radius: 999px;
-        padding: 0.25rem;
-    }
-    .finder-tab {
-        flex: 1 1 0;
-        padding: 0.55rem 0.75rem;
-        border: none;
-        border-radius: 999px;
-        background: none;
-        font: 500 0.92rem/1 var(--font-sans);
-        color: var(--color-forest-dark);
-        cursor: pointer;
-    }
-    .finder-tab.is-active { background: var(--color-forest); color: #fff; }
-    /* With tabs active, show only the selected panel and drop the now-redundant
-       inline "Near:" / "Walk:" labels. */
-    .places-finder.has-tabs .finder-label { display: none; }
-    .places-finder.has-tabs [data-fpanel] { display: none; }
-    .places-finder.has-tabs [data-fpanel].is-active { display: flex; }
-
-    /* "Near me": postcode + Search + My location share one row. The form
-       wrapper collapses (display:contents) so its input and Search button
-       become direct flex siblings of the My location button. Every flexible
-       item gets min-width:0 so nothing forces the panel wider than the phone
-       (which was causing the whole finder to overflow to the right). */
-    .places-finder.has-tabs .finder-search {
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.4rem;
-    }
-    .places-finder.has-tabs .finder-or { display: none; }
-    /* Compact by default: [Postcode][Search] as one unit, then My location — all
-       on a single row. Trimmed button padding keeps it fitting on small phones. */
-    .places-finder.has-tabs .places-locator { flex: 0 1 auto; min-width: 0; gap: 0.4rem; }
-    .places-finder.has-tabs .locator-input { flex: 0 1 4.5rem; width: 4.5rem; min-width: 0; }
-    .places-finder.has-tabs .places-locator .btn { flex: 0 0 auto; padding: 0.7rem 0.95rem; }
-    .places-finder.has-tabs .locator-geo { flex: 0 0 auto; padding: 0.7rem 0.85rem; gap: 0.3rem; }
-    /* While the postcode is being typed into: Postcode + Search grow to fill
-       row 1, and "or My location" drops to row 2, right-aligned so My location's
-       right edge lines up under Search. */
-    .places-finder.has-tabs .finder-search:focus-within .places-locator { flex: 1 1 100%; }
-    .places-finder.has-tabs .finder-search:focus-within .locator-input { flex-grow: 1; width: auto; }
-    .places-finder.has-tabs .finder-search:focus-within .finder-or {
-        display: inline-block;
-        margin-left: auto;
-        align-self: center;
-    }
-    /* "Near a walk": the dropdown fills the row and can shrink. */
-    .places-finder.has-tabs .places-near-walk { width: 100%; flex: 1 1 auto; min-width: 0; }
+    /* Walks finder stacks on phones (the places finder is handled by its own
+       Location accordion further down). */
+    .walks-finder { flex-direction: column; align-items: stretch; }
+    .walks-finder .finder-sep { display: none; }
+    .walks-finder .walks-locator { flex: 1 1 auto; }
 }
 
 /* ---------- Meetups ---------- */
@@ -2975,7 +2939,7 @@ h2 .lucide { vertical-align: -0.1em; }
        scrolling; the map pins just beneath it. */
     .walks-toolbar { padding: 0.45rem 0; box-shadow: none; }
     .walks-toolbar .controls-title { display: none; }
-    .walks-filter-toggle, .places-filter-toggle {
+    .walks-filter-toggle {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
@@ -2987,11 +2951,75 @@ h2 .lucide { vertical-align: -0.1em; }
         color: var(--color-forest);
         cursor: pointer;
     }
-    .walks-filter-toggle .chevron, .places-filter-toggle .chevron { transition: transform 0.2s ease; }
-    .walks-toolbar.is-open .walks-filter-toggle .chevron,
-    .places-toolbar.is-open .places-filter-toggle .chevron { transform: rotate(180deg); }
+    .walks-filter-toggle .chevron { transition: transform 0.2s ease; }
+    .walks-toolbar.is-open .walks-filter-toggle .chevron { transform: rotate(180deg); }
     .controls-row { display: none; margin-top: 0.85rem; }
     .walks-toolbar.is-open .controls-row { display: flex; }
+}
+
+/* ---------- Places: Location / Filter & Sort accordion (mobile) ----------
+   Placed after the base rules so it wins the cascade on small screens. Two
+   collapsible panels above the map; the JS accordion controller opens one at a
+   time and shows the dimming backdrop. */
+@media (max-width: 900px) {
+    .pa-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        width: 100%;
+        margin: 0.3rem 0;
+        padding: 0.7rem 0.95rem;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        font: 600 0.98rem var(--font-sans);
+        color: var(--color-forest-dark);
+        cursor: pointer;
+    }
+    .places-location-toggle { margin-top: 0; }
+    .pa-toggle-label { display: inline-flex; align-items: center; gap: 0.45rem; }
+    .pa-toggle-label .lucide { color: var(--color-moss); }
+    .pa-toggle .chevron { flex: 0 0 auto; transition: transform 0.2s ease; }
+    .places-toolbar.is-location-open .places-location-toggle .chevron,
+    .places-toolbar.is-filter-open .places-filter-toggle .chevron { transform: rotate(180deg); }
+    .pa-count { color: var(--color-terracotta); font-weight: 700; }
+
+    /* Panels collapsed by default; open one shows above the backdrop. */
+    .places-finder { display: none; margin: 0; }
+    .places-toolbar.is-location-open .places-finder {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        margin: 0.1rem 0 0.3rem;
+    }
+    .places-controls-wrap { display: none; margin: 0; }
+    .places-toolbar.is-filter-open .places-controls-wrap { display: block; margin: 0.1rem 0 0.3rem; }
+
+    /* Location panel: three separated, labelled options. */
+    .places-finder .finder-option {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.45rem;
+    }
+    .finder-option-label { display: block; font: 600 0.9rem var(--font-sans); color: var(--color-forest-dark); }
+    .places-finder .finder-label,
+    .places-finder .finder-or,
+    .places-finder .finder-sep { display: none; }
+    .geo-label-desktop { display: none; }
+    .geo-label-mobile { display: inline; }
+    .places-finder .places-locator { display: flex; gap: 0.5rem; align-items: center; }
+    .places-finder .locator-input { flex: 1 1 auto; min-width: 0; width: auto; }
+    .places-finder .places-locator .btn { flex: 0 0 auto; }
+    .places-finder .locator-geo { width: 100%; justify-content: center; }
+    /* flex:0 0 auto so the select's desktop flex-basis (180px) isn't read as a
+       height in this column layout. */
+    .places-finder .places-near-walk { flex: 0 0 auto; width: 100%; }
+    .places-walk-search { display: inline-flex; justify-content: center; width: 100%; }
+
+    .places-backdrop:not([hidden]) { display: block; }
 }
 
 /* Section rhythm on walk pages */

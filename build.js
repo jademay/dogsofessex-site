@@ -1642,28 +1642,34 @@ function placesIndexPage(places, walks) {
         .join('\n                                ');
     // Finder: set an origin by postcode/town, current location, or a walk;
     // distances + the map then re-centre on it. Deep-linkable via ?near=lat,lng.
+    // The location controls. On desktop the .finder-option wrappers collapse
+    // (display:contents) so this renders as the original one-line finder; on
+    // mobile they become three clearly separated, labelled options inside the
+    // "Location" accordion panel.
     const locatorBar = `
-                    <div class="places-finder">
-                        <div class="finder-tabs" role="tablist" aria-label="Choose how to find places" hidden>
-                            <button type="button" class="finder-tab is-active" data-ftab="near-me" role="tab" aria-selected="true">Near me</button>
-                            <button type="button" class="finder-tab" data-ftab="near-walk" role="tab" aria-selected="false">Near a walk</button>
-                        </div>
-                        <div class="finder-search is-active" data-fpanel="near-me">
+                    <div class="places-finder" id="places-location-panel" role="region" aria-labelledby="places-location-toggle">
+                        <div class="finder-option finder-option-postcode">
+                            <span class="finder-option-label">Postcode or town</span>
                             <span class="finder-label">Near:</span>
                             <form class="places-locator" autocomplete="off">
                                 <input type="text" class="locator-input" name="loc" placeholder="Postcode or town…" aria-label="Your postcode or town">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </form>
-                            <span class="finder-or" aria-hidden="true">or</span>
-                            <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} My location</button>
+                        </div>
+                        <span class="finder-or" aria-hidden="true">or</span>
+                        <div class="finder-option finder-option-geo">
+                            <span class="finder-option-label">My location</span>
+                            <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')}<span class="geo-label geo-label-desktop"> My location</span><span class="geo-label geo-label-mobile">Use your location</span></button>
                         </div>
                         <span class="finder-sep" aria-hidden="true"></span>
-                        <div class="finder-walk" data-fpanel="near-walk">
+                        <div class="finder-option finder-option-walk finder-walk">
+                            <span class="finder-option-label">Near a walk</span>
                             <span class="finder-label">Walk:</span>
                             <select class="places-near-walk" aria-label="Show places near a walk">
                                 <option value="">Select walk…</option>
                                 ${walkOpts}
                             </select>
+                            <button type="button" class="btn btn-primary places-walk-search">Search</button>
                         </div>
                     </div>
                     <p class="locator-status" role="status" hidden></p>`;
@@ -1720,9 +1726,16 @@ function placesIndexPage(places, walks) {
 
             <div class="places-toolbar is-pre-search">
                 <div class="container">
+                    <button type="button" class="pa-toggle places-location-toggle" id="places-location-toggle" aria-expanded="false" aria-controls="places-location-panel">
+                        <span class="pa-toggle-label">${icon('map-pin')} Location</span>
+                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
                     ${locatorBar}
-                    ${filterToggleHTML('places-filter-toggle', 'places-controls')}
-                    <div class="places-controls-wrap" id="places-controls">
+                    <button type="button" class="pa-toggle places-filter-toggle" id="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
+                        <span class="pa-toggle-label">Filter &amp; Sort<span class="pa-count" hidden></span></span>
+                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <div class="places-controls-wrap" id="places-controls" role="region" aria-labelledby="places-filter-toggle">
                         <div class="places-controls">
                             <div class="places-controls-top">
                                 <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
@@ -1753,6 +1766,8 @@ function placesIndexPage(places, walks) {
                     </div>
                 </div>
             </div>
+
+            <div class="places-backdrop" hidden></div>
 
             <section class="walk-section section-alt places-section places-explorer-section">
                 <div class="container">

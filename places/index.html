@@ -26,7 +26,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../styles.css?v=a5bec013">
+    <link rel="stylesheet" href="../styles.css?v=1746d6b8">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
@@ -61,23 +61,28 @@
 
             <div class="places-toolbar is-pre-search">
                 <div class="container">
+                    <button type="button" class="pa-toggle places-location-toggle" id="places-location-toggle" aria-expanded="false" aria-controls="places-location-panel">
+                        <span class="pa-toggle-label"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> Location</span>
+                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
                     
-                    <div class="places-finder">
-                        <div class="finder-tabs" role="tablist" aria-label="Choose how to find places" hidden>
-                            <button type="button" class="finder-tab is-active" data-ftab="near-me" role="tab" aria-selected="true">Near me</button>
-                            <button type="button" class="finder-tab" data-ftab="near-walk" role="tab" aria-selected="false">Near a walk</button>
-                        </div>
-                        <div class="finder-search is-active" data-fpanel="near-me">
+                    <div class="places-finder" id="places-location-panel" role="region" aria-labelledby="places-location-toggle">
+                        <div class="finder-option finder-option-postcode">
+                            <span class="finder-option-label">Postcode or town</span>
                             <span class="finder-label">Near:</span>
                             <form class="places-locator" autocomplete="off">
                                 <input type="text" class="locator-input" name="loc" placeholder="Postcode or town…" aria-label="Your postcode or town">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </form>
-                            <span class="finder-or" aria-hidden="true">or</span>
-                            <button type="button" class="locator-geo btn btn-secondary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg> My location</button>
+                        </div>
+                        <span class="finder-or" aria-hidden="true">or</span>
+                        <div class="finder-option finder-option-geo">
+                            <span class="finder-option-label">My location</span>
+                            <button type="button" class="locator-geo btn btn-secondary"><svg class="lucide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></svg><span class="geo-label geo-label-desktop"> My location</span><span class="geo-label geo-label-mobile">Use your location</span></button>
                         </div>
                         <span class="finder-sep" aria-hidden="true"></span>
-                        <div class="finder-walk" data-fpanel="near-walk">
+                        <div class="finder-option finder-option-walk finder-walk">
+                            <span class="finder-option-label">Near a walk</span>
                             <span class="finder-label">Walk:</span>
                             <select class="places-near-walk" aria-label="Show places near a walk">
                                 <option value="">Select walk…</option>
@@ -105,14 +110,15 @@
                                 <option value="51.77420801,0.9285178677">West Mersea</option>
                                 <option value="51.93931232,1.151622376">Wrabness Nature Reserve</option>
                             </select>
+                            <button type="button" class="btn btn-primary places-walk-search">Search</button>
                         </div>
                     </div>
                     <p class="locator-status" role="status" hidden></p>
-                    <button type="button" class="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
-                        <span>Filter &amp; sort</span>
+                    <button type="button" class="pa-toggle places-filter-toggle" id="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
+                        <span class="pa-toggle-label">Filter &amp; Sort<span class="pa-count" hidden></span></span>
                         <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                     </button>
-                    <div class="places-controls-wrap" id="places-controls">
+                    <div class="places-controls-wrap" id="places-controls" role="region" aria-labelledby="places-filter-toggle">
                         <div class="places-controls">
                             <div class="places-controls-top">
                                 <div class="walk-filters places-cat-filter" aria-label="Filter places by category">
@@ -158,6 +164,8 @@
                     </div>
                 </div>
             </div>
+
+            <div class="places-backdrop" hidden></div>
 
             <section class="walk-section section-alt places-section places-explorer-section">
                 <div class="container">
@@ -994,6 +1002,6 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="../script.js?v=5096f705"></script>
+    <script src="../script.js?v=ef779965"></script>
 </body>
 </html>
