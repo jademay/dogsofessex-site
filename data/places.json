@@ -1897,7 +1897,9 @@
     "dogFriendlyNotes": "Dogs are very welcome inside and out at the Marlborough. The staff are usually very happy to say hello and make a fuss of your dog.",
     "dogAccess": [
       "inside",
-      "outside"
+      "outside",
+      "water-bowls",
+      "treats"
     ],
     "lastChecked": "2026-07-13",
     "checkedBy": "Dogs of Essex",

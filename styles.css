@@ -471,7 +471,8 @@ h1, h2, h3 {
 .link-button.saved-clear:hover { color: var(--color-terracotta); }
 .saved-clear-confirm { font-size: 0.9rem; color: var(--color-text); }
 .saved-clear-confirm .link-button { color: var(--color-terracotta); font-weight: 500; }
-.saved-note { display: block; margin-top: 0.35rem; font-size: 0.85rem; color: var(--color-muted); }
+.saved-note { display: block; margin: 0.35rem 0 0; font-size: 0.85rem; color: var(--color-muted); }
+.saved-note[hidden] { display: none; }
 
 #saved-app.saved-section { padding-top: 1.25rem; }
 .saved-grid {
@@ -519,6 +520,40 @@ h1, h2, h3 {
 .saved-empty h2 { margin: 0.75rem 0 0.4rem; }
 .saved-empty p { color: var(--color-muted); margin-bottom: 1.5rem; }
 .saved-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+
+/* Remove-confirmation popup (saved cards) */
+.confirm-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+.confirm-modal[hidden] { display: none; }
+.confirm-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 28, 24, 0.45);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+.confirm-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 380px;
+    padding: 1.5rem;
+    text-align: center;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+.confirm-msg { margin: 0 0 1.25rem; font-size: 1.02rem; line-height: 1.4; color: var(--color-text); }
+.confirm-actions { display: flex; justify-content: center; gap: 0.6rem; }
+.confirm-actions .btn { flex: 1 1 auto; max-width: 160px; }
 
 /* ---------- Hero ---------- */
 
@@ -1280,6 +1315,32 @@ h1, h2, h3 {
     .places-finder.has-tabs .finder-label { display: none; }
     .places-finder.has-tabs [data-fpanel] { display: none; }
     .places-finder.has-tabs [data-fpanel].is-active { display: flex; }
+
+    /* "Near me": postcode + Search + My location share one row. The form
+       wrapper collapses (display:contents) so its input and Search button
+       become direct flex siblings of the My location button. Every flexible
+       item gets min-width:0 so nothing forces the panel wider than the phone
+       (which was causing the whole finder to overflow to the right). */
+    .places-finder.has-tabs .finder-search {
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem;
+    }
+    .places-finder.has-tabs .places-locator { display: contents; }
+    .places-finder.has-tabs .finder-or { display: none; }
+    .places-finder.has-tabs .locator-input {
+        flex: 0 1 4.5rem;         /* compact by default so Search + My location fit alongside */
+        min-width: 0;
+    }
+    /* When selected, grow to a comfortable typing width; My location drops to a
+       second line while focused, then everything returns to one row on blur. */
+    .places-finder.has-tabs .locator-input:focus { flex: 1 1 9rem; }
+    /* Trim the button padding a touch so all three controls sit on one row even
+       on the narrowest phones. */
+    .places-finder.has-tabs .finder-search .btn { flex: 0 0 auto; padding: 0.7rem 0.95rem; }
+    .places-finder.has-tabs .locator-geo { flex: 0 0 auto; padding: 0.7rem 0.85rem; gap: 0.3rem; }
+    /* "Near a walk": the dropdown fills the row and can shrink. */
+    .places-finder.has-tabs .places-near-walk { width: 100%; flex: 1 1 auto; min-width: 0; }
 }
 
 /* ---------- Meetups ---------- */
@@ -1386,13 +1447,16 @@ h1, h2, h3 {
 
 .signup-form input {
     flex: 1;
+    min-width: 0;
     padding: 0.9rem 1.1rem;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     background-color: rgba(255, 255, 255, 0.08);
     color: #fff;
     font-family: var(--font-sans);
-    font-size: 0.95rem;
+    /* 16px keeps iOS Safari from auto-zooming (and leaving the page panned,
+       showing white gutters) when the field is focused. */
+    font-size: 1rem;
 }
 
 .signup-form input::placeholder { color: rgba(255, 255, 255, 0.55); }

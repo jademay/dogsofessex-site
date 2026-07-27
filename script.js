@@ -1615,10 +1615,13 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         return 2 * R * Math.asin(Math.sqrt(s));
     }
 
+    // The status note lives on its own line (not in the count/Clear-all row),
+    // so showing or clearing it never shifts the Clear all button.
+    const noteEl = document.getElementById('saved-note');
     function note(msg) {
-        let el = document.getElementById('saved-note');
-        if (!el) { el = document.createElement('span'); el.id = 'saved-note'; el.className = 'saved-note'; el.setAttribute('role', 'status'); metaBar.appendChild(el); }
-        el.textContent = msg || '';
+        if (!noteEl) return;
+        noteEl.textContent = msg || '';
+        noteEl.hidden = !msg;
     }
 
     function build() {
@@ -1634,10 +1637,52 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
             listEl.appendChild(el);
             const card = { type: entry.type, id: entry.id, ts: entry.ts || 0, name: rec.name || '', lat: rec.lat, lng: rec.lng, el: el };
             const btn = el.querySelector('.saved-toggle');
-            if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); removeCard(card); });
+            if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); askRemove(card); });
             cards.push(card);
         });
         apply();
+    }
+
+    // Confirmation popup before a card is removed, so a stray tap can't wipe a
+    // saved item without warning. Built lazily and reused.
+    let confirmModal, confirmMsg, confirmOk, pendingCard, lastFocusEl;
+    function buildConfirm() {
+        confirmModal = document.createElement('div');
+        confirmModal.className = 'confirm-modal';
+        confirmModal.hidden = true;
+        confirmModal.setAttribute('role', 'dialog');
+        confirmModal.setAttribute('aria-modal', 'true');
+        confirmModal.setAttribute('aria-labelledby', 'confirm-msg');
+        confirmModal.innerHTML =
+            '<div class="confirm-backdrop" data-c-cancel></div>'
+            + '<div class="confirm-panel">'
+            + '<p class="confirm-msg" id="confirm-msg"></p>'
+            + '<div class="confirm-actions">'
+            + '<button type="button" class="btn btn-secondary" data-c-cancel>Cancel</button>'
+            + '<button type="button" class="btn btn-primary confirm-ok">Remove</button>'
+            + '</div></div>';
+        document.body.appendChild(confirmModal);
+        confirmMsg = confirmModal.querySelector('.confirm-msg');
+        confirmOk = confirmModal.querySelector('.confirm-ok');
+        confirmModal.querySelectorAll('[data-c-cancel]').forEach((el) => el.addEventListener('click', closeConfirm));
+        confirmModal.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.preventDefault(); closeConfirm(); } });
+        confirmOk.addEventListener('click', () => { const c = pendingCard; closeConfirm(); if (c) removeCard(c); });
+    }
+    function askRemove(card) {
+        if (!confirmModal) buildConfirm();
+        pendingCard = card;
+        confirmMsg.textContent = 'Remove “' + card.name + '” from your saved ' + (card.type === 'walk' ? 'walks' : 'places') + '?';
+        lastFocusEl = document.activeElement;
+        confirmModal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        confirmOk.focus();
+    }
+    function closeConfirm() {
+        if (!confirmModal || confirmModal.hidden) return;
+        confirmModal.hidden = true;
+        pendingCard = null;
+        document.body.style.overflow = '';
+        if (lastFocusEl && lastFocusEl.focus) lastFocusEl.focus();
     }
 
     function removeCard(card) {

@@ -2447,21 +2447,32 @@ function savedWalkCardHTML(w) {
                         </article>`;
 }
 
+// Saved place cards deliberately reuse the walk-card shell (media header +
+// body) so walks and venues sit at a matching size in the mixed grid. Venues
+// without a photo get the same gradient placeholder walks use, with the venue
+// type icon + name.
 function savedPlaceCardHTML(p, cat, town) {
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
     const secondary = [meta.label, town].filter(Boolean).join(' • ');
-    const photo = p.image
-        ? `<div class="place-card-photo photo-ph"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.closest('.place-card-photo').remove()"></div>\n                                    `
-        : '';
-    return `<article class="place-card day-card saved-card" data-type="place" data-id="${esc(p.id)}" data-name="${esc(p.name)}" data-lat="${p.lat}" data-lng="${p.lng}">${photo}<div class="place-card-body">
-                                        <h3 class="pc-name">${meta.icon} ${esc(p.name)}</h3>
-                                        <span class="pc-dist">${esc(secondary)}</span>${dogTagsHTML(p, 3)}
-                                        <div class="saved-actions">
-                                            <a class="btn btn-secondary" href="/places/${esc(cat.slug)}/${esc(p.id)}/">View place</a>
-                                            ${savedToggleBtn('place', p.id)}
-                                        </div>
-                                    </div>
-                                </article>`;
+    const media = p.image
+        ? `<div class="photo-ph"><img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()"></div>`
+        : `<div class="photo-ph noimg"><span>${meta.icon} ${esc(p.name)}</span></div>`;
+    const chips = (p.dogAccess || []).slice(0, 3).map((k) => {
+        const m = ACCESS_META[k] || { icon: icon('paw-print'), label: k };
+        return `<span class="access-chip">${m.icon} ${esc(m.label)}</span>`;
+    }).join('');
+    return `<article class="walk-card saved-card saved-place" data-type="place" data-id="${esc(p.id)}" data-name="${esc(p.name)}" data-lat="${p.lat}" data-lng="${p.lng}">
+                            ${media}
+                            <div class="walk-card-body">
+                                <h3>${esc(p.name)}</h3>
+                                <p class="walk-card-meta">${meta.icon}<span>${esc(secondary)}</span></p>
+                                <div class="tag-row">${chips}</div>
+                                <div class="saved-actions">
+                                    <a class="btn btn-secondary" href="/places/${esc(cat.slug)}/${esc(p.id)}/">View place</a>
+                                    ${savedToggleBtn('place', p.id)}
+                                </div>
+                            </div>
+                        </article>`;
 }
 
 // { walk: {id: {name, lat, lng, html}}, place: {...} } — everything the Saved
@@ -2514,6 +2525,7 @@ function savedPage() {
                             <button type="button" class="link-button saved-clear" id="saved-clear">Clear all</button>
                         </div>
                     </div>
+                    <p class="saved-note" id="saved-note" role="status" aria-live="polite" hidden></p>
                     <div class="walk-grid saved-grid" id="saved-list"></div>
                     <div class="saved-empty" id="saved-empty" hidden>
                         <span class="saved-empty-icon" aria-hidden="true">${icon('heart')}</span>
