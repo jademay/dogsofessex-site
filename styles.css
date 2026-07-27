@@ -1184,6 +1184,9 @@ h1, h2, h3 {
 }
 .finder-search { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
 .finder-walk { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+/* Segmented "Near me / Near a walk" tabs — only used on narrow screens (see the
+   max-width block below); hidden on desktop, where both panels show together. */
+.finder-tabs { display: none; }
 .finder-label { font-size: 0.9rem; font-weight: 500; color: var(--color-forest-dark); }
 .places-locator, .walks-locator { display: flex; gap: 0.5rem; align-items: center; }
 .places-locator .locator-input, .walks-locator .locator-input { flex: 1 1 160px; padding: 0.7rem 1rem; }
@@ -1249,6 +1252,34 @@ h1, h2, h3 {
     .places-finder, .walks-finder { flex-direction: column; align-items: stretch; }
     .finder-sep { display: none; }
     .places-locator, .walks-locator { flex: 1 1 auto; }
+
+    /* Places finder: collapse the two location methods behind a pair of tabs so
+       only one set of controls shows at a time. Enabled by JS (.has-tabs); the
+       tab bar stays revealed only once JS has removed its [hidden]. */
+    .finder-tabs:not([hidden]) {
+        display: flex;
+        gap: 0.4rem;
+        margin-bottom: 0.2rem;
+        background: var(--color-bg-alt);
+        border-radius: 999px;
+        padding: 0.25rem;
+    }
+    .finder-tab {
+        flex: 1 1 0;
+        padding: 0.55rem 0.75rem;
+        border: none;
+        border-radius: 999px;
+        background: none;
+        font: 500 0.92rem/1 var(--font-sans);
+        color: var(--color-forest-dark);
+        cursor: pointer;
+    }
+    .finder-tab.is-active { background: var(--color-forest); color: #fff; }
+    /* With tabs active, show only the selected panel and drop the now-redundant
+       inline "Near:" / "Walk:" labels. */
+    .places-finder.has-tabs .finder-label { display: none; }
+    .places-finder.has-tabs [data-fpanel] { display: none; }
+    .places-finder.has-tabs [data-fpanel].is-active { display: flex; }
 }
 
 /* ---------- Meetups ---------- */

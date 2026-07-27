@@ -1644,7 +1644,11 @@ function placesIndexPage(places, walks) {
     // distances + the map then re-centre on it. Deep-linkable via ?near=lat,lng.
     const locatorBar = `
                     <div class="places-finder">
-                        <div class="finder-search">
+                        <div class="finder-tabs" role="tablist" aria-label="Choose how to find places" hidden>
+                            <button type="button" class="finder-tab is-active" data-ftab="near-me" role="tab" aria-selected="true">Near me</button>
+                            <button type="button" class="finder-tab" data-ftab="near-walk" role="tab" aria-selected="false">Near a walk</button>
+                        </div>
+                        <div class="finder-search is-active" data-fpanel="near-me">
                             <span class="finder-label">Near:</span>
                             <form class="places-locator" autocomplete="off">
                                 <input type="text" class="locator-input" name="loc" placeholder="Postcode…" aria-label="Your postcode or town">
@@ -1654,7 +1658,7 @@ function placesIndexPage(places, walks) {
                             <button type="button" class="locator-geo btn btn-secondary">${icon('map-pin')} My location</button>
                         </div>
                         <span class="finder-sep" aria-hidden="true"></span>
-                        <div class="finder-walk">
+                        <div class="finder-walk" data-fpanel="near-walk">
                             <span class="finder-label">Walk:</span>
                             <select class="places-near-walk" aria-label="Show places near a walk">
                                 <option value="">Select walk…</option>

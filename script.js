@@ -1302,6 +1302,30 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     })();
 })();
 
+// Places finder tabs — on narrow screens the "Near me" (postcode + location)
+// and "Near a walk" (walk dropdown) controls collapse behind two tabs so only
+// one shows at a time. Progressive enhancement: the tab bar ships hidden and
+// the panels show together (the desktop layout) until JS enables the tabs.
+(function () {
+    const finder = document.querySelector('.places-finder');
+    const tabsBar = finder && finder.querySelector('.finder-tabs');
+    if (!finder || !tabsBar) return;
+    const tabs = Array.prototype.slice.call(tabsBar.querySelectorAll('.finder-tab'));
+    const select = (name) => {
+        tabs.forEach((t) => {
+            const on = t.dataset.ftab === name;
+            t.classList.toggle('is-active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        finder.querySelectorAll('[data-fpanel]').forEach((p) => {
+            p.classList.toggle('is-active', p.dataset.fpanel === name);
+        });
+    };
+    tabs.forEach((t) => t.addEventListener('click', () => select(t.dataset.ftab)));
+    finder.classList.add('has-tabs');
+    tabsBar.hidden = false;
+})();
+
 // Walk pages — "Make a Day of It": filter (category + dog access) and sort one
 // flat, blended-ranked list of nearby places. No map.
 (function () {
