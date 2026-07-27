@@ -1671,7 +1671,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     function askRemove(card) {
         if (!confirmModal) buildConfirm();
         pendingCard = card;
-        confirmMsg.textContent = 'Remove “' + card.name + '” from your saved ' + (card.type === 'walk' ? 'walks' : 'places') + '?';
+        confirmMsg.textContent = 'Remove “' + card.name + '” from your saved adventures?';
         lastFocusEl = document.activeElement;
         confirmModal.hidden = false;
         document.body.style.overflow = 'hidden';
