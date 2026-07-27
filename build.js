@@ -1726,15 +1726,17 @@ function placesIndexPage(places, walks) {
 
             <div class="places-toolbar is-pre-search">
                 <div class="container">
-                    <button type="button" class="pa-toggle places-location-toggle" id="places-location-toggle" aria-expanded="false" aria-controls="places-location-panel">
-                        <span class="pa-toggle-label">${icon('map-pin')} Location</span>
-                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </button>
+                    <div class="pa-toggle-bar">
+                        <button type="button" class="pa-toggle places-location-toggle" id="places-location-toggle" aria-expanded="false" aria-controls="places-location-panel">
+                            <span class="pa-toggle-label">${icon('map-pin')} Location</span>
+                            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </button>
+                        <button type="button" class="pa-toggle places-filter-toggle" id="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
+                            <span class="pa-toggle-label">Filter &amp; Sort<span class="pa-count" hidden></span></span>
+                            <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </button>
+                    </div>
                     ${locatorBar}
-                    <button type="button" class="pa-toggle places-filter-toggle" id="places-filter-toggle" aria-expanded="false" aria-controls="places-controls">
-                        <span class="pa-toggle-label">Filter &amp; Sort<span class="pa-count" hidden></span></span>
-                        <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                    </button>
                     <div class="places-controls-wrap" id="places-controls" role="region" aria-labelledby="places-filter-toggle">
                         <div class="places-controls">
                             <div class="places-controls-top">

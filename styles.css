@@ -33,7 +33,7 @@ html { scroll-behavior: smooth; }
 /* Guard against stray horizontal scroll (e.g. iOS treating 100vw wider than the
    visual viewport). `clip` prevents the page panning sideways WITHOUT creating a
    scroll container, so position:sticky elements keep working. */
-html, body { overflow-x: clip; }
+html, body { overflow-x: clip; overscroll-behavior-x: none; }
 
 body {
     font-family: var(--font-sans);
@@ -1026,6 +1026,9 @@ h1, h2, h3 {
         gap: 16px;
         overflow-x: auto;
         overflow-y: hidden;
+        /* Stop the horizontal swipe from chaining/rubber-banding into the page
+           (which showed white gutters either side on iOS Safari). */
+        overscroll-behavior-x: contain;
         scroll-snap-type: x mandatory;
         scroll-padding-inline: 16px;
         padding: 0 16px;
@@ -1238,6 +1241,7 @@ h1, h2, h3 {
 .places-walk-search { display: none; }
 /* Accordion toggles + backdrop are mobile-only (revealed in the max-width block
    near the end). */
+.pa-toggle-bar { display: none; }
 .pa-toggle { display: none; }
 .places-backdrop {
     position: fixed;
@@ -2960,23 +2964,25 @@ h2 .lucide { vertical-align: -0.1em; }
    collapsible panels above the map; the JS accordion controller opens one at a
    time and shows the dimming backdrop. */
 @media (max-width: 900px) {
+    /* The two accordion headers sit side by side. */
+    .pa-toggle-bar { display: flex; gap: 0.5rem; margin: 0.3rem 0; }
     .pa-toggle {
         display: flex;
+        flex: 1 1 0;
+        min-width: 0;
         align-items: center;
         justify-content: space-between;
-        gap: 0.5rem;
-        width: 100%;
-        margin: 0.3rem 0;
-        padding: 0.7rem 0.95rem;
+        gap: 0.4rem;
+        padding: 0.7rem 0.85rem;
         background: var(--color-bg);
         border: 1px solid var(--color-border);
         border-radius: 12px;
-        font: 600 0.98rem var(--font-sans);
+        font: 600 0.95rem var(--font-sans);
         color: var(--color-forest-dark);
         cursor: pointer;
     }
-    .places-location-toggle { margin-top: 0; }
-    .pa-toggle-label { display: inline-flex; align-items: center; gap: 0.45rem; }
+    .pa-toggle-label { display: inline-flex; align-items: center; gap: 0.4rem; min-width: 0; }
+    .pa-toggle-label > span:not(.pa-count) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .pa-toggle-label .lucide { color: var(--color-moss); }
     .pa-toggle .chevron { flex: 0 0 auto; transition: transform 0.2s ease; }
     .places-toolbar.is-location-open .places-location-toggle .chevron,
