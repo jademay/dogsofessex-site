@@ -30,6 +30,11 @@
 
 html { scroll-behavior: smooth; }
 
+/* Guard against stray horizontal scroll (e.g. iOS treating 100vw wider than the
+   visual viewport). `clip` prevents the page panning sideways WITHOUT creating a
+   scroll container, so position:sticky elements keep working. */
+html, body { overflow-x: clip; }
+
 body {
     font-family: var(--font-sans);
     font-weight: 300;
@@ -1331,19 +1336,23 @@ h1, h2, h3 {
         align-items: center;
         gap: 0.4rem;
     }
-    .places-finder.has-tabs .places-locator { display: contents; }
     .places-finder.has-tabs .finder-or { display: none; }
-    .places-finder.has-tabs .locator-input {
-        flex: 0 1 4.5rem;         /* compact by default so Search + My location fit alongside */
-        min-width: 0;
-    }
-    /* When selected, grow to a comfortable typing width; My location drops to a
-       second line while focused, then everything returns to one row on blur. */
-    .places-finder.has-tabs .locator-input:focus { flex: 1 1 9rem; }
-    /* Trim the button padding a touch so all three controls sit on one row even
-       on the narrowest phones. */
-    .places-finder.has-tabs .finder-search .btn { flex: 0 0 auto; padding: 0.7rem 0.95rem; }
+    /* Compact by default: [Postcode][Search] as one unit, then My location — all
+       on a single row. Trimmed button padding keeps it fitting on small phones. */
+    .places-finder.has-tabs .places-locator { flex: 0 1 auto; min-width: 0; gap: 0.4rem; }
+    .places-finder.has-tabs .locator-input { flex: 0 1 4.5rem; width: 4.5rem; min-width: 0; }
+    .places-finder.has-tabs .places-locator .btn { flex: 0 0 auto; padding: 0.7rem 0.95rem; }
     .places-finder.has-tabs .locator-geo { flex: 0 0 auto; padding: 0.7rem 0.85rem; gap: 0.3rem; }
+    /* While the postcode is being typed into: Postcode + Search grow to fill
+       row 1, and "or My location" drops to row 2, right-aligned so My location's
+       right edge lines up under Search. */
+    .places-finder.has-tabs .finder-search:focus-within .places-locator { flex: 1 1 100%; }
+    .places-finder.has-tabs .finder-search:focus-within .locator-input { flex-grow: 1; width: auto; }
+    .places-finder.has-tabs .finder-search:focus-within .finder-or {
+        display: inline-block;
+        margin-left: auto;
+        align-self: center;
+    }
     /* "Near a walk": the dropdown fills the row and can shrink. */
     .places-finder.has-tabs .places-near-walk { width: 100%; flex: 1 1 auto; min-width: 0; }
 }

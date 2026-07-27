@@ -1230,7 +1230,9 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         }
         sortCards();
         applyFilters(); // applies the distance filter, refits the map, updates the map count
-        say(''); // clear any transient "Searching…" message; the count sits above the map now
+        // Desktop clears the status (the count sits above the map). On mobile the
+        // map + count are below the fold, so confirm the search worked instead.
+        say(isMobile() && label ? 'Showing places near ' + label : '');
     };
     if (locForm) {
         locForm.addEventListener('submit', async (e) => {
