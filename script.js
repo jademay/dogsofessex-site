@@ -1185,8 +1185,16 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const filToggle = document.querySelector('.places-filter-toggle');
     const backdrop = document.querySelector('.places-backdrop');
     let openPanel = null; // 'location' | 'filter' | null
+    // The open panel and the backdrop are anchored to the bottom of the toolbar
+    // (just under the tabs) so the panel overlays the map + cards rather than
+    // pushing them down, and only the area below the tabs is dimmed.
+    const setOverlayTop = () => {
+        const b = toolbar.getBoundingClientRect().bottom;
+        document.documentElement.style.setProperty('--pa-overlay-top', Math.max(0, b) + 'px');
+    };
     const setPanel = (which) => {
         openPanel = which;
+        if (which) setOverlayTop();
         toolbar.classList.toggle('is-location-open', which === 'location');
         toolbar.classList.toggle('is-filter-open', which === 'filter');
         if (locToggle) locToggle.setAttribute('aria-expanded', which === 'location' ? 'true' : 'false');
@@ -1203,6 +1211,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     if (filToggle) filToggle.addEventListener('click', () => setPanel(openPanel === 'filter' ? null : 'filter'));
     if (backdrop) backdrop.addEventListener('click', closePanel);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && openPanel) closePanel(); });
+    window.addEventListener('resize', () => { if (openPanel) setOverlayTop(); });
 
     const initial = (location.hash || '').replace('#', '');
     const startCat = valid.has(initial) ? initial : 'all';

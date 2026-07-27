@@ -1239,13 +1239,20 @@ h1, h2, h3 {
 .finder-option-label { display: none; }
 .geo-label-mobile { display: none; }
 .places-walk-search { display: none; }
+/* Status/error line lives inside the finder now (so it shows inside the mobile
+   overlay); keep it on its own full-width line in the desktop finder row. */
+.places-finder .locator-status { flex: 0 0 100%; width: 100%; margin: 0.4rem 0 0; }
+.places-finder .locator-status[hidden] { display: none; }
 /* Accordion toggles + backdrop are mobile-only (revealed in the max-width block
    near the end). */
 .pa-toggle-bar { display: none; }
 .pa-toggle { display: none; }
 .places-backdrop {
     position: fixed;
-    inset: 0;
+    top: var(--pa-overlay-top, 0);
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 39;
     display: none;
     background: rgba(30, 28, 24, 0.5);
@@ -2989,17 +2996,35 @@ h2 .lucide { vertical-align: -0.1em; }
     .places-toolbar.is-filter-open .places-filter-toggle .chevron { transform: rotate(180deg); }
     .pa-count { color: var(--color-terracotta); font-weight: 700; }
 
-    /* Panels collapsed by default; open one shows above the backdrop. */
+    /* Panels collapsed by default. When open they become a fixed overlay that
+       drops from just below the tabs (var --pa-overlay-top, set in JS) and
+       floats over the map + cards instead of pushing them down. */
     .places-finder { display: none; margin: 0; }
+    .places-controls-wrap { display: none; margin: 0; }
+    .places-toolbar.is-location-open .places-finder,
+    .places-toolbar.is-filter-open .places-controls-wrap {
+        position: fixed;
+        top: var(--pa-overlay-top, 0);
+        left: 0;
+        right: 0;
+        z-index: 45;
+        margin: 0;
+        padding: 0.9rem 16px 1.1rem;
+        background: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
+        box-shadow: 0 14px 28px rgba(30, 28, 24, 0.18);
+        max-height: calc(100vh - var(--pa-overlay-top, 0) - 12px);
+        max-height: calc(100dvh - var(--pa-overlay-top, 0) - 12px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
     .places-toolbar.is-location-open .places-finder {
         display: flex;
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
-        margin: 0.1rem 0 0.3rem;
     }
-    .places-controls-wrap { display: none; margin: 0; }
-    .places-toolbar.is-filter-open .places-controls-wrap { display: block; margin: 0.1rem 0 0.3rem; }
+    .places-toolbar.is-filter-open .places-controls-wrap { display: block; }
 
     /* Sort by + Search radius sit next to each other (each a compact column with
        its label above the select) rather than stacked. */

@@ -1671,8 +1671,8 @@ function placesIndexPage(places, walks) {
                             </select>
                             <button type="button" class="btn btn-primary places-walk-search">Search</button>
                         </div>
-                    </div>
-                    <p class="locator-status" role="status" hidden></p>`;
+                        <p class="locator-status" role="status" hidden></p>
+                    </div>`;
     const pills = `<button type="button" class="filter-pill is-active" data-cat="all" aria-pressed="true">All</button>\n                        `
         + cats.map((c) => `<button type="button" class="filter-pill" data-cat="${esc(c.slug)}" aria-pressed="false">${esc(c.title)}</button>`).join('\n                        ');
 
