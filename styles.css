@@ -838,6 +838,11 @@ h1, h2, h3 {
    visitor has run a search. Revealed by JS (removes .is-pre-search). */
 .places-toolbar.is-pre-search .places-controls-wrap,
 .places-toolbar.is-pre-search .places-filter-toggle { display: none; }
+/* On desktop, keep the category filters + sort visible from the start; the
+   hide-until-search behaviour is a mobile-only space-saver. */
+@media (min-width: 901px) {
+    .places-toolbar.is-pre-search .places-controls-wrap { display: block; }
+}
 /* Active-filter bubbles: what's currently on while the sub-filter row is
    collapsed. Each is a button that removes that filter when tapped. */
 .places-active-filters {
