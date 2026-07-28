@@ -1705,6 +1705,32 @@ body.places-panel-open .places-count-map { visibility: hidden; }
 }
 .footer-col .link-button:hover { color: var(--color-terracotta); }
 
+/* Explore/Information headings: a <button> (so mobile can collapse them into
+   accordions with aria-expanded) that reads exactly like the other column <h4>
+   headings on desktop. The chevron and any accordion behaviour are mobile-only
+   (see the max-width:600px block). */
+.footer-acc-btn {
+    display: block;
+    width: 100%;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0 0 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-align: left;
+    cursor: default;
+}
+.footer-acc-chevron { display: none; }
+.footer-acc-panel,
+.footer-legal { margin: 0; padding: 0; }
+/* "Follow" on desktop, "Follow us" on mobile. */
+.footer-follow-us { display: none; }
+
 /* A <button> that reads as an inline text link inside prose (e.g. the "Cookie
    settings" control in the Privacy Policy). */
 .link-inline {
@@ -2673,18 +2699,88 @@ body.places-panel-open .places-count-map { visibility: hidden; }
     .signup-form { flex-direction: column; border-radius: 16px; }
 }
 
-/* --- Mobile footer: compact, two link columns, icon-only socials --- */
+/* --- Mobile footer: full-width Explore/Information accordions, a permanent
+   compact legal row, a one-line Follow row, and a tightened bottom bar. --- */
 @media (max-width: 600px) {
-    .site-footer { padding: 1.7rem 0 1.3rem; }        /* ~15% tighter */
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .site-footer { padding: 1.3rem 0 1.1rem; }
+    .footer-grid { display: block; }                  /* full-width stacked rows */
     .footer-brand { display: none; }                  /* wordmark is already in the header */
-    .footer-follow { grid-column: 1 / -1; }           /* Follow spans full width */
-    .footer-col h4 { font-size: 0.7rem; margin-bottom: 0.5rem; } /* ~10% smaller heading */
-    .footer-col li { margin-bottom: 0.6rem; }
 
-    /* Instagram + Facebook as icons on one row. */
-    .footer-follow ul { display: flex; flex-direction: row; align-items: center; gap: 1.25rem; }
-    .footer-follow li { margin-bottom: 0; }
+    /* Accordion header rows: full width, comfortable tap target, a subtle
+       divider between each row. */
+    .footer-acc-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        width: 100%;
+        min-height: 48px;
+        margin: 0;
+        padding: 0.35rem 0;
+        font-size: 0.82rem;
+        color: var(--color-text);
+        border-top: 1px solid var(--color-border);
+        cursor: pointer;
+    }
+    .footer-acc-chevron {
+        display: block;
+        flex: 0 0 auto;
+        color: var(--color-muted);
+        transition: transform 0.2s ease;
+    }
+    .footer-acc-btn[aria-expanded="true"] .footer-acc-chevron { transform: rotate(180deg); }
+
+    /* Collapsed by default; the controller adds .is-open to the open panel. */
+    .footer-acc-panel { display: none; }
+    .footer-acc-panel.is-open { display: block; padding: 0.1rem 0 0.5rem; }
+    .footer-acc-panel li { margin: 0; }
+    .footer-acc-panel a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: 0.95rem;
+    }
+
+    /* Legal + Cookie controls: permanent, compact, wrap cleanly with dot
+       separators. */
+    .footer-legal {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0 0.5rem;
+        margin: 0;
+        padding: 0.3rem 0;
+        border-top: 1px solid var(--color-border);
+    }
+    .footer-legal li { display: flex; align-items: center; margin: 0; }
+    .footer-legal li:not(:last-child)::after {
+        content: "\00B7";                             /* middot */
+        margin-left: 0.5rem;
+        color: var(--color-muted);
+    }
+    .footer-legal a,
+    .footer-legal .link-button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: 0.82rem;
+        color: var(--color-muted);
+    }
+
+    /* Follow us + the two social icons on one horizontal row. */
+    .footer-follow {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        margin: 0;
+        padding: 0.55rem 0 0.15rem;
+        border-top: 1px solid var(--color-border);
+    }
+    .footer-follow h4 { margin: 0; font-size: 0.7rem; }
+    .footer-follow-us { display: inline; }
+    .footer-follow ul { display: flex; flex-direction: row; align-items: center; gap: 1.1rem; margin: 0; }
+    .footer-follow li { margin: 0; }
     .footer-follow a { position: relative; display: inline-flex; padding: 0; }
     .footer-follow svg { display: block; width: 24px; height: 24px; }
     /* Keep the icon size but give it a 44x44 invisible tap target. */
@@ -2704,8 +2800,8 @@ body.places-panel-open .places-count-map { visibility: hidden; }
     }
 
     .footer-bottom {
-        margin-top: 1.25rem;
-        padding-top: 0.9rem;
+        margin-top: 0.9rem;
+        padding-top: 0.8rem;
         flex-direction: column;
         align-items: flex-start;
         gap: 0.2rem;

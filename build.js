@@ -1063,6 +1063,11 @@ function navHTML(prefix) {
 }
 
 function footerHTML(prefix) {
+    // Explore/Information are plain column headings on desktop and collapsible
+    // accordions on mobile (styles.css + the footer accordion controller in
+    // script.js). The chevron only shows on mobile. Keep this in sync with the
+    // hand-maintained footer in index.html.
+    const chevron = '<svg class="footer-acc-chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
     return `
     <footer class="site-footer">
         <div class="container">
@@ -1071,9 +1076,9 @@ function footerHTML(prefix) {
                     <a href="${prefix}index.html" class="logo">Dogs of Essex</a>
                     <p>The local guide for dog owners in Essex - walks, places and adventures worth sharing.</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Explore</h4>
-                    <ul>
+                <div class="footer-col footer-col-explore">
+                    <button type="button" class="footer-acc-btn" aria-expanded="false" aria-controls="footer-acc-explore"><span>Explore</span>${chevron}</button>
+                    <ul class="footer-acc-panel" id="footer-acc-explore">
                         <li><a href="/walks/">Walks</a></li>
                         <li><a href="${prefix}best-for/index.html">Best For</a></li>
                         <li><a href="${prefix}places/index.html">Places</a></li>
@@ -1081,18 +1086,20 @@ function footerHTML(prefix) {
                         <li><a href="${prefix}index.html#meetups">Meetups</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <h4>Information</h4>
-                    <ul>
+                <div class="footer-col footer-col-info">
+                    <button type="button" class="footer-acc-btn" aria-expanded="false" aria-controls="footer-acc-info"><span>Information</span>${chevron}</button>
+                    <ul class="footer-acc-panel" id="footer-acc-info">
                         <li><a href="${prefix}about.html">About</a></li>
                         <li><a href="${prefix}contact.html">Contact</a></li>
+                    </ul>
+                    <ul class="footer-legal">
                         <li><a href="${prefix}privacy.html">Privacy Policy</a></li>
                         <li><a href="${prefix}terms.html">Terms of Use</a></li>
                         <li><button type="button" class="cookie-settings link-button">Cookie settings</button></li>
                     </ul>
                 </div>
                 <div class="footer-col footer-follow">
-                    <h4>Follow</h4>
+                    <h4>Follow<span class="footer-follow-us"> us</span></h4>
                     <ul>
                         <li><a href="https://instagram.com/dogsofessexuk" target="_blank" rel="noopener" aria-label="Instagram">${SOCIAL_ICONS.instagram}<span class="footer-social-label">Instagram</span></a></li>
                         <li><a href="https://facebook.com/dogsofessex" target="_blank" rel="noopener" aria-label="Facebook">${SOCIAL_ICONS.facebook}<span class="footer-social-label">Facebook</span></a></li>

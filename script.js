@@ -152,6 +152,33 @@ if (toggle && links) {
     window.addEventListener('resize', () => { if (window.innerWidth > 900) setMenu(false); });
 }
 
+// --- Footer Explore/Information accordions (mobile only) ---------------------
+// On desktop both panels are always shown (CSS) and the headings are plain
+// column titles. Below 600px each heading becomes a disclosure button: one open
+// at a time, both collapsed on load, chevron flips via aria-expanded.
+(function () {
+    const btns = Array.from(document.querySelectorAll('.footer-acc-btn'));
+    if (!btns.length) return;
+    const mq = window.matchMedia('(max-width: 600px)');
+    const setOpen = (btn, open) => {
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        const panel = document.getElementById(btn.getAttribute('aria-controls'));
+        if (panel) panel.classList.toggle('is-open', open);
+    };
+    btns.forEach((btn) => btn.addEventListener('click', () => {
+        if (!mq.matches) return; // desktop: headings aren't disclosures
+        const wasOpen = btn.getAttribute('aria-expanded') === 'true';
+        btns.forEach((b) => setOpen(b, false)); // enforce one-open-at-a-time
+        setOpen(btn, !wasOpen);
+    }));
+    // Keep aria honest across breakpoints: collapsed on mobile, expanded on
+    // desktop (where CSS shows the panels regardless).
+    const sync = () => btns.forEach((b) => setOpen(b, !mq.matches));
+    sync();
+    if (mq.addEventListener) mq.addEventListener('change', sync);
+    else if (mq.addListener) mq.addListener(sync);
+})();
+
 // --- Saved items (walks + venues) -------------------------------------------
 // No accounts: saves live in this browser's localStorage as an ordered list of
 // {type,id,ts}. A legacy array of walk ids (doe_saved_walks, written by earlier
