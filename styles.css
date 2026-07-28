@@ -1260,10 +1260,9 @@ h1, h2, h3 {
     backdrop-filter: blur(1px);
 }
 .places-backdrop[hidden] { display: none; }
-/* Lock background scroll while a panel is open (html + body; body alone doesn't
-   hold on iOS Safari). */
-html.places-panel-open,
-body.places-panel-open { overflow: hidden; }
+/* Background scroll is blocked in JS (a touchmove handler on the backdrop) while
+   a panel is open, rather than overflow:hidden on html/body — on iOS Safari that
+   breaks the sticky header/toolbar and makes the page jump when opened mid-scroll. */
 /* While a Location/Filter panel is open, hide the "Showing N of M…" count so
    the open panel + backdrop cover it too (not just the map and cards). Its box
    stays in place so nothing shifts underneath. */

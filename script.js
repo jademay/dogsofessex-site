@@ -1212,8 +1212,18 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         p.classList.add('pa-panel-open');
         p._paMoved = true;
     };
+    // Block background scroll while a panel is open WITHOUT overflow:hidden (which
+    // on iOS breaks the sticky header/toolbar and makes the page jump when opened
+    // mid-scroll). Preventing touchmove outside the open panel keeps the page
+    // exactly where it is; the panel keeps its own scroll (overflow-y:auto).
+    const blockTouch = (e) => {
+        const p = openPanel && panelEls[openPanel];
+        if (p && p.contains(e.target)) return; // let the panel itself scroll
+        e.preventDefault();
+    };
     const setPanel = (which) => {
         restorePanel(panelEls.location); restorePanel(panelEls.filter);
+        const wasOpen = !!openPanel;
         openPanel = which;
         if (which) setOverlayTop();
         toolbar.classList.toggle('is-location-open', which === 'location');
@@ -1222,7 +1232,9 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         if (filToggle) filToggle.setAttribute('aria-expanded', which === 'filter' ? 'true' : 'false');
         if (which) overlayPanel(panelEls[which]);
         if (backdrop) backdrop.hidden = !which;
-        // Lock scrolling on html AND body (body alone isn't enough on iOS).
+        if (which && !wasOpen) document.addEventListener('touchmove', blockTouch, { passive: false });
+        else if (!which && wasOpen) document.removeEventListener('touchmove', blockTouch, { passive: false });
+        // Class drives the count-hide rule; no overflow lock (see blockTouch).
         document.documentElement.classList.toggle('places-panel-open', !!which);
         document.body.classList.toggle('places-panel-open', !!which);
         setTop();
