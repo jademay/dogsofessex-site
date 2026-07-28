@@ -154,6 +154,12 @@
         'newWalkSuggestion': { title: 'Suggest a new walk', label: 'Tell us about the walk', placeholder: 'Where is it, and what makes it good for dogs?' },
         'question': { title: 'Get in touch', label: 'Your message', placeholder: "Ask us anything, or let us know what's on your mind." }
     };
+    // Controlled, non-personal form_type values for the community_submission
+    // event (no names, emails or free text are ever sent).
+    const FORM_TYPE = {
+        'walkingTip': 'walking_tip', 'report': 'report', 'newPlaceSuggestion': 'new_place',
+        'newWalkSuggestion': 'new_walk', 'question': 'question'
+    };
 
     function wireImprove() {
         const section = document.getElementById('improve');
@@ -308,6 +314,9 @@
                 })
             }).then((r) => r.json()).then((d) => {
                 if (d && (d.success === 'true' || d.success === true)) {
+                    // Only after FormSubmit confirms success. One event per
+                    // successful send; only the controlled form_type is sent.
+                    if (window.doeTrack) window.doeTrack('community_submission', { form_type: FORM_TYPE[currentType] || 'question' });
                     msg.textContent = 'Thanks! Your message has been sent — we really appreciate it.';
                     form.reset();
                     setTimeout(closeModal, 2400);
@@ -325,6 +334,13 @@
     function wireRoutes() {
         const triggers = document.querySelectorAll('.route-card-link[data-gpx]');
         if (!triggers.length) return;
+
+        // Non-personal walk id for route_view / gpx_download (the #improve
+        // section carries it on every walk page). currentRouteName is the route
+        // the popup is currently showing, used by the download event.
+        const improveEl = document.getElementById('improve');
+        const walkId = improveEl ? (improveEl.dataset.walkid || '') : '';
+        let currentRouteName = '';
 
         const pop = document.createElement('div');
         pop.className = 'route-popup';
@@ -363,6 +379,12 @@
         const mapEl = pop.querySelector('.route-popup-map');
         const titleEl = pop.querySelector('.route-popup-title');
         const dl = pop.querySelector('.route-popup-download');
+        // The one GPX download control site-wide (every route card opens this
+        // popup to download). One click = one gpx_download; the link keeps its
+        // native download behaviour. No nested elements, so no duplicate events.
+        dl.addEventListener('click', () => {
+            if (window.doeTrack) window.doeTrack('gpx_download', { walk_id: walkId, route_name: currentRouteName });
+        });
         let map = null;
 
         const close = () => {
@@ -372,6 +394,11 @@
             if (map) { map.remove(); map = null; }
         };
         const open = (gpxUrl, name, bestPark) => {
+            currentRouteName = name || '';
+            // One route_view per deliberate open() call (a route-card or preview
+            // click). Internal invalidateSize/redraws below don't call open(), so
+            // resizes and reloads don't re-fire it.
+            if (window.doeTrack) window.doeTrack('route_view', { walk_id: walkId, route_name: currentRouteName });
             titleEl.textContent = name || 'Route';
             dl.setAttribute('href', gpxUrl);
             pop.classList.add('open');

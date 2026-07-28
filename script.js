@@ -60,6 +60,18 @@
         clearGaCookies();
     };
 
+    // Shared, consent-aware event tracker (the ONE helper every custom event
+    // goes through). Sends a GA4 event only when the visitor has accepted
+    // analytics AND GA is loaded and not disabled; otherwise it is a silent
+    // no-op. It NEVER loads GA (so an event-triggering action can't start
+    // tracking) and NEVER throws, so a triggering action is never blocked,
+    // delayed or broken by analytics being unavailable, rejected or withdrawn.
+    const analyticsGranted = () =>
+        gaLoaded && !window['ga-disable-' + GA_ID] && read() === 'accepted' && typeof window.gtag === 'function';
+    window.doeTrack = function (name, params) {
+        try { if (analyticsGranted()) window.gtag('event', name, params || {}); } catch (e) { /* never break the action */ }
+    };
+
     let banner = null;
     const hideBanner = () => { if (banner) banner.hidden = true; };
     const showBanner = () => {
@@ -249,9 +261,35 @@ document.querySelectorAll('.js-save-btn[data-save-type][data-save-id]').forEach(
         btn.setAttribute('aria-pressed', s ? 'true' : 'false');
         if (label) label.textContent = s ? 'Saved' : 'Save';
     };
-    btn.addEventListener('click', (e) => { e.preventDefault(); window.DoeSaves.toggle(type, id); sync(); });
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // toggle() returns true only when the item was newly saved (not removed).
+        const nowSaved = window.DoeSaves.toggle(type, id);
+        sync();
+        if (nowSaved && window.doeTrack) {
+            window.doeTrack('save_item', { item_type: type, item_id: id, item_name: btn.dataset.saveName || '' });
+        }
+    });
     document.addEventListener('doe-saves-changed', sync);
     sync();
+});
+
+// place_website_click: ONE delegated listener covers every venue-website link
+// across the site - place cards, filtered/search results, nearby-place
+// recommendations on walk pages, individual place pages, and any future map
+// popup or saved-place link - including cards inserted after load. closest()
+// collapses a click on a nested span/icon to a single event, and the links are
+// target=_blank so navigation is never delayed or broken. Only stable, non
+// personal identifiers are sent (no visitor location or search text).
+document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a.js-place-web');
+    if (!a || !window.doeTrack) return;
+    window.doeTrack('place_website_click', {
+        place_id: a.dataset.placeId || '',
+        place_name: a.dataset.placeName || '',
+        place_category: a.dataset.placeCategory || '',
+        click_location: a.dataset.clickLocation || ''
+    });
 });
 
 // Newsletter -> Systeme.io (embedded form 42819378). The <form> posts straight
@@ -279,7 +317,15 @@ if (signupForm && signupForm.getAttribute('action')) {
     // The submit event only fires once native validation (type=email + required)
     // passes, so an empty or malformed address never reaches Systeme.io.
     signupForm.addEventListener('submit', () => { submitted = true; setTimeout(showThanks, 1200); });
-    frame.addEventListener('load', showThanks); // Systeme.io's response loaded = stored
+    let signupTracked = false;
+    frame.addEventListener('load', () => {
+        showThanks(); // Systeme.io's response loaded = stored
+        // Track only a genuinely completed submission: the cross-origin response
+        // finished loading AND a real submit happened (the initial about:blank
+        // load has submitted=false, and a failed/aborted request fires no load).
+        // Fired once; no email or any form content is included.
+        if (submitted && !signupTracked) { signupTracked = true; if (window.doeTrack) window.doeTrack('newsletter_signup'); }
+    });
 }
 
 // --- Shared explorer helpers (walks hub + places hub) ------------------------

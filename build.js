@@ -828,6 +828,13 @@ function whatToExpectInner(walk) {
 // badges, distance and the same actions. Callers pass the right detail-page URL
 // and distance label for their context.
 //   opts: { mi, order, cat, detailHref, distText }
+// Non-personal data attributes for a venue-website link, read by the delegated
+// place_website_click tracker in script.js. Only stable identifiers - no
+// visitor-entered text, location or PII.
+function placeWebData(p, clickLoc) {
+    return `data-place-id="${esc(p.id)}" data-place-name="${esc(p.name)}" data-place-category="${esc(p.type || '')}" data-click-location="${esc(clickLoc)}"`;
+}
+
 function placeCardHTML(p, opts) {
     opts = opts || {};
     const meta = TYPE_META[p.type] || { icon: icon('map-pin'), label: p.type };
@@ -842,7 +849,7 @@ function placeCardHTML(p, opts) {
         : '';
     const actions = [
         detail ? `<a class="pc-cta" href="${esc(detail)}"><span class="cta-long">View details →</span><span class="cta-short">Details</span></a>` : '',
-        web ? `<a class="pc-cta" href="${esc(web)}" target="_blank" rel="noopener"><span class="cta-long">Visit website ↗</span><span class="cta-short">Website</span></a>` : '',
+        web ? `<a class="pc-cta js-place-web" href="${esc(web)}" target="_blank" rel="noopener" ${placeWebData(p, opts.clickLocation || 'place_card')}><span class="cta-long">Visit website ↗</span><span class="cta-short">Website</span></a>` : '',
         `<a class="pc-map" href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">${icon('map-pin')}<span class="cta-long"> Go to map</span><span class="cta-short"> Map</span></a>`
     ].filter(Boolean).join('\n                                            ');
     return `
@@ -878,7 +885,7 @@ function dayHTML(walk, places) {
     // only appears once the list has been expanded).
     const N = inRange.length;
     const cards = inRange.slice(0, 10)
-        .map((p, i) => placeCardHTML(p, { mi: p._mi, order: i, detailHref: venueHref(p, '/'), distText: distLine(p), extraClass: i >= 3 ? ' day-extra' : '' }))
+        .map((p, i) => placeCardHTML(p, { mi: p._mi, order: i, detailHref: venueHref(p, '/'), distText: distLine(p), extraClass: i >= 3 ? ' day-extra' : '', clickLocation: 'nearby_recommendation' }))
         .join('');
 
     const moreBtn = N > 3
@@ -1236,7 +1243,7 @@ function page(walk, walks, places, tips) {
             <div class="container walk-hero-inner" id="walk-hero">${heroHTML(walk)}
             </div>
             <div class="hero-actions">
-                <a href="#" id="save-walk" class="btn btn-secondary js-save-btn" data-save-type="walk" data-save-id="${esc(walk.id)}">${icon('bookmark')}<span class="action-label">Save</span></a>
+                <a href="#" id="save-walk" class="btn btn-secondary js-save-btn" data-save-type="walk" data-save-id="${esc(walk.id)}" data-save-name="${esc(walk.name)}">${icon('bookmark')}<span class="action-label">Save</span></a>
                 <a href="#" id="email-walk" class="btn btn-secondary">${icon('mail')}<span class="action-label">Email</span></a>
                 <a href="#" id="share-walk" class="btn btn-secondary">${icon('share-2')}<span class="action-label">Share</span></a>
             </div>
@@ -1604,7 +1611,7 @@ function placeSocialsHTML(p) {
 function essentialInfoHTML(p) {
     const web = placeUrl(p);
     const rows = [];
-    if (web) rows.push(`<li>${icon('globe')} <a href="${esc(web)}" target="_blank" rel="noopener">Visit website ↗</a></li>`);
+    if (web) rows.push(`<li>${icon('globe')} <a class="js-place-web" href="${esc(web)}" target="_blank" rel="noopener" ${placeWebData(p, 'place_page')}>Visit website ↗</a></li>`);
     if (p.phone) rows.push(`<li>${icon('phone')} <a href="tel:${esc(p.phone.replace(/\s+/g, ''))}">${esc(p.phone)}</a></li>`);
     if (p.email) rows.push(`<li>${icon('mail')} <a href="mailto:${esc(p.email)}">${esc(p.email)}</a></li>`);
     rows.push(`<li>${icon('map-pin')} <a href="${esc(mapsUrl(p))}" target="_blank" rel="noopener">Go to map ↗</a></li>`);
@@ -1942,7 +1949,7 @@ function venuePage(p, cat, walks) {
                     <h1 class="index-title">${esc(p.name)}</h1>
                     ${verify}
                     <div class="hero-actions venue-actions">
-                        <a href="#" class="btn btn-secondary js-save-btn" data-save-type="place" data-save-id="${esc(p.id)}">${icon('bookmark')}<span class="action-label">Save</span></a>
+                        <a href="#" class="btn btn-secondary js-save-btn" data-save-type="place" data-save-id="${esc(p.id)}" data-save-name="${esc(p.name)}">${icon('bookmark')}<span class="action-label">Save</span></a>
                     </div>
                 </div>
             </section>
