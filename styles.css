@@ -1261,6 +1261,10 @@ h1, h2, h3 {
 }
 .places-backdrop[hidden] { display: none; }
 body.places-panel-open { overflow: hidden; }
+/* While a Location/Filter panel is open, hide the "Showing N of M…" count so
+   the open panel + backdrop cover it too (not just the map and cards). Its box
+   stays in place so nothing shifts underneath. */
+body.places-panel-open .places-count-map { visibility: hidden; }
 .finder-label { font-size: 0.9rem; font-weight: 500; color: var(--color-forest-dark); }
 .places-locator, .walks-locator { display: flex; gap: 0.5rem; align-items: center; }
 .places-locator .locator-input, .walks-locator .locator-input { flex: 1 1 160px; padding: 0.7rem 1rem; }
