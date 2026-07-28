@@ -139,11 +139,19 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 const toggle = document.querySelector('.nav-toggle');
 const links = document.querySelector('.nav-links');
 if (toggle && links) {
+    // Block background scroll while the menu is open (allowing the menu itself to
+    // scroll). body overflow:hidden alone doesn't hold on iOS Safari, and the
+    // overlay is position:fixed inside the position:sticky header, so on iOS it
+    // drifts with the page when the background scrolls - which let the map behind
+    // it show through. Preventing touchmove outside the menu keeps everything
+    // static and preserves the scroll position when the menu closes.
+    const blockScroll = (e) => { if (links.contains(e.target)) return; e.preventDefault(); };
     const setMenu = (open) => {
         links.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        // Lock page scroll behind the full-screen menu on mobile.
         document.body.style.overflow = open ? 'hidden' : '';
+        if (open) document.addEventListener('touchmove', blockScroll, { passive: false });
+        else document.removeEventListener('touchmove', blockScroll, { passive: false });
     };
     toggle.addEventListener('click', () => setMenu(!links.classList.contains('open')));
     // Close menu when a link is tapped
