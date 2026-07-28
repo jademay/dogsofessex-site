@@ -151,7 +151,10 @@ if (toggle && links) {
     const setMenu = (open) => {
         links.classList.toggle('open', open);
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        document.body.style.overflow = open ? 'hidden' : '';
+        // NB: no body overflow:hidden here. On iOS it un-sticks the header, so
+        // opening the menu while scrolled down dropped the header (and its close
+        // button) off-screen and left the top strip uncovered. The touchmove
+        // blocker already locks background scroll, and it keeps the header pinned.
         if (open) document.addEventListener('touchmove', blockScroll, { passive: false });
         else document.removeEventListener('touchmove', blockScroll, { passive: false });
     };
