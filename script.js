@@ -835,6 +835,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const sortSel = document.querySelector('.places-sort');
     const numAttr = (c, a) => parseFloat(c.dataset[a]) || 0;
 
+    let listView = false; // mobile Map/List toggle (see setView below)
+
     // --- Mobile carousel position dots (iOS-style windowed strip). One dot per
     // currently-visible card, in carousel order; the active dot stays centred and
     // the strip clips + fades at the edges so it stays compact for 50+ venues.
@@ -874,6 +876,27 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         positionDots();
     };
     window.addEventListener('resize', positionDots);
+
+    // --- Mobile Map/List view toggle. "List" hides the map and turns the
+    // carousel into a full-height vertical list of compact rows; "Map" is the
+    // default split view. The choice persists across visits. Desktop ignores
+    // this entirely: the toggle is hidden and the list-view CSS is mobile-only.
+    const explorerEl = document.querySelector('.places-explorer');
+    const viewBtns = Array.from(document.querySelectorAll('.places-view-toggle .pv-btn'));
+    const VIEW_KEY = 'doe-places-view';
+    const setView = (mode, persist) => {
+        listView = mode === 'list';
+        if (explorerEl) explorerEl.classList.toggle('is-list-view', listView);
+        viewBtns.forEach((b) => {
+            const on = b.dataset.view === mode;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (persist) { try { localStorage.setItem(VIEW_KEY, mode); } catch (e) { /* private mode */ } }
+        // Back to the map: Leaflet needs a re-measure + refit after being hidden.
+        if (!listView && map) requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
+    };
+    viewBtns.forEach((b) => b.addEventListener('click', () => setView(b.dataset.view, true)));
     const sortCards = () => {
         const s = sortSel ? sortSel.value : 'recommended';
         const arr = cards.slice();
@@ -955,7 +978,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         () => entries,
         (en) => en.card,
         (en) => !en.card.hidden,
-        (en, pan) => { if (en !== active) select(en, false, pan); }
+        (en, pan) => { if (listView) return; if (en !== active) select(en, false, pan); }
     );
 
     if (mapEl && typeof L !== 'undefined') {
@@ -997,9 +1020,15 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     cards.forEach((card) => {
         const entry = entries.find((e) => e.card === card);
         if (!entry) return;
-        card.addEventListener('click', (e) => { if (!e.target.closest('a, button')) select(entry, isMobile()); });
+        // In list view there's no map, so a row tap opens the venue page (via its
+        // hidden "Details" link); in map view it selects the pin as before.
+        const openOrSelect = () => {
+            if (listView) { const a = card.querySelector('.pc-actions a.pc-cta'); if (a) { window.location.href = a.href; return; } }
+            select(entry, isMobile());
+        };
+        card.addEventListener('click', (e) => { if (!e.target.closest('a, button')) openOrSelect(); });
         card.addEventListener('keydown', (e) => {
-            if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a, button')) { e.preventDefault(); select(entry, isMobile()); }
+            if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('a, button')) { e.preventDefault(); openOrSelect(); }
         });
         card.addEventListener('mouseenter', () => setHover(entry, true));
         card.addEventListener('mouseleave', () => setHover(entry, false));
@@ -1012,7 +1041,8 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         return 2 * R * Math.asin(Math.sqrt(h));
     };
     const fitVisible = () => {
-        if (!map) return;
+        if (!map || listView) return; // map is hidden in list view; refit on switch-back
+
         const pts = [];
         entries.forEach(({ card, marker }) => {
             if (card.hidden) { map.removeLayer(marker); }
@@ -1298,6 +1328,10 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const startCat = valid.has(initial) ? initial : 'all';
     subOpen = startCat === subCat; // deep-link to Eat & Drink opens the panel
     applyCat(startCat);
+    // Restore the last-used Map/List view (mobile only; desktop ignores it).
+    let savedView = 'map';
+    try { savedView = localStorage.getItem(VIEW_KEY) || 'map'; } catch (e) { /* private mode */ }
+    setView(savedView, false);
     // Nudge the map once it has its real size — Leaflet mis-sizes (loads too few
     // tiles) if its container wasn't fully laid out at init, notably the mobile
     // sticky map. Re-measure the sticky offsets at the same time.

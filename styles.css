@@ -963,6 +963,10 @@ h1, h2, h3 {
 /* Carousel position dots are a mobile-only affordance (shown in the <=900px
    block); the markup always renders, so hide it on desktop. */
 .places-dots { display: none; }
+/* The count sits in a row wrapper (so the Map/List toggle can share the line on
+   mobile). On desktop the toggle is hidden and this behaves like the old count. */
+.places-count-row { flex: 0 0 auto; }
+.places-view-toggle { display: none; }
 .places-map {
     flex: 1;
     min-height: 0;
@@ -1099,6 +1103,80 @@ h1, h2, h3 {
     .places-dot.is-active {
         background: var(--color-terracotta);
         transform: scale(1.25);
+    }
+
+    /* Map/List view toggle — a compact segmented control sharing the count line. */
+    .places-count-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+    }
+    .places-count-row .places-count-map { margin: 0; }
+    .places-view-toggle {
+        display: inline-flex;
+        flex: 0 0 auto;
+        border: 1px solid var(--color-border);
+        border-radius: 999px;
+        overflow: hidden;
+        background: var(--color-bg);
+    }
+    .pv-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.28rem;
+        padding: 0.34rem 0.72rem;
+        border: 0;
+        background: transparent;
+        color: var(--color-muted);
+        font: 600 0.82rem/1 'Inter', system-ui, sans-serif;
+        cursor: pointer;
+    }
+    .pv-btn svg { width: 15px; height: 15px; }
+    .pv-btn.is-active { background: var(--color-forest); color: #fff; }
+
+    /* List view: hide the map, give the list the full panel height, and turn the
+       horizontal carousel into a vertical column of compact, tappable rows. */
+    .places-explorer.is-list-view .places-map-wrap { display: none; }
+    .places-explorer.is-list-view .places-map-col { flex: 0 0 auto; }
+    .places-explorer.is-list-view .places-list-col { flex: 1 1 auto; }
+    .places-explorer.is-list-view .places-dots { display: none; }
+    .places-explorer.is-list-view .places-hub-list {
+        flex-direction: column;
+        align-items: stretch;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scroll-snap-type: none;
+        gap: 0.55rem;
+        padding: 0 16px 16px;
+    }
+    .places-explorer.is-list-view .places-hub-list > .day-card {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: none;
+        overflow: visible;
+        position: relative;
+        padding-right: 1.4rem; /* room for the chevron */
+    }
+    /* Compact row: drop the photo, description and action buttons. */
+    .places-explorer.is-list-view .day-card .place-card-photo,
+    .places-explorer.is-list-view .day-card .pc-desc,
+    .places-explorer.is-list-view .day-card .pc-actions { display: none; }
+    /* Keep rows tight — at most two dog-detail chips. */
+    .places-explorer.is-list-view .day-card .pc-tags .access-chip:nth-child(n+3) { display: none; }
+    .places-explorer.is-list-view .day-card .place-card-body { padding: 0.7rem 0.85rem; gap: 0.3rem; }
+    .places-explorer.is-list-view .day-card .pc-name { margin: 0; }
+    .places-explorer.is-list-view .day-card .pc-dist { margin: 0.1rem 0 0; }
+    .places-explorer.is-list-view .day-card::after {
+        content: '\203A'; /* › */
+        position: absolute;
+        top: 50%;
+        right: 0.6rem;
+        transform: translateY(-50%);
+        font-size: 1.4rem;
+        line-height: 1;
+        color: var(--color-muted);
+        pointer-events: none;
     }
 
     /* Collapse the filters behind the "Filter & sort" toggle (same as walks). */

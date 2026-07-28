@@ -1782,7 +1782,13 @@ function placesIndexPage(places, walks) {
                             <div class="places-dots" aria-hidden="true"><div class="places-dots-track"></div></div>
                         </div>
                         <aside class="places-map-col">
-                            <p class="places-count places-count-map" aria-live="polite"></p>
+                            <div class="places-count-row">
+                                <p class="places-count places-count-map" aria-live="polite"></p>
+                                <div class="places-view-toggle" role="group" aria-label="Show venues as a map or a list">
+                                    <button type="button" class="pv-btn is-active" data-view="map" aria-pressed="true">${icon('map')}<span>Map</span></button>
+                                    <button type="button" class="pv-btn" data-view="list" aria-pressed="false">${icon('menu')}<span>List</span></button>
+                                </div>
+                            </div>
                             <div class="places-map-wrap">
                                 <div id="places-map" class="places-map" aria-label="Map of dog-friendly places in Essex"></div>
                                 <button type="button" class="map-search-area" hidden>${icon('map-pin')} Search this area</button>
