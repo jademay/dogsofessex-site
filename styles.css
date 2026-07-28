@@ -2649,6 +2649,8 @@ body.places-panel-open .places-count-map { visibility: hidden; }
         padding: 2.25rem 1.75rem 2.25rem;
         z-index: 45;
         overflow-y: auto;
+        /* Don't let a swipe on the menu scroll-chain into the page behind it. */
+        overscroll-behavior: contain;
     }
     .nav-links.open { display: flex; }
     .nav-links li { width: 100%; padding: 0; }
