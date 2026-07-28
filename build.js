@@ -1779,6 +1779,7 @@ function placesIndexPage(places, walks) {
                         <div class="places-list-col">
                             <div class="places-list places-hub-list">${list}
                             </div>${empties}
+                            <div class="places-dots" aria-hidden="true"><div class="places-dots-track"></div></div>
                         </div>
                         <aside class="places-map-col">
                             <p class="places-count places-count-map" aria-live="polite"></p>

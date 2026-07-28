@@ -834,6 +834,46 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const listEl = document.querySelector('.places-hub-list');
     const sortSel = document.querySelector('.places-sort');
     const numAttr = (c, a) => parseFloat(c.dataset[a]) || 0;
+
+    // --- Mobile carousel position dots (iOS-style windowed strip). One dot per
+    // currently-visible card, in carousel order; the active dot stays centred and
+    // the strip clips + fades at the edges so it stays compact for 50+ venues.
+    const dotsEl = document.querySelector('.places-dots');
+    const dotsTrack = dotsEl && dotsEl.querySelector('.places-dots-track');
+    let dotEls = [];
+    const DOT_STEP = 13, DOT_W = 7; // must match .places-dot + gap in styles.css
+    const positionDots = () => {
+        if (!dotsEl || !dotsTrack || !dotEls.length) return;
+        const idx = Math.max(0, dotEls.findIndex((d) => d._card === (active && active.card)));
+        dotEls.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+        const W = dotsEl.clientWidth;
+        if (!W) return; // hidden (desktop) — nothing to measure
+        const trackW = dotEls.length * DOT_STEP - (DOT_STEP - DOT_W);
+        const windowed = trackW > W;
+        dotsEl.classList.toggle('is-windowed', windowed);
+        // Windowed: keep the active dot centred (ends show blank, so the edge
+        // fade always points toward where more dots are). Otherwise centre the
+        // whole strip.
+        const tx = windowed
+            ? W / 2 - (idx * DOT_STEP + DOT_W / 2)
+            : (W - trackW) / 2;
+        dotsTrack.style.transform = 'translateX(' + tx + 'px)';
+    };
+    const renderDots = () => {
+        if (!dotsTrack) return;
+        const vis = Array.from(listEl.children).filter((c) => c.matches && c.matches('[data-cat]') && !c.hidden);
+        dotsTrack.innerHTML = '';
+        dotEls = vis.map((card) => {
+            const d = document.createElement('span');
+            d.className = 'places-dot';
+            d._card = card;
+            dotsTrack.appendChild(d);
+            return d;
+        });
+        if (dotsEl) dotsEl.hidden = vis.length < 2;
+        positionDots();
+    };
+    window.addEventListener('resize', positionDots);
     const sortCards = () => {
         const s = sortSel ? sortSel.value : 'recommended';
         const arr = cards.slice();
@@ -846,6 +886,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     };
     if (sortSel) sortSel.addEventListener('change', () => {
         sortCards();
+        renderDots(); // dot order follows the re-ordered slides
         // Mobile: re-ordering the slides changes which card sits at the
         // carousel centre without firing a scroll event — resync the highlight.
         if (isMobile()) requestAnimationFrame(() => syncActiveFromCarousel(false));
@@ -891,6 +932,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const select = (entry, scrollCard, pan = true) => {
         if (active) { highlightMarker(active.marker, false); active.card.classList.remove('is-map-active'); }
         active = entry;
+        positionDots(); // move the active carousel dot to match
         if (!entry) return;
         highlightMarker(entry.marker, true);
         entry.card.classList.add('is-map-active');
@@ -1069,6 +1111,7 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
         // Show a "coming soon" state only when the chosen category has none.
         empties.forEach((e) => { e.hidden = !(cat !== 'all' && e.dataset.cat === cat); });
         if (active && active.card.hidden) select(null);
+        renderDots(); // rebuild the carousel dots for the new visible set
         fitVisible();
         updateCount();
         updateFilterCount();

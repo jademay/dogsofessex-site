@@ -960,6 +960,9 @@ h1, h2, h3 {
 }
 /* "Showing N places" sits above the map (both desktop and mobile). */
 .places-count-map { flex: 0 0 auto; margin: 0 0 0.6rem; }
+/* Carousel position dots are a mobile-only affordance (shown in the <=900px
+   block); the markup always renders, so hide it on desktop. */
+.places-dots { display: none; }
 .places-map {
     flex: 1;
     min-height: 0;
@@ -1038,8 +1041,10 @@ h1, h2, h3 {
     .places-explorer .places-hub-list::-webkit-scrollbar { display: none; }
     .places-hub-list > .day-card,
     .places-hub-list > .free-pill {
-        flex: 0 0 100%;       /* one card per view (100% of the scroller's content box) */
-        width: 100%;
+        /* Slightly narrower than the view so the neighbouring cards peek in at
+           both edges — a visual cue that the carousel swipes. */
+        flex: 0 0 86%;
+        width: 86%;
         max-width: 420px;
         min-width: 0;
         min-height: 0;
@@ -1055,6 +1060,46 @@ h1, h2, h3 {
        script.js), so the "coming soon" note sits right under the map. */
     .places-explorer .places-hub-list.is-empty { display: none; }
     .places-explorer .places-empty { padding: 1.5rem 16px; }
+
+    /* Carousel position dots. A fixed-width window that clips a row of dots and
+       keeps the active one centred (iOS-style), so it stays compact no matter
+       how many venues are shown. Position + translate handled in script.js. */
+    .places-list-col .places-dots {
+        display: block;
+        flex: 0 0 auto;
+        align-self: center;
+        width: 132px;
+        max-width: 100%;
+        margin: 0.4rem auto 0.15rem;
+        overflow: hidden;
+    }
+    .places-list-col .places-dots[hidden] { display: none; }
+    /* Fade the ends only when the strip is wider than its window (more dots than
+       fit) — the fade is the "there's more" hint. */
+    .places-list-col .places-dots.is-windowed {
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+    }
+    .places-dots-track {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: max-content;
+        transition: transform 0.25s ease;
+        will-change: transform;
+    }
+    .places-dot {
+        flex: 0 0 auto;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: rgba(110, 106, 96, 0.32);
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .places-dot.is-active {
+        background: var(--color-terracotta);
+        transform: scale(1.25);
+    }
 
     /* Collapse the filters behind the "Filter & sort" toggle (same as walks). */
     .places-toolbar { padding: 0.45rem 0; box-shadow: none; }
