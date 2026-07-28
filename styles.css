@@ -3263,6 +3263,16 @@ h2 .lucide { vertical-align: -0.1em; }
     .places-distance-wrap { flex: 1 1 0; min-width: 0; flex-direction: column; align-items: stretch; gap: 0.25rem; }
     .places-sort, .places-distance { width: 100%; }
 
+    /* Show the Eat & Drink sub-options above the Sort by row. The sub-filter is a
+       sibling of the pills+sort wrapper, so flatten that wrapper (display:contents)
+       to bring the category pills and sort row into the same flex column, then
+       order the sub-filter between them. Category pills stay on top. */
+    .places-controls-top { display: contents; }
+    .places-controls-top .places-cat-filter { order: 1; }
+    .places-subfilter { order: 2; }
+    .places-controls-top .places-sort-row { order: 3; }
+    .places-active-filters { order: 4; }
+
     /* Location panel: three separated, labelled options. */
     .places-finder .finder-option {
         display: flex;
