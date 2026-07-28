@@ -1253,13 +1253,16 @@ h1, h2, h3 {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 39;
+    z-index: 1100;
     display: none;
     background: rgba(30, 28, 24, 0.5);
     -webkit-backdrop-filter: blur(1px);
     backdrop-filter: blur(1px);
 }
 .places-backdrop[hidden] { display: none; }
+/* Lock background scroll while a panel is open (html + body; body alone doesn't
+   hold on iOS Safari). */
+html.places-panel-open,
 body.places-panel-open { overflow: hidden; }
 /* While a Location/Filter panel is open, hide the "Showing N of M…" count so
    the open panel + backdrop cover it too (not just the map and cards). Its box
@@ -3005,13 +3008,16 @@ h2 .lucide { vertical-align: -0.1em; }
        floats over the map + cards instead of pushing them down. */
     .places-finder { display: none; margin: 0; }
     .places-controls-wrap { display: none; margin: 0; }
-    .places-toolbar.is-location-open .places-finder,
-    .places-toolbar.is-filter-open .places-controls-wrap {
+    /* .pa-panel-open is set by JS on the panel once it's been moved to <body>
+       (see the accordion controller). z-index sits above Leaflet's map panes
+       (~800) so the panel + backdrop cover the map instead of hiding behind it. */
+    .places-finder.pa-panel-open,
+    .places-controls-wrap.pa-panel-open {
         position: fixed;
         top: var(--pa-overlay-top, 0);
         left: 0;
         right: 0;
-        z-index: 45;
+        z-index: 1200;
         margin: 0;
         padding: 0.9rem 16px 1.1rem;
         background: var(--color-bg);
@@ -3022,13 +3028,13 @@ h2 .lucide { vertical-align: -0.1em; }
         overflow-y: auto;
         overscroll-behavior: contain;
     }
-    .places-toolbar.is-location-open .places-finder {
+    .places-finder.pa-panel-open {
         display: flex;
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
     }
-    .places-toolbar.is-filter-open .places-controls-wrap { display: block; }
+    .places-controls-wrap.pa-panel-open { display: block; }
 
     /* Sort by + Search radius sit next to each other (each a compact column with
        its label above the select) rather than stacked. */

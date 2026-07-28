@@ -1184,22 +1184,46 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     const locToggle = document.querySelector('.places-location-toggle');
     const filToggle = document.querySelector('.places-filter-toggle');
     const backdrop = document.querySelector('.places-backdrop');
+    const panelEls = {
+        location: document.querySelector('.places-finder'),
+        filter: document.querySelector('.places-controls-wrap')
+    };
     let openPanel = null; // 'location' | 'filter' | null
-    // The open panel and the backdrop are anchored to the bottom of the toolbar
-    // (just under the tabs) so the panel overlays the map + cards rather than
-    // pushing them down, and only the area below the tabs is dimmed.
+    // The open panel + backdrop anchor to the bottom of the toolbar (just under
+    // the tabs) so the panel overlays the map + cards and only the area below
+    // the tabs is dimmed.
     const setOverlayTop = () => {
         const b = toolbar.getBoundingClientRect().bottom;
         document.documentElement.style.setProperty('--pa-overlay-top', Math.max(0, b) + 'px');
     };
+    // The open panel is MOVED out of the (sticky) toolbar to the end of <body>.
+    // On iOS Safari, position:fixed inside a position:sticky ancestor is
+    // "contained" by it — the panel then scrolls with the toolbar and sits in
+    // the wrong place. As a direct child of <body> it's fixed to the viewport
+    // like the search modal. It's restored to the toolbar when the panel closes
+    // so the desktop (inline) layout is untouched.
+    const restorePanel = (p) => {
+        if (p && p._paMoved) { p.classList.remove('pa-panel-open'); p._paParent.insertBefore(p, p._paNext); p._paMoved = false; }
+    };
+    const overlayPanel = (p) => {
+        if (!p || p._paMoved) return;
+        p._paParent = p.parentNode; p._paNext = p.nextSibling;
+        document.body.appendChild(p);
+        p.classList.add('pa-panel-open');
+        p._paMoved = true;
+    };
     const setPanel = (which) => {
+        restorePanel(panelEls.location); restorePanel(panelEls.filter);
         openPanel = which;
         if (which) setOverlayTop();
         toolbar.classList.toggle('is-location-open', which === 'location');
         toolbar.classList.toggle('is-filter-open', which === 'filter');
         if (locToggle) locToggle.setAttribute('aria-expanded', which === 'location' ? 'true' : 'false');
         if (filToggle) filToggle.setAttribute('aria-expanded', which === 'filter' ? 'true' : 'false');
+        if (which) overlayPanel(panelEls[which]);
         if (backdrop) backdrop.hidden = !which;
+        // Lock scrolling on html AND body (body alone isn't enough on iOS).
+        document.documentElement.classList.toggle('places-panel-open', !!which);
         document.body.classList.toggle('places-panel-open', !!which);
         setTop();
         if (map) requestAnimationFrame(() => { map.invalidateSize(); fitVisible(); });
