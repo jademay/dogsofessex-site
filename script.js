@@ -1193,7 +1193,9 @@ function wireFilterToggle(toggleEl, toolbarEl, onToggle) {
     // the tabs) so the panel overlays the map + cards and only the area below
     // the tabs is dimmed.
     const setOverlayTop = () => {
-        const b = toolbar.getBoundingClientRect().bottom;
+        // Overlap the toolbar's bottom edge by ~2px so no sliver of map/card shows
+        // through between the tabs and the panel (subpixel rounding gap).
+        const b = toolbar.getBoundingClientRect().bottom - 2;
         document.documentElement.style.setProperty('--pa-overlay-top', Math.max(0, b) + 'px');
     };
     // The open panel is MOVED out of the (sticky) toolbar to the end of <body>.
